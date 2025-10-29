@@ -1,0 +1,13 @@
+@import '../../1-tokens/tokens.css';
+
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  user-select: none;
+  line-height: 1;
+}
+
+.icon path {
+  fill: currentColor;
+}

@@ -1,0 +1,123 @@
+.container {
+  width: 100%;
+}
+
+.labelOuter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--ink-spacing-1);
+}
+
+.labelText {
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-sm);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-neutral-80);
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  background-color: var(--ink-neutral-20);
+  border-radius: var(--ink-radius-full);
+  overflow: hidden;
+}
+
+/* Sizes */
+.small {
+  height: 4px;
+}
+
+.medium {
+  height: 8px;
+}
+
+.large {
+  height: 12px;
+}
+
+.fill {
+  height: 100%;
+  border-radius: var(--ink-radius-full);
+  transition: width var(--ink-transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--ink-spacing-2);
+}
+
+/* Variants */
+.primary .fill {
+  background-color: var(--ink-blue-60);
+}
+
+.success .fill {
+  background-color: var(--ink-green-50);
+}
+
+.warning .fill {
+  background-color: #f59e0b;
+}
+
+.error .fill {
+  background-color: var(--ink-red-60);
+}
+
+/* Label inside */
+.labelInner {
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-xs);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-white);
+  white-space: nowrap;
+  padding-right: var(--ink-spacing-1);
+}
+
+/* Indeterminate state */
+.indeterminate {
+  width: 100% !important;
+  animation: indeterminate 1.5s ease-in-out infinite;
+  transform-origin: left;
+}
+
+@keyframes indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Striped pattern */
+.striped {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 20px 20px;
+}
+
+/* Animated stripes */
+.animated {
+  animation: stripes 1s linear infinite;
+}
+
+@keyframes stripes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 20px 0;
+  }
+}

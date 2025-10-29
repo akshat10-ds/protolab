@@ -1,0 +1,78 @@
+@import '../../1-tokens/tokens.css';
+
+.inline {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Gap Sizes */
+.gap-none {
+  gap: 0;
+}
+
+.gap-xs {
+  gap: 4px;
+}
+
+.gap-small {
+  gap: 8px;
+}
+
+.gap-medium {
+  gap: 12px;
+}
+
+.gap-large {
+  gap: 16px;
+}
+
+.gap-xl {
+  gap: 24px;
+}
+
+/* Alignment */
+.align-start {
+  align-items: flex-start;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.align-baseline {
+  align-items: baseline;
+}
+
+.align-stretch {
+  align-items: stretch;
+}
+
+/* Justification */
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+/* Wrap */
+.wrap {
+  flex-wrap: wrap;
+}

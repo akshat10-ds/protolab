@@ -1,0 +1,126 @@
+.accordion {
+  font-family: var(--ink-font-family);
+}
+
+.accordion.bordered {
+  border: 1px solid var(--ink-neutral-20);
+  /* No border-radius - accordion is square in Figma */
+}
+
+.item {
+  border-top: 1px solid var(--ink-neutral-20);
+}
+
+.item:first-child {
+  border-top: none;
+}
+
+.item.itemDisabled {
+  opacity: var(--ink-opacity-disabled);
+  cursor: not-allowed;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-4); /* 16px between title and chevron */
+  padding: var(--ink-spacing-3) var(--ink-spacing-4); /* 12px vertical, 16px horizontal */
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-md); /* 16px */
+  font-weight: var(--ink-font-weight-medium);
+  line-height: 1.25; /* Figma spec */
+  letter-spacing: -0.16px; /* cozy tracking */
+  color: var(--ink-font-default);
+  background-color: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--ink-transition-fast);
+}
+
+.header:hover:not(:disabled) {
+  background-color: var(--ink-item-bg-hover);
+}
+
+.header:disabled {
+  cursor: not-allowed;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--ink-icon-size-s);
+  height: var(--ink-icon-size-s);
+  color: var(--ink-icon-color-secondary);
+}
+
+.title {
+  flex: 1;
+  line-height: 1.25; /* Match header line-height */
+  letter-spacing: -0.16px;
+}
+
+.chevron {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--ink-icon-color-secondary);
+  transition: transform var(--ink-transition-normal);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--ink-transition-normal) ease-out;
+}
+
+.panelOpen {
+  max-height: 1000px; /* Large enough for most content */
+  transition: max-height var(--ink-transition-normal) ease-in;
+}
+
+.content {
+  min-height: 0;
+  padding: var(--ink-spacing-2) var(--ink-spacing-4) var(--ink-spacing-6); /* 8px top, 16px horizontal, 24px bottom */
+  font-size: var(--ink-font-size-sm); /* 14px */
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-font-default);
+  line-height: 1.4; /* Figma spec */
+}
+
+/* Focus styles */
+.header:focus-visible {
+  outline: 2px solid var(--ink-form-border-active);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+/* Nested content spacing */
+.content > *:first-child {
+  margin-top: 0;
+}
+
+.content > *:last-child {
+  margin-bottom: 0;
+}
+
+.content p {
+  margin: var(--ink-spacing-2) 0;
+}
+
+.content ul,
+.content ol {
+  margin: var(--ink-spacing-2) 0;
+  padding-left: var(--ink-spacing-5);
+}
+
+.content li {
+  margin: var(--ink-spacing-1) 0;
+}

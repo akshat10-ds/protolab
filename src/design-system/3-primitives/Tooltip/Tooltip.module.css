@@ -1,0 +1,72 @@
+.tooltip {
+  position: fixed;
+  background-color: var(--ink-neutral-110); /* #2b2843 from Figma */
+  color: var(--ink-white-100); /* #ffffff */
+  padding: var(--ink-spacing-100) var(--ink-spacing-150); /* 8px 12px */
+  border-radius: var(--ink-radius-sm); /* 4px */
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-body-s-size); /* fontBodyS: 14px */
+  font-weight: var(--ink-font-weight-regular); /* 400 */
+  line-height: var(--ink-font-body-s-line-height); /* fontBodyS: 1.4 */
+  max-width: 264px; /* Exact Figma spec */
+  z-index: var(--ink-z-tooltip);
+  pointer-events: none;
+  animation: tooltipFadeIn var(--ink-transition-fast);
+  word-wrap: break-word;
+  box-shadow: var(--ink-shadow-elevated); /* 0px 4px 8px 0px rgba(19, 0, 50, 0.15) */
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Arrow - 15px wide x 8px tall from Figma */
+.arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: solid transparent;
+}
+
+/* Top position */
+.top .arrow {
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px 7.5px 0 7.5px; /* 15px wide total */
+  border-top-color: var(--ink-neutral-110);
+}
+
+/* Bottom position */
+.bottom .arrow {
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 7.5px 8px 7.5px; /* 15px wide total */
+  border-bottom-color: var(--ink-neutral-110);
+}
+
+/* Left position */
+.left .arrow {
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 7.5px 0 7.5px 8px; /* 15px tall total */
+  border-left-color: var(--ink-neutral-110);
+}
+
+/* Right position */
+.right .arrow {
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 7.5px 8px 7.5px 0; /* 15px tall total */
+  border-right-color: var(--ink-neutral-110);
+}

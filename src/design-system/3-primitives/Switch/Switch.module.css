@@ -1,0 +1,109 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-3);
+}
+
+.wrapper.labelLeft {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+}
+
+.container.disabled {
+  cursor: not-allowed;
+  opacity: var(--ink-opacity-disabled);
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.track {
+  position: relative;
+  display: block;
+  width: var(--ink-spacing-350); /* 36px */
+  height: var(--ink-spacing-250); /* 20px */
+  background-color: var(--ink-form-border-default);
+  border-radius: var(--ink-radius-full);
+  transition: background-color var(--ink-transition-fast);
+  cursor: pointer;
+}
+
+.track.checked {
+  background-color: var(--ink-form-bg-selected);
+}
+
+.container.disabled .track {
+  cursor: not-allowed;
+}
+
+.thumb {
+  position: absolute;
+  top: var(--ink-spacing-50); /* 4px */
+  left: var(--ink-spacing-50); /* 4px */
+  width: var(--ink-spacing-150); /* 12px */
+  height: var(--ink-spacing-150); /* 12px */
+  background-color: var(--ink-white-100);
+  border-radius: var(--ink-radius-full);
+  transition: transform var(--ink-transition-fast);
+  box-shadow: var(--ink-shadow-sm);
+}
+
+.track.checked .thumb {
+  transform: translateX(var(--ink-spacing-200)); /* 16px */
+}
+
+/* Label styles */
+.labelContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-0);
+  padding-top: var(--ink-focus-width); /* 2px */
+}
+
+.label {
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-element-label-size); /* 14px */
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-neutral-100);
+  line-height: var(--ink-font-element-label-line-height);
+}
+
+.description {
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-xs);
+  color: var(--ink-neutral-60);
+  line-height: var(--ink-line-height-normal);
+  margin-top: var(--ink-spacing-0);
+}
+
+/* Focus styles */
+.input:focus-visible + .track {
+  outline: var(--ink-focus-width) solid var(--ink-blue-60);
+  outline-offset: var(--ink-focus-width);
+}
+
+/* Hover state */
+.container:not(.disabled):hover .track:not(.checked) {
+  background-color: var(--ink-form-border-hover);
+}
+
+.container:not(.disabled):hover .track.checked {
+  background-color: var(--ink-form-bg-selected-hover);
+}
+
+/* Active state */
+.container:not(.disabled):active .track.checked {
+  background-color: var(--ink-form-bg-selected-active);
+}

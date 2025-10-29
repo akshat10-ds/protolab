@@ -1,0 +1,106 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-1);
+}
+
+.radioWrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-2);
+}
+
+.input {
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0 0;
+  border: 2px solid var(--ink-neutral-40);
+  border-radius: var(--ink-radius-full);
+  background: var(--ink-white);
+  cursor: pointer;
+  transition: all var(--ink-transition-fast);
+  flex-shrink: 0;
+  appearance: none;
+  position: relative;
+}
+
+.input:hover:not(:disabled) {
+  border-color: var(--ink-neutral-60);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--ink-cobalt-100);
+  box-shadow: 0 0 0 3px rgba(80, 0, 247, 0.1);
+}
+
+.input:checked {
+  border-color: var(--ink-cobalt-100);
+}
+
+.input:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--ink-radius-full);
+  background: var(--ink-cobalt-100);
+}
+
+.input:disabled {
+  background: var(--ink-neutral-10);
+  border-color: var(--ink-neutral-30);
+  cursor: not-allowed;
+}
+
+.input:checked:disabled::after {
+  background: var(--ink-neutral-40);
+}
+
+.label {
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-md);
+  color: var(--ink-neutral-100);
+  line-height: var(--ink-line-height-normal);
+  cursor: pointer;
+  user-select: none;
+}
+
+.label.disabled {
+  color: var(--ink-neutral-40);
+  cursor: not-allowed;
+}
+
+.label.error {
+  color: var(--ink-red-60);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.description {
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-sm);
+  color: var(--ink-neutral-70);
+  line-height: var(--ink-line-height-normal);
+  margin-left: 28px;
+}
+
+.errorMessage {
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-sm);
+  color: var(--ink-red-60);
+  line-height: var(--ink-line-height-normal);
+  margin-left: 28px;
+}

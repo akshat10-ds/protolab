@@ -1,0 +1,190 @@
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--ink-white-100);
+  border: var(--ink-form-border-width) solid var(--ink-form-border-default);
+  border-radius: var(--ink-radius-size-xs);
+  transition: border-color var(--ink-transition-fast);
+}
+
+.inputWrapper:focus-within {
+  border-color: var(--ink-form-border-active);
+  outline: 2px solid var(--ink-form-border-active);
+  outline-offset: 0;
+}
+
+.inputWrapper.disabled {
+  background-color: var(--ink-bg-canvas-page);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--ink-spacing-150);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-icon-subtle);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding: var(--ink-spacing-100) var(--ink-spacing-500) var(--ink-spacing-100) var(--ink-spacing-500);
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-md);
+  color: var(--ink-font-default);
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--ink-font-neutral);
+}
+
+.input:disabled {
+  cursor: not-allowed;
+}
+
+.loadingIcon {
+  position: absolute;
+  right: var(--ink-spacing-150);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-font-default);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.clearButton {
+  position: absolute;
+  right: var(--ink-spacing-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ink-spacing-50);
+  background: transparent;
+  border: none;
+  border-radius: var(--ink-radius-size-xs);
+  color: var(--ink-font-default);
+  cursor: pointer;
+  transition: all var(--ink-transition-fast);
+}
+
+.clearButton:hover {
+  color: var(--ink-font-default);
+  background-color: rgba(19, 0, 50, 0.05);
+}
+
+.clearButton:active {
+  background-color: rgba(19, 0, 50, 0.1);
+}
+
+/* Suggestions dropdown */
+.suggestions {
+  position: absolute;
+  top: calc(100% + var(--ink-spacing-50));
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: var(--ink-white-100);
+  border: var(--ink-form-border-width) solid var(--ink-form-border-default);
+  border-radius: var(--ink-radius-size-xs);
+  box-shadow: 0 4px 12px rgba(19, 0, 50, 0.1);
+  list-style: none;
+  margin: 0;
+  padding: var(--ink-spacing-50);
+}
+
+.suggestion {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  border-radius: var(--ink-radius-size-xs);
+  cursor: pointer;
+  transition: background-color var(--ink-transition-fast);
+}
+
+.suggestion:hover,
+.suggestion.selected {
+  background-color: rgba(19, 0, 50, 0.05);
+}
+
+.suggestionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  color: var(--ink-font-default);
+}
+
+.suggestionContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.suggestionLabel {
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-md);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-default);
+  line-height: 1.4;
+}
+
+.suggestionDescription {
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-xs);
+  color: var(--ink-font-neutral);
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Scrollbar styling */
+.suggestions::-webkit-scrollbar {
+  width: 8px;
+}
+
+.suggestions::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.suggestions::-webkit-scrollbar-thumb {
+  background: var(--ink-form-border-default);
+  border-radius: var(--ink-radius-size-full);
+}
+
+.suggestions::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-font-neutral);
+}

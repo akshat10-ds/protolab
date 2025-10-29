@@ -1,0 +1,133 @@
+.dropdown {
+  position: fixed;
+  background-color: var(--ink-bg-glass-frost); /* bgColorGlassFrost from Figma - semi-transparent white */
+  backdrop-filter: blur(10px); /* Glass frost effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border: var(--ink-form-border-width-active) solid var(--ink-neutral-fade-10); /* 2px borderColorSubtle from Figma */
+  border-radius: var(--ink-radius-size-m); /* 12px - radiusSizeM from Figma */
+  box-shadow: none; /* No shadow in Figma design */
+  padding: var(--ink-spacing-100); /* 8px all around - gap100 from Figma */
+  z-index: var(--ink-z-dropdown);
+  animation: dropdownFadeIn var(--ink-transition-fast);
+  min-width: 200px;
+  max-width: 320px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-100); /* 8px - gap100 from Figma */
+  padding: var(--ink-spacing-100) var(--ink-spacing-100) var(--ink-spacing-100) var(--ink-spacing-200); /* 8px 8px 8px 16px from Figma */
+  border: none;
+  background: none;
+  border-radius: var(--ink-radius-size-xs); /* 4px - radiusSizeXS from Figma */
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--ink-transition-fast);
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-sm); /* 14px from Figma */
+  font-weight: var(--ink-font-weight-regular); /* 400 from Figma */
+  line-height: 1.4; /* Exact Figma spec */
+  color: var(--ink-font-default); /* fontColorDefault from Figma */
+  position: relative;
+}
+
+.item:hover:not(.disabled),
+.item.active {
+  background-color: var(--ink-neutral-fade-5); /* Subtle hover from Figma */
+}
+
+.item:active:not(.disabled) {
+  background-color: var(--ink-neutral-fade-10); /* Active state */
+}
+
+.item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--ink-icon-size-s);
+  height: var(--ink-icon-size-s);
+  color: var(--ink-neutral-60);
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-1);
+  min-width: 0;
+}
+
+.label {
+  font-weight: var(--ink-font-weight-regular); /* 400 from Figma */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description {
+  font-size: var(--ink-font-size-xs);
+  color: var(--ink-neutral-60);
+  line-height: var(--ink-line-height-tight);
+  white-space: normal;
+}
+
+.shortcut {
+  flex-shrink: 0;
+  font-size: var(--ink-font-size-xs);
+  color: var(--ink-neutral-60);
+  margin-left: auto;
+  padding-left: var(--ink-spacing-3);
+}
+
+.arrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--ink-neutral-60);
+  margin-left: auto;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--ink-neutral-fade-10); /* borderColorSubtle */
+  margin: var(--ink-spacing-100) 0; /* 8px top/bottom, 0 left/right since container has padding */
+}
+
+/* Scrollbar styling */
+.dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dropdown::-webkit-scrollbar-thumb {
+  background: var(--ink-neutral-30);
+  border-radius: var(--ink-radius-full);
+}
+
+.dropdown::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-neutral-40);
+}

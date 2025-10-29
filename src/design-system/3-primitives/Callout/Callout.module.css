@@ -1,0 +1,270 @@
+/* Ink Design System - Callout - Exact Figma Specs */
+
+/* Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  position: relative;
+}
+
+/* Width Variants */
+.width-small {
+  width: 320px;
+}
+
+.width-medium {
+  width: 384px;
+}
+
+.width-large {
+  width: 480px;
+}
+
+.width-xlarge {
+  width: 640px;
+}
+
+/* Callout Card */
+.callout {
+  width: 100%;
+  background: var(--ink-bg-default);
+  border: var(--ink-form-border-width) solid var(--ink-form-border-subtle);
+  border-radius: var(--ink-radius-size-s); /* 8px */
+  box-shadow: 0px 8px 20px rgba(19, 0, 50, 0.15);
+  overflow: hidden;
+}
+
+/* Glass Effects */
+.glass-frost {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.glass-tint {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Content Wrapper */
+.content {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+/* Body Section */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100); /* 8px */
+  padding: var(--ink-spacing-250); /* 20px */
+  flex: 1;
+  min-width: 0;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100); /* 8px */
+  padding-right: var(--ink-spacing-400); /* 32px - space for close button */
+}
+
+.heading {
+  flex: 1;
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-xl); /* 20px */
+  font-weight: var(--ink-font-weight-medium); /* 500 */
+  line-height: 1.25;
+  letter-spacing: -0.16px;
+  color: var(--ink-font-default);
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* Body Text */
+.text {
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-md); /* 14px */
+  font-weight: var(--ink-font-weight-regular); /* 400 */
+  line-height: 1.4;
+  color: var(--ink-font-default);
+  white-space: pre-wrap;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ink-spacing-200); /* 16px */
+  padding-top: var(--ink-spacing-200); /* 16px */
+}
+
+/* Close Button */
+.closeButton {
+  position: absolute;
+  top: var(--ink-spacing-100); /* 8px */
+  right: var(--ink-spacing-100); /* 8px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: var(--ink-spacing-100); /* 8px */
+  background: transparent;
+  border: none;
+  border-radius: var(--ink-radius-size-xs); /* 4px */
+  color: var(--ink-font-default);
+  cursor: pointer;
+  transition: background-color var(--ink-transition-fast);
+}
+
+.closeButton:hover {
+  background-color: rgba(19, 0, 50, 0.05);
+}
+
+.closeButton:active {
+  background-color: rgba(19, 0, 50, 0.1);
+}
+
+/* Image */
+.image {
+  flex-shrink: 0;
+}
+
+/* Alignment Variants */
+.align-start .header {
+  justify-content: flex-start;
+}
+
+.align-center .header {
+  justify-content: center;
+  text-align: center;
+}
+
+.align-center .text {
+  text-align: center;
+}
+
+.align-end .header {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.align-end .text {
+  text-align: right;
+}
+
+/* Caret/Arrow */
+.caret,
+.caretBefore,
+.caretAfter {
+  width: 16px;
+  height: 10px;
+  position: relative;
+  align-self: center;
+}
+
+.caret::before,
+.caret::after,
+.caretBefore::before,
+.caretBefore::after,
+.caretAfter::before,
+.caretAfter::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+/* Caret for above/below */
+.location-above .caret {
+  order: 2;
+}
+
+.location-above .caret::before {
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 8px 10px 8px;
+  border-color: transparent transparent var(--ink-form-border-subtle) transparent;
+}
+
+.location-above .caret::after {
+  left: 50%;
+  transform: translateX(-50%);
+  top: 1px;
+  border-width: 0 7.5px 9px 7.5px;
+  border-color: transparent transparent var(--ink-bg-default) transparent;
+}
+
+.location-below .caret::before {
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  border-width: 10px 8px 0 8px;
+  border-color: var(--ink-form-border-subtle) transparent transparent transparent;
+}
+
+.location-below .caret::after {
+  left: 50%;
+  top: -1px;
+  transform: translateX(-50%);
+  border-width: 9px 7.5px 0 7.5px;
+  border-color: var(--ink-bg-default) transparent transparent transparent;
+}
+
+/* Caret for before/after - horizontal */
+.location-before .container {
+  flex-direction: row;
+}
+
+.location-after .container {
+  flex-direction: row;
+}
+
+.caretBefore,
+.caretAfter {
+  width: 10px;
+  height: 16px;
+  align-self: center;
+}
+
+.location-before .caretBefore {
+  order: 2;
+}
+
+.caretBefore::before {
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 8px 10px 8px 0;
+  border-color: transparent var(--ink-form-border-subtle) transparent transparent;
+}
+
+.caretBefore::after {
+  top: 50%;
+  left: 1px;
+  transform: translateY(-50%);
+  border-width: 7.5px 9px 7.5px 0;
+  border-color: transparent var(--ink-bg-default) transparent transparent;
+}
+
+.caretAfter::before {
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 8px 0 8px 10px;
+  border-color: transparent transparent transparent var(--ink-form-border-subtle);
+}
+
+.caretAfter::after {
+  top: 50%;
+  right: 1px;
+  transform: translateY(-50%);
+  border-width: 7.5px 0 7.5px 9px;
+  border-color: transparent transparent transparent var(--ink-bg-default);
+}

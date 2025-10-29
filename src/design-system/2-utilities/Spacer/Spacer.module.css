@@ -1,0 +1,78 @@
+@import '../../1-tokens/tokens.css';
+
+.spacer {
+  display: block;
+}
+
+/* Direction */
+.vertical {
+  width: 100%;
+}
+
+.horizontal {
+  height: 100%;
+  display: inline-block;
+}
+
+/* Flexible spacer (uses flex-grow) */
+.flexible {
+  flex: 1;
+}
+
+/* Fixed sizes for vertical spacing */
+.vertical.size-xs {
+  height: 4px;
+}
+
+.vertical.size-small {
+  height: 8px;
+}
+
+.vertical.size-medium {
+  height: 16px;
+}
+
+.vertical.size-large {
+  height: 24px;
+}
+
+.vertical.size-xl {
+  height: 32px;
+}
+
+.vertical.size-2xl {
+  height: 48px;
+}
+
+.vertical.size-3xl {
+  height: 64px;
+}
+
+/* Fixed sizes for horizontal spacing */
+.horizontal.size-xs {
+  width: 4px;
+}
+
+.horizontal.size-small {
+  width: 8px;
+}
+
+.horizontal.size-medium {
+  width: 16px;
+}
+
+.horizontal.size-large {
+  width: 24px;
+}
+
+.horizontal.size-xl {
+  width: 32px;
+}
+
+.horizontal.size-2xl {
+  width: 48px;
+}
+
+.horizontal.size-3xl {
+  width: 64px;
+}

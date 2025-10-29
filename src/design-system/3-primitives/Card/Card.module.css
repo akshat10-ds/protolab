@@ -1,0 +1,73 @@
+.card {
+  background: var(--ink-white-100);
+  border-radius: var(--ink-radius-size-s); /* 8px - radiusSizeS from Figma */
+  overflow: hidden;
+  font-family: var(--ink-font-family);
+  border: var(--ink-form-border-width) solid var(--ink-neutral-fade-10); /* borderColorSubtle from Figma */
+}
+
+/* Background variants from Figma */
+.card.light {
+  background: var(--ink-bg-default); /* bgColorDefault - white */
+  border-color: var(--ink-neutral-fade-10);
+}
+
+.card.dark {
+  background: var(--ink-bg-inverse); /* bgColorDefault - #130032 dark purple */
+  border-color: var(--ink-white-fade-10); /* rgba(255,255,255,0.1) for dark mode */
+  color: var(--ink-font-inverse);
+}
+
+.card.secondary {
+  background: var(--ink-bg-canvas-page); /* bgColorCanvasPage - #f7f6f7 */
+  border-color: var(--ink-neutral-fade-10);
+}
+
+/* Disabled state */
+.card.disabled {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.header {
+  padding: var(--ink-spacing-150); /* 12px - gap150 from Figma */
+  border-bottom: var(--ink-form-border-width) solid var(--ink-neutral-fade-10);
+  font-weight: var(--ink-font-weight-semibold);
+  font-size: var(--ink-font-size-lg);
+  color: var(--ink-font-default);
+}
+
+.body {
+  padding: var(--ink-spacing-150); /* 12px - gap150 from Figma */
+  color: var(--ink-font-neutral);
+  font-size: var(--ink-font-size-md);
+  line-height: var(--ink-line-height-normal);
+}
+
+.footer {
+  padding: var(--ink-spacing-150); /* 12px - gap150 from Figma */
+  border-top: var(--ink-form-border-width) solid var(--ink-neutral-fade-10);
+  background: var(--ink-neutral-10);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ink-spacing-100); /* 8px */
+}
+
+/* noPadding variant */
+.card.noPadding .header,
+.card.noPadding .body,
+.card.noPadding .footer {
+  padding: 0;
+}
+
+/* Dark variant text color for header and body */
+.card.dark .header,
+.card.dark .body {
+  color: var(--ink-font-inverse);
+}
+
+.card.dark .footer {
+  background: var(--ink-neutral-fade-10);
+  border-top-color: var(--ink-white-fade-10);
+}
