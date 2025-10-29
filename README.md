@@ -54,6 +54,67 @@ npm run build
 
 Builds the project for production to the `build/` directory.
 
+### Available Scripts
+
+```bash
+npm run dev              # Start development server
+npm run build            # Build for production
+npm run preview          # Preview production build
+npm run lint             # Lint design system files
+npm run lint:fix         # Lint and auto-fix issues
+npm run typecheck        # Run TypeScript type checking
+npm run format           # Format code with Prettier
+npm run format:check     # Check code formatting
+```
+
+## Prototyping Workflow
+
+This project is optimized for rapid prototyping with branch-based deployments:
+
+### Starting a New Prototype
+
+```bash
+# Create a new feature branch for your prototype
+git checkout -b prototype/dashboard-redesign
+
+# Make your changes using design system components
+# Edit files, add pages, compose components
+
+# Stage and commit (pre-commit hooks auto-run)
+git add .
+git commit -m "Add dashboard prototype"
+
+# Push to remote (Vercel auto-deploys)
+git push origin prototype/dashboard-redesign
+```
+
+### Branch Naming Convention
+
+- `prototype/[idea-name]` - New prototype ideas
+- `design-system/[change]` - Updates to design system itself
+- `fix/[issue]` - Bug fixes
+
+### Vercel Deployment
+
+Each branch automatically gets its own preview URL:
+- `main` branch → Production deployment
+- Feature branches → Preview deployments with unique URLs
+- Automatic builds on every push
+
+**Setup Vercel:**
+1. Import this repository in Vercel dashboard
+2. Vercel auto-detects settings from `vercel.json`
+3. Enable preview deployments for all branches
+4. Each push triggers automatic deployment
+
+### Design System Compliance
+
+Pre-commit hooks automatically run:
+- **ESLint** - Enforces 6-layer hierarchy rules
+- **Prettier** - Formats code consistently
+
+This ensures every prototype follows design system conventions.
+
 ## Project Structure
 
 ```
