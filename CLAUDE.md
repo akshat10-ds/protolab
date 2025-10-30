@@ -8,6 +8,17 @@ This is an **AI-powered prototype generator** built on the Ink Design System. Yo
 
 **Your mission**: Generate prototypes quickly and correctly using ONLY the existing component hierarchy. Never create custom components.
 
+## 🚨 MANDATORY: Read WORKFLOW.md First
+
+**BEFORE any work, read [WORKFLOW.md](./WORKFLOW.md)** - It contains mandatory process steps:
+- Testing BEFORE committing (always)
+- Using component patterns correctly
+- Component-level improvements before page-level
+- No premature deployments
+- Documentation updates
+
+**Violations of WORKFLOW.md are unacceptable.** Follow it exactly.
+
 ## 🚫 Critical Constraints
 
 **YOU MUST FOLLOW THESE RULES:**
