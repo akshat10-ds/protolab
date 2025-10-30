@@ -4,6 +4,7 @@ import ComponentShowcase2 from "./examples/ComponentShowcase2";
 import { LayoutsDemo } from "./examples/LayoutsDemo";
 import LayoutInk from "./examples/LayoutInk";
 import { LayoutWithLocalNav } from "./examples/LayoutWithLocalNav";
+import { AgreementsPage } from "./examples/AgreementsPage";
 
 export default function App() {
   return (
@@ -26,6 +27,9 @@ export default function App() {
 
         {/* LocalNav Layout Example */}
         <Route path="/localnav-demo" element={<LayoutWithLocalNav />} />
+
+        {/* Agreements Page Prototype */}
+        <Route path="/agreements" element={<AgreementsPage />} />
 
         {/* Redirect any other path to showcase */}
         <Route path="*" element={<Navigate to="/showcase" replace />} />
