@@ -4,7 +4,7 @@ import { GlobalNav } from '../design-system/5-patterns/GlobalNav';
 import { LocalNav } from '../design-system/5-patterns/LocalNav';
 import { Stack } from '../design-system/2-utilities/Stack';
 import { Inline } from '../design-system/2-utilities/Inline';
-import { Typography } from '../design-system/3-primitives/Typography';
+import { Heading, Text } from '../design-system/3-primitives/Typography';
 import { Badge } from '../design-system/3-primitives/Badge';
 import { IconButton } from '../design-system/3-primitives/IconButton';
 import { Banner } from '../design-system/3-primitives/Banner';
@@ -19,7 +19,7 @@ import { Icon } from '../design-system/3-primitives/Icon';
 export const AgreementsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
 
   // Mock navigation data for LocalNav
   const localNavSections = [
@@ -65,21 +65,21 @@ export const AgreementsPage = () => {
       id: 'section-5',
       title: 'Workspaces',
       items: [
-        { id: 'workspace-1', label: 'Workspace 1', icon: 'users' as const },
+        { id: 'workspace-1', label: 'Workspace 1', icon: 'people' as const },
       ],
     },
     {
       id: 'section-6',
       title: 'PowerForms',
       items: [
-        { id: 'powerform-1', label: 'PowerForm 1', icon: 'file' as const },
+        { id: 'powerform-1', label: 'PowerForm 1', icon: 'document' as const },
       ],
     },
     {
       id: 'section-7',
       title: 'Bulk Send',
       items: [
-        { id: 'bulk-1', label: 'Bulk Send 1', icon: 'mail' as const },
+        { id: 'bulk-1', label: 'Bulk Send 1', icon: 'envelope' as const },
       ],
     },
   ];
@@ -172,19 +172,19 @@ export const AgreementsPage = () => {
       key: 'name',
       header: 'Name',
       width: '35%',
-      render: (row: typeof agreementsData[0]) => (
+      cell: (row: typeof agreementsData[0]) => (
         <Stack gap="xs">
           <Inline gap="xs" align="center">
             {row.aiIcon && (
-              <Icon name="sparkles" size="small" style={{ color: 'var(--ink-accent-primary)' }} />
+              <Icon name="spark" size="small" style={{ color: 'var(--ink-accent-primary)' }} />
             )}
-            <Typography variant="body-strong">{row.name}</Typography>
+            <Text weight="semibold">{row.name}</Text>
           </Inline>
           <Inline gap="xs" align="center">
             <Icon name="check" size="small" />
-            <Typography variant="caption" color="secondary">
+            <Text size="sm" color="secondary">
               {row.completedBy}
-            </Typography>
+            </Text>
           </Inline>
         </Stack>
       ),
@@ -192,37 +192,37 @@ export const AgreementsPage = () => {
     {
       key: 'party',
       header: 'Parties',
-      render: (row: typeof agreementsData[0]) => (
-        <Typography variant="body">{row.party}</Typography>
+      cell: (row: typeof agreementsData[0]) => (
+        <Text>{row.party}</Text>
       ),
     },
     {
       key: 'status',
       header: 'Status',
-      render: (row: typeof agreementsData[0]) => (
+      cell: (row: typeof agreementsData[0]) => (
         <Stack gap="xs">
           <StatusLight
             status={row.status === 'Active' ? 'success' : row.status === 'Expiring Soon' ? 'warning' : 'default'}
             label={row.status}
           />
-          <Typography variant="caption" color="secondary">
+          <Text size="sm" color="secondary">
             {row.statusExpiry}
-          </Typography>
+          </Text>
         </Stack>
       ),
     },
     {
       key: 'type',
       header: 'Type',
-      render: (row: typeof agreementsData[0]) => (
-        <Typography variant="body">{row.type}</Typography>
+      cell: (row: typeof agreementsData[0]) => (
+        <Text>{row.type}</Text>
       ),
     },
     {
       key: 'actions',
       header: '',
       width: '60px',
-      render: () => (
+      cell: () => (
         <IconButton icon="more-vertical" size="small" onClick={() => console.log('Menu clicked')} />
       ),
     },
@@ -232,7 +232,7 @@ export const AgreementsPage = () => {
     <DashboardLayout
       header={
         <GlobalNav
-          logo={<Typography variant="h3">docusign</Typography>}
+          logo={<Heading level={3}>docusign</Heading>}
           navItems={globalNavItems}
           showSearch
           showNotifications
@@ -253,10 +253,10 @@ export const AgreementsPage = () => {
         {/* Page Header */}
         <Stack direction="row" align="center" justify="space-between">
           <Inline gap="small" align="center">
-            <Typography variant="h1">Completed documents</Typography>
+            <Heading level={1}>Completed documents</Heading>
             <Badge variant="info">
               <Inline gap="xs" align="center">
-                <Icon name="sparkles" size="small" />
+                <Icon name="spark" size="small" />
                 <span>AI-Assisted</span>
               </Inline>
             </Badge>
@@ -270,9 +270,9 @@ export const AgreementsPage = () => {
         {/* Alert Banner */}
         <Banner variant="info" onDismiss={() => console.log('Dismiss banner')}>
           <Inline gap="medium" align="center" justify="space-between" style={{ width: '100%' }}>
-            <Typography variant="body">
+            <Text>
               15 agreements with renewal notice dates in the next 30 days.
-            </Typography>
+            </Text>
             <Button variant="text" size="small">
               Show Insights
             </Button>
@@ -310,9 +310,9 @@ export const AgreementsPage = () => {
 
         {/* Pagination */}
         <Inline justify="space-between" align="center">
-          <Typography variant="body" color="secondary">
+          <Text color="secondary">
             1-50 of 100
-          </Typography>
+          </Text>
           <Pagination
             currentPage={currentPage}
             totalPages={7}

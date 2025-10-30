@@ -173,7 +173,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 disabled={disabled || !canGoPrevious}
                 aria-label="First page"
               >
-                <Icon name="chevrons-left" size="sm" />
+                <Icon name="chevron-left" size="sm" />
               </button>
             )}
             <button
@@ -205,7 +205,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 disabled={disabled || !canGoNext}
                 aria-label="Last page"
               >
-                <Icon name="chevrons-right" size="sm" />
+                <Icon name="chevron-right" size="sm" />
               </button>
             )}
           </>
