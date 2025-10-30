@@ -25,10 +25,21 @@
 - [ ] Check layer READMEs for component APIs
 - [ ] If using Figma, read FIGMA_GUIDE.md workflow
 
-**DO NOT proceed until you understand:**
-- What components exist
-- What patterns to use
-- What the correct API signatures are
+**CRITICAL - Find Working Examples:**
+- [ ] Search src/examples/ for files using the component
+  ```bash
+  grep -r "GlobalNav" src/examples/
+  grep -r "LocalNav" src/examples/
+  ```
+- [ ] **OPEN and READ the example file completely**
+- [ ] **COPY the exact structure** from the working example
+- [ ] **ADAPT only the data**, NOT the structure
+
+**DO NOT proceed until you:**
+- [ ] Found a working example using the pattern
+- [ ] Read the entire example implementation
+- [ ] Understand the exact prop structure used
+- [ ] Can copy/paste and adapt (not guess/assume)
 
 ---
 
@@ -273,6 +284,38 @@ Result: Fix usage, don't modify component
 
 ## ❌ Common Violations & Fixes
 
+### Violation 0: Not Finding/Copying Working Examples ⚠️ MOST COMMON
+**Problem**: Reading component types but not checking how they're actually used
+
+**Real example from AgreementsPage:**
+- ✅ I imported GlobalNav and LocalNav
+- ✅ I read GlobalNav.tsx and LocalNav.tsx TypeScript files
+- ❌ **I NEVER opened LayoutWithLocalNav.tsx to see working usage**
+- ❌ **I guessed at the structure instead of copying**
+- Result: Wrong pattern, missing props, non-functional components
+
+**Why this happens:**
+- Reading TypeScript interfaces feels like "understanding the API"
+- But interfaces don't show structure, nesting, or real-world usage
+- Working examples show the ACTUAL pattern to use
+
+**Mandatory fix:**
+```bash
+# Step 1: Find examples
+grep -r "GlobalNav" src/examples/
+
+# Step 2: OPEN and READ the example file
+# Read ALL of: src/examples/LayoutWithLocalNav.tsx
+
+# Step 3: COPY the exact structure, adapt data only
+# Don't write from memory, keep example open while coding
+```
+
+**Prevention:**
+- NEVER use a component without finding a working example first
+- Reading the .tsx file ≠ Understanding how to use it
+- Always ask: "Where is this pattern used successfully?"
+
 ### Violation 1: Committing Without Testing
 **Problem**: Code committed before running tests
 
@@ -296,26 +339,47 @@ ALWAYS follow this order:
 ### Violation 2: Using Wrong Component Patterns
 **Problem**: Not checking how components should be used
 
-**Example**:
+**What happened with AgreementsPage:**
 ```tsx
-// ❌ Wrong - made up API
-<GlobalNav
-  brand="docusign"
-  links={navItems}
-/>
-
-// ✅ Correct - checked README
+// ❌ What I did - read TypeScript interface, guessed structure
 <GlobalNav
   logo={<Heading level={3}>docusign</Heading>}
-  navItems={navItems}
+  navItems={globalNavItems}
   showSearch
+  showNotifications
+  notificationCount={3}
+  showSettings
+  user={{ name: 'Kathie Brown' }}
+/>
+// PROBLEM: Missing showAppSwitcher, all click handlers, wrong structure
+
+// ✅ What I should have done - copied from LayoutWithLocalNav.tsx
+<GlobalNav
+  logo={<img src="..." />}
+  navItems={[
+    { id: 'home', label: 'Home', active: false, onClick: () => {...} },
+    { id: 'agreements', label: 'Agreements', active: true, onClick: () => {...} },
+  ]}
+  showAppSwitcher={true}
+  onAppSwitcherClick={() => {...}}
+  showSearch={true}
+  onSearchClick={() => {...}}
+  showNotifications={true}
+  notificationCount={3}
+  onNotificationClick={() => {...}}
+  showSettings={true}
+  onSettingsClick={() => {...}}
+  user={{ name: 'John Smith' }}
+  onUserMenuClick={() => {...}}
 />
 ```
 
 **Fix**:
-1. Read component README BEFORE using
-2. Check existing examples
-3. Use exact prop names from API
+1. **FIND working example** - `grep -r "GlobalNav" src/examples/`
+2. **OPEN example file** - Read the ENTIRE implementation
+3. **COPY structure** - Don't guess, copy working pattern
+4. **ADAPT data only** - Change values, NOT structure
+5. **NEVER guess API** - Reading types isn't enough
 
 ---
 
@@ -374,14 +438,17 @@ After user feedback:
 
 ### Starting a New Feature
 ```bash
-1. Read COMPONENT_CATALOG.md
-2. Check layer READMEs for APIs
-3. Create TodoWrite list
-4. Implement using existing components
-5. Test with Playwright (TEST_PLAN.md)
-6. Commit after tests pass
-7. Show user, wait for approval
-8. Push to GitHub after approval
+1. Read COMPONENT_CATALOG.md (what exists?)
+2. Find component in src/design-system
+3. grep -r "ComponentName" src/examples/  ← CRITICAL STEP
+4. OPEN and READ working example file
+5. COPY exact structure from example
+6. Create TodoWrite list
+7. Implement by adapting example (not guessing)
+8. Test with Playwright (TEST_PLAN.md)
+9. Commit after tests pass
+10. Show user, wait for approval
+11. Push to GitHub after approval
 ```
 
 ### Fixing Component Patterns
