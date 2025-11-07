@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 import styles from './DatePicker.module.css';
-import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Icon } from '@/design-system';
 
-export interface DatePickerProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
+export interface DatePickerProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
   /** Selected date value */
   value?: Date | null;
   /** Callback when date changes */
@@ -29,8 +30,18 @@ export interface DatePickerProps extends Omit<React.InputHTMLAttributes<HTMLInpu
 }
 
 const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 const DAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -54,9 +65,7 @@ const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
     ref
   ) => {
     const [isOpen, setIsOpen] = React.useState(false);
-    const [currentMonth, setCurrentMonth] = React.useState(
-      value ? new Date(value) : new Date()
-    );
+    const [currentMonth, setCurrentMonth] = React.useState(value ? new Date(value) : new Date());
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     // Close calendar when clicking outside
@@ -162,19 +171,14 @@ const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
     };
 
     const days = getDaysInMonth(currentMonth);
-    const isCurrentMonth = (date: Date) =>
-      date.getMonth() === currentMonth.getMonth();
+    const isCurrentMonth = (date: Date) => date.getMonth() === currentMonth.getMonth();
 
     return (
       <div className={cn(styles.wrapper, className)}>
         {label && <label className={styles.label}>{label}</label>}
         <div
           ref={containerRef}
-          className={cn(
-            styles.container,
-            disabled && styles.disabled,
-            error && styles.error
-          )}
+          className={cn(styles.container, disabled && styles.disabled, error && styles.error)}
         >
           <div className={styles.inputWrapper} onClick={handleInputClick}>
             <input
@@ -187,7 +191,7 @@ const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
               readOnly
               {...props}
             />
-            <Calendar className={styles.icon} size={18} />
+            <Icon name="calendar" size="sm" className={styles.icon} />
           </div>
 
           {isOpen && !disabled && (
@@ -199,7 +203,7 @@ const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
                   onClick={handlePrevMonth}
                   aria-label="Previous month"
                 >
-                  <ChevronLeft size={16} />
+                  <Icon name="chevron-left" size="sm" />
                 </button>
                 <div className={styles.monthYear}>
                   {MONTHS[currentMonth.getMonth()]} {currentMonth.getFullYear()}
@@ -210,7 +214,7 @@ const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
                   onClick={handleNextMonth}
                   aria-label="Next month"
                 >
-                  <ChevronRight size={16} />
+                  <Icon name="chevron-right" size="sm" />
                 </button>
               </div>
 
@@ -225,8 +229,7 @@ const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
               <div className={styles.daysGrid}>
                 {days.map((date, index) => {
                   const isSelected = isSameDay(value, date);
-                  const isToday =
-                    date.toDateString() === new Date().toDateString();
+                  const isToday = date.toDateString() === new Date().toDateString();
                   const isDisabled = isDateDisabled(date);
                   const isOtherMonth = !isCurrentMonth(date);
 
@@ -253,9 +256,7 @@ const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
           )}
         </div>
         {helperText && (
-          <div className={cn(styles.helperText, error && styles.helperTextError)}>
-            {helperText}
-          </div>
+          <div className={cn(styles.helperText, error && styles.helperTextError)}>{helperText}</div>
         )}
       </div>
     );

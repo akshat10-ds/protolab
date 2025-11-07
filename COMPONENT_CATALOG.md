@@ -210,7 +210,7 @@ Use this document to quickly discover what components exist and where to find de
 ### Icons
 
 **Icon System (Primitive)**:
-- **Icon** - 50 essential icons from lucide-react
+- **Icon** - Icon component with 50+ built-in icons (Layer 3)
   - Navigation: arrow-left, arrow-right, chevron-down, menu, close
   - Actions: add, edit, delete, save, search, filter, refresh, download, upload, share
   - Status: check, error, warning, info, help, star, heart

@@ -25,7 +25,7 @@ This is an **AI-powered prototype generator** built on the Ink Design System. Yo
 
 - ❌ **NEVER create new components** outside the defined hierarchy
 - ❌ **NEVER use inline styles** or custom CSS beyond design tokens
-- ❌ **NEVER import external UI libraries** (except lucide-react for icons)
+- ❌ **NEVER import external UI libraries** (use only Ink design system components)
 - ❌ **NEVER modify the component hierarchy** or token system
 - ✅ **ALWAYS use existing components** from Layers 1-6
 - ✅ **ALWAYS check COMPONENT_CATALOG.md** for available components before building
@@ -238,6 +238,37 @@ import { Table } from '../Table'; // in another composite
   padding: 16px;                       /* Don't use hardcoded values */
 }
 ```
+
+---
+
+## 🎯 Icon Usage (CRITICAL)
+
+**NEVER import lucide-react directly. ALWAYS use the Icon component.**
+
+**✅ Correct:**
+```tsx
+import { Icon } from '@/design-system';
+
+// Use Icon component with name prop
+<Icon name="search" size="medium" />
+<Icon name="user" size="small" />
+<Icon name="settings" />
+```
+
+**❌ NEVER DO THIS:**
+```tsx
+import { Search, User, Settings } from 'lucide-react'; // ❌ WRONG
+
+<Search /> // ❌ Don't import lucide-react directly
+```
+
+**Why:**
+- Icon component provides consistent sizing, colors, and behavior
+- Integrates with design tokens
+- Maintains design system consistency
+- lucide-react is an internal implementation detail, not part of the API
+
+**Available icons**: 50+ icons including navigation, actions, status, and common UI elements. See Icon component documentation for full list.
 
 ---
 

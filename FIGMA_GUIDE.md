@@ -131,7 +131,7 @@ Design Structure:
 | Badge | Badge | Primitive | Status label |
 | Tag/Chip | Chip | Primitive | Removable tag |
 | Avatar/Profile Pic | Avatar | Primitive | User image |
-| Icon | Icon | Primitive | lucide-react icons |
+| Icon | Icon | Primitive | Icon component (50+ icons) |
 | Divider | Divider | Primitive | Separator |
 | Progress Bar | ProgressBar | Primitive | Progress indicator |
 | Spinner | Spinner | Primitive | Loading |
@@ -399,7 +399,7 @@ import imageUrl from '@/assets/image.png';
 
 ### Icons
 **Figma**: Icon components
-**Implementation**: Use Icon primitive with lucide-react
+**Implementation**: Use Icon primitive from Layer 3 (50+ built-in icons)
 
 ```tsx
 import { Icon } from '@/design-system';

@@ -6,17 +6,86 @@
 
 ## 🚨 Core Principles
 
-1. **Test BEFORE committing** - Always, no exceptions
-2. **Use existing patterns correctly** - Don't reinvent components
-3. **Fix components FIRST** - Then pages improve automatically
-4. **Deploy only when approved** - No premature GitHub pushes
-5. **Document everything** - Update .MD files with learnings
+1. **Plan BEFORE coding** - Show user your approach, get approval
+2. **Test BEFORE showing user** - Always verify it works
+3. **Commit AFTER user approval** - Keep git history clean
+4. **Use existing patterns correctly** - Don't reinvent components
+5. **Fix components FIRST** - Then pages improve automatically
+6. **Deploy only when approved** - No premature GitHub pushes
+7. **Document everything** - Update .MD files with learnings
 
 ---
 
 ## 📋 Mandatory Workflow Steps
 
-### Step 1: Understand Requirements
+### Step 0: Create Implementation Plan & Get Approval 🆕 CRITICAL
+**BEFORE writing ANY code, show the user your plan:**
+
+**Create a detailed plan including:**
+
+1. **Components you'll use** - List each component with its layer
+   ```
+   Example:
+   - DashboardLayout (Layer 6)
+   - GlobalNav (Layer 5) - from LayoutWithLocalNav.tsx:139-166
+   - LocalNav (Layer 5) - from LayoutWithLocalNav.tsx:171-287
+   - Table (Layer 4)
+   - SearchInput (Layer 4)
+   - Stack/Inline (Layer 2)
+   ```
+
+2. **Example files you'll copy from** - Exact file paths and line numbers
+   ```
+   Example:
+   - GlobalNav pattern: src/examples/LayoutWithLocalNav.tsx:139-166
+   - LocalNav pattern: src/examples/LayoutWithLocalNav.tsx:171-287
+   ```
+
+3. **Key props you'll use** - Show the actual API calls
+   ```
+   Example:
+   <GlobalNav
+     logo={<img src="..." />}
+     navItems={[...]} // with onClick handlers
+     showAppSwitcher={true}
+     onAppSwitcherClick={...}
+     showSearch={true}
+     onSearchClick={...}
+     // ... all interactive props
+   />
+   ```
+
+4. **Flag any unknowns or assumptions**
+   ```
+   Example:
+   ⚠️ Assuming LocalNav supports collapsible sections - will verify in README
+   ⚠️ Not sure if Table supports custom cell renderers - need to check
+   ```
+
+5. **No new components statement**
+   ```
+   ✅ No new components needed - using only existing design system
+   OR
+   ⚠️ Need new component: [Name] - awaiting approval
+   ```
+
+6. **Estimated time**
+   ```
+   Example: 2 hours (1hr implementation, 30min testing, 30min fixes)
+   ```
+
+**MANDATORY: Wait for user approval before coding**
+
+**Why this prevents issues:**
+- User catches wrong approach in 2-minute review vs 30-minute fix later
+- Forces you to find working examples before coding
+- Proves you understand the component APIs
+- No wasted implementation time on wrong patterns
+- User can suggest better components or approaches
+
+---
+
+### Step 1: Understand Requirements & Find Examples
 **BEFORE writing ANY code:**
 
 - [ ] Read the request carefully
@@ -43,23 +112,26 @@
 
 ---
 
-### Step 2: Plan Implementation
-**BEFORE writing code:**
+### Step 2: Create Task List (After Approval)
+**AFTER user approves your plan:**
 
-- [ ] Use TodoWrite tool to create task list
+- [ ] Use TodoWrite tool to create detailed task list
 - [ ] Break down into concrete, testable steps
-- [ ] Identify which existing components to use
-- [ ] Note any component-level improvements needed
+- [ ] Include testing tasks
+- [ ] **DO NOT include commit task** - commits happen after user approval
 
 **Example todo list:**
 ```
-1. Research existing GlobalNav pattern
-2. Check GlobalNav API in 5-patterns/GlobalNav/README.md
-3. Implement page using correct GlobalNav props
-4. Test with Playwright BEFORE committing
-5. Fix any issues found
-6. Take screenshot for verification
+1. Copy GlobalNav pattern from LayoutWithLocalNav.tsx
+2. Copy LocalNav pattern from LayoutWithLocalNav.tsx
+3. Implement page content with Table and SearchInput
+4. Run build verification (npm run build)
+5. Test with Playwright - navigate and verify rendering
+6. Test interactive elements (clicks, forms)
+7. Take screenshot for user review
 ```
+
+**Note:** Commit step removed - commits only happen after user reviews and approves
 
 ---
 
@@ -80,8 +152,10 @@
 
 ---
 
-### Step 4: Test (MANDATORY - BEFORE COMMITTING)
+### Step 4: Test (MANDATORY - BEFORE SHOWING USER)
 **Follow TEST_PLAN.md exactly:**
+
+**⚠️ CRITICAL: Test BEFORE showing user, but commit AFTER user approves**
 
 #### 4.1 Build Verification
 ```bash
@@ -121,28 +195,80 @@ mcp__playwright__browser_take_screenshot()
 - [ ] Interactions work (buttons, forms, navigation)
 - [ ] Screenshot matches requirements
 
-**IF ANY TESTS FAIL**: Fix issues and re-test. DO NOT commit broken code.
+**IF ANY TESTS FAIL**: Fix issues and re-test. DO NOT show user broken code.
 
 ---
 
-### Step 5: Review Before Commit
-**BEFORE committing:**
+### Step 5: Show User & Get Approval (BEFORE COMMIT) 🆕 CRITICAL
+**AFTER all tests pass, show user your work:**
 
-- [ ] All tests pass
-- [ ] Component patterns match existing patterns
-- [ ] Used correct component APIs
-- [ ] No custom components created unnecessarily
-- [ ] Code follows design system architecture
+**Present to user:**
 
-**If patterns don't match:**
-1. Check component documentation
-2. Look at existing examples
-3. Fix implementation to match patterns
-4. Re-test
+1. **Local URL** - Where to view the working prototype
+   ```
+   View at: http://localhost:3000/agreements
+   ```
+
+2. **Screenshot** - Visual proof it works
+   - Use `mcp__playwright__browser_take_screenshot()`
+   - Show key interactions working
+   - Highlight any important details
+
+3. **Summary of changes** - What you built
+   ```
+   Example:
+   ✅ Implemented Agreements page with:
+   - GlobalNav with app switcher, search, notifications, settings
+   - LocalNav with collapsible sections and footer toggle
+   - Table with 7 agreement rows
+   - Pagination (7 pages)
+   - Search and filter UI
+
+   ✅ Components used (no new components):
+   - DashboardLayout, GlobalNav, LocalNav (Layers 6-5)
+   - Table, SearchInput, FilterTag, Pagination (Layer 4)
+   - Button, Badge, Icon, StatusLight (Layer 3)
+   ```
+
+4. **Test results** - Prove it works
+   ```
+   Example:
+   ✅ Build: Successful
+   ✅ Page loads without errors
+   ✅ Console: No errors
+   ✅ Interactions tested:
+     - Nav item clicks work
+     - Table selection works
+     - Pagination works
+   ```
+
+5. **Console errors (if any)** - Transparency about issues
+   ```
+   ⚠️ Warning: validateDOMNesting (non-blocking, design system issue)
+   ✅ No breaking errors
+   ```
+
+**MANDATORY: Wait for user response**
+
+User will either:
+- ✅ **Approve** → Proceed to Step 6 (Commit)
+- 🔄 **Request changes** → Fix and re-test, show again
+- ❌ **Reject approach** → Back to Step 0 (New plan)
+
+**DO NOT COMMIT until user explicitly approves**
+
+**Why this prevents issues:**
+- User sees working version before git history is written
+- Can iterate without messy "fix" commits
+- User might catch UX issues you missed
+- Keeps git history clean and professional
+- No wasted commits on wrong approach
 
 ---
 
-### Step 6: Commit (Only After Tests Pass)
+### Step 6: Commit (ONLY AFTER USER APPROVAL) 🆕 UPDATED
+**⚠️ PREREQUISITE: User must have explicitly approved in Step 5**
+
 **Commit message format:**
 ```
 type: brief description
@@ -180,22 +306,28 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ---
 
-### Step 7: Get Approval BEFORE Deployment
-**DO NOT push to GitHub until user approves:**
+### Step 7: Deploy to GitHub (ONLY When Requested)
+**⚠️ Push to GitHub ONLY when user explicitly requests deployment**
 
-1. Show user:
-   - Local URL (http://localhost:3000/page)
-   - Screenshot
-   - List of changes
+**Default behavior: DO NOT PUSH**
 
-2. Wait for user approval
+Most work should stay local until user is ready to deploy. Push only when:
+- User explicitly says "push to GitHub" or "deploy this"
+- User asks to create a pull request
+- User asks to share the work
 
-3. Only push after explicit approval:
-   ```bash
-   git push origin branch-name
-   ```
+**When user requests deployment:**
+```bash
+git push origin branch-name
+```
 
-**NEVER push automatically after commit.**
+**Why this matters:**
+- Avoids premature Vercel deployments
+- User controls when work goes public
+- Saves deployment resources
+- Allows local iteration without public exposure
+
+**NEVER push automatically after commit**
 
 ---
 
@@ -311,28 +443,53 @@ grep -r "GlobalNav" src/examples/
 # Don't write from memory, keep example open while coding
 ```
 
-**Prevention:**
-- NEVER use a component without finding a working example first
-- Reading the .tsx file ≠ Understanding how to use it
-- Always ask: "Where is this pattern used successfully?"
+**Prevention with Step 0:**
+If I had created an implementation plan BEFORE coding:
+```
+Implementation Plan for AgreementsPage:
 
-### Violation 1: Committing Without Testing
-**Problem**: Code committed before running tests
+Components:
+- GlobalNav (Layer 5) - from LayoutWithLocalNav.tsx:139-166
+  Props: logo, navItems with onClick, showAppSwitcher, onAppSwitcherClick,
+         showSearch, onSearchClick, showNotifications, onNotificationClick,
+         showSettings, onSettingsClick, user, onUserMenuClick
+
+User would immediately see: "Where are the click handlers?" and "Why no showAppSwitcher?"
+```
+
+**Prevention checklist:**
+- ✅ NEVER use a component without finding a working example first
+- ✅ Reading the .tsx file ≠ Understanding how to use it
+- ✅ Always ask: "Where is this pattern used successfully?"
+- ✅ **NEW: Show your plan with actual props BEFORE coding**
+
+### Violation 1: Committing Before User Approval
+**Problem**: Code committed before user sees and approves it
 
 **Consequences**:
+- Messy git history with "fix" commits
 - Broken code in Git history
 - Wastes time fixing after the fact
 - User has to ask "did you test?"
+- Have to rewrite commits or add more commits
 
-**Fix**:
+**Fix with new workflow:**
 ```
 ALWAYS follow this order:
 1. Write code
-2. Run tests (TEST_PLAN.md)
-3. Fix any issues
-4. Re-test
-5. ONLY THEN commit
+2. Run build (npm run build)
+3. Run browser tests (Playwright)
+4. Fix any issues and re-test
+5. Show user (URL + screenshot + summary)
+6. WAIT for user approval
+7. ONLY THEN commit
+8. Push to GitHub only if requested
 ```
+
+**Why this matters:**
+- Git history stays clean (no "oops fix" commits)
+- User might catch UX issues before commit
+- Can iterate freely without polluting git history
 
 ---
 
@@ -384,21 +541,28 @@ ALWAYS follow this order:
 ---
 
 ### Violation 3: Premature Deployment
-**Problem**: Pushing to GitHub before user approval
+**Problem**: Pushing to GitHub without explicit user request
 
 **Consequences**:
 - Unfinished work deployed to Vercel
-- User sees broken preview
+- User sees unreviewed changes in production
 - Wastes deployment resources
+- Work goes public before user wants it
 
-**Fix**:
+**Fix with new workflow:**
 ```
-Deployment process:
-1. Commit locally
-2. Show user local version
-3. Wait for approval
-4. ONLY THEN: git push
+Step 4: Test locally
+Step 5: Show user (local URL + screenshot)
+Step 6: Get approval → Commit locally
+Step 7: ONLY push if user explicitly requests:
+        - "push to GitHub"
+        - "deploy this"
+        - "create a PR"
+
+DEFAULT: Do NOT push
 ```
+
+**Remember**: Most work stays local. Only push when user explicitly asks.
 
 ---
 
@@ -436,29 +600,51 @@ After user feedback:
 
 ## 🚀 Quick Reference
 
-### Starting a New Feature
+### Starting a New Feature (Updated with Step 0)
 ```bash
+Step 0: CREATE PLAN & GET APPROVAL
 1. Read COMPONENT_CATALOG.md (what exists?)
 2. Find component in src/design-system
-3. grep -r "ComponentName" src/examples/  ← CRITICAL STEP
-4. OPEN and READ working example file
-5. COPY exact structure from example
-6. Create TodoWrite list
-7. Implement by adapting example (not guessing)
-8. Test with Playwright (TEST_PLAN.md)
-9. Commit after tests pass
-10. Show user, wait for approval
-11. Push to GitHub after approval
+3. grep -r "ComponentName" src/examples/  ← FIND EXAMPLES
+4. OPEN and READ working example file completely
+5. CREATE IMPLEMENTATION PLAN:
+   - List components with layers
+   - Reference example files (with line numbers)
+   - Show key props you'll use
+   - Flag unknowns
+   - Confirm no new components needed
+   - Estimate time
+6. SHOW PLAN TO USER → WAIT FOR APPROVAL
+
+Step 1-2: AFTER APPROVAL
+7. Create TodoWrite list
+8. COPY exact structure from example
+9. Implement by adapting example (not guessing)
+
+Step 3-4: TEST
+10. npm run build (verify first)
+11. Test with Playwright (browser testing)
+12. Verify all interactions work
+
+Step 5: SHOW USER AGAIN
+13. Present: URL, screenshot, summary, test results
+14. WAIT FOR USER APPROVAL
+
+Step 6-7: COMMIT & DEPLOY
+15. Commit ONLY after user approves
+16. Push to GitHub ONLY if user requests
 ```
 
 ### Fixing Component Patterns
 ```bash
 1. Read component README
-2. Check existing examples
-3. Fix usage to match API
-4. Test locally
-5. Verify it looks correct
-6. Commit fix
+2. grep -r "ComponentName" src/examples/ (find usage)
+3. OPEN and READ working example
+4. Fix usage to match example pattern
+5. Test locally (build + browser)
+6. Show user the fix
+7. Wait for approval
+8. THEN commit
 ```
 
 ### When Something Looks Wrong
@@ -496,4 +682,4 @@ After user feedback:
 
 ---
 
-**Remember**: Quality over speed. Test before commit. Use patterns correctly. Deploy only when approved.
+**Remember**: Plan before coding. Test before showing. Commit after approval. Deploy only when requested.

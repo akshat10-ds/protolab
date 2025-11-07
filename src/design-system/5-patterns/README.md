@@ -89,7 +89,7 @@ import { VerticalNavigation } from '@/design-system/5-patterns';
 interface NavigationItem {
   id: string;
   label: string;
-  icon?: string; // Icon name from lucide-react
+  icon?: string; // Icon name (use Icon component from Layer 3)
   href?: string;
   onClick?: () => void;
   badge?: number | string; // Optional notification badge

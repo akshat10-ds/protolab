@@ -1,20 +1,26 @@
 import React from 'react';
 import styles from './VerticalNavigation.module.css';
-import { Icon } from '../../3-primitives/Icon';
-import type { IconName } from '../../3-primitives/Icon';
-import { Tooltip } from '../../3-primitives/Tooltip';
+import { Icon, Tooltip, IconButton, Button, Dropdown } from '@/design-system';
+import type { IconName, DropdownItemProps } from '@/design-system';
 
 export interface NavigationItem {
   id: string;
   label: string;
   icon?: IconName;
+  badge?: string;
   items?: NavigationSubItem[];
+  actionMenu?: {
+    items: DropdownItemProps[];
+  };
 }
 
 export interface NavigationSubItem {
   id: string;
   label: string;
   icon?: IconName;
+  actionMenu?: {
+    items: DropdownItemProps[];
+  };
 }
 
 export interface VerticalNavigationProps {
@@ -36,8 +42,14 @@ export interface VerticalNavigationProps {
   width?: number;
   /** Application logo/branding */
   logo?: React.ReactNode;
-  /** Footer content */
-  footer?: React.ReactNode;
+  /** Context switcher dropdown at top */
+  contextSwitcher?: {
+    label: string;
+    icon?: IconName;
+    menuItems: DropdownItemProps[];
+  };
+  /** Footer controls (e.g., toggle switches, buttons) */
+  footerControls?: React.ReactNode;
   /** Additional className */
   className?: string;
 }
@@ -52,12 +64,11 @@ export const VerticalNavigation = ({
   onCollapsedChange,
   width = 280,
   logo,
-  footer,
+  contextSwitcher,
+  footerControls,
   className,
 }: VerticalNavigationProps) => {
-  const [expandedItemId, setExpandedItemId] = React.useState<string | null>(
-    activeItemId || null
-  );
+  const [expandedItemId, setExpandedItemId] = React.useState<string | null>(activeItemId || null);
 
   React.useEffect(() => {
     if (activeItemId) {
@@ -77,16 +88,38 @@ export const VerticalNavigation = ({
     onSubItemClick?.(itemId, subItemId);
   };
 
-  const containerClasses = [
-    styles.container,
-    collapsed && styles.collapsed,
-    className,
-  ]
+  const containerClasses = [styles.container, collapsed && styles.collapsed, className]
     .filter(Boolean)
     .join(' ');
 
   return (
     <nav className={containerClasses} style={{ width: collapsed ? 64 : width }}>
+      {/* Context Switcher */}
+      {contextSwitcher && !collapsed && (
+        <div className={styles.contextSwitcher}>
+          <Dropdown items={contextSwitcher.menuItems} position="bottom" align="start">
+            <Button
+              kind="secondary"
+              size="medium"
+              style={{
+                width: '100%',
+                justifyContent: 'space-between',
+                height: '40px',
+                padding: '4px 12px 4px 8px',
+                fontSize: '16px',
+                fontWeight: 500,
+              }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {contextSwitcher.icon && <Icon name={contextSwitcher.icon} size="small" />}
+                {contextSwitcher.label}
+              </span>
+              <Icon name="chevron-down" size="small" />
+            </Button>
+          </Dropdown>
+        </div>
+      )}
+
       {/* Logo Section */}
       {logo && (
         <div className={styles.logo}>
@@ -109,31 +142,57 @@ export const VerticalNavigation = ({
           const isExpanded = expandedItemId === item.id;
           const hasSubItems = item.items && item.items.length > 0;
 
-          const itemButton = (
-            <button
-              className={`${styles.item} ${isActive ? styles.itemActive : ''}`}
-              onClick={() => handleItemClick(item)}
-            >
-              {item.icon && (
-                <div className={styles.itemIcon}>
-                  <Icon name={item.icon} size="medium" />
+          const itemContent = (
+            <div className={styles.itemRow}>
+              {/* Expand/Collapse Button */}
+              {hasSubItems && !collapsed && (
+                <IconButton
+                  icon={isExpanded ? 'chevron-down' : 'chevron-right'}
+                  size="small"
+                  variant="tertiary"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpandedItemId(isExpanded ? null : item.id);
+                  }}
+                  aria-label={isExpanded ? 'Collapse' : 'Expand'}
+                  className={styles.expandButton}
+                />
+              )}
+
+              {/* Main Item Button */}
+              <button
+                className={`${styles.item} ${isActive ? styles.itemActive : ''} ${
+                  !hasSubItems && !collapsed ? styles.itemNoExpand : ''
+                }`}
+                onClick={() => handleItemClick(item)}
+              >
+                {item.icon && (
+                  <div className={styles.itemIcon}>
+                    <Icon name={item.icon} size="medium" />
+                  </div>
+                )}
+                {!collapsed && (
+                  <>
+                    <span className={styles.itemLabel}>{item.label}</span>
+                    {item.badge && <span className={styles.badge}>{item.badge}</span>}
+                  </>
+                )}
+              </button>
+
+              {/* Action Menu */}
+              {item.actionMenu && !collapsed && (
+                <div className={styles.actionMenu}>
+                  <Dropdown items={item.actionMenu.items} position="bottom" align="end">
+                    <IconButton
+                      icon="more-horizontal"
+                      size="small"
+                      variant="tertiary"
+                      aria-label="Actions"
+                    />
+                  </Dropdown>
                 </div>
               )}
-              {!collapsed && (
-                <>
-                  <span className={styles.itemLabel}>{item.label}</span>
-                  {hasSubItems && (
-                    <div
-                      className={`${styles.itemChevron} ${
-                        isExpanded ? styles.itemChevronExpanded : ''
-                      }`}
-                    >
-                      <Icon name="chevron-down" size="small" />
-                    </div>
-                  )}
-                </>
-              )}
-            </button>
+            </div>
           );
 
           return (
@@ -141,10 +200,19 @@ export const VerticalNavigation = ({
               {/* Main Item */}
               {collapsed ? (
                 <Tooltip content={item.label} placement="right">
-                  {itemButton}
+                  <button
+                    className={`${styles.item} ${isActive ? styles.itemActive : ''}`}
+                    onClick={() => handleItemClick(item)}
+                  >
+                    {item.icon && (
+                      <div className={styles.itemIcon}>
+                        <Icon name={item.icon} size="medium" />
+                      </div>
+                    )}
+                  </button>
                 </Tooltip>
               ) : (
-                itemButton
+                itemContent
               )}
 
               {/* Sub Items */}
@@ -153,20 +221,35 @@ export const VerticalNavigation = ({
                   {item.items!.map((subItem) => {
                     const isSubActive = activeSubItemId === subItem.id;
                     return (
-                      <button
-                        key={subItem.id}
-                        className={`${styles.subItem} ${
-                          isSubActive ? styles.subItemActive : ''
-                        }`}
-                        onClick={() => handleSubItemClick(item.id, subItem.id)}
-                      >
-                        {subItem.icon && (
-                          <div className={styles.subItemIcon}>
-                            <Icon name={subItem.icon} size="small" />
+                      <div key={subItem.id} className={styles.subItemRow}>
+                        <button
+                          className={`${styles.subItem} ${isSubActive ? styles.subItemActive : ''}`}
+                          onClick={() => handleSubItemClick(item.id, subItem.id)}
+                        >
+                          {subItem.icon && (
+                            <div className={styles.subItemIcon}>
+                              <Icon name={subItem.icon} size="small" />
+                            </div>
+                          )}
+                          <span className={styles.subItemLabel}>{subItem.label}</span>
+                        </button>
+                        {subItem.actionMenu && (
+                          <div className={styles.actionMenu}>
+                            <Dropdown
+                              items={subItem.actionMenu.items}
+                              position="bottom"
+                              align="end"
+                            >
+                              <IconButton
+                                icon="more-horizontal"
+                                size="small"
+                                variant="tertiary"
+                                aria-label="Actions"
+                              />
+                            </Dropdown>
                           </div>
                         )}
-                        <span className={styles.subItemLabel}>{subItem.label}</span>
-                      </button>
+                      </div>
                     );
                   })}
                 </div>
@@ -177,7 +260,7 @@ export const VerticalNavigation = ({
       </div>
 
       {/* Footer Section */}
-      {footer && !collapsed && <div className={styles.footer}>{footer}</div>}
+      {footerControls && !collapsed && <div className={styles.footer}>{footerControls}</div>}
     </nav>
   );
 };

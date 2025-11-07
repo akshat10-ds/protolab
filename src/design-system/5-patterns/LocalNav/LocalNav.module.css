@@ -5,7 +5,7 @@
   flex-direction: column;
   width: 280px; /* Fixed width for local navigation sidebar */
   height: 100%;
-  background-color: var(--ink-white-100);
+  background-color: var(--ink-bg-canvas-page); /* Semantic token for page canvas backgrounds */
   border-right: var(--ink-form-border-width) solid var(--ink-neutral-20);
   font-family: var(--ink-font-family);
 }
@@ -22,7 +22,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--ink-spacing-2);
-  padding: var(--ink-spacing-2) var(--ink-spacing-3);
+  padding: 4px 12px 4px 8px; /* Matches DocuSign exact padding */
   background-color: #260559; /* ctaBgColorPrimaryDefault */
   cursor: pointer;
   transition: background-color var(--ink-transition-fast);
@@ -67,7 +67,7 @@
   display: flex;
   align-items: center;
   gap: var(--ink-spacing-2);
-  padding: var(--ink-spacing-3) var(--ink-spacing-3);
+  padding: 11px 15px 11px 23px; /* Matches DocuSign exact padding */
   min-height: 48px;
   cursor: pointer;
   border: none;
@@ -98,7 +98,7 @@
 
 /* Non-collapsible section title (standalone div, not in button) */
 .section > .sectionTitle {
-  padding: var(--ink-spacing-3) var(--ink-spacing-3);
+  padding: 11px 15px 11px 23px; /* Matches DocuSign exact padding */
   min-height: 48px;
   margin-bottom: 0;
   display: flex;
@@ -110,7 +110,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--ink-spacing-3) var(--ink-spacing-3);
+  padding: 11px 15px 11px 23px; /* Matches DocuSign exact padding */
   min-height: 48px;
 }
 
@@ -136,7 +136,9 @@
   border-radius: var(--ink-radius-sm);
   color: var(--ink-neutral-fade-70);
   flex-shrink: 0;
-  transition: background-color var(--ink-transition-fast), color var(--ink-transition-fast);
+  transition:
+    background-color var(--ink-transition-fast),
+    color var(--ink-transition-fast);
 }
 
 .sectionActionButton:hover {
@@ -176,7 +178,7 @@
   align-items: center;
   gap: var(--ink-spacing-2);
   width: 100%;
-  padding: var(--ink-spacing-3) var(--ink-spacing-3);
+  padding: 11px 15px 11px 23px; /* Matches DocuSign exact padding */
   min-height: 48px;
   border: none;
   background: transparent;
@@ -291,7 +293,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--ink-spacing-3);
+  padding: var(--ink-spacing-200); /* 16px - matches DocuSign footer padding */
   min-height: 48px;
   border-top: var(--ink-form-border-width) solid var(--ink-neutral-20);
   margin-top: auto;

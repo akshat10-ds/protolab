@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 import styles from './FileUpload.module.css';
-import { Upload, File, X, CheckCircle, AlertCircle } from 'lucide-react';
+import { Icon } from '@/design-system';
 
 export type FileStatus = 'uploading' | 'success' | 'error';
 
@@ -74,7 +74,7 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
       const k = 1024;
       const sizes = ['Bytes', 'KB', 'MB', 'GB'];
       const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+      return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
     };
 
     const validateFile = (file: File): string | null => {
@@ -83,12 +83,12 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
       }
 
       if (accept) {
-        const acceptedTypes = accept.split(',').map(type => type.trim());
+        const acceptedTypes = accept.split(',').map((type) => type.trim());
         const fileType = file.type;
         const fileName = file.name;
         const fileExtension = '.' + fileName.split('.').pop()?.toLowerCase();
 
-        const isValid = acceptedTypes.some(acceptedType => {
+        const isValid = acceptedTypes.some((acceptedType) => {
           if (acceptedType.startsWith('.')) {
             return fileExtension === acceptedType.toLowerCase();
           }
@@ -136,7 +136,7 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
 
       if (hasError) return;
 
-      const uploadedFiles: UploadedFile[] = validFiles.map(file => ({
+      const uploadedFiles: UploadedFile[] = validFiles.map((file) => ({
         file,
         id: `${file.name}-${Date.now()}-${Math.random()}`,
         status: 'uploading' as FileStatus,
@@ -158,8 +158,8 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
       const interval = setInterval(() => {
         progress += 10;
 
-        setFiles(prevFiles => {
-          const updatedFiles = prevFiles.map(f => {
+        setFiles((prevFiles) => {
+          const updatedFiles = prevFiles.map((f) => {
             if (f.id === fileId) {
               if (progress >= 100) {
                 clearInterval(interval);
@@ -176,7 +176,7 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
     };
 
     const handleRemoveFile = (fileId: string) => {
-      const newFiles = files.filter(f => f.id !== fileId);
+      const newFiles = files.filter((f) => f.id !== fileId);
       setFiles(newFiles);
       onFileRemove?.(fileId);
       onFileChange?.(newFiles);
@@ -269,16 +269,12 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
           />
 
           <div className={styles.dropzoneContent}>
-            <Upload className={styles.uploadIcon} size={32} />
+            <Icon name="upload" size="lg" className={styles.uploadIcon} />
             <div className={styles.dropzoneText}>{placeholder}</div>
-            {helperText && !error && (
-              <div className={styles.dropzoneHelper}>{helperText}</div>
-            )}
+            {helperText && !error && <div className={styles.dropzoneHelper}>{helperText}</div>}
             {error && <div className={styles.errorText}>{error}</div>}
             {maxSize && (
-              <div className={styles.dropzoneHelper}>
-                Max file size: {formatFileSize(maxSize)}
-              </div>
+              <div className={styles.dropzoneHelper}>Max file size: {formatFileSize(maxSize)}</div>
             )}
           </div>
         </div>
@@ -298,17 +294,13 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
                         className={styles.fileImage}
                       />
                     ) : (
-                      <File size={24} className={styles.fileIconDefault} />
+                      <Icon name="file" size="md" className={styles.fileIconDefault} />
                     )}
                   </div>
 
                   <div className={styles.fileInfo}>
-                    <div className={styles.fileName}>
-                      {uploadedFile.file.name}
-                    </div>
-                    <div className={styles.fileSize}>
-                      {formatFileSize(uploadedFile.file.size)}
-                    </div>
+                    <div className={styles.fileName}>{uploadedFile.file.name}</div>
+                    <div className={styles.fileSize}>{formatFileSize(uploadedFile.file.size)}</div>
 
                     {uploadedFile.status === 'uploading' && (
                       <div className={styles.progressBar}>
@@ -320,25 +312,25 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
                     )}
 
                     {uploadedFile.error && (
-                      <div className={styles.fileError}>
-                        {uploadedFile.error}
-                      </div>
+                      <div className={styles.fileError}>{uploadedFile.error}</div>
                     )}
                   </div>
 
                   <div className={styles.fileActions}>
                     {uploadedFile.status === 'success' && (
-                      <CheckCircle
+                      <Icon
+                        name="check-circle"
+                        size="sm"
                         className={styles.statusIcon}
-                        size={20}
-                        color="var(--ink-green-60)"
+                        style={{ color: 'var(--ink-green-60)' }}
                       />
                     )}
                     {uploadedFile.status === 'error' && (
-                      <AlertCircle
+                      <Icon
+                        name="alert-circle"
+                        size="sm"
                         className={styles.statusIcon}
-                        size={20}
-                        color="var(--ink-red-60)"
+                        style={{ color: 'var(--ink-red-60)' }}
                       />
                     )}
                     <button
@@ -350,7 +342,7 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
                       }}
                       aria-label="Remove file"
                     >
-                      <X size={16} />
+                      <Icon name="x" size="sm" />
                     </button>
                   </div>
                 </div>
