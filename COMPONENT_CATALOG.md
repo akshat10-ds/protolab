@@ -71,7 +71,7 @@ Use this document to quickly discover what components exist and where to find de
 | Container | Utility (2) | Max-width centering | `<Container size="large">` |
 | Spacer | Utility (2) | Fixed/flexible spacing | `<Spacer size="large" />` |
 
-**Total: 54 components** (2 Layouts + 3 Patterns + 18 Composites + 26 Primitives + 5 Utilities)
+**Total: 55 components** (2 Layouts + 3 Patterns + 18 Composites + 27 Primitives + 5 Utilities)
 
 ---
 

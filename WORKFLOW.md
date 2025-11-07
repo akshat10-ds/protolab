@@ -85,11 +85,231 @@
 
 ---
 
+## 🔍 Search Order Algorithm (MANDATORY)
+
+**When building ANY prototype or feature, search for components in this EXACT order:**
+
+### The 6-Layer Hierarchy (Search Top-Down)
+
+```
+Layer 6: Layouts     →  Start here (highest level)
+Layer 5: Patterns    →  Then check patterns
+Layer 4: Composites  →  Then check composites
+Layer 3: Primitives  →  Then use primitives
+Layer 2: Utilities   →  Always available for layout
+Layer 1: Tokens      →  Use for custom styling
+```
+
+### Step-by-Step Component Discovery
+
+**For EVERY prototype request, follow this algorithm:**
+
+#### Step A: Check Layer 6 (Layouts)
+```
+Question: "Can I use a full page template?"
+
+Check COMPONENT_CATALOG.md:
+- DashboardLayout → For dashboards, admin panels, data-heavy apps
+- AuthLayout → For login, signup, authentication pages
+
+IF YES: Start with this layout, fill in children
+IF NO: Move to Step B
+```
+
+#### Step B: Check Layer 5 (Patterns)
+```
+Question: "What complex UI patterns do I need?"
+
+Check COMPONENT_CATALOG.md:
+- VerticalNavigation → Sidebar navigation with collapsible sections
+- GlobalNav → Top-level application navigation
+- LocalNav → Context-specific navigation
+
+IF YES: Use these patterns for navigation structure
+ALWAYS: Continue to Step C for content
+```
+
+#### Step C: Check Layer 4 (Composites)
+```
+Question: "What composed components do I need?"
+
+Check COMPONENT_CATALOG.md (18 composites):
+- Table, List → Data display
+- Modal, Drawer, Alert → Overlays and feedback
+- SearchInput, ComboBox, DatePicker → Advanced inputs
+- Tabs, Accordion, Pagination → Navigation and organization
+- Breadcrumb, FilterTag → UI utilities
+
+IF YES: Identify ALL needed composites
+ALWAYS: Continue to Step D for basic elements
+```
+
+#### Step D: Use Layer 3 (Primitives)
+```
+Question: "What basic building blocks do I need?"
+
+Check COMPONENT_CATALOG.md (26 primitives):
+- Button, IconButton, Link → Actions
+- Input, Select, Checkbox, Radio, Switch, TextArea → Forms
+- Card, Badge, Chip, Avatar → Display
+- Heading, Text → Typography
+- Icon, Spinner, ProgressBar → Visual elements
+- Divider, Callout, Banner, Tooltip → UI helpers
+
+ALWAYS AVAILABLE: Use as needed for implementation
+```
+
+#### Step E: Apply Layer 2 (Utilities)
+```
+Question: "How should I lay out these components?"
+
+Check COMPONENT_CATALOG.md:
+- Stack → Vertical or horizontal flex layout
+- Grid → CSS Grid with responsive columns
+- Inline → Horizontal inline layout
+- Container → Max-width centering
+- Spacer → Fixed or flexible spacing
+
+ALWAYS USE: For layout structure
+```
+
+#### Step F: Reference Layer 1 (Tokens)
+```
+Question: "What styling tokens should I use?"
+
+Check src/design-system/1-tokens/tokens.css:
+- --ink-bg-* → Background colors
+- --ink-font-* → Text colors
+- --ink-border-* → Border colors
+- --ink-spacing-* → Spacing values
+- --ink-radius-* → Border radius
+
+ALWAYS USE: For any custom styling needs
+```
+
+### Example: Building a Dashboard
+
+**User Request**: "Create a dashboard showing user analytics with filters"
+
+**Search Order Application**:
+
+```
+Layer 6 Check:
+✅ Found: DashboardLayout
+→ Decision: START HERE
+
+Layer 5 Check:
+✅ Found: VerticalNavigation
+→ Decision: Use for sidebar navigation
+
+Layer 4 Check:
+✅ Found: Table (data grid)
+✅ Found: SearchInput (search functionality)
+✅ Found: FilterTag (active filters)
+✅ Found: Pagination (if needed)
+→ Decision: Use all these composites
+
+Layer 3 Check:
+✅ Need: Card (stat containers)
+✅ Need: Button (actions)
+✅ Need: Badge (status indicators)
+✅ Need: Heading, Text (typography)
+→ Decision: Use these primitives
+
+Layer 2 Check:
+✅ Need: Grid (for stat cards layout)
+✅ Need: Stack (for vertical content)
+→ Decision: Use for layout
+
+Layer 1 Check:
+✅ Use design tokens for any custom styling
+→ Decision: Reference tokens.css
+
+Final Component Tree:
+<DashboardLayout navigation={<VerticalNavigation />}>  ← Layer 6
+  <Stack direction="vertical" gap="large">             ← Layer 2
+    <Grid columns={3} gap="medium">                    ← Layer 2
+      <Card><Heading>1,234</Heading></Card>            ← Layer 3
+      <Card><Heading>856</Heading></Card>              ← Layer 3
+      <Card><Heading>+12%</Heading></Card>             ← Layer 3
+    </Grid>
+    <Stack direction="horizontal" gap="small">         ← Layer 2
+      <SearchInput />                                  ← Layer 4
+      <FilterTag label="Active" />                     ← Layer 4
+    </Stack>
+    <Card>
+      <Table columns={cols} data={rows} />             ← Layer 4
+      <Pagination currentPage={1} totalPages={10} />   ← Layer 4
+    </Card>
+  </Stack>
+</DashboardLayout>
+```
+
+### Critical Rules
+
+**ALWAYS:**
+- ✅ Start search at Layer 6
+- ✅ Work down through layers sequentially
+- ✅ Check COMPONENT_CATALOG.md at each layer
+- ✅ Read Layer README for component APIs
+- ✅ Find working examples in src/examples/
+- ✅ Compose from existing components
+
+**NEVER:**
+- ❌ Skip layers in the search order
+- ❌ Assume a component doesn't exist without checking
+- ❌ Create custom components without exhausting search
+- ❌ Jump directly to primitives without checking higher layers
+- ❌ Guess component APIs without reading documentation
+
+### When No Exact Match Exists
+
+If you reach Layer 3 and still don't have what you need:
+
+**Option 1: Compose from Primitives + Utilities**
+```
+Need: Image carousel
+No Carousel component found
+
+Compose:
+<Stack direction="horizontal">
+  <IconButton icon="chevron-left" onClick={prev} />
+  <Grid columns={visibleCount}>
+    {images.map(img => <Card><img src={img} /></Card>)}
+  </Grid>
+  <IconButton icon="chevron-right" onClick={next} />
+</Stack>
+```
+
+**Option 2: Suggest New Component (with User Approval)**
+```
+If pattern is used across multiple prototypes:
+1. Document the composition
+2. Propose adding it to Layer 4 or 5
+3. Get user approval
+4. Create component in appropriate layer
+```
+
+### Quick Reference: "Where Do I Start?"
+
+**Building a full page?** → Layer 6 (Layouts)
+**Adding navigation?** → Layer 5 (Patterns)
+**Need data display?** → Layer 4 (Composites: Table, List)
+**Need form inputs?** → Layer 4 (Composites: SearchInput, ComboBox) or Layer 3 (Primitives: Input, Select)
+**Need basic UI elements?** → Layer 3 (Primitives: Button, Card, Badge)
+**Need layout structure?** → Layer 2 (Utilities: Stack, Grid, Container)
+**Need styling values?** → Layer 1 (Tokens)
+
+**For detailed search order documentation, see [SEARCH_ORDER.md](./SEARCH_ORDER.md)**
+
+---
+
 ### Step 1: Understand Requirements & Find Examples
 **BEFORE writing ANY code:**
 
 - [ ] Read the request carefully
-- [ ] Check COMPONENT_CATALOG.md for existing components
+- [ ] **Apply the Search Order Algorithm** (Layer 6 → 5 → 4 → 3 → 2 → 1)
+- [ ] Check COMPONENT_CATALOG.md for existing components at each layer
 - [ ] Check existing patterns in src/design-system/5-patterns
 - [ ] Check layer READMEs for component APIs
 - [ ] If using Figma, read FIGMA_GUIDE.md workflow

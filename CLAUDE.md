@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## 🎯 Project Purpose
 
-This is an **AI-powered prototype generator** built on the Ink Design System. You help users create production-quality prototypes using a comprehensive library of 50+ pre-existing, meticulously designed components.
+This is an **AI-powered prototype generator** built on the Ink Design System. You help users create production-quality prototypes using a comprehensive library of 55 pre-existing, meticulously designed components.
 
 **Your mission**: Generate prototypes quickly and correctly using ONLY the existing component hierarchy. Never create custom components.
 
@@ -33,6 +33,97 @@ This is an **AI-powered prototype generator** built on the Ink Design System. Yo
 - ✅ **ALWAYS use design tokens** from tokens.css
 
 **If a component doesn't exist**: Use the closest existing primitive or compose from multiple components. Ask the user if uncertain.
+
+---
+
+## 🤖 Claude Skills (Your Specialized Tools)
+
+**You have access to 4 specialized skills that encapsulate complete workflows. Use these skills to ensure consistency and completeness.**
+
+### Available Skills
+
+**Location**: `.claude/skills/`
+
+#### 1. `prototype-generator` (Primary Workflow)
+**When to use**: User requests a prototype from a text description
+
+**What it does**:
+- Applies search order algorithm (Layer 6 → 2)
+- Searches COMPONENT_CATALOG.md and component-registry.json
+- Proposes component composition
+- Gets user confirmation before implementing
+- Generates code using only design system components
+- Validates implementation
+
+**Invoke when user says**:
+- "Create a dashboard..."
+- "Build a settings page..."
+- "I need a form for..."
+
+#### 2. `figma-to-code` (Figma Workflow)
+**When to use**: User provides a Figma URL
+
+**What it does**:
+- Parses Figma URL (extracts fileKey, nodeId)
+- Calls Figma MCP tools to fetch design
+- Maps Figma elements → Ink components
+- Maps Figma tokens → Ink tokens
+- Proposes implementation plan
+- Gets user confirmation
+- Generates code
+
+**Invoke when user provides**: Figma URL
+
+#### 3. `component-finder` (Quick Discovery)
+**When to use**: User asks what components exist
+
+**What it does**:
+- Searches COMPONENT_CATALOG.md and component-registry.json
+- Returns results in hierarchy order (Layer 6 → 2)
+- Provides component details (props, imports, examples)
+- Suggests composition if no exact match
+
+**Invoke when user asks**:
+- "What navigation components exist?"
+- "Do we have a search component?"
+- "Find components for forms"
+
+#### 4. `validate-prototype` (Quality Assurance)
+**When to use**: After generating code or when requested
+
+**What it does**:
+- Checks imports (no lucide-react, no external libs)
+- Checks for inline styles
+- Verifies component hierarchy
+- Runs TypeScript compilation
+- Runs build validation
+
+**Invoke when**:
+- User requests validation
+- After generating significant code (proactive)
+
+### When to Use Skills
+
+**Use Skills**:
+- ✅ Starting new prototypes (prototype-generator)
+- ✅ Converting Figma designs (figma-to-code)
+- ✅ Component discovery (component-finder)
+- ✅ Validation checks (validate-prototype)
+
+**Direct implementation**:
+- Small code tweaks
+- Bug fixes
+- Documentation updates
+- Simple questions
+
+### Skills Enforce
+
+All skills follow the same principles:
+- Search order algorithm (Layer 6 → 2)
+- Component discovery via COMPONENT_CATALOG.md
+- Constraint compliance
+- Testing requirements
+- User confirmation before implementation
 
 ---
 
@@ -112,7 +203,7 @@ When the user provides a Figma URL:
 
 ### Quick Reference
 **"What components exist?"**
-→ `COMPONENT_CATALOG.md` - Complete index of 50+ components
+→ `COMPONENT_CATALOG.md` - Complete index of all 55 components
 
 ### Detailed APIs
 **"How do I use [Component]?"**
@@ -403,7 +494,7 @@ When starting any task:
 
 **New to this project?**
 
-1. Browse `/showcase` - See all 50+ components live
+1. Browse `/showcase` - See all 55 components live
 2. Read COMPONENT_CATALOG.md - Understand what's available
 3. Read ARCHITECTURE.md - Learn the 6-layer hierarchy
 4. Check PROTOTYPE_GUIDE.md - See common patterns

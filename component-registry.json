@@ -1,0 +1,906 @@
+{
+  "version": "1.0.0",
+  "totalComponents": 55,
+  "lastUpdated": "2025-11-07",
+  "components": {
+    "DashboardLayout": {
+      "name": "DashboardLayout",
+      "layer": 6,
+      "type": "layout",
+      "description": "Full page template for dashboards with sidebar navigation, header, and content areas",
+      "props": ["navigation", "header", "children", "sidebar"],
+      "imports": "@/design-system/6-layouts",
+      "useCases": ["dashboard", "admin-panel", "analytics-page", "data-heavy-apps"],
+      "dependencies": ["VerticalNavigation", "Stack", "Container"],
+      "examples": [
+        "<DashboardLayout navigation={<VerticalNavigation items={navItems} />}>",
+        "  <Grid columns={3} gap=\"medium\">",
+        "    <Card>Content</Card>",
+        "  </Grid>",
+        "</DashboardLayout>"
+      ]
+    },
+    "AuthLayout": {
+      "name": "AuthLayout",
+      "layer": 6,
+      "type": "layout",
+      "description": "Centered layout for authentication pages (login, signup, forgot password)",
+      "props": ["variant", "children"],
+      "imports": "@/design-system/6-layouts",
+      "useCases": ["login", "signup", "authentication", "password-reset", "onboarding"],
+      "dependencies": ["Container", "Stack", "Card"],
+      "examples": [
+        "<AuthLayout variant=\"split\">",
+        "  <Heading>Welcome Back</Heading>",
+        "  <Stack direction=\"vertical\" gap=\"medium\">",
+        "    <Input label=\"Email\" type=\"email\" />",
+        "    <Button kind=\"brand\">Sign In</Button>",
+        "  </Stack>",
+        "</AuthLayout>"
+      ]
+    },
+    "VerticalNavigation": {
+      "name": "VerticalNavigation",
+      "layer": 5,
+      "type": "pattern",
+      "description": "Sidebar navigation with collapsible sections, perfect for dashboards",
+      "props": ["items", "defaultExpanded", "onNavigate"],
+      "imports": "@/design-system/5-patterns",
+      "useCases": ["sidebar-navigation", "dashboard-menu", "app-navigation"],
+      "dependencies": ["Stack", "Link", "Icon"],
+      "examples": [
+        "<VerticalNavigation",
+        "  items={[",
+        "    { label: 'Dashboard', icon: 'home', href: '/dashboard' },",
+        "    { label: 'Users', icon: 'users', href: '/users' }",
+        "  ]}",
+        "/>"
+      ]
+    },
+    "GlobalNav": {
+      "name": "GlobalNav",
+      "layer": 5,
+      "type": "pattern",
+      "description": "Top-level application navigation bar for primary navigation",
+      "props": ["items", "logo", "actions"],
+      "imports": "@/design-system/5-patterns",
+      "useCases": ["top-navigation", "header-nav", "main-menu"],
+      "dependencies": ["Inline", "Link", "Icon", "Button"],
+      "examples": [
+        "<GlobalNav",
+        "  logo={<img src=\"/logo.svg\" />}",
+        "  items={[",
+        "    { label: 'Home', href: '/' },",
+        "    { label: 'About', href: '/about' }",
+        "  ]}",
+        "/>"
+      ]
+    },
+    "LocalNav": {
+      "name": "LocalNav",
+      "layer": 5,
+      "type": "pattern",
+      "description": "Context-specific navigation for sections within a page",
+      "props": ["items", "variant"],
+      "imports": "@/design-system/5-patterns",
+      "useCases": ["section-navigation", "contextual-menu", "sub-navigation"],
+      "dependencies": ["Stack", "Link"],
+      "examples": [
+        "<LocalNav",
+        "  items={[",
+        "    { label: 'Profile', href: '/settings/profile' },",
+        "    { label: 'Security', href: '/settings/security' }",
+        "  ]}",
+        "/>"
+      ]
+    },
+    "Modal": {
+      "name": "Modal",
+      "layer": 4,
+      "type": "composite",
+      "description": "Dialog overlay for critical actions and focused content",
+      "props": ["open", "onClose", "title", "children", "footer", "size"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["dialog", "confirmation", "form-overlay", "focused-task"],
+      "dependencies": ["Card", "Button", "Heading", "Icon"],
+      "examples": [
+        "<Modal open={isOpen} onClose={handleClose} title=\"Confirm Action\">",
+        "  <Text>Are you sure?</Text>",
+        "  <Button kind=\"danger\" onClick={handleConfirm}>Confirm</Button>",
+        "</Modal>"
+      ]
+    },
+    "Table": {
+      "name": "Table",
+      "layer": 4,
+      "type": "composite",
+      "description": "Data grid with sorting, selection, and custom rendering",
+      "props": ["columns", "data", "sortable", "selectable", "onRowClick"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["data-grid", "data-table", "list-view", "structured-data"],
+      "dependencies": ["Checkbox", "Icon", "Badge"],
+      "examples": [
+        "<Table",
+        "  columns={[",
+        "    { key: 'name', label: 'Name', sortable: true },",
+        "    { key: 'email', label: 'Email' }",
+        "  ]}",
+        "  data={users}",
+        "/>"
+      ]
+    },
+    "SearchInput": {
+      "name": "SearchInput",
+      "layer": 4,
+      "type": "composite",
+      "description": "Input field with search icon and optional suggestions",
+      "props": ["placeholder", "value", "onChange", "onSearch", "suggestions"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["search", "filter", "autocomplete", "find"],
+      "dependencies": ["Input", "Icon"],
+      "examples": [
+        "<SearchInput",
+        "  placeholder=\"Search users...\"",
+        "  onSearch={handleSearch}",
+        "/>"
+      ]
+    },
+    "Tabs": {
+      "name": "Tabs",
+      "layer": 4,
+      "type": "composite",
+      "description": "Tab navigation for switching between sections",
+      "props": ["tabs", "value", "onChange"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["tab-navigation", "section-switcher", "view-selector"],
+      "dependencies": ["Button", "Inline"],
+      "examples": [
+        "<Tabs",
+        "  value={activeTab}",
+        "  onChange={setActiveTab}",
+        "  tabs={[",
+        "    { label: 'Overview', value: 'overview' },",
+        "    { label: 'Details', value: 'details' }",
+        "  ]}",
+        "/>"
+      ]
+    },
+    "Accordion": {
+      "name": "Accordion",
+      "layer": 4,
+      "type": "composite",
+      "description": "Collapsible sections for organizing content",
+      "props": ["items", "defaultExpanded", "allowMultiple"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["collapsible-sections", "faq", "expandable-content"],
+      "dependencies": ["Card", "Icon", "Stack"],
+      "examples": [
+        "<Accordion",
+        "  items={[",
+        "    { title: 'Section 1', content: <div>Content...</div> }",
+        "  ]}",
+        "/>"
+      ]
+    },
+    "Breadcrumb": {
+      "name": "Breadcrumb",
+      "layer": 4,
+      "type": "composite",
+      "description": "Hierarchical navigation trail showing current location",
+      "props": ["items", "separator"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["navigation-trail", "page-path", "hierarchy-display"],
+      "dependencies": ["Inline", "Link", "Icon"],
+      "examples": [
+        "<Breadcrumb",
+        "  items={[",
+        "    { label: 'Home', href: '/' },",
+        "    { label: 'Users', href: '/users' },",
+        "    { label: 'Profile' }",
+        "  ]}",
+        "/>"
+      ]
+    },
+    "Pagination": {
+      "name": "Pagination",
+      "layer": 4,
+      "type": "composite",
+      "description": "Page navigation controls for large datasets",
+      "props": ["currentPage", "totalPages", "onPageChange", "showFirstLast"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["page-navigation", "data-pagination", "list-navigation"],
+      "dependencies": ["Button", "IconButton", "Inline"],
+      "examples": [
+        "<Pagination",
+        "  currentPage={1}",
+        "  totalPages={10}",
+        "  onPageChange={setPage}",
+        "/>"
+      ]
+    },
+    "Dropdown": {
+      "name": "Dropdown",
+      "layer": 4,
+      "type": "composite",
+      "description": "Context menu with actions",
+      "props": ["items", "trigger", "placement"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["context-menu", "action-menu", "options-menu"],
+      "dependencies": ["Button", "Icon", "Popover"],
+      "examples": [
+        "<Dropdown",
+        "  trigger={<Button>Actions</Button>}",
+        "  items={[",
+        "    { label: 'Edit', onClick: handleEdit },",
+        "    { label: 'Delete', onClick: handleDelete }",
+        "  ]}",
+        "/>"
+      ]
+    },
+    "Alert": {
+      "name": "Alert",
+      "layer": 4,
+      "type": "composite",
+      "description": "Prominent status messages with optional actions",
+      "props": ["kind", "title", "children", "onClose", "actions"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["notification", "message", "status-alert", "feedback"],
+      "dependencies": ["Card", "Icon", "Button", "Stack"],
+      "examples": [
+        "<Alert kind=\"warning\" title=\"Warning\">",
+        "  Your session will expire soon.",
+        "</Alert>"
+      ]
+    },
+    "Drawer": {
+      "name": "Drawer",
+      "layer": 4,
+      "type": "composite",
+      "description": "Side panel that slides in from edge",
+      "props": ["open", "onClose", "position", "children"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["side-panel", "sliding-menu", "detail-panel"],
+      "dependencies": ["Card", "IconButton", "Stack"],
+      "examples": [
+        "<Drawer open={isOpen} onClose={handleClose} position=\"right\">",
+        "  <Heading>Details</Heading>",
+        "  <Text>Content...</Text>",
+        "</Drawer>"
+      ]
+    },
+    "Popover": {
+      "name": "Popover",
+      "layer": 4,
+      "type": "composite",
+      "description": "Floating content container",
+      "props": ["trigger", "content", "placement", "open"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["floating-content", "contextual-info", "hover-detail"],
+      "dependencies": ["Card"],
+      "examples": [
+        "<Popover",
+        "  trigger={<Button>Show Info</Button>}",
+        "  content={<div>Information...</div>}",
+        "/>"
+      ]
+    },
+    "ComboButton": {
+      "name": "ComboButton",
+      "layer": 4,
+      "type": "composite",
+      "description": "Button with dropdown menu of actions",
+      "props": ["label", "items", "kind"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["split-button", "action-dropdown", "grouped-actions"],
+      "dependencies": ["Button", "Icon", "Dropdown"],
+      "examples": [
+        "<ComboButton",
+        "  label=\"Actions\"",
+        "  items={[",
+        "    { label: 'Save', onClick: handleSave },",
+        "    { label: 'Save & Close', onClick: handleSaveClose }",
+        "  ]}",
+        "/>"
+      ]
+    },
+    "List": {
+      "name": "List",
+      "layer": 4,
+      "type": "composite",
+      "description": "Vertical list with leading/trailing content",
+      "props": ["items", "onItemClick", "selectable"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["item-list", "menu-list", "vertical-items"],
+      "dependencies": ["Stack", "Icon", "Badge"],
+      "examples": [
+        "<List",
+        "  items={[",
+        "    { label: 'Item 1', icon: 'check' },",
+        "    { label: 'Item 2', icon: 'check' }",
+        "  ]}",
+        "/>"
+      ]
+    },
+    "FileInput": {
+      "name": "FileInput",
+      "layer": 4,
+      "type": "composite",
+      "description": "File upload with drag-and-drop",
+      "props": ["accept", "multiple", "onChange", "label"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["file-upload", "attachment", "image-upload"],
+      "dependencies": ["Button", "Icon", "Input"],
+      "examples": [
+        "<FileInput",
+        "  accept=\".pdf,.doc\"",
+        "  onChange={handleFileChange}",
+        "/>"
+      ]
+    },
+    "FileUpload": {
+      "name": "FileUpload",
+      "layer": 4,
+      "type": "composite",
+      "description": "Advanced file upload with progress tracking",
+      "props": ["multiple", "showProgress", "onUpload", "maxSize"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["advanced-upload", "bulk-upload", "progress-upload"],
+      "dependencies": ["FileInput", "ProgressBar", "Stack"],
+      "examples": [
+        "<FileUpload",
+        "  multiple",
+        "  showProgress",
+        "  onUpload={handleUpload}",
+        "/>"
+      ]
+    },
+    "ComboBox": {
+      "name": "ComboBox",
+      "layer": 4,
+      "type": "composite",
+      "description": "Searchable dropdown selection",
+      "props": ["options", "value", "onChange", "searchable", "placeholder"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["searchable-select", "autocomplete", "filterable-dropdown"],
+      "dependencies": ["Input", "Select", "Icon"],
+      "examples": [
+        "<ComboBox",
+        "  options={countries}",
+        "  value={selected}",
+        "  searchable",
+        "/>"
+      ]
+    },
+    "DatePicker": {
+      "name": "DatePicker",
+      "layer": 4,
+      "type": "composite",
+      "description": "Calendar date selection",
+      "props": ["value", "onChange", "format", "minDate", "maxDate"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["date-selection", "calendar", "date-input"],
+      "dependencies": ["Input", "Icon", "Card"],
+      "examples": [
+        "<DatePicker",
+        "  value={selectedDate}",
+        "  onChange={setDate}",
+        "/>"
+      ]
+    },
+    "FilterTag": {
+      "name": "FilterTag",
+      "layer": 4,
+      "type": "composite",
+      "description": "Dismissible filter chips",
+      "props": ["label", "onDismiss", "dismissible"],
+      "imports": "@/design-system/4-composites",
+      "useCases": ["active-filter", "dismissible-tag", "filter-chip"],
+      "dependencies": ["Chip", "Icon"],
+      "examples": [
+        "<FilterTag",
+        "  label=\"Active\"",
+        "  dismissible",
+        "  onDismiss={handleRemove}",
+        "/>"
+      ]
+    },
+    "Button": {
+      "name": "Button",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Primary action component with multiple variants",
+      "props": ["kind", "size", "disabled", "onClick", "children"],
+      "variants": ["brand", "primary", "secondary", "tertiary", "danger"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["action", "submit", "click", "interaction"],
+      "dependencies": [],
+      "examples": [
+        "<Button kind=\"brand\" onClick={handleClick}>",
+        "  Click Me",
+        "</Button>"
+      ]
+    },
+    "IconButton": {
+      "name": "IconButton",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Icon-only button for compact actions",
+      "props": ["icon", "onClick", "size", "kind", "disabled"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["icon-action", "close-button", "menu-toggle"],
+      "dependencies": ["Icon"],
+      "examples": [
+        "<IconButton icon=\"close\" onClick={handleClose} />"
+      ]
+    },
+    "Link": {
+      "name": "Link",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Styled hyperlinks for navigation",
+      "props": ["href", "children", "external", "underline"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["hyperlink", "navigation-link", "anchor"],
+      "dependencies": [],
+      "examples": [
+        "<Link href=\"/page\">Go to Page</Link>"
+      ]
+    },
+    "Input": {
+      "name": "Input",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Text input field with various types",
+      "props": ["type", "label", "placeholder", "value", "onChange", "error", "disabled"],
+      "types": ["text", "email", "password", "number", "tel", "url"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["text-input", "form-field", "data-entry"],
+      "dependencies": [],
+      "examples": [
+        "<Input",
+        "  label=\"Email\"",
+        "  type=\"email\"",
+        "  placeholder=\"you@example.com\"",
+        "/>"
+      ]
+    },
+    "Select": {
+      "name": "Select",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Dropdown selection",
+      "props": ["options", "value", "onChange", "label", "disabled"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["dropdown", "selection", "choose-option"],
+      "dependencies": [],
+      "examples": [
+        "<Select",
+        "  label=\"Country\"",
+        "  options={countries}",
+        "  value={selected}",
+        "/>"
+      ]
+    },
+    "Checkbox": {
+      "name": "Checkbox",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Boolean selection",
+      "props": ["label", "checked", "onChange", "disabled"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["boolean-input", "multi-select", "toggle-option"],
+      "dependencies": [],
+      "examples": [
+        "<Checkbox",
+        "  label=\"Accept terms\"",
+        "  checked={accepted}",
+        "  onChange={setAccepted}",
+        "/>"
+      ]
+    },
+    "Radio": {
+      "name": "Radio",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Single choice from options",
+      "props": ["label", "value", "checked", "onChange", "name"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["single-choice", "exclusive-selection", "option-group"],
+      "dependencies": [],
+      "examples": [
+        "<Radio",
+        "  label=\"Option A\"",
+        "  value=\"a\"",
+        "  checked={value === 'a'}",
+        "/>"
+      ]
+    },
+    "Switch": {
+      "name": "Switch",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Toggle on/off",
+      "props": ["label", "checked", "onChange", "disabled"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["toggle", "enable-disable", "on-off"],
+      "dependencies": [],
+      "examples": [
+        "<Switch",
+        "  label=\"Enable notifications\"",
+        "  checked={enabled}",
+        "  onChange={setEnabled}",
+        "/>"
+      ]
+    },
+    "TextArea": {
+      "name": "TextArea",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Multi-line text input",
+      "props": ["label", "value", "onChange", "rows", "placeholder", "disabled"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["long-text", "multi-line-input", "comments", "description"],
+      "dependencies": [],
+      "examples": [
+        "<TextArea",
+        "  label=\"Comments\"",
+        "  rows={4}",
+        "  placeholder=\"Enter your thoughts...\"",
+        "/>"
+      ]
+    },
+    "Slider": {
+      "name": "Slider",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Range input selector",
+      "props": ["min", "max", "value", "onChange", "step", "label"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["range-selection", "volume-control", "numeric-range"],
+      "dependencies": [],
+      "examples": [
+        "<Slider",
+        "  min={0}",
+        "  max={100}",
+        "  value={volume}",
+        "  onChange={setVolume}",
+        "/>"
+      ]
+    },
+    "Stepper": {
+      "name": "Stepper",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Number input with increment/decrement buttons",
+      "props": ["value", "onChange", "min", "max", "step", "label"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["quantity-input", "number-control", "increment-decrement"],
+      "dependencies": ["IconButton"],
+      "examples": [
+        "<Stepper",
+        "  value={quantity}",
+        "  onChange={setQuantity}",
+        "  min={1}",
+        "/>"
+      ]
+    },
+    "Card": {
+      "name": "Card",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Content container with optional elevation",
+      "props": ["children", "padding", "elevation", "hoverable"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["container", "content-box", "panel", "section"],
+      "dependencies": [],
+      "examples": [
+        "<Card elevation=\"medium\">",
+        "  <Heading level={3}>Title</Heading>",
+        "  <Text>Content...</Text>",
+        "</Card>"
+      ]
+    },
+    "Badge": {
+      "name": "Badge",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Status and categorical labels",
+      "props": ["variant", "children", "size"],
+      "variants": ["success", "warning", "error", "info", "neutral"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["status-label", "tag", "category", "indicator"],
+      "dependencies": [],
+      "examples": [
+        "<Badge variant=\"success\">Active</Badge>"
+      ]
+    },
+    "Chip": {
+      "name": "Chip",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Compact removable tags",
+      "props": ["label", "onRemove", "removable", "icon"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["tag", "removable-label", "filter-chip", "selection"],
+      "dependencies": ["Icon"],
+      "examples": [
+        "<Chip label=\"React\" removable onRemove={handleRemove} />"
+      ]
+    },
+    "Avatar": {
+      "name": "Avatar",
+      "layer": 3,
+      "type": "primitive",
+      "description": "User profile images or initials",
+      "props": ["src", "alt", "initials", "size"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["profile-image", "user-avatar", "account-icon"],
+      "dependencies": [],
+      "examples": [
+        "<Avatar src=\"/user.jpg\" alt=\"John Doe\" />",
+        "<Avatar initials=\"JD\" />"
+      ]
+    },
+    "AlertBadge": {
+      "name": "AlertBadge",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Notification count badge",
+      "props": ["count", "max", "variant"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["notification-count", "unread-badge", "alert-indicator"],
+      "dependencies": [],
+      "examples": [
+        "<AlertBadge count={5} />",
+        "<AlertBadge count={100} max={99} />"
+      ]
+    },
+    "StatusLight": {
+      "name": "StatusLight",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Small colored status indicator dot",
+      "props": ["status", "size"],
+      "statuses": ["online", "offline", "away", "busy"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["online-status", "availability", "connection-status"],
+      "dependencies": [],
+      "examples": [
+        "<StatusLight status=\"online\" />"
+      ]
+    },
+    "Divider": {
+      "name": "Divider",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Visual separator line",
+      "props": ["orientation", "spacing"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["separator", "visual-break", "section-divider"],
+      "dependencies": [],
+      "examples": [
+        "<Divider />",
+        "<Divider orientation=\"vertical\" />"
+      ]
+    },
+    "Heading": {
+      "name": "Heading",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Semantic headings (h1-h6) with consistent sizing",
+      "props": ["level", "children", "variant"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["title", "heading", "section-header"],
+      "dependencies": [],
+      "examples": [
+        "<Heading level={1}>Page Title</Heading>",
+        "<Heading level={3}>Section Title</Heading>"
+      ]
+    },
+    "Text": {
+      "name": "Text",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Body text with variants",
+      "props": ["variant", "children", "size"],
+      "variants": ["body", "caption", "label", "code"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["paragraph", "body-text", "label", "caption"],
+      "dependencies": [],
+      "examples": [
+        "<Text variant=\"body\">Paragraph text</Text>",
+        "<Text variant=\"caption\">Small text</Text>"
+      ]
+    },
+    "Spinner": {
+      "name": "Spinner",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Loading indicator (indeterminate)",
+      "props": ["size", "color"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["loading", "spinner", "waiting", "processing"],
+      "dependencies": [],
+      "examples": [
+        "<Spinner size=\"medium\" />"
+      ]
+    },
+    "ProgressBar": {
+      "name": "ProgressBar",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Progress visualization (determinate)",
+      "props": ["value", "max", "label", "variant"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["progress", "completion", "upload-progress", "loading-bar"],
+      "dependencies": [],
+      "examples": [
+        "<ProgressBar value={75} max={100} />"
+      ]
+    },
+    "Skeleton": {
+      "name": "Skeleton",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Content loading placeholder",
+      "props": ["variant", "width", "height", "count"],
+      "variants": ["text", "circle", "rectangle"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["loading-placeholder", "skeleton-screen", "content-loader"],
+      "dependencies": [],
+      "examples": [
+        "<Skeleton variant=\"text\" count={3} />",
+        "<Skeleton variant=\"circle\" width={40} height={40} />"
+      ]
+    },
+    "Callout": {
+      "name": "Callout",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Inline informational message",
+      "props": ["variant", "children", "icon"],
+      "variants": ["info", "warning", "success", "error"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["info-message", "inline-alert", "notice"],
+      "dependencies": ["Icon"],
+      "examples": [
+        "<Callout variant=\"info\">",
+        "  This is important information.",
+        "</Callout>"
+      ]
+    },
+    "Banner": {
+      "name": "Banner",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Full-width alert banner",
+      "props": ["variant", "children", "onClose", "closable"],
+      "variants": ["info", "warning", "success", "error"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["announcement", "alert-banner", "full-width-message"],
+      "dependencies": ["Icon", "IconButton"],
+      "examples": [
+        "<Banner variant=\"warning\" closable onClose={handleClose}>",
+        "  System maintenance scheduled.",
+        "</Banner>"
+      ]
+    },
+    "Tooltip": {
+      "name": "Tooltip",
+      "layer": 3,
+      "type": "primitive",
+      "description": "Hover information popup",
+      "props": ["content", "children", "placement"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["hover-info", "contextual-help", "hint"],
+      "dependencies": [],
+      "examples": [
+        "<Tooltip content=\"Click to edit\">",
+        "  <IconButton icon=\"edit\" />",
+        "</Tooltip>"
+      ]
+    },
+    "Icon": {
+      "name": "Icon",
+      "layer": 3,
+      "type": "primitive",
+      "description": "SVG icon component with 50+ built-in icons",
+      "props": ["name", "size", "color"],
+      "imports": "@/design-system/3-primitives",
+      "useCases": ["icon", "symbol", "visual-indicator"],
+      "dependencies": [],
+      "iconList": [
+        "search", "user", "users", "settings", "home", "menu", "close",
+        "check", "error", "warning", "info", "help", "add", "edit", "delete",
+        "save", "filter", "refresh", "download", "upload", "share",
+        "arrow-left", "arrow-right", "chevron-down", "chevron-up",
+        "document", "folder", "calendar", "clock", "bell", "mail",
+        "more-horizontal", "more-vertical", "expand", "collapse",
+        "external-link", "copy", "eye", "lock", "star", "heart"
+      ],
+      "examples": [
+        "<Icon name=\"search\" size=\"medium\" />",
+        "<Icon name=\"user\" size=\"large\" />"
+      ]
+    },
+    "Stack": {
+      "name": "Stack",
+      "layer": 2,
+      "type": "utility",
+      "description": "Vertical or horizontal flex layout with consistent spacing",
+      "props": ["direction", "gap", "align", "justify", "children"],
+      "imports": "@/design-system/2-utilities",
+      "useCases": ["vertical-layout", "horizontal-layout", "flex-container"],
+      "dependencies": [],
+      "examples": [
+        "<Stack direction=\"vertical\" gap=\"medium\">",
+        "  <Input label=\"Name\" />",
+        "  <Input label=\"Email\" />",
+        "</Stack>"
+      ]
+    },
+    "Grid": {
+      "name": "Grid",
+      "layer": 2,
+      "type": "utility",
+      "description": "CSS Grid layout with responsive columns",
+      "props": ["columns", "gap", "children"],
+      "imports": "@/design-system/2-utilities",
+      "useCases": ["grid-layout", "card-grid", "multi-column"],
+      "dependencies": [],
+      "examples": [
+        "<Grid columns={3} gap=\"medium\">",
+        "  <Card>Item 1</Card>",
+        "  <Card>Item 2</Card>",
+        "  <Card>Item 3</Card>",
+        "</Grid>"
+      ]
+    },
+    "Inline": {
+      "name": "Inline",
+      "layer": 2,
+      "type": "utility",
+      "description": "Optimized horizontal inline layout",
+      "props": ["gap", "align", "children"],
+      "imports": "@/design-system/2-utilities",
+      "useCases": ["inline-elements", "horizontal-group", "button-group"],
+      "dependencies": [],
+      "examples": [
+        "<Inline gap=\"small\">",
+        "  <Button>Cancel</Button>",
+        "  <Button kind=\"brand\">Save</Button>",
+        "</Inline>"
+      ]
+    },
+    "Container": {
+      "name": "Container",
+      "layer": 2,
+      "type": "utility",
+      "description": "Max-width centering container",
+      "props": ["size", "children"],
+      "sizes": ["small", "medium", "large", "xlarge"],
+      "imports": "@/design-system/2-utilities",
+      "useCases": ["centered-layout", "max-width-container", "content-wrapper"],
+      "dependencies": [],
+      "examples": [
+        "<Container size=\"large\">",
+        "  <Heading>Content</Heading>",
+        "</Container>"
+      ]
+    },
+    "Spacer": {
+      "name": "Spacer",
+      "layer": 2,
+      "type": "utility",
+      "description": "Fixed or flexible spacing element",
+      "props": ["size", "flexible"],
+      "imports": "@/design-system/2-utilities",
+      "useCases": ["spacing", "gap", "push-element"],
+      "dependencies": [],
+      "examples": [
+        "<Spacer size=\"large\" />",
+        "<Spacer flexible />"
+      ]
+    }
+  }
+}
