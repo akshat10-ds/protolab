@@ -54,7 +54,7 @@ import { LayoutsDemo } from './LayoutsDemo';
 const SidebarNav = ({
   links,
   activeSubpage,
-  onSubpageChange
+  onSubpageChange,
 }: {
   links: { id: string; label: string }[];
   activeSubpage: string;
@@ -172,21 +172,40 @@ export default function ComponentShowcase() {
 
   // Map of tab IDs to their subpages
   const tabSubpages: Record<string, string[]> = {
-    'foundation': ['colors', 'typography', 'icons', 'spacing', 'border-radius', 'alias-tokens', 'color-pairing'],
-    'actions': ['button', 'iconbutton', 'combobutton'],
+    foundation: [
+      'colors',
+      'typography',
+      'icons',
+      'spacing',
+      'border-radius',
+      'alias-tokens',
+      'color-pairing',
+    ],
+    actions: ['button', 'iconbutton', 'combobutton'],
     'content-display': ['accordion', 'avatar', 'card'],
-    'forms-inputs': ['checkbox', 'combobox', 'fileinput', 'radio', 'searchinput', 'select', 'slider', 'switch', 'textarea', 'input'],
+    'forms-inputs': [
+      'checkbox',
+      'combobox',
+      'fileinput',
+      'radio',
+      'searchinput',
+      'select',
+      'slider',
+      'switch',
+      'textarea',
+      'input',
+    ],
     'lists-tables': ['table', 'badge', 'alert-badge', 'chip', 'statuslight'],
     'loading-status': ['spinner', 'stepper'],
-    'feedback': ['alert'],
-    'navigational': ['breadcrumb', 'link', 'pagination', 'tabs'],
-    'menus': ['dropdown'],
-    'popovers': ['modal', 'tooltip'],
+    feedback: ['alert'],
+    navigational: ['breadcrumb', 'link', 'pagination', 'tabs'],
+    menus: ['dropdown'],
+    popovers: ['modal', 'tooltip'],
   };
 
   // Sidebar links mapping
   const sidebarLinks: Record<string, { id: string; label: string }[]> = {
-    'foundation': [
+    foundation: [
       { id: 'colors', label: 'Colors' },
       { id: 'color-pairing', label: 'Color Pairing Rules' },
       { id: 'typography', label: 'Typography' },
@@ -195,7 +214,7 @@ export default function ComponentShowcase() {
       { id: 'border-radius', label: 'Border & Radius' },
       { id: 'alias-tokens', label: 'Alias Tokens' },
     ],
-    'actions': [
+    actions: [
       { id: 'button', label: 'Button' },
       { id: 'iconbutton', label: 'IconButton' },
       { id: 'combobutton', label: 'ComboButton' },
@@ -229,21 +248,19 @@ export default function ComponentShowcase() {
       { id: 'spinner', label: 'Progress Circle' },
       { id: 'stepper', label: 'Progress Stepper' },
     ],
-    'feedback': [
+    feedback: [
       { id: 'alert', label: 'Inline Message' },
       { id: 'banner', label: 'Banner' },
       { id: 'callout', label: 'Callout' },
     ],
-    'navigational': [
+    navigational: [
       { id: 'breadcrumb', label: 'Breadcrumb' },
       { id: 'link', label: 'Link' },
       { id: 'pagination', label: 'Pagination' },
       { id: 'tabs', label: 'Tabs' },
     ],
-    'menus': [
-      { id: 'dropdown', label: 'Dropdown (Menu)' },
-    ],
-    'popovers': [
+    menus: [{ id: 'dropdown', label: 'Dropdown (Menu)' }],
+    popovers: [
       { id: 'modal', label: 'Modal' },
       { id: 'tooltip', label: 'Tooltip' },
     ],
@@ -330,10 +347,8 @@ export default function ComponentShowcase() {
       key: 'status',
       header: 'Status',
       render: (value) => (
-        <Badge variant={value === 'Active' ? 'success' : 'warning'}>
-          {value}
-        </Badge>
-      )
+        <Badge variant={value === 'Active' ? 'success' : 'warning'}>{value}</Badge>
+      ),
     },
   ];
 
@@ -591,7 +606,8 @@ export default function ComponentShowcase() {
       <div>
         <Heading level={3}>Official Ink Design System Color Primitives</Heading>
         <Text color="secondary" size="sm">
-          Ink uses two color categories: <strong>Semantic colors</strong> for UI elements and <strong>Extended colors</strong> for data visualization and accents
+          Ink uses two color categories: <strong>Semantic colors</strong> for UI elements and{' '}
+          <strong>Extended colors</strong> for data visualization and accents
         </Text>
       </div>
 
@@ -609,7 +625,10 @@ export default function ComponentShowcase() {
         {/* Semantic Cobalt */}
         <Stack gap="medium">
           <Heading level={4}>Semantic Cobalt</Heading>
-          <Text size="sm" color="secondary">Primary brand color - Cobalt 100 (#4c00fb) is the signature Ink Cobalt used for brand actions</Text>
+          <Text size="sm" color="secondary">
+            Primary brand color - Cobalt 100 (#4c00fb) is the signature Ink Cobalt used for brand
+            actions
+          </Text>
           <Grid columns={5} gap="medium">
             {colors.semantic.cobalt.map((color) => (
               <div key={color.name}>
@@ -622,9 +641,15 @@ export default function ComponentShowcase() {
                     marginBottom: '8px',
                   }}
                 />
-                <Text size="sm" weight="medium">{color.name}</Text>
-                <Text size="xs" color="secondary">{color.value}</Text>
-                <Text size="xs" color="tertiary">{color.description}</Text>
+                <Text size="sm" weight="medium">
+                  {color.name}
+                </Text>
+                <Text size="xs" color="secondary">
+                  {color.value}
+                </Text>
+                <Text size="xs" color="tertiary">
+                  {color.description}
+                </Text>
               </div>
             ))}
           </Grid>
@@ -633,7 +658,9 @@ export default function ComponentShowcase() {
         {/* Semantic Neutral */}
         <Stack gap="medium">
           <Heading level={4}>Semantic Neutral</Heading>
-          <Text size="sm" color="secondary">Core grays for text, borders, backgrounds, and UI structure</Text>
+          <Text size="sm" color="secondary">
+            Core grays for text, borders, backgrounds, and UI structure
+          </Text>
           <Grid columns={5} gap="medium">
             {colors.semantic.neutral.map((color) => (
               <div key={color.name}>
@@ -646,9 +673,15 @@ export default function ComponentShowcase() {
                     marginBottom: '8px',
                   }}
                 />
-                <Text size="sm" weight="medium">{color.name}</Text>
-                <Text size="xs" color="secondary">{color.value}</Text>
-                <Text size="xs" color="tertiary">{color.description}</Text>
+                <Text size="sm" weight="medium">
+                  {color.name}
+                </Text>
+                <Text size="xs" color="secondary">
+                  {color.value}
+                </Text>
+                <Text size="xs" color="tertiary">
+                  {color.description}
+                </Text>
               </div>
             ))}
           </Grid>
@@ -657,7 +690,9 @@ export default function ComponentShowcase() {
         {/* Semantic Green */}
         <Stack gap="medium">
           <Heading level={4}>Semantic Green</Heading>
-          <Text size="sm" color="secondary">Success states, confirmations, and positive feedback</Text>
+          <Text size="sm" color="secondary">
+            Success states, confirmations, and positive feedback
+          </Text>
           <Grid columns={5} gap="medium">
             {colors.semantic.green.map((color) => (
               <div key={color.name}>
@@ -670,9 +705,15 @@ export default function ComponentShowcase() {
                     marginBottom: '8px',
                   }}
                 />
-                <Text size="sm" weight="medium">{color.name}</Text>
-                <Text size="xs" color="secondary">{color.value}</Text>
-                <Text size="xs" color="tertiary">{color.description}</Text>
+                <Text size="sm" weight="medium">
+                  {color.name}
+                </Text>
+                <Text size="xs" color="secondary">
+                  {color.value}
+                </Text>
+                <Text size="xs" color="tertiary">
+                  {color.description}
+                </Text>
               </div>
             ))}
           </Grid>
@@ -681,7 +722,9 @@ export default function ComponentShowcase() {
         {/* Semantic Red */}
         <Stack gap="medium">
           <Heading level={4}>Semantic Red</Heading>
-          <Text size="sm" color="secondary">Errors, destructive actions, and critical alerts</Text>
+          <Text size="sm" color="secondary">
+            Errors, destructive actions, and critical alerts
+          </Text>
           <Grid columns={5} gap="medium">
             {colors.semantic.red.map((color) => (
               <div key={color.name}>
@@ -694,9 +737,15 @@ export default function ComponentShowcase() {
                     marginBottom: '8px',
                   }}
                 />
-                <Text size="sm" weight="medium">{color.name}</Text>
-                <Text size="xs" color="secondary">{color.value}</Text>
-                <Text size="xs" color="tertiary">{color.description}</Text>
+                <Text size="sm" weight="medium">
+                  {color.name}
+                </Text>
+                <Text size="xs" color="secondary">
+                  {color.value}
+                </Text>
+                <Text size="xs" color="tertiary">
+                  {color.description}
+                </Text>
               </div>
             ))}
           </Grid>
@@ -705,7 +754,9 @@ export default function ComponentShowcase() {
         {/* Semantic Orange */}
         <Stack gap="medium">
           <Heading level={4}>Semantic Orange</Heading>
-          <Text size="sm" color="secondary">Warnings, notifications, and attention states</Text>
+          <Text size="sm" color="secondary">
+            Warnings, notifications, and attention states
+          </Text>
           <Grid columns={5} gap="medium">
             {colors.semantic.orange.map((color) => (
               <div key={color.name}>
@@ -718,9 +769,15 @@ export default function ComponentShowcase() {
                     marginBottom: '8px',
                   }}
                 />
-                <Text size="sm" weight="medium">{color.name}</Text>
-                <Text size="xs" color="secondary">{color.value}</Text>
-                <Text size="xs" color="tertiary">{color.description}</Text>
+                <Text size="sm" weight="medium">
+                  {color.name}
+                </Text>
+                <Text size="xs" color="secondary">
+                  {color.value}
+                </Text>
+                <Text size="xs" color="tertiary">
+                  {color.description}
+                </Text>
               </div>
             ))}
           </Grid>
@@ -729,7 +786,9 @@ export default function ComponentShowcase() {
         {/* Semantic Ecru */}
         <Stack gap="medium">
           <Heading level={4}>Semantic Ecru</Heading>
-          <Text size="sm" color="secondary">Warm tinted grays for subtle, sophisticated backgrounds</Text>
+          <Text size="sm" color="secondary">
+            Warm tinted grays for subtle, sophisticated backgrounds
+          </Text>
           <Grid columns={5} gap="medium">
             {colors.semantic.ecru.map((color) => (
               <div key={color.name}>
@@ -742,9 +801,15 @@ export default function ComponentShowcase() {
                     marginBottom: '8px',
                   }}
                 />
-                <Text size="sm" weight="medium">{color.name}</Text>
-                <Text size="xs" color="secondary">{color.value}</Text>
-                <Text size="xs" color="tertiary">{color.description}</Text>
+                <Text size="sm" weight="medium">
+                  {color.name}
+                </Text>
+                <Text size="xs" color="secondary">
+                  {color.value}
+                </Text>
+                <Text size="xs" color="tertiary">
+                  {color.description}
+                </Text>
               </div>
             ))}
           </Grid>
@@ -753,7 +818,9 @@ export default function ComponentShowcase() {
         {/* Semantic Base Colors */}
         <Stack gap="medium">
           <Heading level={4}>Semantic Base Colors</Heading>
-          <Text size="sm" color="secondary">Fundamental black and white values</Text>
+          <Text size="sm" color="secondary">
+            Fundamental black and white values
+          </Text>
           <Grid columns={5} gap="medium">
             {colors.semantic.base.map((color) => (
               <div key={color.name}>
@@ -766,9 +833,15 @@ export default function ComponentShowcase() {
                     marginBottom: '8px',
                   }}
                 />
-                <Text size="sm" weight="medium">{color.name}</Text>
-                <Text size="xs" color="secondary">{color.value}</Text>
-                <Text size="xs" color="tertiary">{color.description}</Text>
+                <Text size="sm" weight="medium">
+                  {color.name}
+                </Text>
+                <Text size="xs" color="secondary">
+                  {color.value}
+                </Text>
+                <Text size="xs" color="tertiary">
+                  {color.description}
+                </Text>
               </div>
             ))}
           </Grid>
@@ -789,7 +862,9 @@ export default function ComponentShowcase() {
         {/* Accent Cyan */}
         <Stack gap="medium">
           <Heading level={4}>Accent Cyan</Heading>
-          <Text size="sm" color="secondary">Cyan-blue for data visualization and fresh accents</Text>
+          <Text size="sm" color="secondary">
+            Cyan-blue for data visualization and fresh accents
+          </Text>
           <Grid columns={5} gap="medium">
             {colors.accent.cyan.map((color) => (
               <div key={color.name}>
@@ -802,8 +877,12 @@ export default function ComponentShowcase() {
                     marginBottom: '8px',
                   }}
                 />
-                <Text size="sm" weight="medium">{color.name}</Text>
-                <Text size="xs" color="secondary">{color.value}</Text>
+                <Text size="sm" weight="medium">
+                  {color.name}
+                </Text>
+                <Text size="xs" color="secondary">
+                  {color.value}
+                </Text>
               </div>
             ))}
           </Grid>
@@ -812,7 +891,9 @@ export default function ComponentShowcase() {
         {/* Accent Purple */}
         <Stack gap="medium">
           <Heading level={4}>Accent Purple</Heading>
-          <Text size="sm" color="secondary">Rich purple for creative and sophisticated elements</Text>
+          <Text size="sm" color="secondary">
+            Rich purple for creative and sophisticated elements
+          </Text>
           <Grid columns={5} gap="medium">
             {colors.accent.purple.map((color) => (
               <div key={color.name}>
@@ -825,8 +906,12 @@ export default function ComponentShowcase() {
                     marginBottom: '8px',
                   }}
                 />
-                <Text size="sm" weight="medium">{color.name}</Text>
-                <Text size="xs" color="secondary">{color.value}</Text>
+                <Text size="sm" weight="medium">
+                  {color.name}
+                </Text>
+                <Text size="xs" color="secondary">
+                  {color.value}
+                </Text>
               </div>
             ))}
           </Grid>
@@ -835,7 +920,9 @@ export default function ComponentShowcase() {
         {/* Accent Fuchsia */}
         <Stack gap="medium">
           <Heading level={4}>Accent Fuchsia</Heading>
-          <Text size="sm" color="secondary">Vibrant pink for attention and energy</Text>
+          <Text size="sm" color="secondary">
+            Vibrant pink for attention and energy
+          </Text>
           <Grid columns={5} gap="medium">
             {colors.accent.fuchsia.map((color) => (
               <div key={color.name}>
@@ -848,8 +935,12 @@ export default function ComponentShowcase() {
                     marginBottom: '8px',
                   }}
                 />
-                <Text size="sm" weight="medium">{color.name}</Text>
-                <Text size="xs" color="secondary">{color.value}</Text>
+                <Text size="sm" weight="medium">
+                  {color.name}
+                </Text>
+                <Text size="xs" color="secondary">
+                  {color.value}
+                </Text>
               </div>
             ))}
           </Grid>
@@ -863,7 +954,8 @@ export default function ComponentShowcase() {
       <div>
         <Heading level={3}>Color Pairing Rules</Heading>
         <Text color="secondary" size="sm">
-          Official guidelines for pairing text colors with background colors. All combinations meet WCAG AA accessibility standards.
+          Official guidelines for pairing text colors with background colors. All combinations meet
+          WCAG AA accessibility standards.
         </Text>
       </div>
 
@@ -876,52 +968,71 @@ export default function ComponentShowcase() {
             <div>
               <Heading level={4}>Rule 1: Light Backgrounds → Dark Text</Heading>
               <Text size="sm" color="secondary">
-                Use <code>--ink-font-default</code> or <code>--ink-font-neutral</code> on light backgrounds
+                Use <code>--ink-font-default</code> or <code>--ink-font-neutral</code> on light
+                backgrounds
               </Text>
             </div>
 
             <Grid columns={3} gap="medium">
               <Stack gap="small">
-                <Text weight="medium" size="sm">Default Background</Text>
-                <div style={{
-                  backgroundColor: 'var(--ink-white-100)',
-                  border: '1px solid var(--ink-neutral-20)',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  color: 'var(--ink-font-default)'
-                }}>
+                <Text weight="medium" size="sm">
+                  Default Background
+                </Text>
+                <div
+                  style={{
+                    backgroundColor: 'var(--ink-white-100)',
+                    border: '1px solid var(--ink-neutral-20)',
+                    borderRadius: '8px',
+                    padding: '24px',
+                    color: 'var(--ink-font-default)',
+                  }}
+                >
                   <Text>Primary text</Text>
                   <Text color="secondary">Secondary text</Text>
                 </div>
-                <Text size="xs" color="tertiary">bg: white-100 → text: font-default</Text>
+                <Text size="xs" color="tertiary">
+                  bg: white-100 → text: font-default
+                </Text>
               </Stack>
 
               <Stack gap="small">
-                <Text weight="medium" size="sm">Neutral Light</Text>
-                <div style={{
-                  backgroundColor: 'var(--ink-neutral-10)',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  color: 'var(--ink-font-default)'
-                }}>
+                <Text weight="medium" size="sm">
+                  Neutral Light
+                </Text>
+                <div
+                  style={{
+                    backgroundColor: 'var(--ink-neutral-10)',
+                    borderRadius: '8px',
+                    padding: '24px',
+                    color: 'var(--ink-font-default)',
+                  }}
+                >
                   <Text>Primary text</Text>
                   <Text color="secondary">Secondary text</Text>
                 </div>
-                <Text size="xs" color="tertiary">bg: neutral-10 → text: font-default</Text>
+                <Text size="xs" color="tertiary">
+                  bg: neutral-10 → text: font-default
+                </Text>
               </Stack>
 
               <Stack gap="small">
-                <Text weight="medium" size="sm">Subtle Accent</Text>
-                <div style={{
-                  backgroundColor: 'var(--ink-cobalt-10)',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  color: 'var(--ink-font-default)'
-                }}>
+                <Text weight="medium" size="sm">
+                  Subtle Accent
+                </Text>
+                <div
+                  style={{
+                    backgroundColor: 'var(--ink-cobalt-10)',
+                    borderRadius: '8px',
+                    padding: '24px',
+                    color: 'var(--ink-font-default)',
+                  }}
+                >
                   <Text>Primary text</Text>
                   <Text color="secondary">Secondary text</Text>
                 </div>
-                <Text size="xs" color="tertiary">bg: cobalt-10 → text: font-default</Text>
+                <Text size="xs" color="tertiary">
+                  bg: cobalt-10 → text: font-default
+                </Text>
               </Stack>
             </Grid>
           </Stack>
@@ -935,48 +1046,67 @@ export default function ComponentShowcase() {
             <div>
               <Heading level={4}>Rule 2: Dark Backgrounds → White Text</Heading>
               <Text size="sm" color="secondary">
-                ALWAYS use <code>--ink-font-inverse</code> (white) on dark backgrounds (100+ level colors)
+                ALWAYS use <code>--ink-font-inverse</code> (white) on dark backgrounds (100+ level
+                colors)
               </Text>
             </div>
 
             <Grid columns={3} gap="medium">
               <Stack gap="small">
-                <Text weight="medium" size="sm">Accent Background</Text>
-                <div style={{
-                  backgroundColor: 'var(--ink-cobalt-100)',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  color: 'var(--ink-font-inverse)'
-                }}>
+                <Text weight="medium" size="sm">
+                  Accent Background
+                </Text>
+                <div
+                  style={{
+                    backgroundColor: 'var(--ink-cobalt-100)',
+                    borderRadius: '8px',
+                    padding: '24px',
+                    color: 'var(--ink-font-inverse)',
+                  }}
+                >
                   <Text style={{ color: 'var(--ink-font-inverse)' }}>White text on cobalt</Text>
                 </div>
-                <Text size="xs" color="tertiary">bg: cobalt-100 → text: font-inverse</Text>
+                <Text size="xs" color="tertiary">
+                  bg: cobalt-100 → text: font-inverse
+                </Text>
               </Stack>
 
               <Stack gap="small">
-                <Text weight="medium" size="sm">Brand Background</Text>
-                <div style={{
-                  backgroundColor: 'var(--ink-purple-100)',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  color: 'var(--ink-font-inverse)'
-                }}>
+                <Text weight="medium" size="sm">
+                  Brand Background
+                </Text>
+                <div
+                  style={{
+                    backgroundColor: 'var(--ink-purple-100)',
+                    borderRadius: '8px',
+                    padding: '24px',
+                    color: 'var(--ink-font-inverse)',
+                  }}
+                >
                   <Text style={{ color: 'var(--ink-font-inverse)' }}>White text on purple</Text>
                 </div>
-                <Text size="xs" color="tertiary">bg: purple-100 → text: font-inverse</Text>
+                <Text size="xs" color="tertiary">
+                  bg: purple-100 → text: font-inverse
+                </Text>
               </Stack>
 
               <Stack gap="small">
-                <Text weight="medium" size="sm">Neutral Dark</Text>
-                <div style={{
-                  backgroundColor: 'var(--ink-neutral-100)',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  color: 'var(--ink-font-inverse)'
-                }}>
+                <Text weight="medium" size="sm">
+                  Neutral Dark
+                </Text>
+                <div
+                  style={{
+                    backgroundColor: 'var(--ink-neutral-100)',
+                    borderRadius: '8px',
+                    padding: '24px',
+                    color: 'var(--ink-font-inverse)',
+                  }}
+                >
                   <Text style={{ color: 'var(--ink-font-inverse)' }}>White text on neutral</Text>
                 </div>
-                <Text size="xs" color="tertiary">bg: neutral-100 → text: font-inverse</Text>
+                <Text size="xs" color="tertiary">
+                  bg: neutral-100 → text: font-inverse
+                </Text>
               </Stack>
             </Grid>
           </Stack>
@@ -997,22 +1127,28 @@ export default function ComponentShowcase() {
             <Grid columns={2} gap="medium">
               {/* Success */}
               <Stack gap="small">
-                <Text weight="medium" size="sm">Success States</Text>
+                <Text weight="medium" size="sm">
+                  Success States
+                </Text>
                 <Stack gap="xsmall">
-                  <div style={{
-                    backgroundColor: 'var(--ink-green-100)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-font-inverse)'
-                  }}>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-green-100)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-font-inverse)',
+                    }}
+                  >
                     <Text style={{ color: 'var(--ink-font-inverse)' }}>✓ Success (Dark)</Text>
                   </div>
-                  <div style={{
-                    backgroundColor: 'var(--ink-green-10)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-font-success)'
-                  }}>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-green-10)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-font-success)',
+                    }}
+                  >
                     <Text style={{ color: 'var(--ink-font-success)' }}>✓ Success (Light)</Text>
                   </div>
                 </Stack>
@@ -1020,22 +1156,28 @@ export default function ComponentShowcase() {
 
               {/* Error */}
               <Stack gap="small">
-                <Text weight="medium" size="sm">Error States</Text>
+                <Text weight="medium" size="sm">
+                  Error States
+                </Text>
                 <Stack gap="xsmall">
-                  <div style={{
-                    backgroundColor: 'var(--ink-red-100)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-font-inverse)'
-                  }}>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-red-100)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-font-inverse)',
+                    }}
+                  >
                     <Text style={{ color: 'var(--ink-font-inverse)' }}>✕ Error (Dark)</Text>
                   </div>
-                  <div style={{
-                    backgroundColor: 'var(--ink-red-10)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-font-error)'
-                  }}>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-red-10)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-font-error)',
+                    }}
+                  >
                     <Text style={{ color: 'var(--ink-font-error)' }}>✕ Error (Light)</Text>
                   </div>
                 </Stack>
@@ -1043,22 +1185,28 @@ export default function ComponentShowcase() {
 
               {/* Warning */}
               <Stack gap="small">
-                <Text weight="medium" size="sm">Warning States</Text>
+                <Text weight="medium" size="sm">
+                  Warning States
+                </Text>
                 <Stack gap="xsmall">
-                  <div style={{
-                    backgroundColor: 'var(--ink-orange-100)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-font-inverse)'
-                  }}>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-orange-100)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-font-inverse)',
+                    }}
+                  >
                     <Text style={{ color: 'var(--ink-font-inverse)' }}>⚠ Warning (Dark)</Text>
                   </div>
-                  <div style={{
-                    backgroundColor: 'var(--ink-orange-10)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-font-warning)'
-                  }}>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-orange-10)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-font-warning)',
+                    }}
+                  >
                     <Text style={{ color: 'var(--ink-font-warning)' }}>⚠ Warning (Light)</Text>
                   </div>
                 </Stack>
@@ -1066,22 +1214,28 @@ export default function ComponentShowcase() {
 
               {/* Info */}
               <Stack gap="small">
-                <Text weight="medium" size="sm">Info States</Text>
+                <Text weight="medium" size="sm">
+                  Info States
+                </Text>
                 <Stack gap="xsmall">
-                  <div style={{
-                    backgroundColor: 'var(--ink-cobalt-100)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-font-inverse)'
-                  }}>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-cobalt-100)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-font-inverse)',
+                    }}
+                  >
                     <Text style={{ color: 'var(--ink-font-inverse)' }}>ℹ Info (Dark)</Text>
                   </div>
-                  <div style={{
-                    backgroundColor: 'var(--ink-cobalt-10)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-font-accent)'
-                  }}>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-cobalt-10)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-font-accent)',
+                    }}
+                  >
                     <Text style={{ color: 'var(--ink-font-accent)' }}>ℹ Info (Light)</Text>
                   </div>
                 </Stack>
@@ -1099,19 +1253,39 @@ export default function ComponentShowcase() {
 
             <Grid columns={2} gap="medium">
               <Stack gap="xsmall">
-                <Text weight="semibold" size="sm">Primary Text Colors</Text>
-                <Text size="sm">• <code>--ink-font-default</code>: Main text on light backgrounds</Text>
-                <Text size="sm">• <code>--ink-font-inverse</code>: Text on dark backgrounds</Text>
-                <Text size="sm">• <code>--ink-font-neutral</code>: Secondary/muted text</Text>
-                <Text size="sm">• <code>--ink-font-accent</code>: Accent/brand text</Text>
+                <Text weight="semibold" size="sm">
+                  Primary Text Colors
+                </Text>
+                <Text size="sm">
+                  • <code>--ink-font-default</code>: Main text on light backgrounds
+                </Text>
+                <Text size="sm">
+                  • <code>--ink-font-inverse</code>: Text on dark backgrounds
+                </Text>
+                <Text size="sm">
+                  • <code>--ink-font-neutral</code>: Secondary/muted text
+                </Text>
+                <Text size="sm">
+                  • <code>--ink-font-accent</code>: Accent/brand text
+                </Text>
               </Stack>
 
               <Stack gap="xsmall">
-                <Text weight="semibold" size="sm">Status Text Colors</Text>
-                <Text size="sm">• <code>--ink-font-success</code>: Success messages</Text>
-                <Text size="sm">• <code>--ink-font-error</code>: Error messages</Text>
-                <Text size="sm">• <code>--ink-font-warning</code>: Warning messages</Text>
-                <Text size="sm">• <code>--ink-font-disabled</code>: Disabled state</Text>
+                <Text weight="semibold" size="sm">
+                  Status Text Colors
+                </Text>
+                <Text size="sm">
+                  • <code>--ink-font-success</code>: Success messages
+                </Text>
+                <Text size="sm">
+                  • <code>--ink-font-error</code>: Error messages
+                </Text>
+                <Text size="sm">
+                  • <code>--ink-font-warning</code>: Warning messages
+                </Text>
+                <Text size="sm">
+                  • <code>--ink-font-disabled</code>: Disabled state
+                </Text>
               </Stack>
             </Grid>
           </Stack>
@@ -1126,55 +1300,81 @@ export default function ComponentShowcase() {
 
             <Grid columns={2} gap="large">
               <Stack gap="medium">
-                <Text weight="semibold" size="sm" style={{ color: 'var(--ink-red-100)' }}>❌ DON'T</Text>
+                <Text weight="semibold" size="sm" style={{ color: 'var(--ink-red-100)' }}>
+                  ❌ DON'T
+                </Text>
                 <Stack gap="small">
-                  <div style={{
-                    backgroundColor: 'var(--ink-cobalt-100)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-font-default)',
-                    border: '2px solid var(--ink-red-100)'
-                  }}>
-                    <Text style={{ color: 'var(--ink-font-default)' }}>Dark text on dark background</Text>
-                    <Text size="xs" style={{ color: 'var(--ink-font-default)', opacity: 0.7 }}>Poor contrast - unreadable</Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-cobalt-100)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-font-default)',
+                      border: '2px solid var(--ink-red-100)',
+                    }}
+                  >
+                    <Text style={{ color: 'var(--ink-font-default)' }}>
+                      Dark text on dark background
+                    </Text>
+                    <Text size="xs" style={{ color: 'var(--ink-font-default)', opacity: 0.7 }}>
+                      Poor contrast - unreadable
+                    </Text>
                   </div>
 
-                  <div style={{
-                    backgroundColor: 'var(--ink-cobalt-10)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-white-100)',
-                    border: '2px solid var(--ink-red-100)'
-                  }}>
-                    <Text style={{ color: 'var(--ink-white-100)' }}>White text on light background</Text>
-                    <Text size="xs" style={{ color: 'var(--ink-white-100)' }}>Poor contrast - unreadable</Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-cobalt-10)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-white-100)',
+                      border: '2px solid var(--ink-red-100)',
+                    }}
+                  >
+                    <Text style={{ color: 'var(--ink-white-100)' }}>
+                      White text on light background
+                    </Text>
+                    <Text size="xs" style={{ color: 'var(--ink-white-100)' }}>
+                      Poor contrast - unreadable
+                    </Text>
                   </div>
                 </Stack>
               </Stack>
 
               <Stack gap="medium">
-                <Text weight="semibold" size="sm" style={{ color: 'var(--ink-green-100)' }}>✓ DO</Text>
+                <Text weight="semibold" size="sm" style={{ color: 'var(--ink-green-100)' }}>
+                  ✓ DO
+                </Text>
                 <Stack gap="small">
-                  <div style={{
-                    backgroundColor: 'var(--ink-cobalt-100)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-font-inverse)',
-                    border: '2px solid var(--ink-green-100)'
-                  }}>
-                    <Text style={{ color: 'var(--ink-font-inverse)' }}>White text on dark background</Text>
-                    <Text size="xs" style={{ color: 'var(--ink-font-inverse)', opacity: 0.9 }}>Good contrast - readable</Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-cobalt-100)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-font-inverse)',
+                      border: '2px solid var(--ink-green-100)',
+                    }}
+                  >
+                    <Text style={{ color: 'var(--ink-font-inverse)' }}>
+                      White text on dark background
+                    </Text>
+                    <Text size="xs" style={{ color: 'var(--ink-font-inverse)', opacity: 0.9 }}>
+                      Good contrast - readable
+                    </Text>
                   </div>
 
-                  <div style={{
-                    backgroundColor: 'var(--ink-cobalt-10)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    color: 'var(--ink-font-default)',
-                    border: '2px solid var(--ink-green-100)'
-                  }}>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-cobalt-10)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      color: 'var(--ink-font-default)',
+                      border: '2px solid var(--ink-green-100)',
+                    }}
+                  >
                     <Text>Dark text on light background</Text>
-                    <Text size="xs" color="secondary">Good contrast - readable</Text>
+                    <Text size="xs" color="secondary">
+                      Good contrast - readable
+                    </Text>
                   </div>
                 </Stack>
               </Stack>
@@ -1189,11 +1389,12 @@ export default function ComponentShowcase() {
           <Stack gap="small">
             <Heading level={4}>Complete Documentation</Heading>
             <Text size="sm">
-              For the complete color pairing rules including button variants, badges, alerts, and accessibility guidelines,
-              see <code>/src/design-system/COLOR_PAIRING_RULES.md</code>
+              For the complete color pairing rules including button variants, badges, alerts, and
+              accessibility guidelines, see <code>/src/design-system/COLOR_PAIRING_RULES.md</code>
             </Text>
             <Text size="sm" color="secondary">
-              All color pairings in the Ink Design System meet WCAG AA accessibility standards (4.5:1 contrast ratio for normal text, 3:1 for large text).
+              All color pairings in the Ink Design System meet WCAG AA accessibility standards
+              (4.5:1 contrast ratio for normal text, 3:1 for large text).
             </Text>
           </Stack>
         </Card.Body>
@@ -1206,7 +1407,8 @@ export default function ComponentShowcase() {
       <div>
         <Heading level={3}>Official Ink Typography System</Heading>
         <Text color="secondary" size="sm">
-          Ink uses four primary type categories (Display, Heading, Body, Detail) plus specialized component styles
+          Ink uses four primary type categories (Display, Heading, Body, Detail) plus specialized
+          component styles
         </Text>
       </div>
 
@@ -1217,43 +1419,89 @@ export default function ComponentShowcase() {
         <div>
           <Heading level={4}>Display</Heading>
           <Text size="sm" color="secondary">
-            Largest typography for hero sections and marketing content. All use weight 400 with compact letter-spacing.
+            Largest typography for hero sections and marketing content. All use weight 400 with
+            compact letter-spacing.
           </Text>
         </div>
 
         <Stack gap="small">
-          <div style={{ fontSize: '72px', fontWeight: 400, lineHeight: '1.1', letterSpacing: '-0.02em' }}>
+          <div
+            style={{
+              fontSize: '72px',
+              fontWeight: 400,
+              lineHeight: '1.1',
+              letterSpacing: '-0.02em',
+            }}
+          >
             Display XL
           </div>
-          <Text size="xs" color="secondary">fontDisplayXL: 72px / 400 / 1.1 line-height / -0.02em</Text>
+          <Text size="xs" color="secondary">
+            fontDisplayXL: 72px / 400 / 1.1 line-height / -0.02em
+          </Text>
         </Stack>
 
         <Stack gap="small">
-          <div style={{ fontSize: '64px', fontWeight: 400, lineHeight: '1.1', letterSpacing: '-0.02em' }}>
+          <div
+            style={{
+              fontSize: '64px',
+              fontWeight: 400,
+              lineHeight: '1.1',
+              letterSpacing: '-0.02em',
+            }}
+          >
             Display L
           </div>
-          <Text size="xs" color="secondary">fontDisplayL: 64px / 400 / 1.1 line-height / -0.02em</Text>
+          <Text size="xs" color="secondary">
+            fontDisplayL: 64px / 400 / 1.1 line-height / -0.02em
+          </Text>
         </Stack>
 
         <Stack gap="small">
-          <div style={{ fontSize: '56px', fontWeight: 400, lineHeight: '1.1', letterSpacing: '-0.02em' }}>
+          <div
+            style={{
+              fontSize: '56px',
+              fontWeight: 400,
+              lineHeight: '1.1',
+              letterSpacing: '-0.02em',
+            }}
+          >
             Display M
           </div>
-          <Text size="xs" color="secondary">fontDisplayM: 56px / 400 / 1.1 line-height / -0.02em</Text>
+          <Text size="xs" color="secondary">
+            fontDisplayM: 56px / 400 / 1.1 line-height / -0.02em
+          </Text>
         </Stack>
 
         <Stack gap="small">
-          <div style={{ fontSize: '48px', fontWeight: 400, lineHeight: '1.1', letterSpacing: '-0.02em' }}>
+          <div
+            style={{
+              fontSize: '48px',
+              fontWeight: 400,
+              lineHeight: '1.1',
+              letterSpacing: '-0.02em',
+            }}
+          >
             Display S
           </div>
-          <Text size="xs" color="secondary">fontDisplayS: 48px / 400 / 1.1 line-height / -0.02em</Text>
+          <Text size="xs" color="secondary">
+            fontDisplayS: 48px / 400 / 1.1 line-height / -0.02em
+          </Text>
         </Stack>
 
         <Stack gap="small">
-          <div style={{ fontSize: '40px', fontWeight: 400, lineHeight: '1.1', letterSpacing: '-0.02em' }}>
+          <div
+            style={{
+              fontSize: '40px',
+              fontWeight: 400,
+              lineHeight: '1.1',
+              letterSpacing: '-0.02em',
+            }}
+          >
             Display XS
           </div>
-          <Text size="xs" color="secondary">fontDisplayXS: 40px / 400 / 1.1 line-height / -0.02em</Text>
+          <Text size="xs" color="secondary">
+            fontDisplayXS: 40px / 400 / 1.1 line-height / -0.02em
+          </Text>
         </Stack>
       </Stack>
 
@@ -1264,36 +1512,73 @@ export default function ComponentShowcase() {
         <div>
           <Heading level={4}>Heading</Heading>
           <Text size="sm" color="secondary">
-            Section titles and page headings. Uses cozy letter-spacing and small line-height for hierarchy.
+            Section titles and page headings. Uses cozy letter-spacing and small line-height for
+            hierarchy.
           </Text>
         </div>
 
         <Stack gap="small">
-          <div style={{ fontSize: '32px', fontWeight: 400, lineHeight: '1.1', letterSpacing: '0.01em' }}>
+          <div
+            style={{
+              fontSize: '32px',
+              fontWeight: 400,
+              lineHeight: '1.1',
+              letterSpacing: '0.01em',
+            }}
+          >
             Heading M
           </div>
-          <Text size="xs" color="secondary">fontHeadingM: 32px / 400 / 1.1 line-height / 0.01em</Text>
+          <Text size="xs" color="secondary">
+            fontHeadingM: 32px / 400 / 1.1 line-height / 0.01em
+          </Text>
         </Stack>
 
         <Stack gap="small">
-          <div style={{ fontSize: '24px', fontWeight: 400, lineHeight: '1.1', letterSpacing: '0.01em' }}>
+          <div
+            style={{
+              fontSize: '24px',
+              fontWeight: 400,
+              lineHeight: '1.1',
+              letterSpacing: '0.01em',
+            }}
+          >
             Heading S
           </div>
-          <Text size="xs" color="secondary">fontHeadingS: 24px / 400 / 1.1 line-height / 0.01em</Text>
+          <Text size="xs" color="secondary">
+            fontHeadingS: 24px / 400 / 1.1 line-height / 0.01em
+          </Text>
         </Stack>
 
         <Stack gap="small">
-          <div style={{ fontSize: '20px', fontWeight: 500, lineHeight: '1.1', letterSpacing: '0.01em' }}>
+          <div
+            style={{
+              fontSize: '20px',
+              fontWeight: 500,
+              lineHeight: '1.1',
+              letterSpacing: '0.01em',
+            }}
+          >
             Heading XS
           </div>
-          <Text size="xs" color="secondary">fontHeadingXS: 20px / 500 / 1.1 line-height / 0.01em</Text>
+          <Text size="xs" color="secondary">
+            fontHeadingXS: 20px / 500 / 1.1 line-height / 0.01em
+          </Text>
         </Stack>
 
         <Stack gap="small">
-          <div style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.1', letterSpacing: '0.01em' }}>
+          <div
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              lineHeight: '1.1',
+              letterSpacing: '0.01em',
+            }}
+          >
             Heading XXS
           </div>
-          <Text size="xs" color="secondary">fontHeadingXXS: 16px / 500 / 1.1 line-height / 0.01em</Text>
+          <Text size="xs" color="secondary">
+            fontHeadingXXS: 16px / 500 / 1.1 line-height / 0.01em
+          </Text>
         </Stack>
       </Stack>
 
@@ -1312,28 +1597,36 @@ export default function ComponentShowcase() {
           <div style={{ fontSize: '24px', fontWeight: 400, lineHeight: '1.5' }}>
             Body XL - Main content for emphasizing important paragraphs
           </div>
-          <Text size="xs" color="secondary">fontBodyXL: 24px / 400 / 1.5 line-height</Text>
+          <Text size="xs" color="secondary">
+            fontBodyXL: 24px / 400 / 1.5 line-height
+          </Text>
         </Stack>
 
         <Stack gap="small">
           <div style={{ fontSize: '20px', fontWeight: 400, lineHeight: '1.5' }}>
             Body L - Larger content for better readability in spacious layouts
           </div>
-          <Text size="xs" color="secondary">fontBodyL: 20px / 400 / 1.5 line-height</Text>
+          <Text size="xs" color="secondary">
+            fontBodyL: 20px / 400 / 1.5 line-height
+          </Text>
         </Stack>
 
         <Stack gap="small">
           <div style={{ fontSize: '16px', fontWeight: 400, lineHeight: '1.5' }}>
             Body M - Standard body text for most content (Default)
           </div>
-          <Text size="xs" color="secondary">fontBodyM: 16px / 400 / 1.5 line-height</Text>
+          <Text size="xs" color="secondary">
+            fontBodyM: 16px / 400 / 1.5 line-height
+          </Text>
         </Stack>
 
         <Stack gap="small">
           <div style={{ fontSize: '14px', fontWeight: 400, lineHeight: '1.4' }}>
             Body S - Smaller content for compact interfaces and secondary information
           </div>
-          <Text size="xs" color="secondary">fontBodyS: 14px / 400 / 1.4 line-height</Text>
+          <Text size="xs" color="secondary">
+            fontBodyS: 14px / 400 / 1.4 line-height
+          </Text>
         </Stack>
       </Stack>
 
@@ -1344,22 +1637,41 @@ export default function ComponentShowcase() {
         <div>
           <Heading level={4}>Detail</Heading>
           <Text size="sm" color="secondary">
-            Small labels, metadata, and fine print. Uses weight 500 with increased letter-spacing for legibility.
+            Small labels, metadata, and fine print. Uses weight 500 with increased letter-spacing
+            for legibility.
           </Text>
         </div>
 
         <Stack gap="small">
-          <div style={{ fontSize: '12px', fontWeight: 500, lineHeight: '1.5', letterSpacing: '0.02em' }}>
+          <div
+            style={{
+              fontSize: '12px',
+              fontWeight: 500,
+              lineHeight: '1.5',
+              letterSpacing: '0.02em',
+            }}
+          >
             DETAIL S - UPPERCASE LABELS AND METADATA
           </div>
-          <Text size="xs" color="secondary">fontDetailS: 12px / 500 / 1.5 line-height / 0.02em (wide)</Text>
+          <Text size="xs" color="secondary">
+            fontDetailS: 12px / 500 / 1.5 line-height / 0.02em (wide)
+          </Text>
         </Stack>
 
         <Stack gap="small">
-          <div style={{ fontSize: '10px', fontWeight: 500, lineHeight: '1.5', letterSpacing: '0.04em' }}>
+          <div
+            style={{
+              fontSize: '10px',
+              fontWeight: 500,
+              lineHeight: '1.5',
+              letterSpacing: '0.04em',
+            }}
+          >
             DETAIL XS - VERY SMALL LABELS
           </div>
-          <Text size="xs" color="secondary">fontDetailXS: 10px / 500 / 1.5 line-height / 0.04em (open)</Text>
+          <Text size="xs" color="secondary">
+            fontDetailXS: 10px / 500 / 1.5 line-height / 0.04em (open)
+          </Text>
         </Stack>
       </Stack>
 
@@ -1377,34 +1689,34 @@ export default function ComponentShowcase() {
         <Grid columns={2} gap="medium">
           {/* Button */}
           <Stack gap="xsmall">
-            <div style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.5' }}>
-              Button Text
-            </div>
-            <Text size="xs" color="secondary">fontButton: 16px / 500 / 1.5 line-height</Text>
+            <div style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.5' }}>Button Text</div>
+            <Text size="xs" color="secondary">
+              fontButton: 16px / 500 / 1.5 line-height
+            </Text>
           </Stack>
 
           {/* Button S */}
           <Stack gap="xsmall">
-            <div style={{ fontSize: '14px', fontWeight: 500, lineHeight: '1.4' }}>
-              Button Small
-            </div>
-            <Text size="xs" color="secondary">fontButtonS: 14px / 500 / 1.4 line-height</Text>
+            <div style={{ fontSize: '14px', fontWeight: 500, lineHeight: '1.4' }}>Button Small</div>
+            <Text size="xs" color="secondary">
+              fontButtonS: 14px / 500 / 1.4 line-height
+            </Text>
           </Stack>
 
           {/* Tab */}
           <Stack gap="xsmall">
-            <div style={{ fontSize: '14px', fontWeight: 500, lineHeight: '1.4' }}>
-              Tab Label
-            </div>
-            <Text size="xs" color="secondary">fontTab: 14px / 500 / 1.4 line-height</Text>
+            <div style={{ fontSize: '14px', fontWeight: 500, lineHeight: '1.4' }}>Tab Label</div>
+            <Text size="xs" color="secondary">
+              fontTab: 14px / 500 / 1.4 line-height
+            </Text>
           </Stack>
 
           {/* Label */}
           <Stack gap="xsmall">
-            <div style={{ fontSize: '14px', fontWeight: 500, lineHeight: '1.4' }}>
-              Input Label
-            </div>
-            <Text size="xs" color="secondary">fontLabel: 14px / 500 / 1.4 line-height</Text>
+            <div style={{ fontSize: '14px', fontWeight: 500, lineHeight: '1.4' }}>Input Label</div>
+            <Text size="xs" color="secondary">
+              fontLabel: 14px / 500 / 1.4 line-height
+            </Text>
           </Stack>
 
           {/* Label Emphasis */}
@@ -1412,15 +1724,26 @@ export default function ComponentShowcase() {
             <div style={{ fontSize: '14px', fontWeight: 600, lineHeight: '1.4' }}>
               Label Emphasis
             </div>
-            <Text size="xs" color="secondary">fontLabelEmphasis: 14px / 600 / 1.4 line-height</Text>
+            <Text size="xs" color="secondary">
+              fontLabelEmphasis: 14px / 600 / 1.4 line-height
+            </Text>
           </Stack>
 
           {/* Section Headline */}
           <Stack gap="xsmall">
-            <div style={{ fontSize: '12px', fontWeight: 600, lineHeight: '1.5', letterSpacing: '0.02em' }}>
+            <div
+              style={{
+                fontSize: '12px',
+                fontWeight: 600,
+                lineHeight: '1.5',
+                letterSpacing: '0.02em',
+              }}
+            >
               SECTION HEADLINE
             </div>
-            <Text size="xs" color="secondary">fontSectionHeadline: 12px / 600 / 1.5 / 0.8px</Text>
+            <Text size="xs" color="secondary">
+              fontSectionHeadline: 12px / 600 / 1.5 / 0.8px
+            </Text>
           </Stack>
 
           {/* Breadcrumb */}
@@ -1428,7 +1751,9 @@ export default function ComponentShowcase() {
             <div style={{ fontSize: '14px', fontWeight: 400, lineHeight: 'normal' }}>
               Breadcrumb
             </div>
-            <Text size="xs" color="secondary">fontBreadcrumb: 14px / 400 / normal</Text>
+            <Text size="xs" color="secondary">
+              fontBreadcrumb: 14px / 400 / normal
+            </Text>
           </Stack>
 
           {/* Breadcrumb Active */}
@@ -1436,39 +1761,77 @@ export default function ComponentShowcase() {
             <div style={{ fontSize: '14px', fontWeight: 500, lineHeight: 'normal' }}>
               Breadcrumb Active
             </div>
-            <Text size="xs" color="secondary">fontBreadcrumbActive: 14px / 500 / normal</Text>
+            <Text size="xs" color="secondary">
+              fontBreadcrumbActive: 14px / 500 / normal
+            </Text>
           </Stack>
 
           {/* Badge */}
           <Stack gap="xsmall">
-            <div style={{ fontSize: '12px', fontWeight: 500, lineHeight: '1.5', letterSpacing: '0.02em' }}>
+            <div
+              style={{
+                fontSize: '12px',
+                fontWeight: 500,
+                lineHeight: '1.5',
+                letterSpacing: '0.02em',
+              }}
+            >
               BADGE
             </div>
-            <Text size="xs" color="secondary">fontBadge: 12px / 500 / 1.5 / 0.02em</Text>
+            <Text size="xs" color="secondary">
+              fontBadge: 12px / 500 / 1.5 / 0.02em
+            </Text>
           </Stack>
 
           {/* Avatar Group */}
           <Stack gap="xsmall">
-            <div style={{ fontSize: '12px', fontWeight: 500, lineHeight: '1.5', letterSpacing: '0.02em' }}>
+            <div
+              style={{
+                fontSize: '12px',
+                fontWeight: 500,
+                lineHeight: '1.5',
+                letterSpacing: '0.02em',
+              }}
+            >
               AV
             </div>
-            <Text size="xs" color="secondary">fontAvatarGroup: 12px / 500 / 1.5 / 0.02em</Text>
+            <Text size="xs" color="secondary">
+              fontAvatarGroup: 12px / 500 / 1.5 / 0.02em
+            </Text>
           </Stack>
 
           {/* Link */}
           <Stack gap="xsmall">
-            <div style={{ fontSize: '16px', fontWeight: 400, lineHeight: '1.5', textDecoration: 'underline' }}>
+            <div
+              style={{
+                fontSize: '16px',
+                fontWeight: 400,
+                lineHeight: '1.5',
+                textDecoration: 'underline',
+              }}
+            >
               Link Text
             </div>
-            <Text size="xs" color="secondary">fontLink: 16px / 400 / 1.5 / underline</Text>
+            <Text size="xs" color="secondary">
+              fontLink: 16px / 400 / 1.5 / underline
+            </Text>
           </Stack>
 
           {/* Link S */}
           <Stack gap="xsmall">
-            <div style={{ fontSize: '14px', fontWeight: 400, lineHeight: '1.4', textDecoration: 'underline' }}>
+            <div
+              style={{
+                fontSize: '14px',
+                fontWeight: 400,
+                lineHeight: '1.4',
+                textDecoration: 'underline',
+              }}
+            >
               Link Small
             </div>
-            <Text size="xs" color="secondary">fontLinkS: 14px / 400 / 1.4 / underline</Text>
+            <Text size="xs" color="secondary">
+              fontLinkS: 14px / 400 / 1.4 / underline
+            </Text>
           </Stack>
         </Grid>
       </Stack>
@@ -1480,7 +1843,8 @@ export default function ComponentShowcase() {
       <div>
         <Heading level={3}>Official Ink Icon System</Heading>
         <Text color="secondary" size="sm">
-          System icons from @ds/icons - monochromatic SVG icons with consistent sizing and line weight. All icons use a 24x24 viewBox.
+          System icons from @ds/icons - monochromatic SVG icons with consistent sizing and line
+          weight. All icons use a 24x24 viewBox.
         </Text>
       </div>
 
@@ -1497,83 +1861,113 @@ export default function ComponentShowcase() {
 
         <Grid columns={5} gap="large">
           <Stack gap="small" align="center">
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '60px',
-              width: '60px',
-              border: '1px solid var(--ink-neutral-20)',
-              borderRadius: '8px'
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '60px',
+                width: '60px',
+                border: '1px solid var(--ink-neutral-20)',
+                borderRadius: '8px',
+              }}
+            >
               <Icon name="check-circle" size="xsmall" />
             </div>
-            <Text size="sm" weight="medium">XSmall</Text>
-            <Text size="xs" color="secondary">16px × 16px</Text>
+            <Text size="sm" weight="medium">
+              XSmall
+            </Text>
+            <Text size="xs" color="secondary">
+              16px × 16px
+            </Text>
           </Stack>
 
           <Stack gap="small" align="center">
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '60px',
-              width: '60px',
-              border: '1px solid var(--ink-neutral-20)',
-              borderRadius: '8px'
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '60px',
+                width: '60px',
+                border: '1px solid var(--ink-neutral-20)',
+                borderRadius: '8px',
+              }}
+            >
               <Icon name="check-circle" size="small" />
             </div>
-            <Text size="sm" weight="medium">Small</Text>
-            <Text size="xs" color="secondary">20px × 20px</Text>
+            <Text size="sm" weight="medium">
+              Small
+            </Text>
+            <Text size="xs" color="secondary">
+              20px × 20px
+            </Text>
           </Stack>
 
           <Stack gap="small" align="center">
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '60px',
-              width: '60px',
-              border: '1px solid var(--ink-neutral-20)',
-              borderRadius: '8px'
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '60px',
+                width: '60px',
+                border: '1px solid var(--ink-neutral-20)',
+                borderRadius: '8px',
+              }}
+            >
               <Icon name="check-circle" size="medium" />
             </div>
-            <Text size="sm" weight="medium">Medium</Text>
-            <Text size="xs" color="secondary">24px × 24px (Default)</Text>
+            <Text size="sm" weight="medium">
+              Medium
+            </Text>
+            <Text size="xs" color="secondary">
+              24px × 24px (Default)
+            </Text>
           </Stack>
 
           <Stack gap="small" align="center">
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '60px',
-              width: '60px',
-              border: '1px solid var(--ink-neutral-20)',
-              borderRadius: '8px'
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '60px',
+                width: '60px',
+                border: '1px solid var(--ink-neutral-20)',
+                borderRadius: '8px',
+              }}
+            >
               <Icon name="check-circle" size="large" />
             </div>
-            <Text size="sm" weight="medium">Large</Text>
-            <Text size="xs" color="secondary">32px × 32px</Text>
+            <Text size="sm" weight="medium">
+              Large
+            </Text>
+            <Text size="xs" color="secondary">
+              32px × 32px
+            </Text>
           </Stack>
 
           <Stack gap="small" align="center">
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '60px',
-              width: '60px',
-              border: '1px solid var(--ink-neutral-20)',
-              borderRadius: '8px'
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '60px',
+                width: '60px',
+                border: '1px solid var(--ink-neutral-20)',
+                borderRadius: '8px',
+              }}
+            >
               <Icon name="check-circle" size="xlarge" />
             </div>
-            <Text size="sm" weight="medium">XLarge</Text>
-            <Text size="xs" color="secondary">40px × 40px</Text>
+            <Text size="sm" weight="medium">
+              XLarge
+            </Text>
+            <Text size="xs" color="secondary">
+              40px × 40px
+            </Text>
           </Stack>
         </Grid>
       </Stack>
@@ -1587,16 +1981,19 @@ export default function ComponentShowcase() {
             <div>
               <Heading level={4}>Available Icons</Heading>
               <Text size="sm" color="secondary">
-                {Object.keys(iconPaths).length} icons extracted from the official @ds/icons package. All icons are monochromatic and designed for UI use.
+                {Object.keys(iconPaths).length} icons extracted from the official @ds/icons package.
+                All icons are monochromatic and designed for UI use.
               </Text>
             </div>
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))',
-              gap: 'var(--ink-spacing-3)',
-              width: '100%'
-            }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))',
+                gap: 'var(--ink-spacing-3)',
+                width: '100%',
+              }}
+            >
               {iconNames.map((iconName) => (
                 <div
                   key={iconName}
@@ -1611,7 +2008,7 @@ export default function ComponentShowcase() {
                     transition: 'all 0.2s ease',
                     cursor: 'pointer',
                     minHeight: '90px',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderColor = 'var(--ink-neutral-30)';
@@ -1623,11 +2020,16 @@ export default function ComponentShowcase() {
                   }}
                 >
                   <Icon name={iconName} size="medium" />
-                  <Text size="xs" color="secondary" align="center" style={{
-                    wordBreak: 'break-word',
-                    lineHeight: '1.3',
-                    width: '100%'
-                  }}>
+                  <Text
+                    size="xs"
+                    color="secondary"
+                    align="center"
+                    style={{
+                      wordBreak: 'break-word',
+                      lineHeight: '1.3',
+                      width: '100%',
+                    }}
+                  >
                     {iconName}
                   </Text>
                 </div>
@@ -1644,7 +2046,8 @@ export default function ComponentShowcase() {
       <div>
         <Heading level={3}>Official Ink Spacing System</Heading>
         <Text color="secondary" size="sm">
-          Consistent spacing tokens using the spacingGap scale. Based on an 8px grid system with additional values for fine-tuning.
+          Consistent spacing tokens using the spacingGap scale. Based on an 8px grid system with
+          additional values for fine-tuning.
         </Text>
       </div>
 
@@ -1654,7 +2057,9 @@ export default function ComponentShowcase() {
         <div>
           <Heading level={4}>Spacing Scale</Heading>
           <Text size="sm" color="secondary">
-            The spacingGap tokens provide a consistent spatial rhythm throughout the interface. Primarily based on 8px increments (spacingGap100 = 8px, spacingGap200 = 16px, spacingGap300 = 24px, etc.)
+            The spacingGap tokens provide a consistent spatial rhythm throughout the interface.
+            Primarily based on 8px increments (spacingGap100 = 8px, spacingGap200 = 16px,
+            spacingGap300 = 24px, etc.)
           </Text>
         </div>
 
@@ -1666,7 +2071,10 @@ export default function ComponentShowcase() {
                   style={{
                     width: token.value === '0px' ? '2px' : token.value,
                     height: '32px',
-                    backgroundColor: token.value === '0px' ? 'var(--ink-neutral-30)' : 'var(--ink-semantic-blue-60)',
+                    backgroundColor:
+                      token.value === '0px'
+                        ? 'var(--ink-neutral-30)'
+                        : 'var(--ink-semantic-blue-60)',
                     borderRadius: '4px',
                     border: token.value === '0px' ? '1px dashed var(--ink-neutral-40)' : 'none',
                     minWidth: token.value === '0px' ? '2px' : '4px',
@@ -1674,7 +2082,9 @@ export default function ComponentShowcase() {
                 />
                 <Stack gap="xsmall" style={{ minWidth: '180px' }}>
                   <Text weight="medium">{token.name}</Text>
-                  <Text size="xs" color="tertiary">{token.description}</Text>
+                  <Text size="xs" color="tertiary">
+                    {token.description}
+                  </Text>
                 </Stack>
                 <Text size="sm" color="secondary" weight="medium" style={{ minWidth: '50px' }}>
                   {token.value}
@@ -1697,36 +2107,68 @@ export default function ComponentShowcase() {
 
         <Grid columns={2} gap="medium">
           <Stack gap="xsmall">
-            <Text weight="medium" size="sm">spacingXXS (Deprecated)</Text>
-            <Text size="xs" color="secondary">→ Use spacingGap50 (4px)</Text>
+            <Text weight="medium" size="sm">
+              spacingXXS (Deprecated)
+            </Text>
+            <Text size="xs" color="secondary">
+              → Use spacingGap50 (4px)
+            </Text>
           </Stack>
           <Stack gap="xsmall">
-            <Text weight="medium" size="sm">spacingXS (Deprecated)</Text>
-            <Text size="xs" color="secondary">→ Use spacingGap100 (8px)</Text>
+            <Text weight="medium" size="sm">
+              spacingXS (Deprecated)
+            </Text>
+            <Text size="xs" color="secondary">
+              → Use spacingGap100 (8px)
+            </Text>
           </Stack>
           <Stack gap="xsmall">
-            <Text weight="medium" size="sm">spacingS (Deprecated)</Text>
-            <Text size="xs" color="secondary">→ Use spacingGap150 (12px)</Text>
+            <Text weight="medium" size="sm">
+              spacingS (Deprecated)
+            </Text>
+            <Text size="xs" color="secondary">
+              → Use spacingGap150 (12px)
+            </Text>
           </Stack>
           <Stack gap="xsmall">
-            <Text weight="medium" size="sm">spacingM (Deprecated)</Text>
-            <Text size="xs" color="secondary">→ Use spacingGap200 (16px)</Text>
+            <Text weight="medium" size="sm">
+              spacingM (Deprecated)
+            </Text>
+            <Text size="xs" color="secondary">
+              → Use spacingGap200 (16px)
+            </Text>
           </Stack>
           <Stack gap="xsmall">
-            <Text weight="medium" size="sm">spacingL (Deprecated)</Text>
-            <Text size="xs" color="secondary">→ Use spacingGap300 (24px)</Text>
+            <Text weight="medium" size="sm">
+              spacingL (Deprecated)
+            </Text>
+            <Text size="xs" color="secondary">
+              → Use spacingGap300 (24px)
+            </Text>
           </Stack>
           <Stack gap="xsmall">
-            <Text weight="medium" size="sm">spacingXL (Deprecated)</Text>
-            <Text size="xs" color="secondary">→ Use spacingGap400 (32px)</Text>
+            <Text weight="medium" size="sm">
+              spacingXL (Deprecated)
+            </Text>
+            <Text size="xs" color="secondary">
+              → Use spacingGap400 (32px)
+            </Text>
           </Stack>
           <Stack gap="xsmall">
-            <Text weight="medium" size="sm">spacingXXL (Deprecated)</Text>
-            <Text size="xs" color="secondary">→ Use spacingGap500 (40px)</Text>
+            <Text weight="medium" size="sm">
+              spacingXXL (Deprecated)
+            </Text>
+            <Text size="xs" color="secondary">
+              → Use spacingGap500 (40px)
+            </Text>
           </Stack>
           <Stack gap="xsmall">
-            <Text weight="medium" size="sm">spacingXXXL (Deprecated)</Text>
-            <Text size="xs" color="secondary">→ Use spacingGap600 (48px)</Text>
+            <Text weight="medium" size="sm">
+              spacingXXXL (Deprecated)
+            </Text>
+            <Text size="xs" color="secondary">
+              → Use spacingGap600 (48px)
+            </Text>
           </Stack>
         </Grid>
       </Stack>
@@ -1749,45 +2191,62 @@ export default function ComponentShowcase() {
         <div>
           <Heading level={4}>Border Width</Heading>
           <Text size="sm" color="secondary">
-            Two standard border widths for UI elements. Most components use borderWidthXS (1px) for subtle borders.
+            Two standard border widths for UI elements. Most components use borderWidthXS (1px) for
+            subtle borders.
           </Text>
         </div>
 
         <Grid columns={2} gap="large">
           <Stack gap="small">
-            <div style={{
-              width: '100%',
-              height: '80px',
-              border: '1px solid var(--ink-semantic-blue-60)',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'var(--ink-semantic-blue-10)'
-            }}>
-              <Text size="sm" color="secondary">borderWidthXS</Text>
+            <div
+              style={{
+                width: '100%',
+                height: '80px',
+                border: '1px solid var(--ink-semantic-blue-60)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'var(--ink-semantic-blue-10)',
+              }}
+            >
+              <Text size="sm" color="secondary">
+                borderWidthXS
+              </Text>
             </div>
             <Text weight="medium">borderWidthXS</Text>
-            <Text size="xs" color="secondary">size.10 = 1px</Text>
-            <Text size="xs" color="tertiary">Standard border for inputs, cards, containers</Text>
+            <Text size="xs" color="secondary">
+              size.10 = 1px
+            </Text>
+            <Text size="xs" color="tertiary">
+              Standard border for inputs, cards, containers
+            </Text>
           </Stack>
 
           <Stack gap="small">
-            <div style={{
-              width: '100%',
-              height: '80px',
-              border: '2px solid var(--ink-semantic-blue-60)',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'var(--ink-semantic-blue-10)'
-            }}>
-              <Text size="sm" color="secondary">borderWidthS</Text>
+            <div
+              style={{
+                width: '100%',
+                height: '80px',
+                border: '2px solid var(--ink-semantic-blue-60)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'var(--ink-semantic-blue-10)',
+              }}
+            >
+              <Text size="sm" color="secondary">
+                borderWidthS
+              </Text>
             </div>
             <Text weight="medium">borderWidthS</Text>
-            <Text size="xs" color="secondary">size.20 = 2px</Text>
-            <Text size="xs" color="tertiary">Emphasized borders for focus states, selected items</Text>
+            <Text size="xs" color="secondary">
+              size.20 = 2px
+            </Text>
+            <Text size="xs" color="tertiary">
+              Emphasized borders for focus states, selected items
+            </Text>
           </Stack>
         </Grid>
       </Stack>
@@ -1799,94 +2258,135 @@ export default function ComponentShowcase() {
         <div>
           <Heading level={4}>Corner Radius</Heading>
           <Text size="sm" color="secondary">
-            Five radius values for different component sizes and hierarchy. Larger components typically use larger radii.
+            Five radius values for different component sizes and hierarchy. Larger components
+            typically use larger radii.
           </Text>
         </div>
 
         <Grid columns={3} gap="large">
           <Stack gap="small" align="center">
-            <div style={{
-              width: '100px',
-              height: '100px',
-              backgroundColor: 'var(--ink-semantic-blue-60)',
-              borderRadius: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text size="sm" style={{ color: 'white' }}>4px</Text>
+            <div
+              style={{
+                width: '100px',
+                height: '100px',
+                backgroundColor: 'var(--ink-semantic-blue-60)',
+                borderRadius: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text size="sm" style={{ color: 'white' }}>
+                4px
+              </Text>
             </div>
             <Text weight="medium">radiusSizeXS</Text>
-            <Text size="xs" color="secondary">dimension.4 = 4px</Text>
-            <Text size="xs" color="tertiary" align="center">Small elements, badges, tags</Text>
+            <Text size="xs" color="secondary">
+              dimension.4 = 4px
+            </Text>
+            <Text size="xs" color="tertiary" align="center">
+              Small elements, badges, tags
+            </Text>
           </Stack>
 
           <Stack gap="small" align="center">
-            <div style={{
-              width: '100px',
-              height: '100px',
-              backgroundColor: 'var(--ink-semantic-blue-60)',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text size="sm" style={{ color: 'white' }}>8px</Text>
+            <div
+              style={{
+                width: '100px',
+                height: '100px',
+                backgroundColor: 'var(--ink-semantic-blue-60)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text size="sm" style={{ color: 'white' }}>
+                8px
+              </Text>
             </div>
             <Text weight="medium">radiusSizeS</Text>
-            <Text size="xs" color="secondary">dimension.8 = 8px</Text>
-            <Text size="xs" color="tertiary" align="center">Buttons, inputs, small cards</Text>
+            <Text size="xs" color="secondary">
+              dimension.8 = 8px
+            </Text>
+            <Text size="xs" color="tertiary" align="center">
+              Buttons, inputs, small cards
+            </Text>
           </Stack>
 
           <Stack gap="small" align="center">
-            <div style={{
-              width: '100px',
-              height: '100px',
-              backgroundColor: 'var(--ink-semantic-blue-60)',
-              borderRadius: '12px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text size="sm" style={{ color: 'white' }}>12px</Text>
+            <div
+              style={{
+                width: '100px',
+                height: '100px',
+                backgroundColor: 'var(--ink-semantic-blue-60)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text size="sm" style={{ color: 'white' }}>
+                12px
+              </Text>
             </div>
             <Text weight="medium">radiusSizeM</Text>
-            <Text size="xs" color="secondary">dimension.12 = 12px</Text>
-            <Text size="xs" color="tertiary" align="center">Standard cards, modals</Text>
+            <Text size="xs" color="secondary">
+              dimension.12 = 12px
+            </Text>
+            <Text size="xs" color="tertiary" align="center">
+              Standard cards, modals
+            </Text>
           </Stack>
 
           <Stack gap="small" align="center">
-            <div style={{
-              width: '100px',
-              height: '100px',
-              backgroundColor: 'var(--ink-semantic-blue-60)',
-              borderRadius: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text size="sm" style={{ color: 'white' }}>16px</Text>
+            <div
+              style={{
+                width: '100px',
+                height: '100px',
+                backgroundColor: 'var(--ink-semantic-blue-60)',
+                borderRadius: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text size="sm" style={{ color: 'white' }}>
+                16px
+              </Text>
             </div>
             <Text weight="medium">radiusSizeL</Text>
-            <Text size="xs" color="secondary">dimension.16 = 16px</Text>
-            <Text size="xs" color="tertiary" align="center">Large cards, containers</Text>
+            <Text size="xs" color="secondary">
+              dimension.16 = 16px
+            </Text>
+            <Text size="xs" color="tertiary" align="center">
+              Large cards, containers
+            </Text>
           </Stack>
 
           <Stack gap="small" align="center">
-            <div style={{
-              width: '100px',
-              height: '100px',
-              backgroundColor: 'var(--ink-semantic-blue-60)',
-              borderRadius: '9999px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text size="sm" style={{ color: 'white' }}>Full</Text>
+            <div
+              style={{
+                width: '100px',
+                height: '100px',
+                backgroundColor: 'var(--ink-semantic-blue-60)',
+                borderRadius: '9999px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text size="sm" style={{ color: 'white' }}>
+                Full
+              </Text>
             </div>
             <Text weight="medium">radiusSizeFull</Text>
-            <Text size="xs" color="secondary">dimension.9999 = 9999px</Text>
-            <Text size="xs" color="tertiary" align="center">Fully rounded (pills, avatars)</Text>
+            <Text size="xs" color="secondary">
+              dimension.9999 = 9999px
+            </Text>
+            <Text size="xs" color="tertiary" align="center">
+              Fully rounded (pills, avatars)
+            </Text>
           </Stack>
         </Grid>
       </Stack>
@@ -1898,7 +2398,8 @@ export default function ComponentShowcase() {
       <div>
         <Heading level={3}>Official Ink Alias Tokens</Heading>
         <Text color="secondary" size="sm">
-          Semantic, scoped tokens for specific use cases. Use alias tokens correctly scoped for the elements they are applied to.
+          Semantic, scoped tokens for specific use cases. Use alias tokens correctly scoped for the
+          elements they are applied to.
         </Text>
       </div>
 
@@ -1918,57 +2419,85 @@ export default function ComponentShowcase() {
               <Heading level={5}>Default & Accent</Heading>
               <Grid columns={2} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Default background for pages and containers</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: white.100 | Inverse: neutral.140</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: white.100 | Inverse: neutral.140
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorAccent</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-cobalt-100)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
-                    <Text size="sm" style={{ color: 'var(--ink-white-100)' }}>Accent background</Text>
+                  <Text size="sm" weight="semibold">
+                    bgColorAccent
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-cobalt-100)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
+                    <Text size="sm" style={{ color: 'var(--ink-white-100)' }}>
+                      Accent background
+                    </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.100 | Inverse: cobalt.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.100 | Inverse: cobalt.100
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorAccentEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-cobalt-140)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px',
-                    color: 'white'
-                  }}>
-                    <Text size="sm" style={{ color: 'white' }}>Strong accent background</Text>
+                  <Text size="sm" weight="semibold">
+                    bgColorAccentEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-cobalt-140)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                      color: 'white',
+                    }}
+                  >
+                    <Text size="sm" style={{ color: 'white' }}>
+                      Strong accent background
+                    </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.140 | Inverse: cobalt.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.140 | Inverse: cobalt.40
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorAccentSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-cobalt-40)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorAccentSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-cobalt-40)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Subtle accent background</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.40 | Inverse: cobalt.140</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.40 | Inverse: cobalt.140
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -1982,29 +2511,41 @@ export default function ComponentShowcase() {
               <Heading level={5}>Canvas</Heading>
               <Grid columns={2} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorCanvasDocument</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-20)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorCanvasDocument
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-20)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Document canvas background</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.20 | Inverse: neutral.120</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.20 | Inverse: neutral.120
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorCanvasPage</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-10)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorCanvasPage
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-10)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Page canvas background</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.10 | Inverse: neutral.130</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.10 | Inverse: neutral.130
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2018,43 +2559,63 @@ export default function ComponentShowcase() {
               <Heading level={5}>Error Status</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorError</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-red-20)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorError
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-red-20)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Error background</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.20 | Inverse: red.130</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.20 | Inverse: red.130
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorErrorEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-red-110)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px',
-                    color: 'white'
-                  }}>
-                    <Text size="sm" style={{ color: 'white' }}>Strong error</Text>
+                  <Text size="sm" weight="semibold">
+                    bgColorErrorEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-red-110)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                      color: 'white',
+                    }}
+                  >
+                    <Text size="sm" style={{ color: 'white' }}>
+                      Strong error
+                    </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.110 | Inverse: red.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.110 | Inverse: red.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorErrorSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-red-10)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorErrorSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-red-10)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Subtle error tint</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.10 | Inverse: red.140</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.10 | Inverse: red.140
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2068,34 +2629,48 @@ export default function ComponentShowcase() {
               <Heading level={5}>Glass Effects</Heading>
               <Grid columns={2} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorGlassFrost</Text>
-                  <div style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                    backdropFilter: 'blur(10px)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px',
-                    border: '1px solid rgba(255, 255, 255, 0.3)'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorGlassFrost
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(10px)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                      border: '1px solid rgba(255, 255, 255, 0.3)',
+                    }}
+                  >
                     <Text size="sm">Frosted glass effect</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: white.fade.90 | Inverse: neutral.fade.90</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: white.fade.90 | Inverse: neutral.fade.90
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorGlassTint</Text>
-                  <div style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                    backdropFilter: 'blur(10px)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    color: 'white'
-                  }}>
-                    <Text size="sm" style={{ color: 'white' }}>Tinted glass effect</Text>
+                  <Text size="sm" weight="semibold">
+                    bgColorGlassTint
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                      backdropFilter: 'blur(10px)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      color: 'white',
+                    }}
+                  >
+                    <Text size="sm" style={{ color: 'white' }}>
+                      Tinted glass effect
+                    </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.90 | Inverse: neutral.fade.90</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.90 | Inverse: neutral.fade.90
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2109,45 +2684,67 @@ export default function ComponentShowcase() {
               <Heading level={5}>Inverse & Popover</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorInverse</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-140)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px',
-                    color: 'white'
-                  }}>
-                    <Text size="sm" style={{ color: 'white' }}>Inverse background</Text>
+                  <Text size="sm" weight="semibold">
+                    bgColorInverse
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-140)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                      color: 'white',
+                    }}
+                  >
+                    <Text size="sm" style={{ color: 'white' }}>
+                      Inverse background
+                    </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.140 | Inverse: white.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.140 | Inverse: white.100
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorPopoverClose</Text>
-                  <div style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px',
-                    border: '1px solid var(--ink-neutral-30)'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorPopoverClose
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                      border: '1px solid var(--ink-neutral-30)',
+                    }}
+                  >
                     <Text size="sm">Popover close hover</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: white.fade.80 | Inverse: neutral.fade.80</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: white.fade.80 | Inverse: neutral.fade.80
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorPopoverCloseInverse</Text>
-                  <div style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px',
-                    color: 'white'
-                  }}>
-                    <Text size="sm" style={{ color: 'white' }}>Inverse popover close</Text>
+                  <Text size="sm" weight="semibold">
+                    bgColorPopoverCloseInverse
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                      color: 'white',
+                    }}
+                  >
+                    <Text size="sm" style={{ color: 'white' }}>
+                      Inverse popover close
+                    </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.80 | Inverse: white.fade.80</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.80 | Inverse: white.fade.80
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2160,17 +2757,25 @@ export default function ComponentShowcase() {
             <Stack gap="medium">
               <Heading level={5}>Scrim</Heading>
               <Stack gap="small">
-                <Text size="sm" weight="semibold">bgColorScrim</Text>
-                <div style={{
-                  backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  minHeight: '80px',
-                  color: 'white'
-                }}>
-                  <Text size="sm" style={{ color: 'white' }}>Modal overlay / backdrop</Text>
+                <Text size="sm" weight="semibold">
+                  bgColorScrim
+                </Text>
+                <div
+                  style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    borderRadius: '8px',
+                    padding: '24px',
+                    minHeight: '80px',
+                    color: 'white',
+                  }}
+                >
+                  <Text size="sm" style={{ color: 'white' }}>
+                    Modal overlay / backdrop
+                  </Text>
                 </div>
-                <Text size="xs" color="tertiary">Standard: neutral.fade.80 | Inverse: neutral.fade.80</Text>
+                <Text size="xs" color="tertiary">
+                  Standard: neutral.fade.80 | Inverse: neutral.fade.80
+                </Text>
               </Stack>
             </Stack>
           </Card.Body>
@@ -2183,43 +2788,63 @@ export default function ComponentShowcase() {
               <Heading level={5}>Success Status</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorSuccess</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-green-20)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorSuccess
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-green-20)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Success background</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: green.20 | Inverse: green.130</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: green.20 | Inverse: green.130
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorSuccessEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-green-110)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px',
-                    color: 'white'
-                  }}>
-                    <Text size="sm" style={{ color: 'white' }}>Strong success</Text>
+                  <Text size="sm" weight="semibold">
+                    bgColorSuccessEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-green-110)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                      color: 'white',
+                    }}
+                  >
+                    <Text size="sm" style={{ color: 'white' }}>
+                      Strong success
+                    </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: green.110 | Inverse: green.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: green.110 | Inverse: green.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorSuccessSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-green-10)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorSuccessSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-green-10)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Subtle success tint</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: green.10 | Inverse: green.140</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: green.10 | Inverse: green.140
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2233,43 +2858,63 @@ export default function ComponentShowcase() {
               <Heading level={5}>Warning Status</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorWarning</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-orange-20)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorWarning
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-orange-20)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Warning background</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: orange.20 | Inverse: orange.130</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: orange.20 | Inverse: orange.130
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorWarningEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-orange-110)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px',
-                    color: 'white'
-                  }}>
-                    <Text size="sm" style={{ color: 'white' }}>Strong warning</Text>
+                  <Text size="sm" weight="semibold">
+                    bgColorWarningEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-orange-110)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                      color: 'white',
+                    }}
+                  >
+                    <Text size="sm" style={{ color: 'white' }}>
+                      Strong warning
+                    </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: orange.110 | Inverse: orange.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: orange.110 | Inverse: orange.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">bgColorWarningSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-orange-10)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    bgColorWarningSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-orange-10)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Subtle warning tint</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: orange.10 | Inverse: orange.140</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: orange.10 | Inverse: orange.140
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2293,75 +2938,109 @@ export default function ComponentShowcase() {
               <Heading level={5}>Default & Emphasis</Heading>
               <Grid columns={2} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Default border for inputs, cards</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.50 | Inverse: white.fade.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.50 | Inverse: white.fade.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid rgba(0, 0, 0, 0.1)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid rgba(0, 0, 0, 0.1)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Subtle dividing borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.10 | Inverse: white.fade.10</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.10 | Inverse: white.fade.10
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-neutral-140)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-neutral-140)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Strong emphasis borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.140 | Inverse: white.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.140 | Inverse: white.100
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorSubtleInverse</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-100)',
-                    border: '3px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px',
-                    color: 'white'
-                  }}>
-                    <Text size="sm" style={{ color: 'white' }}>Inverse subtle borders</Text>
+                  <Text size="sm" weight="semibold">
+                    borderColorSubtleInverse
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-100)',
+                      border: '3px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                      color: 'white',
+                    }}
+                  >
+                    <Text size="sm" style={{ color: 'white' }}>
+                      Inverse subtle borders
+                    </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: white.fade.10 | Inverse: neutral.fade.10</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: white.fade.10 | Inverse: neutral.fade.10
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorEmphasisInverse</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-100)',
-                    border: '3px solid var(--ink-white)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px',
-                    color: 'white'
-                  }}>
-                    <Text size="sm" style={{ color: 'white' }}>Inverse emphasis borders</Text>
+                  <Text size="sm" weight="semibold">
+                    borderColorEmphasisInverse
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-100)',
+                      border: '3px solid var(--ink-white)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                      color: 'white',
+                    }}
+                  >
+                    <Text size="sm" style={{ color: 'white' }}>
+                      Inverse emphasis borders
+                    </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: white.100 | Inverse: neutral.140</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: white.100 | Inverse: neutral.140
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2375,45 +3054,63 @@ export default function ComponentShowcase() {
               <Heading level={5}>Accent Borders</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorAccent</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-cobalt-100)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorAccent
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-cobalt-100)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Accent borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.100 | Inverse: cobalt.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.100 | Inverse: cobalt.40
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorAccentEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-cobalt-110)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorAccentEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-cobalt-110)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Strong accent borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.110 | Inverse: cobalt.20</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.110 | Inverse: cobalt.20
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorAccentSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-cobalt-80)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorAccentSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-cobalt-80)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Subtle accent borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.80 | Inverse: cobalt.60</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.80 | Inverse: cobalt.60
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2427,45 +3124,63 @@ export default function ComponentShowcase() {
               <Heading level={5}>Error Borders</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorError</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-red-80)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorError
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-red-80)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Error borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.80 | Inverse: red.60</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.80 | Inverse: red.60
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorErrorEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-red-110)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorErrorEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-red-110)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Strong error borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.110 | Inverse: red.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.110 | Inverse: red.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorErrorSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-red-70)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorErrorSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-red-70)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Subtle error borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.70 | Inverse: red.70</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.70 | Inverse: red.70
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2479,45 +3194,63 @@ export default function ComponentShowcase() {
               <Heading level={5}>Success Borders</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorSuccess</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-green-80)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorSuccess
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-green-80)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Success borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: green.80 | Inverse: green.60</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: green.80 | Inverse: green.60
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorSuccessEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-green-110)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorSuccessEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-green-110)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Strong success borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: green.110 | Inverse: green.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: green.110 | Inverse: green.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorSuccessSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-green-70)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorSuccessSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-green-70)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Subtle success borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: green.70 | Inverse: green.70</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: green.70 | Inverse: green.70
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2531,45 +3264,63 @@ export default function ComponentShowcase() {
               <Heading level={5}>Warning Borders</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorWarning</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-orange-90)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorWarning
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-orange-90)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Warning borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: orange.90 | Inverse: orange.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: orange.90 | Inverse: orange.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorWarningEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-orange-110)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorWarningEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-orange-110)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Strong warning borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: orange.110 | Inverse: orange.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: orange.110 | Inverse: orange.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderColorWarningSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '3px solid var(--ink-orange-80)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderColorWarningSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '3px solid var(--ink-orange-80)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">Subtle warning borders</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: orange.80 | Inverse: orange.60</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: orange.80 | Inverse: orange.60
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2586,31 +3337,43 @@ export default function ComponentShowcase() {
               </Text>
               <Grid columns={2} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderWidthXS</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-100)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderWidthXS
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-100)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">1px border weight</Text>
                   </div>
-                  <Text size="xs" color="tertiary">size.10 = 1px</Text>
+                  <Text size="xs" color="tertiary">
+                    size.10 = 1px
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">borderWidthS</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '2px solid var(--ink-neutral-100)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    borderWidthS
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '2px solid var(--ink-neutral-100)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="sm">2px border weight</Text>
                   </div>
-                  <Text size="xs" color="tertiary">size.20 = 2px</Text>
+                  <Text size="xs" color="tertiary">
+                    size.20 = 2px
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2634,81 +3397,111 @@ export default function ComponentShowcase() {
               <Heading level={5}>Default & Basic</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-neutral-100)' }}>
                       Default text color for body content
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.90 | Inverse: white.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.90 | Inverse: white.100
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-neutral-70)' }}>
                       Subtle secondary text
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.70 | Inverse: white.fade.70</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.70 | Inverse: white.fade.70
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorDisabled</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorDisabled
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-neutral-40)' }}>
                       Disabled text
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.30 | Inverse: white.fade.20</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.30 | Inverse: white.fade.20
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorInverse</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-100)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorInverse
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-100)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'white' }}>
                       Inverse text for dark backgrounds
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: white.100 | Inverse: neutral.fade.90</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: white.100 | Inverse: neutral.fade.90
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorSubtleInverse</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-100)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorSubtleInverse
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-100)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                       Subtle inverse text
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: white.fade.70 | Inverse: neutral.fade.70</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: white.fade.70 | Inverse: neutral.fade.70
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2722,51 +3515,69 @@ export default function ComponentShowcase() {
               <Heading level={5}>Accent Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorAccent</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorAccent
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-cobalt-100)' }}>
                       Accent text
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.100 | Inverse: cobalt.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.100 | Inverse: cobalt.40
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorAccentEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorAccentEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-cobalt-110)' }}>
                       Strong accent
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.110 | Inverse: cobalt.10</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.110 | Inverse: cobalt.10
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorAccentSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorAccentSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-cobalt-30)' }}>
                       Subtle accent
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.30 | Inverse: cobalt.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.30 | Inverse: cobalt.100
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2780,99 +3591,177 @@ export default function ComponentShowcase() {
               <Heading level={5}>Link Colors (Interactive States)</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorLink</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
-                    <Text size="lg" style={{ color: 'var(--ink-cobalt-100)', textDecoration: 'underline', cursor: 'pointer' }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorLink
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
+                    <Text
+                      size="lg"
+                      style={{
+                        color: 'var(--ink-cobalt-100)',
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                      }}
+                    >
                       Default link color
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.100 | Inverse: cobalt.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.100 | Inverse: cobalt.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorLinkHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
-                    <Text size="lg" style={{ color: 'var(--ink-cobalt-110)', textDecoration: 'underline', cursor: 'pointer' }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorLinkHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
+                    <Text
+                      size="lg"
+                      style={{
+                        color: 'var(--ink-cobalt-110)',
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                      }}
+                    >
                       Link hover state
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.110 | Inverse: cobalt.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.110 | Inverse: cobalt.40
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorLinkActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
-                    <Text size="lg" style={{ color: 'var(--ink-cobalt-120)', textDecoration: 'underline', cursor: 'pointer' }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorLinkActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
+                    <Text
+                      size="lg"
+                      style={{
+                        color: 'var(--ink-cobalt-120)',
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                      }}
+                    >
                       Link active/pressed
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.120 | Inverse: cobalt.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.120 | Inverse: cobalt.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorLinkVisited</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
-                    <Text size="lg" style={{ color: 'var(--ink-cobalt-140)', textDecoration: 'underline', cursor: 'pointer' }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorLinkVisited
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
+                    <Text
+                      size="lg"
+                      style={{
+                        color: 'var(--ink-cobalt-140)',
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                      }}
+                    >
                       Visited link
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.140 | Inverse: cobalt.20</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.140 | Inverse: cobalt.20
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorLinkSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
-                    <Text size="lg" style={{ color: 'var(--ink-neutral-100)', textDecoration: 'underline', cursor: 'pointer' }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorLinkSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
+                    <Text
+                      size="lg"
+                      style={{
+                        color: 'var(--ink-neutral-100)',
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                      }}
+                    >
                       Subtle link
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.90 | Inverse: white.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.90 | Inverse: white.100
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorLinkSubtleHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
-                    <Text size="lg" style={{ color: 'var(--ink-neutral-80)', textDecoration: 'underline', cursor: 'pointer' }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorLinkSubtleHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
+                    <Text
+                      size="lg"
+                      style={{
+                        color: 'var(--ink-neutral-80)',
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                      }}
+                    >
                       Subtle link hover
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.80 | Inverse: white.fade.80</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.80 | Inverse: white.fade.80
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -2887,149 +3776,203 @@ export default function ComponentShowcase() {
               <Grid columns={3} gap="medium">
                 {/* Error */}
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorError</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorError
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-red-90)' }}>
                       Error text
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.90 | Inverse: red.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.90 | Inverse: red.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorErrorEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorErrorEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-red-100)' }}>
                       Strong error
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.100 | Inverse: red.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.100 | Inverse: red.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorErrorSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorErrorSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-red-30)' }}>
                       Subtle error
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.30 | Inverse: red.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.30 | Inverse: red.100
+                  </Text>
                 </Stack>
 
                 {/* Success */}
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorSuccess</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorSuccess
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-green-90)' }}>
                       Success text
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: green.90 | Inverse: green.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: green.90 | Inverse: green.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorSuccessEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorSuccessEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-green-100)' }}>
                       Strong success
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: green.100 | Inverse: green.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: green.100 | Inverse: green.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorSuccessSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorSuccessSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-green-30)' }}>
                       Subtle success
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: green.30 | Inverse: green.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: green.30 | Inverse: green.100
+                  </Text>
                 </Stack>
 
                 {/* Warning */}
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorWarning</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorWarning
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-orange-90)' }}>
                       Warning text
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: orange.90 | Inverse: orange.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: orange.90 | Inverse: orange.40
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorWarningEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorWarningEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-orange-100)' }}>
                       Strong warning
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: orange.100 | Inverse: orange.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: orange.100 | Inverse: orange.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontColorWarningSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '24px',
-                    minHeight: '80px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontColorWarningSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '24px',
+                      minHeight: '80px',
+                    }}
+                  >
                     <Text size="lg" style={{ color: 'var(--ink-orange-30)' }}>
                       Subtle warning
                     </Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: orange.30 | Inverse: orange.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: orange.30 | Inverse: orange.100
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -3053,178 +3996,248 @@ export default function ComponentShowcase() {
               <Heading level={5}>Fill Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barFillColorDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-neutral-20)',
-                      borderRadius: '4px',
-                      overflow: 'hidden'
-                    }}>
-                      <div style={{
-                        width: '70%',
-                        height: '100%',
-                        backgroundColor: 'var(--ink-cobalt-80)'
-                      }}></div>
+                  <Text size="sm" weight="semibold">
+                    barFillColorDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-neutral-20)',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '70%',
+                          height: '100%',
+                          backgroundColor: 'var(--ink-cobalt-80)',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.80 | Inverse: cobalt.60</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.80 | Inverse: cobalt.60
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barFillColorEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-neutral-20)',
-                      borderRadius: '4px',
-                      overflow: 'hidden'
-                    }}>
-                      <div style={{
-                        width: '70%',
-                        height: '100%',
-                        backgroundColor: 'var(--ink-neutral-140)'
-                      }}></div>
+                  <Text size="sm" weight="semibold">
+                    barFillColorEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-neutral-20)',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '70%',
+                          height: '100%',
+                          backgroundColor: 'var(--ink-neutral-140)',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.140 | Inverse: white.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.140 | Inverse: white.100
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barFillColorAccentEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-neutral-20)',
-                      borderRadius: '4px',
-                      overflow: 'hidden'
-                    }}>
-                      <div style={{
-                        width: '70%',
-                        height: '100%',
-                        backgroundColor: 'var(--ink-cobalt-120)'
-                      }}></div>
+                  <Text size="sm" weight="semibold">
+                    barFillColorAccentEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-neutral-20)',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '70%',
+                          height: '100%',
+                          backgroundColor: 'var(--ink-cobalt-120)',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.120 | Inverse: cobalt.20</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.120 | Inverse: cobalt.20
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barFillColorError</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-neutral-20)',
-                      borderRadius: '4px',
-                      overflow: 'hidden'
-                    }}>
-                      <div style={{
-                        width: '70%',
-                        height: '100%',
-                        backgroundColor: 'var(--ink-red-80)'
-                      }}></div>
+                  <Text size="sm" weight="semibold">
+                    barFillColorError
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-neutral-20)',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '70%',
+                          height: '100%',
+                          backgroundColor: 'var(--ink-red-80)',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.80 | Inverse: red.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.80 | Inverse: red.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barFillColorSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-neutral-20)',
-                      borderRadius: '4px',
-                      overflow: 'hidden'
-                    }}>
-                      <div style={{
-                        width: '70%',
-                        height: '100%',
-                        backgroundColor: 'var(--ink-neutral-70)'
-                      }}></div>
+                  <Text size="sm" weight="semibold">
+                    barFillColorSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-neutral-20)',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '70%',
+                          height: '100%',
+                          backgroundColor: 'var(--ink-neutral-70)',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.70 | Inverse: white.fade.70</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.70 | Inverse: white.fade.70
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barFillColorSuccess</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-neutral-20)',
-                      borderRadius: '4px',
-                      overflow: 'hidden'
-                    }}>
-                      <div style={{
-                        width: '70%',
-                        height: '100%',
-                        backgroundColor: 'var(--ink-green-80)'
-                      }}></div>
+                  <Text size="sm" weight="semibold">
+                    barFillColorSuccess
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-neutral-20)',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '70%',
+                          height: '100%',
+                          backgroundColor: 'var(--ink-green-80)',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: green.80 | Inverse: green.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: green.80 | Inverse: green.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barFillColorWarning</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-neutral-20)',
-                      borderRadius: '4px',
-                      overflow: 'hidden'
-                    }}>
-                      <div style={{
-                        width: '70%',
-                        height: '100%',
-                        backgroundColor: 'var(--ink-orange-80)'
-                      }}></div>
+                  <Text size="sm" weight="semibold">
+                    barFillColorWarning
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-neutral-20)',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '70%',
+                          height: '100%',
+                          backgroundColor: 'var(--ink-orange-80)',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: orange.80 | Inverse: orange.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: orange.80 | Inverse: orange.50
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -3238,86 +4251,120 @@ export default function ComponentShowcase() {
               <Heading level={5}>Track & Indicator Colors</Heading>
               <Grid columns={2} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barStopIndicatorColor</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-neutral-20)',
-                      borderRadius: '4px',
-                      position: 'relative'
-                    }}>
-                      <div style={{
-                        position: 'absolute',
-                        left: '50%',
-                        top: '0',
-                        bottom: '0',
-                        width: '2px',
-                        backgroundColor: 'var(--ink-neutral-50)',
-                        transform: 'translateX(-50%)'
-                      }}></div>
+                  <Text size="sm" weight="semibold">
+                    barStopIndicatorColor
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-neutral-20)',
+                        borderRadius: '4px',
+                        position: 'relative',
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: 'absolute',
+                          left: '50%',
+                          top: '0',
+                          bottom: '0',
+                          width: '2px',
+                          backgroundColor: 'var(--ink-neutral-50)',
+                          transform: 'translateX(-50%)',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.50 | Inverse: white.fade.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.50 | Inverse: white.fade.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barTrackColorDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-neutral-10)',
-                      borderRadius: '4px'
-                    }}></div>
+                  <Text size="sm" weight="semibold">
+                    barTrackColorDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-neutral-10)',
+                        borderRadius: '4px',
+                      }}
+                    ></div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.10 | Inverse: white.fade.10</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.10 | Inverse: white.fade.10
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barTrackColorEmphasis</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-neutral-140)',
-                      borderRadius: '4px'
-                    }}></div>
+                  <Text size="sm" weight="semibold">
+                    barTrackColorEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-neutral-140)',
+                        borderRadius: '4px',
+                      }}
+                    ></div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.140 | Inverse: white.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.140 | Inverse: white.100
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barTrackColorVisited</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-cobalt-140)',
-                      borderRadius: '4px'
-                    }}></div>
+                  <Text size="sm" weight="semibold">
+                    barTrackColorVisited
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-cobalt-140)',
+                        borderRadius: '4px',
+                      }}
+                    ></div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.140 | Inverse: cobalt.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.140 | Inverse: cobalt.40
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -3334,57 +4381,81 @@ export default function ComponentShowcase() {
               </Text>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barWidthXS</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '2px',
-                      backgroundColor: 'var(--ink-cobalt-80)',
-                      borderRadius: '1px'
-                    }}></div>
+                  <Text size="sm" weight="semibold">
+                    barWidthXS
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '2px',
+                        backgroundColor: 'var(--ink-cobalt-80)',
+                        borderRadius: '1px',
+                      }}
+                    ></div>
                   </div>
-                  <Text size="xs" color="tertiary">dimension.2 = 2px</Text>
+                  <Text size="xs" color="tertiary">
+                    dimension.2 = 2px
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barWidthS</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '4px',
-                      backgroundColor: 'var(--ink-cobalt-80)',
-                      borderRadius: '2px'
-                    }}></div>
+                  <Text size="sm" weight="semibold">
+                    barWidthS
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '4px',
+                        backgroundColor: 'var(--ink-cobalt-80)',
+                        borderRadius: '2px',
+                      }}
+                    ></div>
                   </div>
-                  <Text size="xs" color="tertiary">dimension.4 = 4px</Text>
+                  <Text size="xs" color="tertiary">
+                    dimension.4 = 4px
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">barWidthM</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px'
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      height: '8px',
-                      backgroundColor: 'var(--ink-cobalt-80)',
-                      borderRadius: '4px'
-                    }}></div>
+                  <Text size="sm" weight="semibold">
+                    barWidthM
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '8px',
+                        backgroundColor: 'var(--ink-cobalt-80)',
+                        borderRadius: '4px',
+                      }}
+                    ></div>
                   </div>
-                  <Text size="xs" color="tertiary">dimension.8 = 8px</Text>
+                  <Text size="xs" color="tertiary">
+                    dimension.8 = 8px
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -3408,69 +4479,99 @@ export default function ComponentShowcase() {
               <Heading level={5}>Danger Button Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorDangerDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-red-90)',
-                      color: 'var(--ink-white)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Delete</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorDangerDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-red-90)',
+                        color: 'var(--ink-white)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Delete
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.90 | Inverse: red.60</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.90 | Inverse: red.60
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorDangerHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-red-100)',
-                      color: 'var(--ink-white)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Delete</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorDangerHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-red-100)',
+                        color: 'var(--ink-white)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Delete
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.100 | Inverse: red.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.100 | Inverse: red.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorDangerActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-red-110)',
-                      color: 'var(--ink-white)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Delete</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorDangerActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-red-110)',
+                        color: 'var(--ink-white)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Delete
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.110 | Inverse: red.70</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.110 | Inverse: red.70
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -3484,69 +4585,99 @@ export default function ComponentShowcase() {
               <Heading level={5}>Brand Button Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorBrandDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-100)',
-                      color: 'var(--ink-white)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Continue</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorBrandDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-100)',
+                        color: 'var(--ink-white)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Continue
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.100 | Inverse: cobalt.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.100 | Inverse: cobalt.40
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorBrandHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-90)',
-                      color: 'var(--ink-white)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Continue</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorBrandHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-90)',
+                        color: 'var(--ink-white)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Continue
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.90 | Inverse: cobalt.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.90 | Inverse: cobalt.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorBrandActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-110)',
-                      color: 'var(--ink-white)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Continue</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorBrandActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-110)',
+                        color: 'var(--ink-white)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Continue
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.110 | Inverse: cobalt.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.110 | Inverse: cobalt.30
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -3560,69 +4691,99 @@ export default function ComponentShowcase() {
               <Heading level={5}>Primary Button Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorPrimaryDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-140)',
-                      color: 'var(--ink-white)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Submit</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorPrimaryDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-140)',
+                        color: 'var(--ink-white)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Submit
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.140 | Inverse: neutral.20</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.140 | Inverse: neutral.20
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorPrimaryHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-130)',
-                      color: 'var(--ink-white)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Submit</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorPrimaryHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-130)',
+                        color: 'var(--ink-white)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Submit
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.130 | Inverse: neutral.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.130 | Inverse: neutral.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorPrimaryActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-120)',
-                      color: 'var(--ink-white)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Submit</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorPrimaryActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-120)',
+                        color: 'var(--ink-white)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Submit
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.120 | Inverse: neutral.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.120 | Inverse: neutral.40
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -3636,72 +4797,102 @@ export default function ComponentShowcase() {
               <Heading level={5}>Secondary Button Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorSecondaryDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'transparent',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500,
-                      border: '1px solid var(--ink-neutral-50)'
-                    }}>Cancel</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorSecondaryDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                        border: '1px solid var(--ink-neutral-50)',
+                      }}
+                    >
+                      Cancel
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: transparent | Inverse: transparent</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: transparent | Inverse: transparent
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorSecondaryHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500,
-                      border: '1px solid var(--ink-neutral-50)'
-                    }}>Cancel</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorSecondaryHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                        border: '1px solid var(--ink-neutral-50)',
+                      }}
+                    >
+                      Cancel
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.5 | Inverse: white.fade.5</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.5 | Inverse: white.fade.5
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorSecondaryActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500,
-                      border: '1px solid var(--ink-neutral-50)'
-                    }}>Cancel</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorSecondaryActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                        border: '1px solid var(--ink-neutral-50)',
+                      }}
+                    >
+                      Cancel
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.10 | Inverse: white.fade.10</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.10 | Inverse: white.fade.10
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -3715,69 +4906,99 @@ export default function ComponentShowcase() {
               <Heading level={5}>Tertiary Button Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorTertiaryDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Options</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorTertiaryDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Options
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.5 | Inverse: white.fade.5</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.5 | Inverse: white.fade.5
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorTertiaryHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Options</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorTertiaryHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Options
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.10 | Inverse: white.fade.10</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.10 | Inverse: white.fade.10
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBgColorTertiaryActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.15)',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      fontWeight: 500
-                    }}>Options</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBgColorTertiaryActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.15)',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Options
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.15 | Inverse: white.fade.15</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.15 | Inverse: white.fade.15
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -3791,165 +5012,225 @@ export default function ComponentShowcase() {
               <Heading level={5}>FAB (Floating Action Button) Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaFabBgColorBrandDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-100)',
-                      color: 'var(--ink-white)',
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '50%',
+                  <Text size="sm" weight="semibold">
+                    ctaFabBgColorBrandDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
-                    }}>+</div>
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-100)',
+                        color: 'var(--ink-white)',
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '24px',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+                      }}
+                    >
+                      +
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.100 | Inverse: cobalt.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.100 | Inverse: cobalt.40
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaFabBgColorBrandHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-90)',
-                      color: 'var(--ink-white)',
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '50%',
+                  <Text size="sm" weight="semibold">
+                    ctaFabBgColorBrandHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)'
-                    }}>+</div>
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-90)',
+                        color: 'var(--ink-white)',
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '24px',
+                        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)',
+                      }}
+                    >
+                      +
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.90 | Inverse: cobalt.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.90 | Inverse: cobalt.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaFabBgColorBrandActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-110)',
-                      color: 'var(--ink-white)',
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '50%',
+                  <Text size="sm" weight="semibold">
+                    ctaFabBgColorBrandActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
-                    }}>+</div>
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-110)',
+                        color: 'var(--ink-white)',
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '24px',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+                      }}
+                    >
+                      +
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.110 | Inverse: cobalt.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.110 | Inverse: cobalt.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaFabBgColorPrimaryDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-neutral-130)',
-                      color: 'var(--ink-white)',
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '50%',
+                  <Text size="sm" weight="semibold">
+                    ctaFabBgColorPrimaryDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
-                    }}>+</div>
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-neutral-130)',
+                        color: 'var(--ink-white)',
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '24px',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+                      }}
+                    >
+                      +
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.130 | Inverse: neutral.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.130 | Inverse: neutral.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaFabBgColorPrimaryHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-neutral-120)',
-                      color: 'var(--ink-white)',
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '50%',
+                  <Text size="sm" weight="semibold">
+                    ctaFabBgColorPrimaryHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)'
-                    }}>+</div>
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-neutral-120)',
+                        color: 'var(--ink-white)',
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '24px',
+                        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)',
+                      }}
+                    >
+                      +
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.120 | Inverse: neutral.20</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.120 | Inverse: neutral.20
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaFabBgColorPrimaryActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-neutral-140)',
-                      color: 'var(--ink-white)',
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '50%',
+                  <Text size="sm" weight="semibold">
+                    ctaFabBgColorPrimaryActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '24px',
-                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
-                    }}>+</div>
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-neutral-140)',
+                        color: 'var(--ink-white)',
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '24px',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+                      }}
+                    >
+                      +
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.140 | Inverse: neutral.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.140 | Inverse: neutral.40
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -3963,177 +5244,257 @@ export default function ComponentShowcase() {
               <Heading level={5}>Toggle Button Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaToggleBgColorHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    gap: '8px',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      fontSize: '14px'
-                    }}>Day</div>
+                  <Text size="sm" weight="semibold">
+                    ctaToggleBgColorHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      gap: '8px',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Day
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.5 | Inverse: white.fade.5</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.5 | Inverse: white.fade.5
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaToggleBgColorActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    gap: '8px',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      fontSize: '14px'
-                    }}>Day</div>
+                  <Text size="sm" weight="semibold">
+                    ctaToggleBgColorActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      gap: '8px',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Day
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.10 | Inverse: white.fade.10</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.10 | Inverse: white.fade.10
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaToggleBgColorSelected</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    gap: '8px',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-140)',
-                      color: 'var(--ink-white)',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      fontSize: '14px'
-                    }}>Week</div>
+                  <Text size="sm" weight="semibold">
+                    ctaToggleBgColorSelected
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      gap: '8px',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-140)',
+                        color: 'var(--ink-white)',
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Week
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.140 | Inverse: cobalt.10</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.140 | Inverse: cobalt.10
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaToggleBgColorSelectedHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    gap: '8px',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-130)',
-                      color: 'var(--ink-white)',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      fontSize: '14px'
-                    }}>Week</div>
+                  <Text size="sm" weight="semibold">
+                    ctaToggleBgColorSelectedHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      gap: '8px',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-130)',
+                        color: 'var(--ink-white)',
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Week
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.130 | Inverse: cobalt.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.130 | Inverse: cobalt.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaToggleBgColorSelectedActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    gap: '8px',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-120)',
-                      color: 'var(--ink-white)',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      fontSize: '14px'
-                    }}>Week</div>
+                  <Text size="sm" weight="semibold">
+                    ctaToggleBgColorSelectedActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      gap: '8px',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-120)',
+                        color: 'var(--ink-white)',
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Week
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.120 | Inverse: cobalt.20</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.120 | Inverse: cobalt.20
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaToggleBgColorSelectedSubtle</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    gap: '8px',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      fontSize: '14px'
-                    }}>Month</div>
+                  <Text size="sm" weight="semibold">
+                    ctaToggleBgColorSelectedSubtle
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      gap: '8px',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Month
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.10 | Inverse: white.fade.10</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.10 | Inverse: white.fade.10
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaToggleBgColorSelectedSubtleHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    gap: '8px',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.15)',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      fontSize: '14px'
-                    }}>Month</div>
+                  <Text size="sm" weight="semibold">
+                    ctaToggleBgColorSelectedSubtleHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      gap: '8px',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.15)',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Month
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.15 | Inverse: white.fade.15</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.15 | Inverse: white.fade.15
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaToggleBgColorSelectedSubtleActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    gap: '8px',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.2)',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      fontSize: '14px'
-                    }}>Month</div>
+                  <Text size="sm" weight="semibold">
+                    ctaToggleBgColorSelectedSubtleActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      gap: '8px',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '8px 16px',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Month
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.20 | Inverse: white.fade.20</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.20 | Inverse: white.fade.20
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -4147,69 +5508,99 @@ export default function ComponentShowcase() {
               <Heading level={5}>Border Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBorderColorSecondaryDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'transparent',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      border: '2px solid rgba(0, 0, 0, 0.5)'
-                    }}>Button</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBorderColorSecondaryDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        border: '2px solid rgba(0, 0, 0, 0.5)',
+                      }}
+                    >
+                      Button
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.50 | Inverse: white.fade.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.50 | Inverse: white.fade.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBorderColorSecondaryHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'transparent',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      border: '2px solid rgba(0, 0, 0, 0.7)'
-                    }}>Button</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBorderColorSecondaryHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        border: '2px solid rgba(0, 0, 0, 0.7)',
+                      }}
+                    >
+                      Button
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.70 | Inverse: white.fade.70</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.70 | Inverse: white.fade.70
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaBorderColorSecondaryActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'transparent',
-                      color: 'var(--ink-cobalt-140)',
-                      padding: '12px 24px',
-                      borderRadius: '6px',
-                      border: '2px solid rgba(0, 0, 0, 0.9)'
-                    }}>Button</div>
+                  <Text size="sm" weight="semibold">
+                    ctaBorderColorSecondaryActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: 'var(--ink-cobalt-140)',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        border: '2px solid rgba(0, 0, 0, 0.9)',
+                      }}
+                    >
+                      Button
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.90 | Inverse: white.fade.90</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.90 | Inverse: white.fade.90
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -4223,78 +5614,108 @@ export default function ComponentShowcase() {
               <Heading level={5}>CTA Sizes</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaSizeSm</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-100)',
-                      color: 'var(--ink-white)',
-                      height: '32px',
-                      padding: '0 16px',
-                      borderRadius: '6px',
+                  <Text size="sm" weight="semibold">
+                    ctaSizeSm
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
                       display: 'flex',
                       alignItems: 'center',
-                      fontSize: '14px'
-                    }}>Small Button</div>
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-100)',
+                        color: 'var(--ink-white)',
+                        height: '32px',
+                        padding: '0 16px',
+                        borderRadius: '6px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Small Button
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">dimension.32 = 32px</Text>
+                  <Text size="xs" color="tertiary">
+                    dimension.32 = 32px
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaSizeMd</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-100)',
-                      color: 'var(--ink-white)',
-                      height: '40px',
-                      padding: '0 20px',
-                      borderRadius: '6px',
+                  <Text size="sm" weight="semibold">
+                    ctaSizeMd
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
                       display: 'flex',
                       alignItems: 'center',
-                      fontSize: '14px'
-                    }}>Medium Button</div>
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-100)',
+                        color: 'var(--ink-white)',
+                        height: '40px',
+                        padding: '0 20px',
+                        borderRadius: '6px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Medium Button
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">dimension.40 = 40px</Text>
+                  <Text size="xs" color="tertiary">
+                    dimension.40 = 40px
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">ctaSizeLg</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-white)',
-                    border: '1px solid var(--ink-neutral-30)',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-cobalt-100)',
-                      color: 'var(--ink-white)',
-                      height: '48px',
-                      padding: '0 24px',
-                      borderRadius: '6px',
+                  <Text size="sm" weight="semibold">
+                    ctaSizeLg
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-white)',
+                      border: '1px solid var(--ink-neutral-30)',
+                      borderRadius: '8px',
+                      padding: '16px',
                       display: 'flex',
                       alignItems: 'center',
-                      fontSize: '16px'
-                    }}>Large Button</div>
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-cobalt-100)',
+                        color: 'var(--ink-white)',
+                        height: '48px',
+                        padding: '0 24px',
+                        borderRadius: '6px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: '16px',
+                      }}
+                    >
+                      Large Button
+                    </div>
                   </div>
-                  <Text size="xs" color="tertiary">dimension.48 = 48px</Text>
+                  <Text size="xs" color="tertiary">
+                    dimension.48 = 48px
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -4316,143 +5737,194 @@ export default function ComponentShowcase() {
             <Stack gap="medium">
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">elevationLow</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '24px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: '120px'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-white)',
+                  <Text size="sm" weight="semibold">
+                    elevationLow
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
                       padding: '24px',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.08)',
-                      minWidth: '120px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <Text size="sm">Card</Text>
-                    </div>
-                  </div>
-                  <Text size="xs" color="tertiary">offsetY: 4px, blur: 8px</Text>
-                  <Text size="xs" color="tertiary">Subtle elevation for cards</Text>
-                </Stack>
-
-                <Stack gap="small">
-                  <Text size="sm" weight="semibold">elevationMedium</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '24px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: '120px'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-white)',
-                      padding: '24px',
-                      borderRadius: '8px',
-                      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.12)',
-                      minWidth: '120px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <Text size="sm">Modal</Text>
-                    </div>
-                  </div>
-                  <Text size="xs" color="tertiary">offsetY: 8px, blur: 20px</Text>
-                  <Text size="xs" color="tertiary">Medium elevation for modals</Text>
-                </Stack>
-
-                <Stack gap="small">
-                  <Text size="sm" weight="semibold">elevationHigh</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '24px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: '120px'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-white)',
-                      padding: '24px',
-                      borderRadius: '8px',
-                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.16)',
-                      minWidth: '120px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <Text size="sm">Dropdown</Text>
-                    </div>
-                  </div>
-                  <Text size="xs" color="tertiary">offsetY: 8px, blur: 32px</Text>
-                  <Text size="xs" color="tertiary">High elevation for dropdowns</Text>
-                </Stack>
-
-                <Stack gap="small">
-                  <Text size="sm" weight="semibold">elevationGlass</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '24px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: '120px',
-                    backgroundImage: 'linear-gradient(45deg, var(--ink-cobalt-20) 25%, transparent 25%), linear-gradient(-45deg, var(--ink-cobalt-20) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--ink-cobalt-20) 75%), linear-gradient(-45deg, transparent 75%, var(--ink-cobalt-20) 75%)',
-                    backgroundSize: '20px 20px',
-                    backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                      padding: '24px',
-                      borderRadius: '8px',
-                      backdropFilter: 'blur(8px)',
-                      border: '1px solid rgba(255, 255, 255, 0.3)',
-                      minWidth: '120px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <Text size="sm">Glass</Text>
-                    </div>
-                  </div>
-                  <Text size="xs" color="tertiary">blur: 8px (backdrop-filter)</Text>
-                  <Text size="xs" color="tertiary">Glass morphism effect</Text>
-                </Stack>
-
-                <Stack gap="small">
-                  <Text size="sm" weight="semibold">elevationDrag</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '24px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: '120px'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'var(--ink-white)',
-                      padding: '24px',
-                      borderRadius: '8px',
-                      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.12)',
-                      minWidth: '120px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      cursor: 'grab'
-                    }}>
+                      minHeight: '120px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-white)',
+                        padding: '24px',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.08)',
+                        minWidth: '120px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Text size="sm">Card</Text>
+                    </div>
+                  </div>
+                  <Text size="xs" color="tertiary">
+                    offsetY: 4px, blur: 8px
+                  </Text>
+                  <Text size="xs" color="tertiary">
+                    Subtle elevation for cards
+                  </Text>
+                </Stack>
+
+                <Stack gap="small">
+                  <Text size="sm" weight="semibold">
+                    elevationMedium
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '24px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      minHeight: '120px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-white)',
+                        padding: '24px',
+                        borderRadius: '8px',
+                        boxShadow: '0 8px 20px rgba(0, 0, 0, 0.12)',
+                        minWidth: '120px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Text size="sm">Modal</Text>
+                    </div>
+                  </div>
+                  <Text size="xs" color="tertiary">
+                    offsetY: 8px, blur: 20px
+                  </Text>
+                  <Text size="xs" color="tertiary">
+                    Medium elevation for modals
+                  </Text>
+                </Stack>
+
+                <Stack gap="small">
+                  <Text size="sm" weight="semibold">
+                    elevationHigh
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '24px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      minHeight: '120px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-white)',
+                        padding: '24px',
+                        borderRadius: '8px',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.16)',
+                        minWidth: '120px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Text size="sm">Dropdown</Text>
+                    </div>
+                  </div>
+                  <Text size="xs" color="tertiary">
+                    offsetY: 8px, blur: 32px
+                  </Text>
+                  <Text size="xs" color="tertiary">
+                    High elevation for dropdowns
+                  </Text>
+                </Stack>
+
+                <Stack gap="small">
+                  <Text size="sm" weight="semibold">
+                    elevationGlass
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '24px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      minHeight: '120px',
+                      backgroundImage:
+                        'linear-gradient(45deg, var(--ink-cobalt-20) 25%, transparent 25%), linear-gradient(-45deg, var(--ink-cobalt-20) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--ink-cobalt-20) 75%), linear-gradient(-45deg, transparent 75%, var(--ink-cobalt-20) 75%)',
+                      backgroundSize: '20px 20px',
+                      backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                        padding: '24px',
+                        borderRadius: '8px',
+                        backdropFilter: 'blur(8px)',
+                        border: '1px solid rgba(255, 255, 255, 0.3)',
+                        minWidth: '120px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Text size="sm">Glass</Text>
+                    </div>
+                  </div>
+                  <Text size="xs" color="tertiary">
+                    blur: 8px (backdrop-filter)
+                  </Text>
+                  <Text size="xs" color="tertiary">
+                    Glass morphism effect
+                  </Text>
+                </Stack>
+
+                <Stack gap="small">
+                  <Text size="sm" weight="semibold">
+                    elevationDrag
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '24px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      minHeight: '120px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'var(--ink-white)',
+                        padding: '24px',
+                        borderRadius: '8px',
+                        boxShadow: '0 8px 20px rgba(0, 0, 0, 0.12)',
+                        minWidth: '120px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'grab',
+                      }}
+                    >
                       <Text size="sm">Dragging</Text>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">offsetY: 8px, blur: 20px</Text>
-                  <Text size="xs" color="tertiary">Elevation during drag</Text>
+                  <Text size="xs" color="tertiary">
+                    offsetY: 8px, blur: 20px
+                  </Text>
+                  <Text size="xs" color="tertiary">
+                    Elevation during drag
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -4466,7 +5938,8 @@ export default function ComponentShowcase() {
       <Stack gap="medium">
         <Heading level={4}>Font Styles (Typography Tokens)</Heading>
         <Text size="sm" color="secondary">
-          28 typography tokens defining font families, sizes, weights, line heights, and letter spacing
+          28 typography tokens defining font families, sizes, weights, line heights, and letter
+          spacing
         </Text>
 
         {/* Display Fonts */}
@@ -4476,73 +5949,103 @@ export default function ComponentShowcase() {
               <Heading level={5}>Display Fonts (Large Headlines)</Heading>
               <Stack gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontDisplayXL</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '72px',
-                    fontWeight: 400,
-                    lineHeight: 1.2,
-                    letterSpacing: '-0.02em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontDisplayXL
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '72px',
+                      fontWeight: 400,
+                      lineHeight: 1.2,
+                      letterSpacing: '-0.02em',
+                    }}
+                  >
                     The quick brown fox
                   </div>
-                  <Text size="xs" color="tertiary">72px / 400 / 1.2 / -0.02em</Text>
+                  <Text size="xs" color="tertiary">
+                    72px / 400 / 1.2 / -0.02em
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontDisplayL</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '64px',
-                    fontWeight: 400,
-                    lineHeight: 1.2,
-                    letterSpacing: '-0.02em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontDisplayL
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '64px',
+                      fontWeight: 400,
+                      lineHeight: 1.2,
+                      letterSpacing: '-0.02em',
+                    }}
+                  >
                     The quick brown fox jumps
                   </div>
-                  <Text size="xs" color="tertiary">64px / 400 / 1.2 / -0.02em</Text>
+                  <Text size="xs" color="tertiary">
+                    64px / 400 / 1.2 / -0.02em
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontDisplayM</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '56px',
-                    fontWeight: 400,
-                    lineHeight: 1.2,
-                    letterSpacing: '-0.02em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontDisplayM
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '56px',
+                      fontWeight: 400,
+                      lineHeight: 1.2,
+                      letterSpacing: '-0.02em',
+                    }}
+                  >
                     The quick brown fox jumps over
                   </div>
-                  <Text size="xs" color="tertiary">56px / 400 / 1.2 / -0.02em</Text>
+                  <Text size="xs" color="tertiary">
+                    56px / 400 / 1.2 / -0.02em
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontDisplayS</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '48px',
-                    fontWeight: 400,
-                    lineHeight: 1.2,
-                    letterSpacing: '-0.02em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontDisplayS
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '48px',
+                      fontWeight: 400,
+                      lineHeight: 1.2,
+                      letterSpacing: '-0.02em',
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">48px / 400 / 1.2 / -0.02em</Text>
+                  <Text size="xs" color="tertiary">
+                    48px / 400 / 1.2 / -0.02em
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontDisplayXS</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '40px',
-                    fontWeight: 400,
-                    lineHeight: 1.2,
-                    letterSpacing: '-0.02em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontDisplayXS
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '40px',
+                      fontWeight: 400,
+                      lineHeight: 1.2,
+                      letterSpacing: '-0.02em',
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">40px / 400 / 1.2 / -0.02em</Text>
+                  <Text size="xs" color="tertiary">
+                    40px / 400 / 1.2 / -0.02em
+                  </Text>
                 </Stack>
               </Stack>
             </Stack>
@@ -4556,59 +6059,83 @@ export default function ComponentShowcase() {
               <Heading level={5}>Heading Fonts</Heading>
               <Grid columns={2} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontHeadingM</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '32px',
-                    fontWeight: 400,
-                    lineHeight: 1.2,
-                    letterSpacing: '-0.01em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontHeadingM
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '32px',
+                      fontWeight: 400,
+                      lineHeight: 1.2,
+                      letterSpacing: '-0.01em',
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">32px / 400 / 1.2 / -0.01em</Text>
+                  <Text size="xs" color="tertiary">
+                    32px / 400 / 1.2 / -0.01em
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontHeadingS</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '24px',
-                    fontWeight: 400,
-                    lineHeight: 1.2,
-                    letterSpacing: '-0.01em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontHeadingS
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '24px',
+                      fontWeight: 400,
+                      lineHeight: 1.2,
+                      letterSpacing: '-0.01em',
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">24px / 400 / 1.2 / -0.01em</Text>
+                  <Text size="xs" color="tertiary">
+                    24px / 400 / 1.2 / -0.01em
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontHeadingXS</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '20px',
-                    fontWeight: 500,
-                    lineHeight: 1.2,
-                    letterSpacing: '-0.01em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontHeadingXS
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '20px',
+                      fontWeight: 500,
+                      lineHeight: 1.2,
+                      letterSpacing: '-0.01em',
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">20px / 500 / 1.2 / -0.01em</Text>
+                  <Text size="xs" color="tertiary">
+                    20px / 500 / 1.2 / -0.01em
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontHeadingXXS</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '16px',
-                    fontWeight: 500,
-                    lineHeight: 1.2,
-                    letterSpacing: '-0.01em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontHeadingXXS
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '16px',
+                      fontWeight: 500,
+                      lineHeight: 1.2,
+                      letterSpacing: '-0.01em',
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">16px / 500 / 1.2 / -0.01em</Text>
+                  <Text size="xs" color="tertiary">
+                    16px / 500 / 1.2 / -0.01em
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -4622,55 +6149,79 @@ export default function ComponentShowcase() {
               <Heading level={5}>Body Fonts</Heading>
               <Grid columns={2} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontBodyXL</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '24px',
-                    fontWeight: 400,
-                    lineHeight: 1.5
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontBodyXL
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '24px',
+                      fontWeight: 400,
+                      lineHeight: 1.5,
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">24px / 400 / 1.5</Text>
+                  <Text size="xs" color="tertiary">
+                    24px / 400 / 1.5
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontBodyL</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '20px',
-                    fontWeight: 400,
-                    lineHeight: 1.5
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontBodyL
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '20px',
+                      fontWeight: 400,
+                      lineHeight: 1.5,
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">20px / 400 / 1.5</Text>
+                  <Text size="xs" color="tertiary">
+                    20px / 400 / 1.5
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontBodyM</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '16px',
-                    fontWeight: 400,
-                    lineHeight: 1.5
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontBodyM
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '16px',
+                      fontWeight: 400,
+                      lineHeight: 1.5,
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">16px / 400 / 1.5</Text>
+                  <Text size="xs" color="tertiary">
+                    16px / 400 / 1.5
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontBodyS</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '14px',
-                    fontWeight: 400,
-                    lineHeight: 1.4
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontBodyS
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '14px',
+                      fontWeight: 400,
+                      lineHeight: 1.4,
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">14px / 400 / 1.4</Text>
+                  <Text size="xs" color="tertiary">
+                    14px / 400 / 1.4
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -4684,109 +6235,157 @@ export default function ComponentShowcase() {
               <Heading level={5}>Button, Label & Component Fonts</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontButton</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '16px',
-                    fontWeight: 500,
-                    lineHeight: 1.5
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontButton
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '16px',
+                      fontWeight: 500,
+                      lineHeight: 1.5,
+                    }}
+                  >
                     The quick brown fox
                   </div>
-                  <Text size="xs" color="tertiary">16px / 500 / 1.5</Text>
+                  <Text size="xs" color="tertiary">
+                    16px / 500 / 1.5
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontButtonS</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    lineHeight: 1.4
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontButtonS
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      lineHeight: 1.4,
+                    }}
+                  >
                     The quick brown fox
                   </div>
-                  <Text size="xs" color="tertiary">14px / 500 / 1.4</Text>
+                  <Text size="xs" color="tertiary">
+                    14px / 500 / 1.4
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontLabel</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    lineHeight: 1.4
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontLabel
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      lineHeight: 1.4,
+                    }}
+                  >
                     The quick brown fox
                   </div>
-                  <Text size="xs" color="tertiary">14px / 500 / 1.4</Text>
+                  <Text size="xs" color="tertiary">
+                    14px / 500 / 1.4
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontLabelEmphasis</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    lineHeight: 1.4
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontLabelEmphasis
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '14px',
+                      fontWeight: 600,
+                      lineHeight: 1.4,
+                    }}
+                  >
                     The quick brown fox
                   </div>
-                  <Text size="xs" color="tertiary">14px / 600 / 1.4</Text>
+                  <Text size="xs" color="tertiary">
+                    14px / 600 / 1.4
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontItemSelected</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    lineHeight: 1.4
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontItemSelected
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '14px',
+                      fontWeight: 600,
+                      lineHeight: 1.4,
+                    }}
+                  >
                     The quick brown fox
                   </div>
-                  <Text size="xs" color="tertiary">14px / 600 / 1.4</Text>
+                  <Text size="xs" color="tertiary">
+                    14px / 600 / 1.4
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontTab</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    lineHeight: 1.4
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontTab
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      lineHeight: 1.4,
+                    }}
+                  >
                     The quick brown fox
                   </div>
-                  <Text size="xs" color="tertiary">14px / 500 / 1.4</Text>
+                  <Text size="xs" color="tertiary">
+                    14px / 500 / 1.4
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontBadge</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '12px',
-                    fontWeight: 500,
-                    lineHeight: 1.5,
-                    letterSpacing: '0.02em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontBadge
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '12px',
+                      fontWeight: 500,
+                      lineHeight: 1.5,
+                      letterSpacing: '0.02em',
+                    }}
+                  >
                     The quick brown fox
                   </div>
-                  <Text size="xs" color="tertiary">12px / 500 / 1.5 / 0.02em</Text>
+                  <Text size="xs" color="tertiary">
+                    12px / 500 / 1.5 / 0.02em
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontAvatarGroup</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '12px',
-                    fontWeight: 500,
-                    lineHeight: 1.5,
-                    letterSpacing: '0.02em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontAvatarGroup
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '12px',
+                      fontWeight: 500,
+                      lineHeight: 1.5,
+                      letterSpacing: '0.02em',
+                    }}
+                  >
                     The quick brown fox
                   </div>
-                  <Text size="xs" color="tertiary">12px / 500 / 1.5 / 0.02em</Text>
+                  <Text size="xs" color="tertiary">
+                    12px / 500 / 1.5 / 0.02em
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -4800,45 +6399,63 @@ export default function ComponentShowcase() {
               <Heading level={5}>Detail & Section Fonts</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontDetailS</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '12px',
-                    fontWeight: 500,
-                    lineHeight: 1.5,
-                    letterSpacing: '0.02em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontDetailS
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '12px',
+                      fontWeight: 500,
+                      lineHeight: 1.5,
+                      letterSpacing: '0.02em',
+                    }}
+                  >
                     THE QUICK BROWN FOX JUMPS
                   </div>
-                  <Text size="xs" color="tertiary">12px / 500 / 1.5 / 0.02em</Text>
+                  <Text size="xs" color="tertiary">
+                    12px / 500 / 1.5 / 0.02em
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontDetailXS</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '10px',
-                    fontWeight: 500,
-                    lineHeight: 1.5,
-                    letterSpacing: '0.04em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontDetailXS
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '10px',
+                      fontWeight: 500,
+                      lineHeight: 1.5,
+                      letterSpacing: '0.04em',
+                    }}
+                  >
                     THE QUICK BROWN FOX JUMPS
                   </div>
-                  <Text size="xs" color="tertiary">10px / 500 / 1.5 / 0.04em</Text>
+                  <Text size="xs" color="tertiary">
+                    10px / 500 / 1.5 / 0.04em
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontSectionHeadline</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '12px',
-                    fontWeight: 600,
-                    lineHeight: 1.5,
-                    letterSpacing: '0.02em'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontSectionHeadline
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      lineHeight: 1.5,
+                      letterSpacing: '0.02em',
+                    }}
+                  >
                     THE QUICK BROWN FOX JUMPS
                   </div>
-                  <Text size="xs" color="tertiary">12px / 600 / 1.5 / 0.02em</Text>
+                  <Text size="xs" color="tertiary">
+                    12px / 600 / 1.5 / 0.02em
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -4852,33 +6469,45 @@ export default function ComponentShowcase() {
               <Heading level={5}>Link Fonts</Heading>
               <Grid columns={2} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontLink</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '16px',
-                    fontWeight: 400,
-                    lineHeight: 1.5,
-                    textDecoration: 'underline',
-                    color: 'var(--ink-cobalt-100)'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontLink
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '16px',
+                      fontWeight: 400,
+                      lineHeight: 1.5,
+                      textDecoration: 'underline',
+                      color: 'var(--ink-cobalt-100)',
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">16px / 400 / 1.5 / underline</Text>
+                  <Text size="xs" color="tertiary">
+                    16px / 400 / 1.5 / underline
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontLinkS</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '14px',
-                    fontWeight: 400,
-                    lineHeight: 1.4,
-                    textDecoration: 'underline',
-                    color: 'var(--ink-cobalt-100)'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontLinkS
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '14px',
+                      fontWeight: 400,
+                      lineHeight: 1.4,
+                      textDecoration: 'underline',
+                      color: 'var(--ink-cobalt-100)',
+                    }}
+                  >
                     The quick brown fox jumps over the lazy dog
                   </div>
-                  <Text size="xs" color="tertiary">14px / 400 / 1.4 / underline</Text>
+                  <Text size="xs" color="tertiary">
+                    14px / 400 / 1.4 / underline
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -4892,29 +6521,41 @@ export default function ComponentShowcase() {
               <Heading level={5}>Breadcrumb Fonts</Heading>
               <Grid columns={2} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontBreadcrumb</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '14px',
-                    fontWeight: 400,
-                    lineHeight: 'normal'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontBreadcrumb
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '14px',
+                      fontWeight: 400,
+                      lineHeight: 'normal',
+                    }}
+                  >
                     Home / Products / Category
                   </div>
-                  <Text size="xs" color="tertiary">14px / 400 / normal</Text>
+                  <Text size="xs" color="tertiary">
+                    14px / 400 / normal
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">fontBreadcrumbActive</Text>
-                  <div style={{
-                    fontFamily: 'var(--ink-font-family)',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    lineHeight: 'normal'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    fontBreadcrumbActive
+                  </Text>
+                  <div
+                    style={{
+                      fontFamily: 'var(--ink-font-family)',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      lineHeight: 'normal',
+                    }}
+                  >
                     Home / Products / Category
                   </div>
-                  <Text size="xs" color="tertiary">14px / 500 / normal</Text>
+                  <Text size="xs" color="tertiary">
+                    14px / 500 / normal
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -4928,7 +6569,8 @@ export default function ComponentShowcase() {
       <Stack gap="medium">
         <Heading level={4}>Form Colors & Sizes (Input Elements)</Heading>
         <Text size="sm" color="secondary">
-          21 form tokens (19 colors + 2 sizes) for input fields, checkboxes, radio buttons, and form controls
+          21 form tokens (19 colors + 2 sizes) for input fields, checkboxes, radio buttons, and form
+          controls
         </Text>
 
         {/* Form Background Colors */}
@@ -4938,12 +6580,16 @@ export default function ComponentShowcase() {
               <Heading level={5}>Form Background Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBgColorDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    formBgColorDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     <input
                       type="text"
                       placeholder="Enter text..."
@@ -4954,20 +6600,26 @@ export default function ComponentShowcase() {
                         border: '1px solid var(--ink-neutral-50)',
                         borderRadius: '4px',
                         fontFamily: 'var(--ink-font-family)',
-                        fontSize: '14px'
+                        fontSize: '14px',
                       }}
                     />
                   </div>
-                  <Text size="xs" color="tertiary">Standard: white.100 | Inverse: neutral.140</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: white.100 | Inverse: neutral.140
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBgColorDisabled</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    formBgColorDisabled
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     <input
                       type="text"
                       placeholder="Disabled field"
@@ -4980,20 +6632,26 @@ export default function ComponentShowcase() {
                         borderRadius: '4px',
                         fontFamily: 'var(--ink-font-family)',
                         fontSize: '14px',
-                        cursor: 'not-allowed'
+                        cursor: 'not-allowed',
                       }}
                     />
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.15 | Inverse: white.fade.15</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.15 | Inverse: white.fade.15
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBgColorError</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    formBgColorError
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     <input
                       type="text"
                       placeholder="Invalid input"
@@ -5005,20 +6663,26 @@ export default function ComponentShowcase() {
                         border: '1px solid var(--ink-red-100)',
                         borderRadius: '4px',
                         fontFamily: 'var(--ink-font-family)',
-                        fontSize: '14px'
+                        fontSize: '14px',
                       }}
                     />
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.90 | Inverse: red.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.90 | Inverse: red.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBgColorRead</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    formBgColorRead
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     <input
                       type="text"
                       value="Read-only field"
@@ -5030,89 +6694,121 @@ export default function ComponentShowcase() {
                         border: '1px solid var(--ink-neutral-30)',
                         borderRadius: '4px',
                         fontFamily: 'var(--ink-font-family)',
-                        fontSize: '14px'
+                        fontSize: '14px',
                       }}
                     />
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.5 | Inverse: white.fade.5</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.5 | Inverse: white.fade.5
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBgColorSelected</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px'
-                  }}>
-                    <div style={{
-                      width: '20px',
-                      height: '20px',
-                      backgroundColor: 'var(--ink-cobalt-120)',
-                      borderRadius: '4px',
+                  <Text size="sm" weight="semibold">
+                    formBgColorSelected
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      fontSize: '14px'
-                    }}>✓</div>
+                      gap: '8px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        backgroundColor: 'var(--ink-cobalt-120)',
+                        borderRadius: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '14px',
+                      }}
+                    >
+                      ✓
+                    </div>
                     <Text size="sm">Checked</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.120 | Inverse: cobalt.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.120 | Inverse: cobalt.40
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBgColorSelectedHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px'
-                  }}>
-                    <div style={{
-                      width: '20px',
-                      height: '20px',
-                      backgroundColor: 'var(--ink-cobalt-130)',
-                      borderRadius: '4px',
+                  <Text size="sm" weight="semibold">
+                    formBgColorSelectedHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      fontSize: '14px'
-                    }}>✓</div>
+                      gap: '8px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        backgroundColor: 'var(--ink-cobalt-130)',
+                        borderRadius: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '14px',
+                      }}
+                    >
+                      ✓
+                    </div>
                     <Text size="sm">Hover</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.130 | Inverse: cobalt.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.130 | Inverse: cobalt.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBgColorSelectedActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px'
-                  }}>
-                    <div style={{
-                      width: '20px',
-                      height: '20px',
-                      backgroundColor: 'var(--ink-cobalt-110)',
-                      borderRadius: '4px',
+                  <Text size="sm" weight="semibold">
+                    formBgColorSelectedActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      fontSize: '14px'
-                    }}>✓</div>
+                      gap: '8px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        backgroundColor: 'var(--ink-cobalt-110)',
+                        borderRadius: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '14px',
+                      }}
+                    >
+                      ✓
+                    </div>
                     <Text size="sm">Active</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.110 | Inverse: cobalt.60</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.110 | Inverse: cobalt.60
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -5126,12 +6822,16 @@ export default function ComponentShowcase() {
               <Heading level={5}>Form Border Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBorderColorDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    formBorderColorDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     <input
                       type="text"
                       placeholder="Default border"
@@ -5142,20 +6842,26 @@ export default function ComponentShowcase() {
                         border: '2px solid rgba(0, 0, 0, 0.5)',
                         borderRadius: '4px',
                         fontFamily: 'var(--ink-font-family)',
-                        fontSize: '14px'
+                        fontSize: '14px',
                       }}
                     />
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.50 | Inverse: white.fade.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.50 | Inverse: white.fade.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBorderColorHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    formBorderColorHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     <input
                       type="text"
                       placeholder="Hover border"
@@ -5166,20 +6872,26 @@ export default function ComponentShowcase() {
                         border: '2px solid rgba(0, 0, 0, 0.7)',
                         borderRadius: '4px',
                         fontFamily: 'var(--ink-font-family)',
-                        fontSize: '14px'
+                        fontSize: '14px',
                       }}
                     />
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.70 | Inverse: white.fade.70</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.70 | Inverse: white.fade.70
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBorderColorActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    formBorderColorActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     <input
                       type="text"
                       placeholder="Active/Focus border"
@@ -5190,20 +6902,26 @@ export default function ComponentShowcase() {
                         border: '2px solid var(--ink-cobalt-120)',
                         borderRadius: '4px',
                         fontFamily: 'var(--ink-font-family)',
-                        fontSize: '14px'
+                        fontSize: '14px',
                       }}
                     />
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.120 | Inverse: cobalt.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.120 | Inverse: cobalt.40
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBorderColorError</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    formBorderColorError
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     <input
                       type="text"
                       placeholder="Error border"
@@ -5214,92 +6932,124 @@ export default function ComponentShowcase() {
                         border: '2px solid var(--ink-red-90)',
                         borderRadius: '4px',
                         fontFamily: 'var(--ink-font-family)',
-                        fontSize: '14px'
+                        fontSize: '14px',
                       }}
                     />
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.90 | Inverse: red.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.90 | Inverse: red.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBorderColorSelected</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px'
-                  }}>
-                    <div style={{
-                      width: '20px',
-                      height: '20px',
-                      backgroundColor: 'var(--ink-cobalt-120)',
-                      border: '2px solid var(--ink-cobalt-120)',
-                      borderRadius: '4px',
+                  <Text size="sm" weight="semibold">
+                    formBorderColorSelected
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      fontSize: '14px'
-                    }}>✓</div>
+                      gap: '8px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        backgroundColor: 'var(--ink-cobalt-120)',
+                        border: '2px solid var(--ink-cobalt-120)',
+                        borderRadius: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '14px',
+                      }}
+                    >
+                      ✓
+                    </div>
                     <Text size="sm">Selected</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.120 | Inverse: cobalt.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.120 | Inverse: cobalt.40
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBorderColorSelectedHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px'
-                  }}>
-                    <div style={{
-                      width: '20px',
-                      height: '20px',
-                      backgroundColor: 'var(--ink-cobalt-130)',
-                      border: '2px solid var(--ink-cobalt-130)',
-                      borderRadius: '4px',
+                  <Text size="sm" weight="semibold">
+                    formBorderColorSelectedHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      fontSize: '14px'
-                    }}>✓</div>
+                      gap: '8px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        backgroundColor: 'var(--ink-cobalt-130)',
+                        border: '2px solid var(--ink-cobalt-130)',
+                        borderRadius: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '14px',
+                      }}
+                    >
+                      ✓
+                    </div>
                     <Text size="sm">Hover</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.130 | Inverse: cobalt.30</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.130 | Inverse: cobalt.30
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBorderColorSelectedActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px'
-                  }}>
-                    <div style={{
-                      width: '20px',
-                      height: '20px',
-                      backgroundColor: 'var(--ink-cobalt-110)',
-                      border: '2px solid var(--ink-cobalt-110)',
-                      borderRadius: '4px',
+                  <Text size="sm" weight="semibold">
+                    formBorderColorSelectedActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      fontSize: '14px'
-                    }}>✓</div>
+                      gap: '8px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        backgroundColor: 'var(--ink-cobalt-110)',
+                        border: '2px solid var(--ink-cobalt-110)',
+                        borderRadius: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '14px',
+                      }}
+                    >
+                      ✓
+                    </div>
                     <Text size="sm">Active</Text>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.110 | Inverse: cobalt.60</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.110 | Inverse: cobalt.60
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -5313,49 +7063,69 @@ export default function ComponentShowcase() {
               <Heading level={5}>Other Form Colors</Heading>
               <Grid columns={3} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formHighlightBgColorDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
-                    <div style={{
-                      backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                      padding: '12px',
-                      borderRadius: '4px'
-                    }}>
+                  <Text size="sm" weight="semibold">
+                    formHighlightBgColorDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                        padding: '12px',
+                        borderRadius: '4px',
+                      }}
+                    >
                       <Text size="sm">Highlighted text</Text>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.10 | Inverse: white.fade.10</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.10 | Inverse: white.fade.10
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formTextColorRequired</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px'
-                    }}>
+                  <Text size="sm" weight="semibold">
+                    formTextColorRequired
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                      }}
+                    >
                       <Text size="sm">Email</Text>
                       <span style={{ color: 'var(--ink-red-90)', fontSize: '16px' }}>*</span>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: red.90 | Inverse: red.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: red.90 | Inverse: red.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formTextColorDisabled</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    formTextColorDisabled
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     <input
                       type="text"
                       value="Disabled text"
@@ -5368,104 +7138,136 @@ export default function ComponentShowcase() {
                         borderRadius: '4px',
                         fontFamily: 'var(--ink-font-family)',
                         fontSize: '14px',
-                        color: 'rgba(0, 0, 0, 0.5)'
+                        color: 'rgba(0, 0, 0, 0.5)',
                       }}
                     />
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.fade.50 | Inverse: white.fade.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.fade.50 | Inverse: white.fade.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formThumbBgColorDefault</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}>
-                    <div style={{
-                      width: '40px',
-                      height: '20px',
-                      backgroundColor: 'var(--ink-neutral-20)',
-                      borderRadius: '10px',
-                      position: 'relative'
-                    }}>
-                      <div style={{
-                        width: '16px',
-                        height: '16px',
-                        backgroundColor: 'var(--ink-neutral-100)',
-                        borderRadius: '50%',
-                        position: 'absolute',
-                        top: '2px',
-                        left: '2px',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                      }}></div>
+                  <Text size="sm" weight="semibold">
+                    formThumbBgColorDefault
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '40px',
+                        height: '20px',
+                        backgroundColor: 'var(--ink-neutral-20)',
+                        borderRadius: '10px',
+                        position: 'relative',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '16px',
+                          height: '16px',
+                          backgroundColor: 'var(--ink-neutral-100)',
+                          borderRadius: '50%',
+                          position: 'absolute',
+                          top: '2px',
+                          left: '2px',
+                          boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.100 | Inverse: neutral.50</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.100 | Inverse: neutral.50
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formThumbBgColorHover</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}>
-                    <div style={{
-                      width: '40px',
-                      height: '20px',
-                      backgroundColor: 'var(--ink-neutral-20)',
-                      borderRadius: '10px',
-                      position: 'relative'
-                    }}>
-                      <div style={{
-                        width: '16px',
-                        height: '16px',
-                        backgroundColor: 'var(--ink-neutral-140)',
-                        borderRadius: '50%',
-                        position: 'absolute',
-                        top: '2px',
-                        left: '2px',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
-                      }}></div>
+                  <Text size="sm" weight="semibold">
+                    formThumbBgColorHover
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '40px',
+                        height: '20px',
+                        backgroundColor: 'var(--ink-neutral-20)',
+                        borderRadius: '10px',
+                        position: 'relative',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '16px',
+                          height: '16px',
+                          backgroundColor: 'var(--ink-neutral-140)',
+                          borderRadius: '50%',
+                          position: 'absolute',
+                          top: '2px',
+                          left: '2px',
+                          boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: neutral.140 | Inverse: white.100</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: neutral.140 | Inverse: white.100
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formThumbBgColorActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}>
-                    <div style={{
-                      width: '40px',
-                      height: '20px',
-                      backgroundColor: 'var(--ink-cobalt-120)',
-                      borderRadius: '10px',
-                      position: 'relative'
-                    }}>
-                      <div style={{
-                        width: '16px',
-                        height: '16px',
-                        backgroundColor: 'var(--ink-white)',
-                        borderRadius: '50%',
-                        position: 'absolute',
-                        top: '2px',
-                        right: '2px',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                      }}></div>
+                  <Text size="sm" weight="semibold">
+                    formThumbBgColorActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '40px',
+                        height: '20px',
+                        backgroundColor: 'var(--ink-cobalt-120)',
+                        borderRadius: '10px',
+                        position: 'relative',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '16px',
+                          height: '16px',
+                          backgroundColor: 'var(--ink-white)',
+                          borderRadius: '50%',
+                          position: 'absolute',
+                          top: '2px',
+                          right: '2px',
+                          boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                  <Text size="xs" color="tertiary">Standard: cobalt.120 | Inverse: cobalt.40</Text>
+                  <Text size="xs" color="tertiary">
+                    Standard: cobalt.120 | Inverse: cobalt.40
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -5479,12 +7281,16 @@ export default function ComponentShowcase() {
               <Heading level={5}>Form Border Widths</Heading>
               <Grid columns={2} gap="medium">
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBorderWidth</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    formBorderWidth
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     <input
                       type="text"
                       placeholder="1px border"
@@ -5495,20 +7301,26 @@ export default function ComponentShowcase() {
                         border: '1px solid var(--ink-neutral-50)',
                         borderRadius: '4px',
                         fontFamily: 'var(--ink-font-family)',
-                        fontSize: '14px'
+                        fontSize: '14px',
                       }}
                     />
                   </div>
-                  <Text size="xs" color="tertiary">dimension.1 = 1px</Text>
+                  <Text size="xs" color="tertiary">
+                    dimension.1 = 1px
+                  </Text>
                 </Stack>
 
                 <Stack gap="small">
-                  <Text size="sm" weight="semibold">formBorderWidthActive</Text>
-                  <div style={{
-                    backgroundColor: 'var(--ink-neutral-5)',
-                    padding: '16px',
-                    borderRadius: '8px'
-                  }}>
+                  <Text size="sm" weight="semibold">
+                    formBorderWidthActive
+                  </Text>
+                  <div
+                    style={{
+                      backgroundColor: 'var(--ink-neutral-5)',
+                      padding: '16px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     <input
                       type="text"
                       placeholder="2px border (active/focus)"
@@ -5519,11 +7331,13 @@ export default function ComponentShowcase() {
                         border: '2px solid var(--ink-cobalt-120)',
                         borderRadius: '4px',
                         fontFamily: 'var(--ink-font-family)',
-                        fontSize: '14px'
+                        fontSize: '14px',
                       }}
                     />
                   </div>
-                  <Text size="xs" color="tertiary">dimension.2 = 2px</Text>
+                  <Text size="xs" color="tertiary">
+                    dimension.2 = 2px
+                  </Text>
                 </Stack>
               </Grid>
             </Stack>
@@ -5551,7 +7365,8 @@ export default function ComponentShowcase() {
             <div>
               <Heading level={4}>All Button Variants</Heading>
               <Text size="sm" color="secondary">
-                Brand (bright vibrant purple) vs Primary (dark purple) are two distinct button types. All variants use 4px border radius consistently.
+                Brand (bright vibrant purple) vs Primary (dark purple) are two distinct button
+                types. All variants use 4px border radius consistently.
               </Text>
             </div>
 
@@ -5564,7 +7379,9 @@ export default function ComponentShowcase() {
                 <Button kind="secondary">Secondary</Button>
                 <Button kind="tertiary">Tertiary</Button>
                 <Button kind="danger">Danger</Button>
-                <Button kind="brand" disabled>Disabled</Button>
+                <Button kind="brand" disabled>
+                  Disabled
+                </Button>
               </div>
             </Stack>
 
@@ -5572,11 +7389,21 @@ export default function ComponentShowcase() {
             <Stack gap="medium">
               <Text weight="medium">Small Size (32px)</Text>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Button kind="brand" size="small">Brand</Button>
-                <Button kind="primary" size="small">Primary</Button>
-                <Button kind="secondary" size="small">Secondary</Button>
-                <Button kind="tertiary" size="small">Tertiary</Button>
-                <Button kind="danger" size="small">Danger</Button>
+                <Button kind="brand" size="small">
+                  Brand
+                </Button>
+                <Button kind="primary" size="small">
+                  Primary
+                </Button>
+                <Button kind="secondary" size="small">
+                  Secondary
+                </Button>
+                <Button kind="tertiary" size="small">
+                  Tertiary
+                </Button>
+                <Button kind="danger" size="small">
+                  Danger
+                </Button>
               </div>
             </Stack>
 
@@ -5584,11 +7411,21 @@ export default function ComponentShowcase() {
             <Stack gap="medium">
               <Text weight="medium">Large Size (48px)</Text>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Button kind="brand" size="large">Brand</Button>
-                <Button kind="primary" size="large">Primary</Button>
-                <Button kind="secondary" size="large">Secondary</Button>
-                <Button kind="tertiary" size="large">Tertiary</Button>
-                <Button kind="danger" size="large">Danger</Button>
+                <Button kind="brand" size="large">
+                  Brand
+                </Button>
+                <Button kind="primary" size="large">
+                  Primary
+                </Button>
+                <Button kind="secondary" size="large">
+                  Secondary
+                </Button>
+                <Button kind="tertiary" size="large">
+                  Tertiary
+                </Button>
+                <Button kind="danger" size="large">
+                  Danger
+                </Button>
               </div>
             </Stack>
 
@@ -5596,11 +7433,21 @@ export default function ComponentShowcase() {
             <Stack gap="medium">
               <Text weight="medium">XLarge Size (56px)</Text>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Button kind="brand" size="xlarge">Brand</Button>
-                <Button kind="primary" size="xlarge">Primary</Button>
-                <Button kind="secondary" size="xlarge">Secondary</Button>
-                <Button kind="tertiary" size="xlarge">Tertiary</Button>
-                <Button kind="danger" size="xlarge">Danger</Button>
+                <Button kind="brand" size="xlarge">
+                  Brand
+                </Button>
+                <Button kind="primary" size="xlarge">
+                  Primary
+                </Button>
+                <Button kind="secondary" size="xlarge">
+                  Secondary
+                </Button>
+                <Button kind="tertiary" size="xlarge">
+                  Tertiary
+                </Button>
+                <Button kind="danger" size="xlarge">
+                  Danger
+                </Button>
               </div>
             </Stack>
           </Stack>
@@ -5612,7 +7459,9 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>Buttons with Icons</Heading>
-            <Text size="sm" color="secondary">Icons inherit button text color via official tokens</Text>
+            <Text size="sm" color="secondary">
+              Icons inherit button text color via official tokens
+            </Text>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
               <Button kind="brand" startElement={<Icon name="plus" size="small" />}>
                 Add Item
@@ -5639,11 +7488,19 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>Loading State</Heading>
-            <Text size="sm" color="secondary">Spinner uses official opacity token for disabled state</Text>
+            <Text size="sm" color="secondary">
+              Spinner uses official opacity token for disabled state
+            </Text>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-              <Button kind="brand" loading>Loading...</Button>
-              <Button kind="primary" loading>Processing</Button>
-              <Button kind="secondary" loading>Please wait</Button>
+              <Button kind="brand" loading>
+                Loading...
+              </Button>
+              <Button kind="primary" loading>
+                Processing
+              </Button>
+              <Button kind="secondary" loading>
+                Please wait
+              </Button>
             </div>
           </Stack>
         </Card.Body>
@@ -5655,8 +7512,12 @@ export default function ComponentShowcase() {
           <Stack gap="medium">
             <Heading level={4}>Full Width Buttons</Heading>
             <Stack gap="small">
-              <Button kind="brand" fullWidth>Full Width Brand Button</Button>
-              <Button kind="primary" fullWidth>Full Width Primary Button</Button>
+              <Button kind="brand" fullWidth>
+                Full Width Brand Button
+              </Button>
+              <Button kind="primary" fullWidth>
+                Full Width Primary Button
+              </Button>
             </Stack>
           </Stack>
         </Card.Body>
@@ -5667,11 +7528,19 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>Rounded (Pill-Shaped)</Heading>
-            <Text size="sm" color="secondary">Uses var(--ink-radius-size-full) for full roundness</Text>
+            <Text size="sm" color="secondary">
+              Uses var(--ink-radius-size-full) for full roundness
+            </Text>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-              <Button kind="brand" rounded>Rounded Brand</Button>
-              <Button kind="primary" rounded>Rounded Primary</Button>
-              <Button kind="secondary" rounded>Rounded Secondary</Button>
+              <Button kind="brand" rounded>
+                Rounded Brand
+              </Button>
+              <Button kind="primary" rounded>
+                Rounded Primary
+              </Button>
+              <Button kind="secondary" rounded>
+                Rounded Secondary
+              </Button>
             </div>
           </Stack>
         </Card.Body>
@@ -5684,19 +7553,25 @@ export default function ComponentShowcase() {
             <Heading level={4}>Design Specifications</Heading>
             <Grid columns={2} gap="medium">
               <Stack gap="small">
-                <Text weight="medium" size="sm">Sizes</Text>
+                <Text weight="medium" size="sm">
+                  Sizes
+                </Text>
                 <Text size="sm">• Small: 32px height</Text>
                 <Text size="sm">• Medium: 40px height (default)</Text>
                 <Text size="sm">• Large: 48px height</Text>
                 <Text size="sm">• XLarge: 56px height</Text>
               </Stack>
               <Stack gap="small">
-                <Text weight="medium" size="sm">Border Radius</Text>
+                <Text weight="medium" size="sm">
+                  Border Radius
+                </Text>
                 <Text size="sm">• Default: 4px (var(--ink-radius-size-xs))</Text>
                 <Text size="sm">• Rounded: 9999px (var(--ink-radius-size-full))</Text>
               </Stack>
               <Stack gap="small">
-                <Text weight="medium" size="sm">Variants</Text>
+                <Text weight="medium" size="sm">
+                  Variants
+                </Text>
                 <Text size="sm">• Brand: Bright vibrant purple</Text>
                 <Text size="sm">• Primary: Dark purple</Text>
                 <Text size="sm">• Secondary: Outlined</Text>
@@ -5704,7 +7579,9 @@ export default function ComponentShowcase() {
                 <Text size="sm">• Danger: Red destructive actions</Text>
               </Stack>
               <Stack gap="small">
-                <Text weight="medium" size="sm">States</Text>
+                <Text weight="medium" size="sm">
+                  States
+                </Text>
                 <Text size="sm">• Default, Hover, Active, Focus</Text>
                 <Text size="sm">• Disabled: var(--ink-opacity-disabled)</Text>
                 <Text size="sm">• Loading: with spinner</Text>
@@ -5733,35 +7610,95 @@ export default function ComponentShowcase() {
           <Stack gap="large">
             <div>
               <Heading level={4}>All Variants</Heading>
-              <Text size="sm" color="secondary">Brand, Primary, Secondary, Tertiary, and Danger variants in medium and small sizes</Text>
+              <Text size="sm" color="secondary">
+                Brand, Primary, Secondary, Tertiary, and Danger variants in medium and small sizes
+              </Text>
             </div>
 
             {/* Medium Size */}
             <Stack gap="medium">
               <Text weight="medium">Medium Size (40×40px)</Text>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
                   <IconButton variant="brand" size="medium" icon="star" aria-label="Like" />
                   <Text size="xs">Brand</Text>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
                   <IconButton variant="primary" size="medium" icon="gear" aria-label="Settings" />
                   <Text size="xs">Primary</Text>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
-                  <IconButton variant="secondary" size="medium" icon="bell" aria-label="Notifications" />
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
+                  <IconButton
+                    variant="secondary"
+                    size="medium"
+                    icon="bell"
+                    aria-label="Notifications"
+                  />
                   <Text size="xs">Secondary</Text>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
-                  <IconButton variant="tertiary" size="medium" icon="overflow-horizontal" aria-label="More options" />
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
+                  <IconButton
+                    variant="tertiary"
+                    size="medium"
+                    icon="overflow-horizontal"
+                    aria-label="More options"
+                  />
                   <Text size="xs">Tertiary</Text>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
                   <IconButton variant="danger" size="medium" icon="trash" aria-label="Delete" />
                   <Text size="xs">Danger</Text>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
-                  <IconButton variant="brand" size="medium" icon="star" aria-label="Like" disabled />
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
+                  <IconButton
+                    variant="brand"
+                    size="medium"
+                    icon="star"
+                    aria-label="Like"
+                    disabled
+                  />
                   <Text size="xs">Disabled</Text>
                 </div>
               </div>
@@ -5771,27 +7708,79 @@ export default function ComponentShowcase() {
             <Stack gap="medium">
               <Text weight="medium">Small Size (32×32px)</Text>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
                   <IconButton variant="brand" size="small" icon="star" aria-label="Like" />
                   <Text size="xs">Brand</Text>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
                   <IconButton variant="primary" size="small" icon="gear" aria-label="Settings" />
                   <Text size="xs">Primary</Text>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
-                  <IconButton variant="secondary" size="small" icon="bell" aria-label="Notifications" />
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
+                  <IconButton
+                    variant="secondary"
+                    size="small"
+                    icon="bell"
+                    aria-label="Notifications"
+                  />
                   <Text size="xs">Secondary</Text>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
-                  <IconButton variant="tertiary" size="small" icon="overflow-horizontal" aria-label="More options" />
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
+                  <IconButton
+                    variant="tertiary"
+                    size="small"
+                    icon="overflow-horizontal"
+                    aria-label="More options"
+                  />
                   <Text size="xs">Tertiary</Text>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
                   <IconButton variant="danger" size="small" icon="trash" aria-label="Delete" />
                   <Text size="xs">Danger</Text>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
                   <IconButton variant="brand" size="small" icon="star" aria-label="Like" disabled />
                   <Text size="xs">Disabled</Text>
                 </div>
@@ -5809,18 +7798,41 @@ export default function ComponentShowcase() {
 
             <Stack gap="small">
               <Text weight="medium">Toolbar Actions</Text>
-              <div style={{ display: 'flex', gap: '4px', padding: '8px', background: 'var(--ink-neutral-10)', borderRadius: '4px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '4px',
+                  padding: '8px',
+                  background: 'var(--ink-neutral-10)',
+                  borderRadius: '4px',
+                }}
+              >
                 <IconButton variant="tertiary" size="medium" icon="menu" aria-label="Menu" />
                 <IconButton variant="tertiary" size="medium" icon="gear" aria-label="Settings" />
-                <IconButton variant="tertiary" size="medium" icon="bell" aria-label="Notifications" />
+                <IconButton
+                  variant="tertiary"
+                  size="medium"
+                  icon="bell"
+                  aria-label="Notifications"
+                />
               </div>
             </Stack>
 
             <Stack gap="small">
               <Text weight="medium">Action Buttons</Text>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <IconButton variant="brand" size="medium" icon="star-filled" aria-label="Favorite" />
-                <IconButton variant="secondary" size="medium" icon="carbon-copy" aria-label="Copy" />
+                <IconButton
+                  variant="brand"
+                  size="medium"
+                  icon="star-filled"
+                  aria-label="Favorite"
+                />
+                <IconButton
+                  variant="secondary"
+                  size="medium"
+                  icon="carbon-copy"
+                  aria-label="Copy"
+                />
                 <IconButton variant="danger" size="medium" icon="trash" aria-label="Delete" />
               </div>
             </Stack>
@@ -5828,7 +7840,12 @@ export default function ComponentShowcase() {
             <Stack gap="small">
               <Text weight="medium">Compact Controls</Text>
               <div style={{ display: 'flex', gap: '4px' }}>
-                <IconButton variant="secondary" size="small" icon="arrow-left" aria-label="Previous" />
+                <IconButton
+                  variant="secondary"
+                  size="small"
+                  icon="arrow-left"
+                  aria-label="Previous"
+                />
                 <IconButton variant="secondary" size="small" icon="arrow-right" aria-label="Next" />
               </div>
             </Stack>
@@ -5843,20 +7860,28 @@ export default function ComponentShowcase() {
             <Heading level={4}>Design Specifications</Heading>
             <Grid columns={2} gap="medium">
               <Stack gap="small">
-                <Text weight="medium" size="sm">Sizes</Text>
+                <Text weight="medium" size="sm">
+                  Sizes
+                </Text>
                 <Text size="sm">• Medium: 40×40px (default)</Text>
                 <Text size="sm">• Small: 32×32px</Text>
               </Stack>
               <Stack gap="small">
-                <Text weight="medium" size="sm">Border Radius</Text>
+                <Text weight="medium" size="sm">
+                  Border Radius
+                </Text>
                 <Text size="sm">• All sizes: 4px (var(--ink-radius-size-xs))</Text>
               </Stack>
               <Stack gap="small">
-                <Text weight="medium" size="sm">Variants</Text>
+                <Text weight="medium" size="sm">
+                  Variants
+                </Text>
                 <Text size="sm">• Brand, Primary, Secondary, Tertiary, Danger</Text>
               </Stack>
               <Stack gap="small">
-                <Text weight="medium" size="sm">Accessibility</Text>
+                <Text weight="medium" size="sm">
+                  Accessibility
+                </Text>
                 <Text size="sm">• Always include aria-label</Text>
                 <Text size="sm">• Supports keyboard navigation</Text>
                 <Text size="sm">• Clear focus indicators</Text>
@@ -5873,7 +7898,8 @@ export default function ComponentShowcase() {
       <div>
         <Heading level={3}>ComboButton</Heading>
         <Text color="secondary" size="sm">
-          Split button combining a primary action with a dropdown menu - uses official Ink design tokens
+          Split button combining a primary action with a dropdown menu - uses official Ink design
+          tokens
         </Text>
       </div>
 
@@ -5886,7 +7912,8 @@ export default function ComponentShowcase() {
             <div>
               <Heading level={4}>All Variants</Heading>
               <Text size="sm" color="secondary">
-                ComboButton combines a main action button with a dropdown trigger. The white border separator is automatically added.
+                ComboButton combines a main action button with a dropdown trigger. The white border
+                separator is automatically added.
               </Text>
             </div>
 
@@ -5898,7 +7925,9 @@ export default function ComponentShowcase() {
                 <ComboButton variant="primary">Primary Button</ComboButton>
                 <ComboButton variant="secondary">Secondary Button</ComboButton>
                 <ComboButton variant="tertiary">Tertiary Button</ComboButton>
-                <ComboButton variant="brand" disabled>Disabled</ComboButton>
+                <ComboButton variant="brand" disabled>
+                  Disabled
+                </ComboButton>
               </div>
             </Stack>
 
@@ -5906,10 +7935,18 @@ export default function ComponentShowcase() {
             <Stack gap="medium">
               <Text weight="medium">Small Size (32px)</Text>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <ComboButton variant="brand" size="small">Brand</ComboButton>
-                <ComboButton variant="primary" size="small">Primary</ComboButton>
-                <ComboButton variant="secondary" size="small">Secondary</ComboButton>
-                <ComboButton variant="tertiary" size="small">Tertiary</ComboButton>
+                <ComboButton variant="brand" size="small">
+                  Brand
+                </ComboButton>
+                <ComboButton variant="primary" size="small">
+                  Primary
+                </ComboButton>
+                <ComboButton variant="secondary" size="small">
+                  Secondary
+                </ComboButton>
+                <ComboButton variant="tertiary" size="small">
+                  Tertiary
+                </ComboButton>
               </div>
             </Stack>
           </Stack>
@@ -5921,11 +7958,19 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>With Start Icons</Heading>
-            <Text size="sm" color="secondary">Add icons to enhance visual communication</Text>
+            <Text size="sm" color="secondary">
+              Add icons to enhance visual communication
+            </Text>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-              <ComboButton variant="brand" startIcon="plus">New Item</ComboButton>
-              <ComboButton variant="primary" startIcon="download">Download</ComboButton>
-              <ComboButton variant="secondary" startIcon="gear">Settings</ComboButton>
+              <ComboButton variant="brand" startIcon="plus">
+                New Item
+              </ComboButton>
+              <ComboButton variant="primary" startIcon="download">
+                Download
+              </ComboButton>
+              <ComboButton variant="secondary" startIcon="gear">
+                Settings
+              </ComboButton>
             </div>
           </Stack>
         </Card.Body>
@@ -5942,20 +7987,36 @@ export default function ComponentShowcase() {
 
             <Grid columns={2} gap="medium">
               <Stack gap="small">
-                <Text weight="medium" size="sm">Medium Compact</Text>
+                <Text weight="medium" size="sm">
+                  Medium Compact
+                </Text>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <ComboButton variant="tertiary" compact startIcon="image">Settings</ComboButton>
-                  <ComboButton variant="tertiary" compact startIcon="star">Favorite</ComboButton>
-                  <ComboButton variant="tertiary" compact startIcon="bell">Notifications</ComboButton>
+                  <ComboButton variant="tertiary" compact startIcon="image">
+                    Settings
+                  </ComboButton>
+                  <ComboButton variant="tertiary" compact startIcon="star">
+                    Favorite
+                  </ComboButton>
+                  <ComboButton variant="tertiary" compact startIcon="bell">
+                    Notifications
+                  </ComboButton>
                 </div>
               </Stack>
 
               <Stack gap="small">
-                <Text weight="medium" size="sm">Small Compact</Text>
+                <Text weight="medium" size="sm">
+                  Small Compact
+                </Text>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <ComboButton variant="tertiary" size="small" compact startIcon="image">Settings</ComboButton>
-                  <ComboButton variant="tertiary" size="small" compact startIcon="star">Favorite</ComboButton>
-                  <ComboButton variant="tertiary" size="small" compact startIcon="bell">Notifications</ComboButton>
+                  <ComboButton variant="tertiary" size="small" compact startIcon="image">
+                    Settings
+                  </ComboButton>
+                  <ComboButton variant="tertiary" size="small" compact startIcon="star">
+                    Favorite
+                  </ComboButton>
+                  <ComboButton variant="tertiary" size="small" compact startIcon="bell">
+                    Notifications
+                  </ComboButton>
                 </div>
               </Stack>
             </Grid>
@@ -6000,26 +8061,34 @@ export default function ComponentShowcase() {
             <Heading level={4}>Design Specifications</Heading>
             <Grid columns={2} gap="medium">
               <Stack gap="small">
-                <Text weight="medium" size="sm">Sizes</Text>
+                <Text weight="medium" size="sm">
+                  Sizes
+                </Text>
                 <Text size="sm">• Medium: 40px height (default)</Text>
                 <Text size="sm">• Small: 32px height</Text>
                 <Text size="sm">• Compact: Icon-only mode for tertiary</Text>
               </Stack>
               <Stack gap="small">
-                <Text weight="medium" size="sm">Border & Spacing</Text>
+                <Text weight="medium" size="sm">
+                  Border & Spacing
+                </Text>
                 <Text size="sm">• Border radius: 4px (var(--ink-radius-size-xs))</Text>
                 <Text size="sm">• Separator: 1px white border</Text>
                 <Text size="sm">• Min width (main): 80px</Text>
               </Stack>
               <Stack gap="small">
-                <Text weight="medium" size="sm">Variants</Text>
+                <Text weight="medium" size="sm">
+                  Variants
+                </Text>
                 <Text size="sm">• Brand: Bright vibrant purple</Text>
                 <Text size="sm">• Primary: Dark purple</Text>
                 <Text size="sm">• Secondary: Outlined</Text>
                 <Text size="sm">• Tertiary: Minimal/Ghost (supports compact)</Text>
               </Stack>
               <Stack gap="small">
-                <Text weight="medium" size="sm">States</Text>
+                <Text weight="medium" size="sm">
+                  States
+                </Text>
                 <Text size="sm">• Default, Hover, Active, Focus</Text>
                 <Text size="sm">• Disabled: var(--ink-opacity-disabled)</Text>
                 <Text size="sm">• Independent button interactions</Text>
@@ -6074,27 +8143,15 @@ export default function ComponentShowcase() {
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Disabled</Text>
-                <Input
-                  label="Disabled Input"
-                  placeholder="Cannot edit"
-                  disabled
-                />
+                <Input label="Disabled Input" placeholder="Cannot edit" disabled />
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Required</Text>
-                <Input
-                  label="Required Field"
-                  placeholder="This field is required"
-                  required
-                />
+                <Input label="Required Field" placeholder="This field is required" required />
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Password Type</Text>
-                <Input
-                  type="password"
-                  label="Password"
-                  placeholder="Enter password"
-                />
+                <Input type="password" label="Password" placeholder="Enter password" />
               </Stack>
             </Grid>
           </Stack>
@@ -6108,7 +8165,8 @@ export default function ComponentShowcase() {
       <div>
         <Heading level={3}>TextArea</Heading>
         <Text color="secondary" size="sm">
-          Multi-line text input for longer content - 8px vertical padding, 16px horizontal, 4px radius
+          Multi-line text input for longer content - 8px vertical padding, 16px horizontal, 4px
+          radius
         </Text>
       </div>
 
@@ -6213,11 +8271,7 @@ export default function ComponentShowcase() {
             <Grid columns={2} gap="medium">
               <Stack gap="small">
                 <Text weight="medium">Default</Text>
-                <Select
-                  label="Choose an option"
-                  value={selectValue}
-                  onChange={setSelectValue}
-                >
+                <Select label="Choose an option" value={selectValue} onChange={setSelectValue}>
                   <option value="option1">Option 1</option>
                   <option value="option2">Option 2</option>
                   <option value="option3">Option 3</option>
@@ -6225,10 +8279,7 @@ export default function ComponentShowcase() {
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">With Helper Text</Text>
-                <Select
-                  label="Category"
-                  helperText="Select a category"
-                >
+                <Select label="Category" helperText="Select a category">
                   <option value="">Select...</option>
                   <option value="cat1">Category 1</option>
                   <option value="cat2">Category 2</option>
@@ -6236,10 +8287,7 @@ export default function ComponentShowcase() {
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Error State</Text>
-                <Select
-                  label="Priority"
-                  error="Please select a priority"
-                >
+                <Select label="Priority" error="Please select a priority">
                   <option value="">Select...</option>
                   <option value="high">High</option>
                   <option value="medium">Medium</option>
@@ -6248,10 +8296,7 @@ export default function ComponentShowcase() {
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Disabled</Text>
-                <Select
-                  label="Disabled Select"
-                  disabled
-                >
+                <Select label="Disabled Select" disabled>
                   <option value="">Cannot select</option>
                 </Select>
               </Stack>
@@ -6288,28 +8333,15 @@ export default function ComponentShowcase() {
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Checked</Text>
-                <Checkbox
-                  label="Checked checkbox"
-                  checked={true}
-                  onChange={() => {}}
-                />
+                <Checkbox label="Checked checkbox" checked={true} onChange={() => {}} />
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Unchecked</Text>
-                <Checkbox
-                  label="Unchecked checkbox"
-                  checked={false}
-                  onChange={() => {}}
-                />
+                <Checkbox label="Unchecked checkbox" checked={false} onChange={() => {}} />
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Disabled</Text>
-                <Checkbox
-                  label="Disabled checkbox"
-                  checked={false}
-                  disabled
-                  onChange={() => {}}
-                />
+                <Checkbox label="Disabled checkbox" checked={false} disabled onChange={() => {}} />
               </Stack>
             </Grid>
           </Stack>
@@ -6397,28 +8429,15 @@ export default function ComponentShowcase() {
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">On State</Text>
-                <Switch
-                  label="Enabled"
-                  checked={true}
-                  onChange={() => {}}
-                />
+                <Switch label="Enabled" checked={true} onChange={() => {}} />
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Off State</Text>
-                <Switch
-                  label="Disabled"
-                  checked={false}
-                  onChange={() => {}}
-                />
+                <Switch label="Disabled" checked={false} onChange={() => {}} />
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Disabled</Text>
-                <Switch
-                  label="Cannot toggle"
-                  checked={false}
-                  disabled
-                  onChange={() => {}}
-                />
+                <Switch label="Cannot toggle" checked={false} disabled onChange={() => {}} />
               </Stack>
             </Grid>
           </Stack>
@@ -6573,7 +8592,9 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>Emphasis (Red)</Heading>
-            <Text size="sm" color="secondary">High-priority alerts and notifications</Text>
+            <Text size="sm" color="secondary">
+              High-priority alerts and notifications
+            </Text>
             <Stack direction="horizontal" gap="large" align="center">
               <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                 <AlertBadge value={1} kind="emphasis" />
@@ -6591,7 +8612,9 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>Subtle (Gray)</Heading>
-            <Text size="sm" color="secondary">Low-priority notifications and informational indicators</Text>
+            <Text size="sm" color="secondary">
+              Low-priority notifications and informational indicators
+            </Text>
             <Stack direction="horizontal" gap="large" align="center">
               <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                 <AlertBadge value={1} kind="subtle" />
@@ -6609,7 +8632,9 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>Usage Examples</Heading>
-            <Text size="sm" color="secondary">Common use cases with icons and avatars</Text>
+            <Text size="sm" color="secondary">
+              Common use cases with icons and avatars
+            </Text>
             <Stack gap="medium">
               <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
                 <div style={{ position: 'relative', display: 'inline-flex' }}>
@@ -6701,9 +8726,7 @@ export default function ComponentShowcase() {
           <Chip startElement={<Avatar size="xsmall" name="Jane Smith" />} onRemove={() => {}}>
             Jane Smith
           </Chip>
-          <Chip startElement={<Icon name="check" size="small" />}>
-            Verified
-          </Chip>
+          <Chip startElement={<Icon name="check" size="small" />}>Verified</Chip>
           <Chip startElement={<Icon name="star" size="small" />} onRemove={() => {}}>
             Favorite
           </Chip>
@@ -6718,7 +8741,9 @@ export default function ComponentShowcase() {
           <Chip>Default</Chip>
           <Chip onClick={() => {}}>Hover (hover me)</Chip>
           <Chip disabled>Disabled</Chip>
-          <Chip disabled onRemove={() => {}}>Disabled with Remove</Chip>
+          <Chip disabled onRemove={() => {}}>
+            Disabled with Remove
+          </Chip>
         </Stack>
       </Stack>
 
@@ -6776,7 +8801,8 @@ export default function ComponentShowcase() {
       <div>
         <Heading level={3}>Filter Tag</Heading>
         <Text color="secondary" size="sm">
-          Interactive tags for filtering data - 32px height, 4px radius, with dropdown or dismissible variants
+          Interactive tags for filtering data - 32px height, 4px radius, with dropdown or
+          dismissible variants
         </Text>
       </div>
 
@@ -6864,7 +8890,9 @@ export default function ComponentShowcase() {
           <Heading level={4}>Use Cases</Heading>
           <Stack gap="large">
             <div>
-              <Text weight="medium" size="sm">Search Filters</Text>
+              <Text weight="medium" size="sm">
+                Search Filters
+              </Text>
               <Stack direction="horizontal" gap="small" wrap style={{ marginTop: '8px' }}>
                 <FilterTag label="Status" onClick={() => alert('Open status filter')} />
                 <FilterTag label="Date Range" onClick={() => alert('Open date filter')} />
@@ -6873,7 +8901,9 @@ export default function ComponentShowcase() {
             </div>
 
             <div>
-              <Text weight="medium" size="sm">Active Filters</Text>
+              <Text weight="medium" size="sm">
+                Active Filters
+              </Text>
               <Stack direction="horizontal" gap="small" wrap style={{ marginTop: '8px' }}>
                 <FilterTag
                   label="Status: Signed"
@@ -6927,10 +8957,18 @@ export default function ComponentShowcase() {
       <Stack gap="xlarge">
         <Heading level={4}>Without Background (No Fill)</Heading>
         <Stack gap="medium">
-          <StatusLight kind="neutral" filled={false}>Status light</StatusLight>
-          <StatusLight kind="success" filled={false}>Status light</StatusLight>
-          <StatusLight kind="warning" filled={false}>Status light</StatusLight>
-          <StatusLight kind="alert" filled={false}>Status light</StatusLight>
+          <StatusLight kind="neutral" filled={false}>
+            Status light
+          </StatusLight>
+          <StatusLight kind="success" filled={false}>
+            Status light
+          </StatusLight>
+          <StatusLight kind="warning" filled={false}>
+            Status light
+          </StatusLight>
+          <StatusLight kind="alert" filled={false}>
+            Status light
+          </StatusLight>
         </Stack>
       </Stack>
 
@@ -6956,9 +8994,15 @@ export default function ComponentShowcase() {
               System Health (Without Background):
             </Text>
             <Stack gap="small">
-              <StatusLight kind="success" filled={false}>All systems operational</StatusLight>
-              <StatusLight kind="warning" filled={false}>Degraded performance</StatusLight>
-              <StatusLight kind="alert" filled={false}>System outage</StatusLight>
+              <StatusLight kind="success" filled={false}>
+                All systems operational
+              </StatusLight>
+              <StatusLight kind="warning" filled={false}>
+                Degraded performance
+              </StatusLight>
+              <StatusLight kind="alert" filled={false}>
+                System outage
+              </StatusLight>
             </Stack>
           </div>
         </Stack>
@@ -7008,21 +9052,9 @@ export default function ComponentShowcase() {
           <Stack gap="medium">
             <Heading level={4}>Avatar with Images</Heading>
             <Stack direction="horizontal" gap="medium">
-              <Avatar
-                name="User with Image"
-                src="https://i.pravatar.cc/150?img=1"
-                size="large"
-              />
-              <Avatar
-                name="Another User"
-                src="https://i.pravatar.cc/150?img=2"
-                size="large"
-              />
-              <Avatar
-                name="Third User"
-                src="https://i.pravatar.cc/150?img=3"
-                size="large"
-              />
+              <Avatar name="User with Image" src="https://i.pravatar.cc/150?img=1" size="large" />
+              <Avatar name="Another User" src="https://i.pravatar.cc/150?img=2" size="large" />
+              <Avatar name="Third User" src="https://i.pravatar.cc/150?img=3" size="large" />
             </Stack>
           </Stack>
         </Card.Body>
@@ -7035,7 +9067,9 @@ export default function ComponentShowcase() {
             <Stack gap="large">
               {/* XSmall with initials */}
               <Stack gap="small">
-                <Text size="sm" weight="semibold">XSmall (24px)</Text>
+                <Text size="sm" weight="semibold">
+                  XSmall (24px)
+                </Text>
                 <Stack direction="horizontal" gap="large">
                   <AvatarGroup
                     max={3}
@@ -7066,7 +9100,9 @@ export default function ComponentShowcase() {
 
               {/* Small */}
               <Stack gap="small">
-                <Text size="sm" weight="semibold">Small (32px)</Text>
+                <Text size="sm" weight="semibold">
+                  Small (32px)
+                </Text>
                 <Stack direction="horizontal" gap="large">
                   <AvatarGroup
                     max={3}
@@ -7095,7 +9131,9 @@ export default function ComponentShowcase() {
 
               {/* Medium */}
               <Stack gap="small">
-                <Text size="sm" weight="semibold">Medium (40px)</Text>
+                <Text size="sm" weight="semibold">
+                  Medium (40px)
+                </Text>
                 <Stack direction="horizontal" gap="large">
                   <AvatarGroup
                     max={3}
@@ -7123,7 +9161,9 @@ export default function ComponentShowcase() {
 
               {/* Large */}
               <Stack gap="small">
-                <Text size="sm" weight="semibold">Large (48px)</Text>
+                <Text size="sm" weight="semibold">
+                  Large (48px)
+                </Text>
                 <Stack direction="horizontal" gap="large">
                   <AvatarGroup
                     max={3}
@@ -7175,15 +9215,21 @@ export default function ComponentShowcase() {
             <Stack direction="horizontal" gap="large" align="center">
               <div style={{ textAlign: 'center' }}>
                 <Spinner size="small" kind="default" label="Small spinner" />
-                <Text size="sm" color="secondary" style={{ marginTop: '8px' }}>Small</Text>
+                <Text size="sm" color="secondary" style={{ marginTop: '8px' }}>
+                  Small
+                </Text>
               </div>
               <div style={{ textAlign: 'center' }}>
                 <Spinner size="medium" kind="default" label="Medium spinner" />
-                <Text size="sm" color="secondary" style={{ marginTop: '8px' }}>Medium</Text>
+                <Text size="sm" color="secondary" style={{ marginTop: '8px' }}>
+                  Medium
+                </Text>
               </div>
               <div style={{ textAlign: 'center' }}>
                 <Spinner size="large" kind="default" label="Large spinner" />
-                <Text size="sm" color="secondary" style={{ marginTop: '8px' }}>Large</Text>
+                <Text size="sm" color="secondary" style={{ marginTop: '8px' }}>
+                  Large
+                </Text>
               </div>
             </Stack>
           </Stack>
@@ -7200,11 +9246,15 @@ export default function ComponentShowcase() {
             <Stack direction="horizontal" gap="large" align="center">
               <div style={{ textAlign: 'center' }}>
                 <Spinner size="large" kind="default" label="Default spinner" />
-                <Text size="sm" color="secondary" style={{ marginTop: '8px' }}>Default</Text>
+                <Text size="sm" color="secondary" style={{ marginTop: '8px' }}>
+                  Default
+                </Text>
               </div>
               <div style={{ textAlign: 'center' }}>
                 <Spinner size="large" kind="subtle" label="Subtle spinner" />
-                <Text size="sm" color="secondary" style={{ marginTop: '8px' }}>Subtle</Text>
+                <Text size="sm" color="secondary" style={{ marginTop: '8px' }}>
+                  Subtle
+                </Text>
               </div>
             </Stack>
           </Stack>
@@ -7351,21 +9401,11 @@ export default function ComponentShowcase() {
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Large Size</Text>
-                <SearchInput
-                  placeholder="Search..."
-                  size="large"
-                  value=""
-                  onChange={() => {}}
-                />
+                <SearchInput placeholder="Search..." size="large" value="" onChange={() => {}} />
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Disabled</Text>
-                <SearchInput
-                  placeholder="Cannot search"
-                  disabled
-                  value=""
-                  onChange={() => {}}
-                />
+                <SearchInput placeholder="Cannot search" disabled value="" onChange={() => {}} />
               </Stack>
             </Grid>
           </Stack>
@@ -7409,12 +9449,7 @@ export default function ComponentShowcase() {
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Multiple Files</Text>
-                <FileInput
-                  label="Upload documents"
-                  multiple
-                  value={[]}
-                  onChange={() => {}}
-                />
+                <FileInput label="Upload documents" multiple value={[]} onChange={() => {}} />
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">With Size Limit</Text>
@@ -7470,12 +9505,8 @@ export default function ComponentShowcase() {
           <Stack gap="medium">
             <Heading level={4}>Alert Without Title</Heading>
             <Stack gap="medium">
-              <Alert kind="info">
-                Simple informational message without a title.
-              </Alert>
-              <Alert kind="success">
-                Operation completed successfully.
-              </Alert>
+              <Alert kind="info">Simple informational message without a title.</Alert>
+              <Alert kind="success">Operation completed successfully.</Alert>
             </Stack>
           </Stack>
         </Card.Body>
@@ -7578,10 +9609,12 @@ export default function ComponentShowcase() {
             <Heading level={4}>Banner with Line Wrap</Heading>
             <Stack gap="medium">
               <Banner kind="information" icon="info" lineWrap={false}>
-                This banner has lineWrap set to false, so long text will be truncated with ellipsis instead of wrapping to multiple lines.
+                This banner has lineWrap set to false, so long text will be truncated with ellipsis
+                instead of wrapping to multiple lines.
               </Banner>
               <Banner kind="information" icon="info" lineWrap={true}>
-                This banner has lineWrap set to true, so long text will wrap to multiple lines instead of being truncated with ellipsis.
+                This banner has lineWrap set to true, so long text will wrap to multiple lines
+                instead of being truncated with ellipsis.
               </Banner>
             </Stack>
           </Stack>
@@ -7633,9 +9666,7 @@ export default function ComponentShowcase() {
           <Stack gap="medium">
             <Heading level={4}>Banner Without Icon</Heading>
             <Stack gap="medium">
-              <Banner kind="information">
-                Simple banner message without an icon.
-              </Banner>
+              <Banner kind="information">Simple banner message without an icon.</Banner>
               <Banner kind="success" shape="round">
                 Success message without an icon.
               </Banner>
@@ -7668,7 +9699,8 @@ export default function ComponentShowcase() {
                 primaryAction={{ label: 'Primary', onClick: () => alert('Primary clicked') }}
                 secondaryAction={{ label: 'Secondary', onClick: () => alert('Secondary clicked') }}
               >
-                An Ink is a liquid containing various pigments or dyes used for coloring a surface to render an image or text.
+                An Ink is a liquid containing various pigments or dyes used for coloring a surface
+                to render an image or text.
               </Callout>
 
               <Callout
@@ -7677,7 +9709,8 @@ export default function ComponentShowcase() {
                 primaryAction={{ label: 'Primary', onClick: () => alert('Primary clicked') }}
                 secondaryAction={{ label: 'Secondary', onClick: () => alert('Secondary clicked') }}
               >
-                An Ink is a liquid containing various pigments or dyes used for coloring a surface to render an image or text.
+                An Ink is a liquid containing various pigments or dyes used for coloring a surface
+                to render an image or text.
               </Callout>
 
               <Callout
@@ -7686,7 +9719,8 @@ export default function ComponentShowcase() {
                 primaryAction={{ label: 'Primary', onClick: () => alert('Primary clicked') }}
                 secondaryAction={{ label: 'Secondary', onClick: () => alert('Secondary clicked') }}
               >
-                An Ink is a liquid containing various pigments or dyes used for coloring a surface to render an image or text.
+                An Ink is a liquid containing various pigments or dyes used for coloring a surface
+                to render an image or text.
               </Callout>
 
               <Callout
@@ -7695,7 +9729,8 @@ export default function ComponentShowcase() {
                 primaryAction={{ label: 'Primary', onClick: () => alert('Primary clicked') }}
                 secondaryAction={{ label: 'Secondary', onClick: () => alert('Secondary clicked') }}
               >
-                An Ink is a liquid containing various pigments or dyes used for coloring a surface to render an image or text.
+                An Ink is a liquid containing various pigments or dyes used for coloring a surface
+                to render an image or text.
               </Callout>
             </Stack>
           </Stack>
@@ -7823,10 +9858,7 @@ export default function ComponentShowcase() {
                 Callout with both primary and secondary actions.
               </Callout>
 
-              <Callout
-                heading="No Actions"
-                width="medium"
-              >
+              <Callout heading="No Actions" width="medium">
                 Callout without any action buttons.
               </Callout>
             </Stack>
@@ -7882,11 +9914,15 @@ export default function ComponentShowcase() {
             <Stack gap="medium">
               <Stack gap="small">
                 <Text weight="medium">Default (Cobalt Blue)</Text>
-                <Link kind="default" href="#">Download the App</Link>
+                <Link kind="default" href="#">
+                  Download the App
+                </Link>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Subtle (Neutral)</Text>
-                <Link kind="subtle" href="#">Download the App</Link>
+                <Link kind="subtle" href="#">
+                  Download the App
+                </Link>
               </Stack>
             </Stack>
           </Stack>
@@ -7900,11 +9936,15 @@ export default function ComponentShowcase() {
             <Stack gap="medium">
               <Stack gap="small">
                 <Text weight="medium">Medium (16px)</Text>
-                <Link kind="default" size="medium" href="#">Download the App</Link>
+                <Link kind="default" size="medium" href="#">
+                  Download the App
+                </Link>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Small (14px)</Text>
-                <Link kind="default" size="small" href="#">Download the App</Link>
+                <Link kind="default" size="small" href="#">
+                  Download the App
+                </Link>
               </Stack>
             </Stack>
           </Stack>
@@ -7915,20 +9955,30 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>Discrete Mode</Heading>
-            <Text size="sm" color="secondary">Discrete links only show underline on hover/active</Text>
+            <Text size="sm" color="secondary">
+              Discrete links only show underline on hover/active
+            </Text>
             <Stack gap="medium">
               <Stack gap="small">
                 <Text weight="medium">Default (Always Underlined)</Text>
                 <Stack direction="horizontal" gap="medium">
-                  <Link kind="default" discrete={false} href="#">Download the App</Link>
-                  <Link kind="subtle" discrete={false} href="#">Download the App</Link>
+                  <Link kind="default" discrete={false} href="#">
+                    Download the App
+                  </Link>
+                  <Link kind="subtle" discrete={false} href="#">
+                    Download the App
+                  </Link>
                 </Stack>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Discrete (Underline on Hover)</Text>
                 <Stack direction="horizontal" gap="medium">
-                  <Link kind="default" discrete={true} href="#">Download the App</Link>
-                  <Link kind="subtle" discrete={true} href="#">Download the App</Link>
+                  <Link kind="default" discrete={true} href="#">
+                    Download the App
+                  </Link>
+                  <Link kind="subtle" discrete={true} href="#">
+                    Download the App
+                  </Link>
                 </Stack>
               </Stack>
             </Stack>
@@ -7943,19 +9993,27 @@ export default function ComponentShowcase() {
             <Grid columns={2} gap="medium">
               <Stack gap="small">
                 <Text weight="medium">Default State</Text>
-                <Link kind="default" href="#">Download the App</Link>
+                <Link kind="default" href="#">
+                  Download the App
+                </Link>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Visited (Purple)</Text>
-                <Text size="sm" color="secondary">Simulated visited state</Text>
+                <Text size="sm" color="secondary">
+                  Simulated visited state
+                </Text>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Disabled</Text>
-                <Link kind="default" href="#" disabled>Download the App</Link>
+                <Link kind="default" href="#" disabled>
+                  Download the App
+                </Link>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Disabled Subtle</Text>
-                <Link kind="subtle" href="#" disabled>Download the App</Link>
+                <Link kind="subtle" href="#" disabled>
+                  Download the App
+                </Link>
               </Stack>
             </Grid>
           </Stack>
@@ -7993,14 +10051,24 @@ export default function ComponentShowcase() {
                 <Text weight="medium">Inline Link in Text</Text>
                 <Text>
                   This is a paragraph with an{' '}
-                  <Link kind="default" href="#">inline link</Link> in the middle of the text.
+                  <Link kind="default" href="#">
+                    inline link
+                  </Link>{' '}
+                  in the middle of the text.
                 </Text>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Multiple Links</Text>
                 <Text>
-                  You can <Link kind="default" href="#">download the app</Link> or{' '}
-                  <Link kind="default" href="#">read the documentation</Link> to get started.
+                  You can{' '}
+                  <Link kind="default" href="#">
+                    download the app
+                  </Link>{' '}
+                  or{' '}
+                  <Link kind="default" href="#">
+                    read the documentation
+                  </Link>{' '}
+                  to get started.
                 </Text>
               </Stack>
             </Stack>
@@ -8015,35 +10083,51 @@ export default function ComponentShowcase() {
             <Grid columns={2} gap="medium">
               <Stack gap="small">
                 <Text weight="medium">Default, Medium, Underlined</Text>
-                <Link kind="default" size="medium" discrete={false} href="#">Download the App</Link>
+                <Link kind="default" size="medium" discrete={false} href="#">
+                  Download the App
+                </Link>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Default, Medium, Discrete</Text>
-                <Link kind="default" size="medium" discrete={true} href="#">Download the App</Link>
+                <Link kind="default" size="medium" discrete={true} href="#">
+                  Download the App
+                </Link>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Default, Small, Underlined</Text>
-                <Link kind="default" size="small" discrete={false} href="#">Download the App</Link>
+                <Link kind="default" size="small" discrete={false} href="#">
+                  Download the App
+                </Link>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Default, Small, Discrete</Text>
-                <Link kind="default" size="small" discrete={true} href="#">Download the App</Link>
+                <Link kind="default" size="small" discrete={true} href="#">
+                  Download the App
+                </Link>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Subtle, Medium, Underlined</Text>
-                <Link kind="subtle" size="medium" discrete={false} href="#">Download the App</Link>
+                <Link kind="subtle" size="medium" discrete={false} href="#">
+                  Download the App
+                </Link>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Subtle, Medium, Discrete</Text>
-                <Link kind="subtle" size="medium" discrete={true} href="#">Download the App</Link>
+                <Link kind="subtle" size="medium" discrete={true} href="#">
+                  Download the App
+                </Link>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Subtle, Small, Underlined</Text>
-                <Link kind="subtle" size="small" discrete={false} href="#">Download the App</Link>
+                <Link kind="subtle" size="small" discrete={false} href="#">
+                  Download the App
+                </Link>
               </Stack>
               <Stack gap="small">
                 <Text weight="medium">Subtle, Small, Discrete</Text>
-                <Link kind="subtle" size="small" discrete={true} href="#">Download the App</Link>
+                <Link kind="subtle" size="small" discrete={true} href="#">
+                  Download the App
+                </Link>
               </Stack>
             </Grid>
           </Stack>
@@ -8137,7 +10221,9 @@ export default function ComponentShowcase() {
               <Text>White background with subtle border.</Text>
             </Card.Body>
             <Card.Footer>
-              <Text size="sm" color="secondary">Footer</Text>
+              <Text size="sm" color="secondary">
+                Footer
+              </Text>
             </Card.Footer>
           </Card>
 
@@ -8149,7 +10235,9 @@ export default function ComponentShowcase() {
               <Text>Dark purple background for inverse themes.</Text>
             </Card.Body>
             <Card.Footer>
-              <Text size="sm" color="secondary">Footer</Text>
+              <Text size="sm" color="secondary">
+                Footer
+              </Text>
             </Card.Footer>
           </Card>
 
@@ -8161,7 +10249,9 @@ export default function ComponentShowcase() {
               <Text>Light gray background for subtle cards.</Text>
             </Card.Body>
             <Card.Footer>
-              <Text size="sm" color="secondary">Footer</Text>
+              <Text size="sm" color="secondary">
+                Footer
+              </Text>
             </Card.Footer>
           </Card>
         </Grid>
@@ -8180,7 +10270,9 @@ export default function ComponentShowcase() {
               </Stack>
             </Card.Body>
             <Card.Footer>
-              <Button kind="primary" size="small">Action</Button>
+              <Button kind="primary" size="small">
+                Action
+              </Button>
             </Card.Footer>
           </Card>
 
@@ -8192,7 +10284,9 @@ export default function ComponentShowcase() {
               </Stack>
             </Card.Body>
             <Card.Footer>
-              <Button kind="primary" size="small">Action</Button>
+              <Button kind="primary" size="small">
+                Action
+              </Button>
             </Card.Footer>
           </Card>
         </Grid>
@@ -8241,28 +10335,16 @@ export default function ComponentShowcase() {
           <Stack gap="medium">
             <Heading level={4}>Modal Sizes</Heading>
             <Grid columns={3} gap="medium">
-              <Button
-                kind="secondary"
-                onClick={() => setSmallModalOpen(true)}
-              >
+              <Button kind="secondary" onClick={() => setSmallModalOpen(true)}>
                 Small Modal
               </Button>
-              <Button
-                kind="secondary"
-                onClick={() => setMediumModalOpen(true)}
-              >
+              <Button kind="secondary" onClick={() => setMediumModalOpen(true)}>
                 Medium Modal
               </Button>
-              <Button
-                kind="secondary"
-                onClick={() => setLargeModalOpen(true)}
-              >
+              <Button kind="secondary" onClick={() => setLargeModalOpen(true)}>
                 Large Modal
               </Button>
-              <Button
-                kind="secondary"
-                onClick={() => setXlargeModalOpen(true)}
-              >
+              <Button kind="secondary" onClick={() => setXlargeModalOpen(true)}>
                 XLarge Modal
               </Button>
             </Grid>
@@ -8278,8 +10360,12 @@ export default function ComponentShowcase() {
         title="Small Modal"
         footer={
           <>
-            <Button kind="secondary" onClick={() => setSmallModalOpen(false)}>Cancel</Button>
-            <Button kind="brand" onClick={() => setSmallModalOpen(false)}>Confirm</Button>
+            <Button kind="secondary" onClick={() => setSmallModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button kind="brand" onClick={() => setSmallModalOpen(false)}>
+              Confirm
+            </Button>
           </>
         }
       >
@@ -8293,8 +10379,12 @@ export default function ComponentShowcase() {
         title="Medium Modal"
         footer={
           <>
-            <Button kind="secondary" onClick={() => setMediumModalOpen(false)}>Cancel</Button>
-            <Button kind="brand" onClick={() => setMediumModalOpen(false)}>Save</Button>
+            <Button kind="secondary" onClick={() => setMediumModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button kind="brand" onClick={() => setMediumModalOpen(false)}>
+              Save
+            </Button>
           </>
         }
       >
@@ -8308,8 +10398,12 @@ export default function ComponentShowcase() {
         title="Large Modal"
         footer={
           <>
-            <Button kind="secondary" onClick={() => setLargeModalOpen(false)}>Cancel</Button>
-            <Button kind="brand" onClick={() => setLargeModalOpen(false)}>Apply</Button>
+            <Button kind="secondary" onClick={() => setLargeModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button kind="brand" onClick={() => setLargeModalOpen(false)}>
+              Apply
+            </Button>
           </>
         }
       >
@@ -8326,8 +10420,12 @@ export default function ComponentShowcase() {
         title="Extra Large Modal"
         footer={
           <>
-            <Button kind="secondary" onClick={() => setXlargeModalOpen(false)}>Cancel</Button>
-            <Button kind="brand" onClick={() => setXlargeModalOpen(false)}>Continue</Button>
+            <Button kind="secondary" onClick={() => setXlargeModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button kind="brand" onClick={() => setXlargeModalOpen(false)}>
+              Continue
+            </Button>
           </>
         }
       >
@@ -8443,10 +10541,7 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>Data Table</Heading>
-            <Table
-              data={tableData}
-              columns={tableColumns}
-            />
+            <Table data={tableData} columns={tableColumns} />
           </Stack>
         </Card.Body>
       </Card>
@@ -8455,11 +10550,7 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>Striped Table</Heading>
-            <Table
-              data={tableData}
-              columns={tableColumns}
-              striped
-            />
+            <Table data={tableData} columns={tableColumns} striped />
           </Stack>
         </Card.Body>
       </Card>
@@ -8468,11 +10559,7 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>Hoverable Table</Heading>
-            <Table
-              data={tableData}
-              columns={tableColumns}
-              hoverable
-            />
+            <Table data={tableData} columns={tableColumns} hoverable />
           </Stack>
         </Card.Body>
       </Card>
@@ -8510,12 +10597,7 @@ export default function ComponentShowcase() {
         <Card.Body>
           <Stack gap="medium">
             <Heading level={4}>Short Breadcrumb</Heading>
-            <Breadcrumb
-              items={[
-                { label: 'Home', href: '#' },
-                { label: 'Settings' },
-              ]}
-            />
+            <Breadcrumb items={[{ label: 'Home', href: '#' }, { label: 'Settings' }]} />
           </Stack>
         </Card.Body>
       </Card>
@@ -8594,13 +10676,15 @@ export default function ComponentShowcase() {
                 clickable
                 onStepClick={(index) => setActiveStepIndex(index)}
               />
-              <div style={{
-                display: 'flex',
-                gap: '8px',
-                justifyContent: 'center',
-                paddingTop: '16px',
-                borderTop: '1px solid var(--ink-neutral-20)'
-              }}>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '8px',
+                  justifyContent: 'center',
+                  paddingTop: '16px',
+                  borderTop: '1px solid var(--ink-neutral-20)',
+                }}
+              >
                 <button
                   onClick={() => setActiveStepIndex(Math.max(0, activeStepIndex - 1))}
                   disabled={activeStepIndex === 0}
@@ -8617,7 +10701,9 @@ export default function ComponentShowcase() {
                   Previous
                 </button>
                 <button
-                  onClick={() => setActiveStepIndex(Math.min(stepperSteps.length - 1, activeStepIndex + 1))}
+                  onClick={() =>
+                    setActiveStepIndex(Math.min(stepperSteps.length - 1, activeStepIndex + 1))
+                  }
                   disabled={activeStepIndex === stepperSteps.length - 1}
                   style={{
                     padding: '8px 16px',
@@ -8643,10 +10729,7 @@ export default function ComponentShowcase() {
             <Card.Body>
               <Stack gap="medium">
                 <Heading level={4}>First Step</Heading>
-                <Stepper
-                  steps={stepperSteps}
-                  activeStep={0}
-                />
+                <Stepper steps={stepperSteps} activeStep={0} />
               </Stack>
             </Card.Body>
           </Card>
@@ -8655,10 +10738,7 @@ export default function ComponentShowcase() {
             <Card.Body>
               <Stack gap="medium">
                 <Heading level={4}>All Completed</Heading>
-                <Stepper
-                  steps={stepperSteps}
-                  activeStep={4}
-                />
+                <Stepper steps={stepperSteps} activeStep={4} />
               </Stack>
             </Card.Body>
           </Card>
@@ -8669,11 +10749,7 @@ export default function ComponentShowcase() {
           <Card.Body>
             <Stack gap="medium">
               <Heading level={4}>Vertical Orientation</Heading>
-              <Stepper
-                steps={stepperSteps}
-                activeStep={2}
-                orientation="vertical"
-              />
+              <Stepper steps={stepperSteps} activeStep={2} orientation="vertical" />
             </Stack>
           </Card.Body>
         </Card>
@@ -8880,63 +10956,109 @@ export default function ComponentShowcase() {
 
   // Main content renderer based on active subpage
   const renderActiveContent = () => {
-    switch(activeSubpage) {
+    switch (activeSubpage) {
       // Atoms - Foundation
-      case 'colors': return renderColorsContent();
-      case 'color-pairing': return renderColorPairingContent();
-      case 'typography': return renderTypographyContent();
-      case 'icons': return renderIconsContent();
-      case 'spacing': return renderSpacingContent();
-      case 'border-radius': return renderBorderRadiusContent();
-      case 'alias-tokens': return renderAliasTokensContent();
+      case 'colors':
+        return renderColorsContent();
+      case 'color-pairing':
+        return renderColorPairingContent();
+      case 'typography':
+        return renderTypographyContent();
+      case 'icons':
+        return renderIconsContent();
+      case 'spacing':
+        return renderSpacingContent();
+      case 'border-radius':
+        return renderBorderRadiusContent();
+      case 'alias-tokens':
+        return renderAliasTokensContent();
 
       // Atoms - Form Controls
-      case 'button': return renderButtonContent();
-      case 'iconbutton': return renderIconButtonContent();
-      case 'combobutton': return renderComboButtonContent();
-      case 'input': return renderInputContent();
-      case 'textarea': return renderTextAreaContent();
-      case 'select': return renderSelectContent();
-      case 'checkbox': return renderCheckboxContent();
-      case 'radio': return renderRadioContent();
-      case 'switch': return renderSwitchContent();
-      case 'slider': return renderSliderContent();
+      case 'button':
+        return renderButtonContent();
+      case 'iconbutton':
+        return renderIconButtonContent();
+      case 'combobutton':
+        return renderComboButtonContent();
+      case 'input':
+        return renderInputContent();
+      case 'textarea':
+        return renderTextAreaContent();
+      case 'select':
+        return renderSelectContent();
+      case 'checkbox':
+        return renderCheckboxContent();
+      case 'radio':
+        return renderRadioContent();
+      case 'switch':
+        return renderSwitchContent();
+      case 'slider':
+        return renderSliderContent();
 
       // Atoms - Display
-      case 'badge': return renderBadgeContent();
-      case 'alert-badge': return renderAlertBadgeContent();
-      case 'chip': return renderChipContent();
-      case 'filtertag': return renderFilterTagContent();
-      case 'statuslight': return renderStatusLightContent();
-      case 'avatar': return renderAvatarContent();
-      case 'spinner': return renderSpinnerContent();
-      case 'divider': return renderDividerContent();
+      case 'badge':
+        return renderBadgeContent();
+      case 'alert-badge':
+        return renderAlertBadgeContent();
+      case 'chip':
+        return renderChipContent();
+      case 'filtertag':
+        return renderFilterTagContent();
+      case 'statuslight':
+        return renderStatusLightContent();
+      case 'avatar':
+        return renderAvatarContent();
+      case 'spinner':
+        return renderSpinnerContent();
+      case 'divider':
+        return renderDividerContent();
 
       // Molecules
-      case 'combobox': return renderComboBoxContent();
-      case 'searchinput': return renderSearchInputContent();
-      case 'fileinput': return renderFileInputContent();
-      case 'alert': return renderAlertContent();
-      case 'banner': return renderBannerContent();
-      case 'callout': return renderCalloutContent();
-      case 'link': return renderLinkContent();
-      case 'tooltip': return renderTooltipContent();
-      case 'dropdown': return renderDropdownContent();
+      case 'combobox':
+        return renderComboBoxContent();
+      case 'searchinput':
+        return renderSearchInputContent();
+      case 'fileinput':
+        return renderFileInputContent();
+      case 'alert':
+        return renderAlertContent();
+      case 'banner':
+        return renderBannerContent();
+      case 'callout':
+        return renderCalloutContent();
+      case 'link':
+        return renderLinkContent();
+      case 'tooltip':
+        return renderTooltipContent();
+      case 'dropdown':
+        return renderDropdownContent();
 
       // Organisms
-      case 'card': return renderCardContent();
-      case 'modal': return renderModalContent();
-      case 'tabs': return renderTabsContent();
-      case 'accordion': return renderAccordionContent();
-      case 'table': return renderTableContent();
-      case 'breadcrumb': return renderBreadcrumbContent();
-      case 'pagination': return renderPaginationContent();
-      case 'stepper': return renderStepperContent();
-      case 'list': return renderListContent();
-      case 'stack': return renderStackContent();
-      case 'grid': return renderGridContent();
+      case 'card':
+        return renderCardContent();
+      case 'modal':
+        return renderModalContent();
+      case 'tabs':
+        return renderTabsContent();
+      case 'accordion':
+        return renderAccordionContent();
+      case 'table':
+        return renderTableContent();
+      case 'breadcrumb':
+        return renderBreadcrumbContent();
+      case 'pagination':
+        return renderPaginationContent();
+      case 'stepper':
+        return renderStepperContent();
+      case 'list':
+        return renderListContent();
+      case 'stack':
+        return renderStackContent();
+      case 'grid':
+        return renderGridContent();
 
-      default: return null;
+      default:
+        return null;
     }
   };
 
@@ -8955,7 +11077,7 @@ export default function ComponentShowcase() {
             {renderActiveContent()}
           </div>
         </div>
-      )
+      ),
     },
     {
       id: 'actions',
@@ -8971,7 +11093,7 @@ export default function ComponentShowcase() {
             {renderActiveContent()}
           </div>
         </div>
-      )
+      ),
     },
     {
       id: 'content-display',
@@ -8987,7 +11109,7 @@ export default function ComponentShowcase() {
             {renderActiveContent()}
           </div>
         </div>
-      )
+      ),
     },
     {
       id: 'forms-inputs',
@@ -9003,7 +11125,7 @@ export default function ComponentShowcase() {
             {renderActiveContent()}
           </div>
         </div>
-      )
+      ),
     },
     {
       id: 'lists-tables',
@@ -9019,7 +11141,7 @@ export default function ComponentShowcase() {
             {renderActiveContent()}
           </div>
         </div>
-      )
+      ),
     },
     {
       id: 'loading-status',
@@ -9035,7 +11157,7 @@ export default function ComponentShowcase() {
             {renderActiveContent()}
           </div>
         </div>
-      )
+      ),
     },
     {
       id: 'feedback',
@@ -9051,7 +11173,7 @@ export default function ComponentShowcase() {
             {renderActiveContent()}
           </div>
         </div>
-      )
+      ),
     },
     {
       id: 'navigational',
@@ -9067,7 +11189,7 @@ export default function ComponentShowcase() {
             {renderActiveContent()}
           </div>
         </div>
-      )
+      ),
     },
     {
       id: 'menus',
@@ -9083,7 +11205,7 @@ export default function ComponentShowcase() {
             {renderActiveContent()}
           </div>
         </div>
-      )
+      ),
     },
     {
       id: 'popovers',
@@ -9099,300 +11221,462 @@ export default function ComponentShowcase() {
             {renderActiveContent()}
           </div>
         </div>
-      )
+      ),
     },
   ];
 
   return (
-    <div style={{
-      display: 'flex',
-      minHeight: '100vh',
-      background: 'var(--ink-neutral-5)',
-    }}>
-      {/* Vertical Navigation */}
-      <VerticalNavigation
-        items={navigationItems}
-        activeItemId={viewMode}
-        activeSubItemId={viewMode === 'design-system' ? activeTab : activePattern}
-        onItemClick={handleNavigationItemClick}
-        onSubItemClick={handleNavigationSubItemClick}
-        collapsed={navCollapsed}
-        onCollapsedChange={setNavCollapsed}
-        width={280}
-        logo={
-          navCollapsed ? (
-            <img
-              src="/assets/docusign-logo.svg"
-              alt="DocuSign"
-              style={{ width: '32px', height: 'auto' }}
-            />
-          ) : (
-            <img
-              src="/assets/docusign-logo.svg"
-              alt="DocuSign"
-              style={{ width: '119.25px', height: '24px', objectFit: 'contain' }}
-            />
-          )
-        }
-      />
-
-      {/* Main Content Area */}
-      <div style={{
-        flex: 1,
-        overflow: 'auto',
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
         background: 'var(--ink-neutral-5)',
-      }}>
-        {/* Design System View */}
-        {viewMode === 'design-system' && (
-          <div style={{ display: 'flex', height: '100%', minHeight: '100vh' }}>
-            <SidebarNav
-              links={sidebarLinks[activeTab] || []}
-              activeSubpage={activeSubpage}
-              onSubpageChange={setActiveSubpage}
-            />
-            <div style={{ flex: 1, minWidth: 0, padding: '24px 16px' }}>
-              {renderActiveContent()}
+      }}
+    >
+      {/* DEPRECATION NOTICE */}
+      <Banner
+        kind="warning"
+        icon="alert-triangle"
+        style={{ borderRadius: 0, borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}
+      >
+        <Stack gap="xsmall">
+          <Text weight="semibold">⚠️ This showcase is deprecated</Text>
+          <Text size="sm">
+            Please use{' '}
+            <Link href="/showcase2" style={{ color: 'inherit', textDecoration: 'underline' }}>
+              Showcase 2
+            </Link>{' '}
+            for the comprehensive, architecture-based component view with all 57 components fully
+            documented.
+          </Text>
+        </Stack>
+      </Banner>
+
+      {/* Main Content */}
+      <div style={{ display: 'flex', flex: 1 }}>
+        {/* Vertical Navigation */}
+        <VerticalNavigation
+          items={navigationItems}
+          activeItemId={viewMode}
+          activeSubItemId={viewMode === 'design-system' ? activeTab : activePattern}
+          onItemClick={handleNavigationItemClick}
+          onSubItemClick={handleNavigationSubItemClick}
+          collapsed={navCollapsed}
+          onCollapsedChange={setNavCollapsed}
+          width={280}
+          logo={
+            navCollapsed ? (
+              <img
+                src="/assets/docusign-logo.svg"
+                alt="DocuSign"
+                style={{ width: '32px', height: 'auto' }}
+              />
+            ) : (
+              <img
+                src="/assets/docusign-logo.svg"
+                alt="DocuSign"
+                style={{ width: '119.25px', height: '24px', objectFit: 'contain' }}
+              />
+            )
+          }
+        />
+
+        {/* Main Content Area */}
+        <div
+          style={{
+            flex: 1,
+            overflow: 'auto',
+            background: 'var(--ink-neutral-5)',
+          }}
+        >
+          {/* Design System View */}
+          {viewMode === 'design-system' && (
+            <div style={{ display: 'flex', height: '100%', minHeight: '100vh' }}>
+              <SidebarNav
+                links={sidebarLinks[activeTab] || []}
+                activeSubpage={activeSubpage}
+                onSubpageChange={setActiveSubpage}
+              />
+              <div style={{ flex: 1, minWidth: 0, padding: '24px 16px' }}>
+                {renderActiveContent()}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Patterns View */}
-        {viewMode === 'patterns' && (
-          <div style={{ padding: '24px 16px' }}>
-            {/* Global Nav Pattern */}
-            {activePattern === 'global-nav' && (
-              <Stack gap="large">
-                <Card>
-                  <Card.Body>
-                    <Stack gap="medium">
-                      <div>
-                        <Heading level={3}>Global Navigation</Heading>
-                        <Text color="secondary" size="sm">
-                          A horizontal navigation header pattern with app switcher, logo, navigation items, and user actions
-                        </Text>
-                      </div>
-                    </Stack>
-                  </Card.Body>
-                </Card>
-
-                <Card>
-                  <Card.Body>
-                    <Stack gap="medium">
-                      <Heading level={4}>Full Featured</Heading>
-                      <div style={{ marginTop: '16px' }}>
-                        <GlobalNav
-                          logo={
-                            <img
-                              src="/assets/docusign-logo.svg"
-                              alt="DocuSign"
-                              style={{ width: '119.25px', height: '24px', objectFit: 'contain' }}
-                            />
-                          }
-                          navItems={[
-                            { id: 'home', label: 'Home', href: '#', active: globalNavFullActive === 'home', onClick: () => setGlobalNavFullActive('home') },
-                            { id: 'agreements', label: 'Agreements', href: '#', active: globalNavFullActive === 'agreements', onClick: () => setGlobalNavFullActive('agreements') },
-                            { id: 'templates', label: 'Templates', href: '#', active: globalNavFullActive === 'templates', onClick: () => setGlobalNavFullActive('templates') },
-                            { id: 'insights', label: 'Insights', href: '#', active: globalNavFullActive === 'insights', onClick: () => setGlobalNavFullActive('insights') },
-                          ]}
-                          showAppSwitcher={true}
-                          showSearch={true}
-                          showNotifications={true}
-                          notificationCount={3}
-                          showSettings={true}
-                          user={{
-                            name: 'John Doe',
-                          }}
-                          onAppSwitcherClick={() => console.log('App switcher clicked')}
-                          onSearchClick={() => console.log('Search clicked')}
-                          onNotificationClick={() => console.log('Notifications clicked')}
-                          onSettingsClick={() => console.log('Settings clicked')}
-                          onUserMenuClick={() => console.log('User menu clicked')}
-                        />
-                      </div>
-                    </Stack>
-                  </Card.Body>
-                </Card>
-
-                <Card>
-                  <Card.Body>
-                    <Stack gap="medium">
-                      <Heading level={4}>Minimal (No Search/Notifications)</Heading>
-                      <div style={{ marginTop: '16px' }}>
-                        <GlobalNav
-                          logo={
-                            <img
-                              src="/assets/docusign-logo.svg"
-                              alt="DocuSign"
-                              style={{ width: '119.25px', height: '24px', objectFit: 'contain' }}
-                            />
-                          }
-                          navItems={[
-                            { id: 'home', label: 'Home', href: '#', active: globalNavMinimalActive === 'home', onClick: () => setGlobalNavMinimalActive('home') },
-                            { id: 'agreements', label: 'Agreements', href: '#', active: globalNavMinimalActive === 'agreements', onClick: () => setGlobalNavMinimalActive('agreements') },
-                            { id: 'templates', label: 'Templates', href: '#', active: globalNavMinimalActive === 'templates', onClick: () => setGlobalNavMinimalActive('templates') },
-                            { id: 'insights', label: 'Insights', href: '#', active: globalNavMinimalActive === 'insights', onClick: () => setGlobalNavMinimalActive('insights') },
-                          ]}
-                          showAppSwitcher={true}
-                          user={{
-                            name: 'Jane Smith',
-                          }}
-                          onUserMenuClick={() => console.log('User menu clicked')}
-                        />
-                      </div>
-                    </Stack>
-                  </Card.Body>
-                </Card>
-
-                <Card>
-                  <Card.Body>
-                    <Stack gap="medium">
-                      <Heading level={4}>Simple (No App Switcher or User)</Heading>
-                      <div style={{ marginTop: '16px' }}>
-                        <GlobalNav
-                          logo={
-                            <img
-                              src="/assets/docusign-logo.svg"
-                              alt="DocuSign"
-                              style={{ width: '119.25px', height: '24px', objectFit: 'contain' }}
-                            />
-                          }
-                          navItems={[
-                            { id: 'home', label: 'Home', href: '#', active: globalNavSimpleActive === 'home', onClick: () => setGlobalNavSimpleActive('home') },
-                            { id: 'agreements', label: 'Agreements', href: '#', active: globalNavSimpleActive === 'agreements', onClick: () => setGlobalNavSimpleActive('agreements') },
-                            { id: 'templates', label: 'Templates', href: '#', active: globalNavSimpleActive === 'templates', onClick: () => setGlobalNavSimpleActive('templates') },
-                          ]}
-                          showAppSwitcher={false}
-                        />
-                      </div>
-                    </Stack>
-                  </Card.Body>
-                </Card>
-              </Stack>
-            )}
-
-            {/* Local Nav Pattern */}
-            {activePattern === 'local-nav' && (
-              <Stack gap="large">
-                <Card>
-                  <Card.Body>
-                    <Stack gap="medium">
-                      <div>
-                        <Heading level={3}>Local Navigation</Heading>
-                        <Text color="secondary" size="sm">
-                          Local navigation sidebar for application sections and pages - left sidebar navigation pattern
-                        </Text>
-                      </div>
-                    </Stack>
-                  </Card.Body>
-                </Card>
-
-                <Card>
-                  <Card.Body>
-                    <Stack gap="medium">
-                      <Heading level={4}>Interactive Example</Heading>
-                      <div style={{ display: 'flex', height: '600px', border: '1px solid var(--ink-neutral-20)', borderRadius: '8px', overflow: 'hidden' }}>
-                        <LocalNav
-                          headerLabel="Start"
-                          sections={[
-                            {
-                              id: 'agreements',
-                              title: 'All Agreements',
-                              icon: 'envelope',
-                              collapsible: true,
-                              defaultExpanded: true,
-                              items: [
-                                { id: 'drafts', label: 'Drafts', nested: true, onClick: () => setLocalNavActive('drafts') },
-                                { id: 'in-progress', label: 'In Progress', nested: true, onClick: () => setLocalNavActive('in-progress') },
-                                { id: 'completed', label: 'Completed', nested: true, onClick: () => setLocalNavActive('completed') },
-                                { id: 'deleted', label: 'Deleted', nested: true, onClick: () => setLocalNavActive('deleted') },
-                              ],
-                            },
-                            {
-                              id: 'folders-section',
-                              title: 'FOLDERS',
-                              headerLabel: true,
-                              headerAction: {
-                                icon: 'plus',
-                                label: 'New Folder',
-                                onClick: () => console.log('New Folder clicked'),
-                              },
-                              items: [
-                                {
-                                  id: 'folders',
-                                  label: 'Folders',
-                                  icon: 'folder',
-                                  hasMenu: true,
-                                  onMenuClick: (e) => {
-                                    console.log('Folders menu clicked');
-                                  },
-                                  onClick: () => setLocalNavActive('folders')
-                                },
-                                { id: 'all-parties', label: 'All Parties', icon: 'people', badge: 'New', onClick: () => setLocalNavActive('all-parties') },
-                                { id: 'employees', label: 'Employees', icon: 'user', onClick: () => setLocalNavActive('employees') },
-                              ],
-                            },
-                            {
-                              id: 'tools',
-                              items: [
-                                { id: 'requests', label: 'Requests', icon: 'envelope', badge: 'New', onClick: () => setLocalNavActive('requests') },
-                                { id: 'maestro-workflows', label: 'Maestro Workflows', icon: 'settings', onClick: () => setLocalNavActive('maestro-workflows') },
-                                { id: 'workspaces', label: 'Workspaces', icon: 'layout-grid', onClick: () => setLocalNavActive('workspaces') },
-                                { id: 'powerforms', label: 'Powerforms', icon: 'document', onClick: () => setLocalNavActive('powerforms') },
-                                { id: 'bulk-send', label: 'Bulk Send', icon: 'send', onClick: () => setLocalNavActive('bulk-send') },
-                              ],
-                            },
-                          ]}
-                          activeItemId={localNavActive}
-                          onHeaderClick={() => console.log('Header clicked')}
-                          footerToggle={{
-                            label: 'New navigation',
-                            checked: newNavEnabled,
-                            onChange: setNewNavEnabled,
-                            icon: 'lock',
-                          }}
-                        />
-                        <div style={{ flex: 1, padding: '32px', background: 'var(--ink-neutral-5)' }}>
-                          <Stack gap="medium">
-                            <Heading level={3}>Main Content Area</Heading>
-                            <Text color="secondary">
-                              Active item: <strong>{localNavActive}</strong>
-                            </Text>
-                            <Text color="secondary" size="sm">
-                              Click items in the sidebar to navigate
-                            </Text>
-                          </Stack>
+          {/* Patterns View */}
+          {viewMode === 'patterns' && (
+            <div style={{ padding: '24px 16px' }}>
+              {/* Global Nav Pattern */}
+              {activePattern === 'global-nav' && (
+                <Stack gap="large">
+                  <Card>
+                    <Card.Body>
+                      <Stack gap="medium">
+                        <div>
+                          <Heading level={3}>Global Navigation</Heading>
+                          <Text color="secondary" size="sm">
+                            A horizontal navigation header pattern with app switcher, logo,
+                            navigation items, and user actions
+                          </Text>
                         </div>
-                      </div>
-                    </Stack>
-                  </Card.Body>
-                </Card>
-              </Stack>
-            )}
-          </div>
-        )}
+                      </Stack>
+                    </Card.Body>
+                  </Card>
 
-        {/* Layouts View */}
-        {viewMode === 'layouts' && (
-          <div style={{ padding: '24px 16px' }}>
-            <LayoutsDemo />
-          </div>
-        )}
+                  <Card>
+                    <Card.Body>
+                      <Stack gap="medium">
+                        <Heading level={4}>Full Featured</Heading>
+                        <div style={{ marginTop: '16px' }}>
+                          <GlobalNav
+                            logo={
+                              <img
+                                src="/assets/docusign-logo.svg"
+                                alt="DocuSign"
+                                style={{ width: '119.25px', height: '24px', objectFit: 'contain' }}
+                              />
+                            }
+                            navItems={[
+                              {
+                                id: 'home',
+                                label: 'Home',
+                                href: '#',
+                                active: globalNavFullActive === 'home',
+                                onClick: () => setGlobalNavFullActive('home'),
+                              },
+                              {
+                                id: 'agreements',
+                                label: 'Agreements',
+                                href: '#',
+                                active: globalNavFullActive === 'agreements',
+                                onClick: () => setGlobalNavFullActive('agreements'),
+                              },
+                              {
+                                id: 'templates',
+                                label: 'Templates',
+                                href: '#',
+                                active: globalNavFullActive === 'templates',
+                                onClick: () => setGlobalNavFullActive('templates'),
+                              },
+                              {
+                                id: 'insights',
+                                label: 'Insights',
+                                href: '#',
+                                active: globalNavFullActive === 'insights',
+                                onClick: () => setGlobalNavFullActive('insights'),
+                              },
+                            ]}
+                            showAppSwitcher={true}
+                            showSearch={true}
+                            showNotifications={true}
+                            notificationCount={3}
+                            showSettings={true}
+                            user={{
+                              name: 'John Doe',
+                            }}
+                            onAppSwitcherClick={() => console.log('App switcher clicked')}
+                            onSearchClick={() => console.log('Search clicked')}
+                            onNotificationClick={() => console.log('Notifications clicked')}
+                            onSettingsClick={() => console.log('Settings clicked')}
+                            onUserMenuClick={() => console.log('User menu clicked')}
+                          />
+                        </div>
+                      </Stack>
+                    </Card.Body>
+                  </Card>
 
-        {/* Experiments View */}
-        {viewMode === 'experiments' && (
-          <div style={{ padding: '24px 16px' }}>
-            <Card>
-              <Card.Body>
-                <Stack gap="medium">
-                  <Heading level={3}>Experiments</Heading>
-                  <Text color="secondary" size="sm">
-                    Experimental features and prototypes - Coming soon
-                  </Text>
+                  <Card>
+                    <Card.Body>
+                      <Stack gap="medium">
+                        <Heading level={4}>Minimal (No Search/Notifications)</Heading>
+                        <div style={{ marginTop: '16px' }}>
+                          <GlobalNav
+                            logo={
+                              <img
+                                src="/assets/docusign-logo.svg"
+                                alt="DocuSign"
+                                style={{ width: '119.25px', height: '24px', objectFit: 'contain' }}
+                              />
+                            }
+                            navItems={[
+                              {
+                                id: 'home',
+                                label: 'Home',
+                                href: '#',
+                                active: globalNavMinimalActive === 'home',
+                                onClick: () => setGlobalNavMinimalActive('home'),
+                              },
+                              {
+                                id: 'agreements',
+                                label: 'Agreements',
+                                href: '#',
+                                active: globalNavMinimalActive === 'agreements',
+                                onClick: () => setGlobalNavMinimalActive('agreements'),
+                              },
+                              {
+                                id: 'templates',
+                                label: 'Templates',
+                                href: '#',
+                                active: globalNavMinimalActive === 'templates',
+                                onClick: () => setGlobalNavMinimalActive('templates'),
+                              },
+                              {
+                                id: 'insights',
+                                label: 'Insights',
+                                href: '#',
+                                active: globalNavMinimalActive === 'insights',
+                                onClick: () => setGlobalNavMinimalActive('insights'),
+                              },
+                            ]}
+                            showAppSwitcher={true}
+                            user={{
+                              name: 'Jane Smith',
+                            }}
+                            onUserMenuClick={() => console.log('User menu clicked')}
+                          />
+                        </div>
+                      </Stack>
+                    </Card.Body>
+                  </Card>
+
+                  <Card>
+                    <Card.Body>
+                      <Stack gap="medium">
+                        <Heading level={4}>Simple (No App Switcher or User)</Heading>
+                        <div style={{ marginTop: '16px' }}>
+                          <GlobalNav
+                            logo={
+                              <img
+                                src="/assets/docusign-logo.svg"
+                                alt="DocuSign"
+                                style={{ width: '119.25px', height: '24px', objectFit: 'contain' }}
+                              />
+                            }
+                            navItems={[
+                              {
+                                id: 'home',
+                                label: 'Home',
+                                href: '#',
+                                active: globalNavSimpleActive === 'home',
+                                onClick: () => setGlobalNavSimpleActive('home'),
+                              },
+                              {
+                                id: 'agreements',
+                                label: 'Agreements',
+                                href: '#',
+                                active: globalNavSimpleActive === 'agreements',
+                                onClick: () => setGlobalNavSimpleActive('agreements'),
+                              },
+                              {
+                                id: 'templates',
+                                label: 'Templates',
+                                href: '#',
+                                active: globalNavSimpleActive === 'templates',
+                                onClick: () => setGlobalNavSimpleActive('templates'),
+                              },
+                            ]}
+                            showAppSwitcher={false}
+                          />
+                        </div>
+                      </Stack>
+                    </Card.Body>
+                  </Card>
                 </Stack>
-              </Card.Body>
-            </Card>
-          </div>
-        )}
+              )}
+
+              {/* Local Nav Pattern */}
+              {activePattern === 'local-nav' && (
+                <Stack gap="large">
+                  <Card>
+                    <Card.Body>
+                      <Stack gap="medium">
+                        <div>
+                          <Heading level={3}>Local Navigation</Heading>
+                          <Text color="secondary" size="sm">
+                            Local navigation sidebar for application sections and pages - left
+                            sidebar navigation pattern
+                          </Text>
+                        </div>
+                      </Stack>
+                    </Card.Body>
+                  </Card>
+
+                  <Card>
+                    <Card.Body>
+                      <Stack gap="medium">
+                        <Heading level={4}>Interactive Example</Heading>
+                        <div
+                          style={{
+                            display: 'flex',
+                            height: '600px',
+                            border: '1px solid var(--ink-neutral-20)',
+                            borderRadius: '8px',
+                            overflow: 'hidden',
+                          }}
+                        >
+                          <LocalNav
+                            headerLabel="Start"
+                            sections={[
+                              {
+                                id: 'agreements',
+                                title: 'All Agreements',
+                                icon: 'envelope',
+                                collapsible: true,
+                                defaultExpanded: true,
+                                items: [
+                                  {
+                                    id: 'drafts',
+                                    label: 'Drafts',
+                                    nested: true,
+                                    onClick: () => setLocalNavActive('drafts'),
+                                  },
+                                  {
+                                    id: 'in-progress',
+                                    label: 'In Progress',
+                                    nested: true,
+                                    onClick: () => setLocalNavActive('in-progress'),
+                                  },
+                                  {
+                                    id: 'completed',
+                                    label: 'Completed',
+                                    nested: true,
+                                    onClick: () => setLocalNavActive('completed'),
+                                  },
+                                  {
+                                    id: 'deleted',
+                                    label: 'Deleted',
+                                    nested: true,
+                                    onClick: () => setLocalNavActive('deleted'),
+                                  },
+                                ],
+                              },
+                              {
+                                id: 'folders-section',
+                                title: 'FOLDERS',
+                                headerLabel: true,
+                                headerAction: {
+                                  icon: 'plus',
+                                  label: 'New Folder',
+                                  onClick: () => console.log('New Folder clicked'),
+                                },
+                                items: [
+                                  {
+                                    id: 'folders',
+                                    label: 'Folders',
+                                    icon: 'folder',
+                                    hasMenu: true,
+                                    onMenuClick: (e) => {
+                                      console.log('Folders menu clicked');
+                                    },
+                                    onClick: () => setLocalNavActive('folders'),
+                                  },
+                                  {
+                                    id: 'all-parties',
+                                    label: 'All Parties',
+                                    icon: 'people',
+                                    badge: 'New',
+                                    onClick: () => setLocalNavActive('all-parties'),
+                                  },
+                                  {
+                                    id: 'employees',
+                                    label: 'Employees',
+                                    icon: 'user',
+                                    onClick: () => setLocalNavActive('employees'),
+                                  },
+                                ],
+                              },
+                              {
+                                id: 'tools',
+                                items: [
+                                  {
+                                    id: 'requests',
+                                    label: 'Requests',
+                                    icon: 'envelope',
+                                    badge: 'New',
+                                    onClick: () => setLocalNavActive('requests'),
+                                  },
+                                  {
+                                    id: 'maestro-workflows',
+                                    label: 'Maestro Workflows',
+                                    icon: 'settings',
+                                    onClick: () => setLocalNavActive('maestro-workflows'),
+                                  },
+                                  {
+                                    id: 'workspaces',
+                                    label: 'Workspaces',
+                                    icon: 'layout-grid',
+                                    onClick: () => setLocalNavActive('workspaces'),
+                                  },
+                                  {
+                                    id: 'powerforms',
+                                    label: 'Powerforms',
+                                    icon: 'document',
+                                    onClick: () => setLocalNavActive('powerforms'),
+                                  },
+                                  {
+                                    id: 'bulk-send',
+                                    label: 'Bulk Send',
+                                    icon: 'send',
+                                    onClick: () => setLocalNavActive('bulk-send'),
+                                  },
+                                ],
+                              },
+                            ]}
+                            activeItemId={localNavActive}
+                            onHeaderClick={() => console.log('Header clicked')}
+                            footerToggle={{
+                              label: 'New navigation',
+                              checked: newNavEnabled,
+                              onChange: setNewNavEnabled,
+                              icon: 'lock',
+                            }}
+                          />
+                          <div
+                            style={{ flex: 1, padding: '32px', background: 'var(--ink-neutral-5)' }}
+                          >
+                            <Stack gap="medium">
+                              <Heading level={3}>Main Content Area</Heading>
+                              <Text color="secondary">
+                                Active item: <strong>{localNavActive}</strong>
+                              </Text>
+                              <Text color="secondary" size="sm">
+                                Click items in the sidebar to navigate
+                              </Text>
+                            </Stack>
+                          </div>
+                        </div>
+                      </Stack>
+                    </Card.Body>
+                  </Card>
+                </Stack>
+              )}
+            </div>
+          )}
+
+          {/* Layouts View */}
+          {viewMode === 'layouts' && (
+            <div style={{ padding: '24px 16px' }}>
+              <LayoutsDemo />
+            </div>
+          )}
+
+          {/* Experiments View */}
+          {viewMode === 'experiments' && (
+            <div style={{ padding: '24px 16px' }}>
+              <Card>
+                <Card.Body>
+                  <Stack gap="medium">
+                    <Heading level={3}>Experiments</Heading>
+                    <Text color="secondary" size="sm">
+                      Experimental features and prototypes - Coming soon
+                    </Text>
+                  </Stack>
+                </Card.Body>
+              </Card>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
