@@ -10,10 +10,21 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
+      jsx: true,
+    },
   },
-  plugins: ['react'],
+  plugins: ['@typescript-eslint', 'react'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+  ],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   rules: {
     // Constraint Enforcement Rules for Design System
 
@@ -53,7 +64,13 @@ module.exports = {
     // 5. Warn on console statements (clean code)
     'no-console': ['warn', {
       'allow': ['warn', 'error']
-    }]
+    }],
+
+    // Additional recommended rules from incoming
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'react/prop-types': 'off',
+    'react/no-unescaped-entities': 'off',
   },
   ignorePatterns: ['build/', 'dist/', 'node_modules/', '*.config.ts', '*.config.js'],
 };
