@@ -341,6 +341,44 @@ import tokens from '../../1-tokens/tokens.css'; // in a composite
 - Pre-commit hooks to validate structure
 - CI checks for layer violations
 
+## Component Discovery (Search Order Algorithm)
+
+When building prototypes, **always search from highest level (Layer 6) to lowest level (Layer 2)**. This ensures you use the most appropriate abstraction available.
+
+### The Algorithm
+
+```
+1. Layer 6 (Layouts)    → Need a full page template? (DashboardLayout, AuthLayout)
+2. Layer 5 (Patterns)   → Need navigation? (VerticalNavigation, GlobalNav, LocalNav)
+3. Layer 4 (Composites) → Need composed UI? (Table, Modal, SearchInput, Tabs, etc.)
+4. Layer 3 (Primitives) → Need atomic elements (Button, Input, Card, Badge, etc.)
+5. Layer 2 (Utilities)  → How to lay out components (Stack, Grid, Inline)
+6. Layer 1 (Tokens)     → Any custom styling needs (design tokens)
+```
+
+### Quick Example
+
+**User Request**: "Create a dashboard with user data"
+
+```
+Layer 6 → DashboardLayout exists → START HERE
+Layer 5 → VerticalNavigation for sidebar → USE IT
+Layer 4 → Table for data, SearchInput for filtering → USE THEM
+Layer 3 → Card, Badge, Button → USE AS NEEDED
+Layer 2 → Stack, Grid for layout → ALWAYS USE
+Layer 1 → Tokens for any custom styling
+```
+
+### Anti-Patterns
+
+- **Skipping layers**: Don't jump to primitives without checking layouts/patterns first
+- **Reinventing existing components**: Always check COMPONENT_CATALOG.md before building
+- **Creating custom compositions**: If a composite exists (SearchInput, Modal), use it
+
+See **COMPONENT_CATALOG.md** for the complete list of available components.
+
+---
+
 ## Benefits of This Architecture
 
 1. **Clear Dependencies**: Easy to understand what depends on what
