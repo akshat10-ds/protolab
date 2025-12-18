@@ -5,47 +5,112 @@
   flex-direction: column;
   width: 280px; /* Fixed width for local navigation sidebar */
   height: 100%;
-  background-color: var(--ink-bg-canvas-page); /* Semantic token for page canvas backgrounds */
-  border-right: var(--ink-form-border-width) solid var(--ink-neutral-20);
+  background-color: var(--ink-bg-default); /* White background like DocuSign */
   font-family: var(--ink-font-family);
+  transition: width var(--ink-transition-normal);
+  /* Note: No border-right - DocuSign separates via content area background */
+}
+
+/* Collapsed state */
+.navCollapsed {
+  width: 64px;
+}
+
+/* Hovered state when collapsed - expand */
+.navCollapsed.navHovered {
+  width: 280px;
+  position: absolute;
+  z-index: 100;
+  box-shadow: var(--ink-shadow-lg);
 }
 
 /* Header Wrapper */
 .headerWrapper {
-  padding: 0 var(--ink-spacing-4) var(--ink-spacing-4);
-  padding-top: 0;
+  position: relative;
+  padding: var(--ink-spacing-4);
 }
 
-/* Header Button */
-.header {
-  display: flex;
+/* Header Chevron Rotation */
+.headerChevron {
+  display: inline-flex;
+  align-items: center;
+  transition: transform var(--ink-transition-fast);
+}
+
+.headerChevronRotated {
+  transform: rotate(180deg);
+}
+
+/* Header Button - Collapsed variant */
+.headerButtonCollapsed {
+  width: 48px;
+  height: 48px;
+  padding: 0 !important;
+  margin: 0 auto;
+  display: flex !important;
   align-items: center;
   justify-content: center;
+}
+
+/* Collapsed header wrapper adjustments */
+.navCollapsed .headerWrapper {
+  padding: var(--ink-spacing-2);
+}
+
+/* Header Dropdown Menu */
+.headerMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background-color: var(--ink-white-100);
+  border: 1px solid var(--ink-neutral-20);
+  border-radius: var(--ink-radius-sm);
+  box-shadow: var(--ink-shadow-md);
+  z-index: 100;
+  padding: var(--ink-spacing-1) 0;
+  overflow: hidden;
+}
+
+.headerMenuItem {
+  display: flex;
+  align-items: center;
   gap: var(--ink-spacing-2);
-  padding: 4px 12px 4px 8px; /* Matches DocuSign exact padding */
-  background-color: #260559; /* ctaBgColorPrimaryDefault */
-  cursor: pointer;
-  transition: background-color var(--ink-transition-fast);
-  height: 40px;
   width: 100%;
-  border-radius: var(--ink-radius-xs);
+  padding: 11px 15px 11px 16px;
+  min-height: 44px;
   border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color var(--ink-transition-fast);
   font-family: inherit;
 }
 
-.header:hover {
-  background-color: #2b047f; /* Slightly lighter dark purple */
+.headerMenuItem:hover {
+  background-color: var(--ink-neutral-10);
 }
 
-.headerLabel {
-  font-size: var(--ink-font-body-m-size); /* 16px */
-  font-weight: var(--ink-font-weight-medium); /* 500 */
-  line-height: var(--ink-font-body-m-line-height);
-  color: var(--ink-white-100);
+.headerMenuItemIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--ink-neutral-fade-70);
 }
 
-.headerIcon {
-  color: var(--ink-white-100);
+.headerMenuItemLabel {
+  flex: 1;
+  font-size: var(--ink-font-body-s-size);
+  font-weight: var(--ink-font-weight-regular);
+  line-height: var(--ink-font-body-s-line-height);
+  color: var(--ink-neutral-fade-90);
+}
+
+.headerMenuItemArrow {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--ink-neutral-fade-50);
 }
 
 /* Sections */
@@ -124,28 +189,6 @@
   flex: 1;
 }
 
-.sectionActionButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--ink-icon-size-m);
-  height: var(--ink-icon-size-m);
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  border-radius: var(--ink-radius-sm);
-  color: var(--ink-neutral-fade-70);
-  flex-shrink: 0;
-  transition:
-    background-color var(--ink-transition-fast),
-    color var(--ink-transition-fast);
-}
-
-.sectionActionButton:hover {
-  background-color: var(--ink-neutral-20);
-  color: var(--ink-neutral-fade-90);
-}
-
 .sectionChevron {
   display: flex;
   align-items: center;
@@ -159,6 +202,7 @@
 
 .sectionItems {
   overflow: hidden;
+  max-height: 1000px; /* Large enough for any reasonable nav section */
   transition: max-height var(--ink-transition-fast);
 }
 
@@ -179,13 +223,15 @@
   gap: var(--ink-spacing-2);
   width: 100%;
   padding: 11px 15px 11px 23px; /* Matches DocuSign exact padding */
-  min-height: 48px;
+  height: 42px; /* DocuSign inactive item height */
+  min-height: 42px;
   border: none;
   background: transparent;
   cursor: pointer;
   position: relative;
   text-align: left;
   transition: background-color var(--ink-transition-fast);
+  font-family: inherit;
 }
 
 .item.nested {
@@ -206,7 +252,10 @@
 }
 
 .item.active {
-  background-color: rgba(19, 0, 50, 0.1); /* itemBgColorActiveSubtle */
+  height: 48px; /* DocuSign active item height */
+  min-height: 48px;
+  background-color: var(--ink-bg-active-subtle);
+  font-weight: var(--ink-font-weight-semibold); /* 600 - DocuSign active weight */
 }
 
 .itemIcon {
@@ -218,7 +267,7 @@
 }
 
 .item.active .itemIcon {
-  color: rgba(25, 24, 35, 0.9); /* fontColorDefault */
+  color: var(--ink-font-default);
 }
 
 .itemLabel {
@@ -233,8 +282,7 @@
 }
 
 .item.active .itemLabel {
-  font-weight: var(--ink-font-weight-medium); /* 500 */
-  color: rgba(25, 24, 35, 0.9); /* fontColorDefault */
+  color: var(--ink-font-default);
 }
 
 /* Active Indicator */
@@ -244,8 +292,40 @@
   top: 0;
   bottom: 0;
   width: 4px;
-  background-color: rgba(25, 24, 35, 0.65); /* borderColorDefault */
+  background-color: var(--ink-border-active-indicator);
   border-radius: 0;
+}
+
+/* Collapsed Item (icon only) */
+.itemCollapsed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  color: var(--ink-neutral-fade-70);
+  border-radius: var(--ink-radius-xs);
+  transition: background-color var(--ink-transition-fast);
+}
+
+.itemCollapsed:hover {
+  background-color: var(--ink-neutral-10);
+}
+
+.itemCollapsed.active {
+  background-color: var(--ink-bg-active-subtle);
+  color: var(--ink-font-default);
+}
+
+.itemCollapsed .activeIndicator {
+  left: 0;
+  width: 4px;
+  border-radius: 0 2px 2px 0;
 }
 
 /* Menu Button */
@@ -319,4 +399,14 @@
   align-items: center;
   color: var(--ink-neutral-fade-70);
   flex-shrink: 0;
+}
+
+/* Collapsed Footer */
+.footerCollapsed {
+  justify-content: center;
+  padding: var(--ink-spacing-2);
+}
+
+.footerCollapsed .footerLockButton {
+  margin: 0 auto;
 }
