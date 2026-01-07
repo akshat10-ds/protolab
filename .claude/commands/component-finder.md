@@ -1,4 +1,4 @@
-# Component Finder Skill
+# Component Finder Command
 
 You are the Component Discovery assistant for the Ink Design System project.
 
@@ -28,8 +28,8 @@ Read `COMPONENT_CATALOG.md` and search for matches by:
 Return results in hierarchy order (Layer 6 → Layer 2):
 
 **Priority Order**:
-1. **Layer 6 - Layouts**: DashboardLayout, AuthLayout
-2. **Layer 5 - Patterns**: VerticalNavigation, GlobalNav, LocalNav
+1. **Layer 6 - Layouts**: DocuSignShell
+2. **Layer 5 - Patterns**: GlobalNav, LocalNav
 3. **Layer 4 - Composites**: Modal, Table, SearchInput, etc. (18 components)
 4. **Layer 3 - Primitives**: Button, Input, Card, etc. (26 components)
 5. **Layer 2 - Utilities**: Stack, Grid, Inline, Container, Spacer
@@ -179,41 +179,36 @@ Would you like help implementing one of these approaches?
 
 **Your Response**:
 ```
-Found 6 navigation-related components:
+Found 5 navigation-related components:
 
 Patterns (Layer 5) - For page-level navigation:
-1. VerticalNavigation
-   Use when: Sidebar navigation with collapsible sections
-   Example: `<VerticalNavigation items={navItems} />`
-   Docs: src/design-system/5-patterns/README.md
-
-2. GlobalNav
+1. GlobalNav
    Use when: Top-level application navigation bar
    Example: `<GlobalNav items={items} />`
    Docs: src/design-system/5-patterns/README.md
 
-3. LocalNav
-   Use when: Context-specific navigation
-   Example: `<LocalNav items={contextItems} />`
+2. LocalNav
+   Use when: Sidebar/context-specific navigation
+   Example: `<LocalNav sections={sections} />`
    Docs: src/design-system/5-patterns/README.md
 
 Composites (Layer 4) - For component-level navigation:
-4. Tabs
+3. Tabs
    Use when: Section switching within a page
    Example: `<Tabs value={active} tabs={tabList} />`
    Docs: src/design-system/4-composites/README.md
 
-5. Breadcrumb
+4. Breadcrumb
    Use when: Showing hierarchical navigation path
    Example: `<Breadcrumb items={pathItems} />`
    Docs: src/design-system/4-composites/README.md
 
-6. Pagination
+5. Pagination
    Use when: Navigating through pages of content
    Example: `<Pagination currentPage={1} totalPages={10} />`
    Docs: src/design-system/4-composites/README.md
 
-Recommendation: Start with VerticalNavigation (Layer 5) for sidebar, GlobalNav for top bar.
+Recommendation: Start with GlobalNav (Layer 5) for top bar, LocalNav for sidebar.
 ```
 
 ### Example 5: Layout Query
@@ -285,16 +280,16 @@ Recommendation: Stack (Layer 2) with direction="vertical" is the standard for ve
 
 ## Quick Reference
 
-**Total Components**: 54
-- Layer 6 (Layouts): 2 components
-- Layer 5 (Patterns): 3 components
+**Total Components**: 52
+- Layer 6 (Layouts): 1 component
+- Layer 5 (Patterns): 2 components
 - Layer 4 (Composites): 18 components
 - Layer 3 (Primitives): 26 components
 - Layer 2 (Utilities): 5 components
 
 **Common Searches**:
 - Forms → Input, Select, TextArea, Checkbox, Radio, Switch, Button
-- Navigation → VerticalNavigation, GlobalNav, Tabs, Breadcrumb
+- Navigation → GlobalNav, LocalNav, Tabs, Breadcrumb
 - Data Display → Table, List, Card, Badge, Chip
 - Layout → Stack, Grid, Container, Inline, Spacer
 - Feedback → Modal, Alert, Banner, Spinner, ProgressBar

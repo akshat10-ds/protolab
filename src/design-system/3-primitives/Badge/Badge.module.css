@@ -8,14 +8,14 @@
   line-height: var(--ink-font-badge-line-height); /* fontBadge: 1.5 from Figma */
   letter-spacing: 0.16px; /* wide spacing from Figma */
   border-radius: var(--ink-radius-sm); /* 4px - radiusSizeXS from Figma */
-  padding: 0 var(--ink-spacing-100) 0 var(--ink-spacing-50); /* 0 8px 0 4px - asymmetric from Figma */
+  padding: 0 var(--ink-spacing-100); /* 0 8px - symmetric per production */
   height: 24px;
   white-space: nowrap;
   box-sizing: border-box;
 }
 
 .text {
-  padding-left: var(--ink-spacing-50); /* Additional 4px left padding from Figma */
+  /* No extra padding - symmetric with container */
 }
 
 /* Variant: subtle (neutral/default) */

@@ -1,0 +1,35 @@
+@import '../design-system/1-tokens/tokens.css';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--ink-bg-default);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-400);
+  padding: var(--ink-spacing-300) var(--ink-spacing-400);
+  background: var(--ink-bg-default);
+}
+
+.titleArea {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-200);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.separator {
+  color: var(--ink-font-tertiary);
+}
+
+.content {
+  flex: 1;
+  padding: var(--ink-spacing-400);
+  overflow: auto;
+}

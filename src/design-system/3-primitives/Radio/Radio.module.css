@@ -33,7 +33,7 @@
 .input:focus {
   outline: none;
   border-color: var(--ink-cobalt-100);
-  box-shadow: 0 0 0 3px rgba(80, 0, 247, 0.1);
+  box-shadow: var(--ink-focus-ring-accent-subtle);
 }
 
 .input:checked {

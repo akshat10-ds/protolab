@@ -1,4 +1,4 @@
-# Figma to Code Skill
+# Figma to Code Command
 
 You are the Figma-to-Code translator for the Ink Design System project.
 
@@ -95,7 +95,7 @@ Design Structure:
 #### Component Mapping (Check COMPONENT_CATALOG.md for complete list)
 
 **Navigation**:
-- Sidebar Navigation → `VerticalNavigation` (Pattern, Layer 5)
+- Sidebar Navigation → `LocalNav` (Pattern, Layer 5)
 - Top Navigation Bar → `GlobalNav` (Pattern, Layer 5)
 - Tabs → `Tabs` (Composite, Layer 4)
 - Breadcrumbs → `Breadcrumb` (Composite, Layer 4)
@@ -162,8 +162,8 @@ Design Structure:
 ### Step 5: Plan Component Hierarchy
 
 **Follow the search order**:
-1. **Layer 6**: Can I use DashboardLayout or AuthLayout?
-2. **Layer 5**: What patterns do I need? (VerticalNavigation, GlobalNav, LocalNav)
+1. **Layer 6**: Can I use DocuSignShell?
+2. **Layer 5**: What patterns do I need? (GlobalNav, LocalNav)
 3. **Layer 4**: What composites? (Table, Modal, SearchInput, Tabs, etc.)
 4. **Layer 3**: What primitives? (Button, Input, Card, Badge, etc.)
 5. **Layer 2**: What layout utilities? (Stack, Grid, Inline, Container)
@@ -177,7 +177,7 @@ Layout:
 - Card Grid (3 columns) → Grid (columns={3}, gap="medium")
 
 Components:
-- Navigation Sidebar → VerticalNavigation (Layer 5)
+- Navigation Sidebar → LocalNav (Layer 5)
 - Stat Cards → Card (Layer 3) x3
 - Data Table → Table (Layer 4)
 - Action Button → Button (Layer 3, kind="brand")
@@ -202,9 +202,10 @@ Once approved:
 ```tsx
 import {
   // Layer 6 - Layouts
-  DashboardLayout,
+  DocuSignShell,
   // Layer 5 - Patterns
-  VerticalNavigation,
+  GlobalNav,
+  LocalNav,
   // Layer 4 - Composites
   Table,
   SearchInput,
@@ -285,7 +286,7 @@ Solution:
 Run validation:
 ```bash
 npm run build       # Ensure it compiles
-npm run type-check  # Verify TypeScript types
+npm run typecheck   # Verify TypeScript types
 ```
 
 ### Step 11: Present Result
@@ -338,79 +339,6 @@ Check `src/design-system/3-primitives/Icon/README.md` for available icons.
 ### Fonts
 - Already configured: 'DS Indigo' font
 - Token: `--ink-font-family`
-
-## Examples
-
-### Example 1: Dashboard Design
-
-**Figma Structure**:
-```
-Frame "Dashboard" (Vertical Auto Layout, gap: 24px)
-├── Sidebar Navigation Component
-└── Main Content
-    ├── Text: "Overview"
-    ├── Stats Row (Horizontal, gap: 16px)
-    │   ├── Card: "1,234 Users"
-    │   ├── Card: "856 Active"
-    │   └── Card: "+12% Growth"
-    └── Data Table Component
-```
-
-**Your Response**:
-```
-I've analyzed the Figma design. Here's my mapping:
-
-Layout:
-- DashboardLayout (Layer 6) - Main page structure
-- VerticalNavigation (Layer 5) - Sidebar
-- Stack (Layer 2) - Vertical layout for content
-- Grid (Layer 2) - 3-column layout for stat cards
-
-Components:
-- Heading (Layer 3) - "Overview" title
-- Card (Layer 3) x3 - Stat displays
-- Table (Layer 4) - Data table
-
-Tokens:
-- Gap 24px → gap="large"
-- Gap 16px → gap="medium"
-
-Should I proceed with this implementation?
-```
-
-### Example 2: Login Form
-
-**Figma Structure**:
-```
-Frame "Login" (Centered, Vertical Layout)
-├── Logo Image
-├── Text: "Welcome Back"
-├── Input: Email
-├── Input: Password
-├── Checkbox: "Remember me"
-└── Button: "Sign In"
-```
-
-**Your Response**:
-```
-I've analyzed the login form. Here's my mapping:
-
-Layout:
-- AuthLayout (Layer 6) - Centered auth page
-- Stack (Layer 2) - Vertical form layout
-
-Components:
-- Heading (Layer 3) - "Welcome Back"
-- Input (Layer 3) - Email field (type="email")
-- Input (Layer 3) - Password field (type="password")
-- Checkbox (Layer 3) - Remember me
-- Button (Layer 3) - Sign in button (kind="brand")
-
-Assets:
-- Logo image → Place in src/assets/logo.png
-
-Should I proceed?
-```
 
 ## Success Criteria
 

@@ -44,6 +44,8 @@ export interface LocalNavSection {
     label: string;
     onClick: () => void;
   };
+  /** Show a divider line above this section */
+  hasDivider?: boolean;
 }
 
 export interface LocalNavProps {
@@ -265,9 +267,7 @@ export const LocalNav: React.FC<LocalNavProps> = ({
                       isItemActive ? styles.active : ''
                     } ${isItemHovered ? styles.hovered : ''} ${
                       item.nested ? styles.nested : ''
-                    } ${item.hasMenu ? styles.hasMenu : ''} ${
-                      item.icon ? styles.hasIcon : ''
-                    }`}
+                    } ${item.hasMenu ? styles.hasMenu : ''} ${item.icon ? styles.hasIcon : ''}`}
                     onClick={() => handleItemClick(item)}
                     onMouseEnter={() => setHoveredItemId(item.id)}
                     onMouseLeave={() => setHoveredItemId(null)}
@@ -283,7 +283,7 @@ export const LocalNav: React.FC<LocalNavProps> = ({
                     {item.badge && <Badge variant="subtle">{item.badge}</Badge>}
                     {item.hasMenu && (
                       <IconButton
-                        icon="more-vertical"
+                        icon="overflow-horizontal"
                         size="small"
                         variant="tertiary"
                         onClick={(e) => {
@@ -302,7 +302,10 @@ export const LocalNav: React.FC<LocalNavProps> = ({
           };
 
           return (
-            <div key={section.id} className={styles.section}>
+            <div
+              key={section.id}
+              className={`${styles.section} ${section.hasDivider ? styles.sectionWithDivider : ''}`}
+            >
               {section.headerLabel && section.title ? (
                 <>
                   {isExpanded && (

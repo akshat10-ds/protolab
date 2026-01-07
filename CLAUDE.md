@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## 🎯 Project Purpose
 
-This is an **AI-powered prototype generator** built on the Ink Design System. You help users create production-quality prototypes using a comprehensive library of 55 pre-existing, meticulously designed components.
+This is an **AI-powered prototype generator** built on the Ink Design System. You help users create production-quality prototypes using a comprehensive library of 52 pre-existing, meticulously designed components.
 
 **Your mission**: Generate prototypes quickly and correctly using ONLY the existing component hierarchy. Never create custom components.
 
@@ -63,13 +63,13 @@ This is an **AI-powered prototype generator** built on the Ink Design System. Yo
 
 ---
 
-## 🤖 Claude Skills (Your Specialized Tools)
+## 🤖 Claude Commands (Your Specialized Tools)
 
-**You have access to 4 specialized skills that encapsulate complete workflows. Use these skills to ensure consistency and completeness.**
+**You have access to 4 specialized slash commands that encapsulate complete workflows. Use these commands to ensure consistency and completeness.**
 
-### Available Skills
+### Available Commands
 
-**Location**: `.claude/skills/`
+**Location**: `.claude/commands/`
 
 #### 1. `prototype-generator` (Primary Workflow)
 **When to use**: User requests a prototype from a text description
@@ -129,13 +129,13 @@ This is an **AI-powered prototype generator** built on the Ink Design System. Yo
 - User requests validation
 - After generating significant code (proactive)
 
-### When to Use Skills
+### When to Use Commands
 
-**Use Skills**:
-- ✅ Starting new prototypes (prototype-generator)
-- ✅ Converting Figma designs (figma-to-code)
-- ✅ Component discovery (component-finder)
-- ✅ Validation checks (validate-prototype)
+**Use Commands**:
+- ✅ Starting new prototypes (`/prototype-generator`)
+- ✅ Converting Figma designs (`/figma-to-code`)
+- ✅ Component discovery (`/component-finder`)
+- ✅ Validation checks (`/validate-prototype`)
 
 **Direct implementation**:
 - Small code tweaks
@@ -143,9 +143,9 @@ This is an **AI-powered prototype generator** built on the Ink Design System. Yo
 - Documentation updates
 - Simple questions
 
-### Skills Enforce
+### Commands Enforce
 
-All skills follow the same principles:
+All commands follow the same principles:
 - Search order algorithm (Layer 6 → 2)
 - Component discovery via COMPONENT_CATALOG.md
 - Constraint compliance
@@ -165,9 +165,9 @@ When the user requests a prototype like "create a dashboard" or "build a setting
 2. **Check COMPONENT_CATALOG.md** - Find available components
 3. **Follow the hierarchy** - Start from Layer 6 (Layouts) and work down:
    ```
-   Layer 6 (Layouts) → Does a layout exist? (e.g., DashboardLayout)
+   Layer 6 (Layouts) → Does a layout exist? (e.g., DocuSignShell)
    ↓ No?
-   Layer 5 (Patterns) → Can I use patterns? (e.g., VerticalNavigation)
+   Layer 5 (Patterns) → Can I use patterns? (e.g., GlobalNav, LocalNav)
    ↓ No?
    Layer 4 (Composites) → Can I compose? (e.g., Modal, Table, SearchInput)
    ↓ No?
@@ -181,17 +181,20 @@ When the user requests a prototype like "create a dashboard" or "build a setting
 
 **Example:**
 ```
-User: "Create a dashboard with user statistics"
+User: "Create an application with user statistics"
 
 Your Process:
-1. Check COMPONENT_CATALOG.md → DashboardLayout exists ✅
-2. Check → VerticalNavigation exists ✅
+1. Check COMPONENT_CATALOG.md → DocuSignShell exists ✅
+2. Check → GlobalNav, LocalNav exist ✅
 3. Check → Card, Grid, Table exist ✅
-4. Read src/design-system/6-layouts/README.md for DashboardLayout API
+4. Read src/design-system/6-layouts/README.md for DocuSignShell API
 5. Read src/design-system/3-primitives/README.md for Card API
 6. Implement:
 
-<DashboardLayout navigation={<VerticalNavigation items={navItems} />}>
+<DocuSignShell
+  globalNav={<GlobalNav items={topNavItems} />}
+  localNav={<LocalNav items={sideNavItems} />}
+>
   <Grid columns={3} gap="medium">
     <Card>Total Users: 1,234</Card>
     <Card>Active: 856</Card>
@@ -200,7 +203,7 @@ Your Process:
   <Card>
     <Table columns={userColumns} data={userData} />
   </Card>
-</DashboardLayout>
+</DocuSignShell>
 ```
 
 ---
@@ -230,7 +233,7 @@ When the user provides a Figma URL:
 
 ### Quick Reference
 **"What components exist?"**
-→ `COMPONENT_CATALOG.md` - Complete index of all 55 components
+→ `COMPONENT_CATALOG.md` - Complete index of all 52 components
 
 ### Detailed APIs
 **"How do I use [Component]?"**
@@ -239,8 +242,8 @@ When the user provides a Figma URL:
 - `src/design-system/2-utilities/README.md` - Stack, Grid, Inline, Container, Spacer
 - `src/design-system/3-primitives/README.md` - Button, Input, Card, Badge (26 components)
 - `src/design-system/4-composites/README.md` - Modal, Table, SearchInput (18 components)
-- `src/design-system/5-patterns/README.md` - VerticalNavigation, GlobalNav, LocalNav
-- `src/design-system/6-layouts/README.md` - DashboardLayout, AuthLayout
+- `src/design-system/5-patterns/README.md` - GlobalNav, LocalNav (2 patterns)
+- `src/design-system/6-layouts/README.md` - DocuSignShell (1 layout)
 
 ### Workflows
 **"How do I implement Figma designs?"**
@@ -310,8 +313,8 @@ npm run build   # Production build
 import { Button, Input, Modal, Stack } from '@/design-system';
 
 // From specific layer (clearer intent)
-import { DashboardLayout } from '@/design-system/6-layouts';
-import { VerticalNavigation } from '@/design-system/5-patterns';
+import { DocuSignShell } from '@/design-system/6-layouts';
+import { GlobalNav, LocalNav } from '@/design-system/5-patterns';
 import { Table } from '@/design-system/4-composites';
 import { Button } from '@/design-system/3-primitives';
 import { Stack } from '@/design-system/2-utilities';
@@ -467,8 +470,8 @@ inkStarterProject/
 │   │   ├── 2-utilities/           # Layout helpers (Stack, Grid, etc.)
 │   │   ├── 3-primitives/          # Atomic components (Button, Input, etc.)
 │   │   ├── 4-composites/          # Composed components (Modal, Table, etc.)
-│   │   ├── 5-patterns/            # UI patterns (VerticalNavigation, etc.)
-│   │   └── 6-layouts/             # Application templates (Dashboard, Auth)
+│   │   ├── 5-patterns/            # UI patterns (GlobalNav, LocalNav)
+│   │   └── 6-layouts/             # Application templates (DocuSignShell)
 │   ├── examples/                   # Demo pages
 │   └── App.tsx                     # Main app with routing
 │
@@ -494,14 +497,14 @@ inkStarterProject/
 
 ### Creating Navigation
 1. Check COMPONENT_CATALOG.md → Navigation section
-2. Found: VerticalNavigation (Pattern), Tabs, Breadcrumb
+2. Found: GlobalNav, LocalNav (Patterns), Tabs, Breadcrumb
 3. Use appropriate component for context
 
-### Creating a Dashboard
+### Creating an Application Shell
 1. Check COMPONENT_CATALOG.md → Layouts section
-2. Found: DashboardLayout
+2. Found: DocuSignShell
 3. Read 6-layouts/README.md for API
-4. Compose with VerticalNavigation, Card, Table
+4. Compose with GlobalNav, LocalNav, Card, Table
 
 ---
 
@@ -521,7 +524,7 @@ When starting any task:
 
 **New to this project?**
 
-1. Browse `/showcase` - See all 55 components live
+1. Browse `/showcase` - See all 52 components live
 2. Read COMPONENT_CATALOG.md - Understand what's available
 3. Read ARCHITECTURE.md - Learn the 6-layer hierarchy
 4. Check PROTOTYPE_GUIDE.md - See common patterns

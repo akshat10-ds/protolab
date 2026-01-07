@@ -29,8 +29,31 @@ const iconSizes = [
   { size: 32, label: '32px' },
   { size: 48, label: '48px' },
 ] as const;
-const iconColors = ['currentColor', 'var(--ink-cobalt-60)', 'var(--ink-red-60)', 'var(--ink-green-60)', 'var(--ink-orange-60)'];
-const popularIcons = ['check', 'close', 'plus', 'edit', 'trash', 'download', 'search', 'settings', 'user', 'star', 'bell', 'calendar', 'home', 'info', 'help-circle', 'menu'];
+const iconColors = [
+  'currentColor',
+  'var(--ink-cobalt-60)',
+  'var(--ink-red-60)',
+  'var(--ink-green-60)',
+  'var(--ink-orange-60)',
+];
+const popularIcons = [
+  'check',
+  'close',
+  'plus',
+  'edit',
+  'trash',
+  'download',
+  'search',
+  'settings',
+  'user',
+  'star',
+  'bell',
+  'calendar',
+  'home',
+  'info',
+  'help-circle',
+  'menu',
+];
 
 export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ activeSubpage }) => {
   if (activeSubpage === 'link') {
@@ -45,7 +68,9 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
             <div className={styles.demoRow} key={kind}>
               <span className={styles.demoLabel}>{kind}</span>
               <div className={styles.demoPreviewWide}>
-                <Link kind={kind} href="#">This is a {kind} link</Link>
+                <Link kind={kind} href="#">
+                  This is a {kind} link
+                </Link>
               </div>
               <span className={styles.propsCode}>kind="{kind}"</span>
             </div>
@@ -61,7 +86,9 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
             <div className={styles.demoRow} key={size}>
               <span className={styles.demoLabel}>{size}</span>
               <div className={styles.demoPreview}>
-                <Link size={size} href="#">{size} link</Link>
+                <Link size={size} href="#">
+                  {size} link
+                </Link>
               </div>
               <span className={styles.propsCode}>size="{size}"</span>
             </div>
@@ -76,21 +103,27 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>discrete</span>
             <div className={styles.demoPreviewWide}>
-              <Link discrete href="#">Hover to see underline</Link>
+              <Link discrete href="#">
+                Hover to see underline
+              </Link>
             </div>
             <span className={styles.demoDesc}>Only shows underline on hover</span>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>external</span>
             <div className={styles.demoPreviewWide}>
-              <Link external href="https://www.docusign.com">External link</Link>
+              <Link external href="https://www.docusign.com">
+                External link
+              </Link>
             </div>
             <span className={styles.demoDesc}>Opens in new tab with icon</span>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>disabled</span>
             <div className={styles.demoPreviewWide}>
-              <Link disabled href="#">Disabled link</Link>
+              <Link disabled href="#">
+                Disabled link
+              </Link>
             </div>
           </div>
         </div>
@@ -103,7 +136,10 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
           <div className={styles.interactiveArea}>
             <Text>
               This is a paragraph with a <Link href="#">regular link</Link> and a{' '}
-              <Link kind="subtle" href="#">subtle link</Link> embedded in text.
+              <Link kind="subtle" href="#">
+                subtle link
+              </Link>{' '}
+              embedded in text.
             </Text>
           </div>
         </div>
@@ -132,7 +168,9 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
             </div>
           </div>
           <div className={styles.interactiveArea}>
-            <span className={styles.stateLabel} style={{ marginBottom: '8px', display: 'block' }}>vertical</span>
+            <span className={styles.stateLabel} style={{ marginBottom: '8px', display: 'block' }}>
+              vertical
+            </span>
             <Stepper steps={basicSteps} activeStep={1} orientation="vertical" />
           </div>
         </div>
@@ -297,8 +335,10 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
           <div className={styles.demoGrid}>
             {iconColors.map((color, i) => (
               <div className={styles.demoGridItem} key={i}>
-                <Icon name="heart" color={color} />
-                <span className={styles.demoGridLabel}>{color === 'currentColor' ? 'current' : color.split('--ink-')[1]?.split(')')[0]}</span>
+                <Icon name="star" color={color} />
+                <span className={styles.demoGridLabel}>
+                  {color === 'currentColor' ? 'current' : color.split('--ink-')[1]?.split(')')[0]}
+                </span>
               </div>
             ))}
           </div>
@@ -327,10 +367,24 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
             <h3 className={styles.tokenSectionTitle}>All Icons ({iconNames.length})</h3>
           </div>
           <div className={styles.interactiveArea} style={{ maxHeight: '300px', overflowY: 'auto' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(50px, 1fr))', gap: '8px' }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(50px, 1fr))',
+                gap: '8px',
+              }}
+            >
               {iconNames.map((name) => (
                 <Tooltip key={name} content={name}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px', cursor: 'pointer' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '8px',
+                      cursor: 'pointer',
+                    }}
+                  >
                     <Icon name={name} size="small" />
                   </div>
                 </Tooltip>
@@ -354,7 +408,7 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>aria-hidden</span>
             <div className={styles.demoPreview}>
-              <Icon name="warning" aria-hidden />
+              <Icon name="status-warn" aria-hidden />
             </div>
             <span className={styles.demoDesc}>For decorative icons</span>
           </div>

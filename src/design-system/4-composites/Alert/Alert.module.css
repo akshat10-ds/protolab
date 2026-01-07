@@ -29,22 +29,22 @@
 
 /* Kind: information */
 .alert.information {
-  background-color: #e6f0ff; /* Light blue from Figma */
-  color: #0047ab; /* Dark blue text */
+  background-color: var(--ink-cobalt-10); /* Light blue */
+  color: var(--ink-cobalt-110); /* Dark blue text */
 }
 
 .alert.information.bottomBorder {
-  border-bottom-color: #0047ab;
+  border-bottom-color: var(--ink-cobalt-110);
 }
 
 /* Kind: danger */
 .alert.danger {
-  background-color: var(--ink-red-20); /* #fee8ea */
-  color: #a6003f; /* Error emphasis color */
+  background-color: var(--ink-red-20);
+  color: var(--ink-red-100); /* Error emphasis color */
 }
 
 .alert.danger.bottomBorder {
-  border-bottom-color: #a6003f;
+  border-bottom-color: var(--ink-red-100);
 }
 
 /* Kind: success */
@@ -69,12 +69,12 @@
 
 /* Kind: promo */
 .alert.promo {
-  background-color: #ede5ff; /* Light purple from Figma */
-  color: #4200ca; /* Purple accent */
+  background-color: var(--ink-cobalt-20); /* Light purple */
+  color: var(--ink-cobalt-110); /* Purple accent */
 }
 
 .alert.promo.bottomBorder {
-  border-bottom-color: #4200ca;
+  border-bottom-color: var(--ink-cobalt-110);
 }
 
 /* Kind: subtle */

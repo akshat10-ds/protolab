@@ -1,10 +1,10 @@
-# Layer 6: Starter Layouts
+# Layer 6: Layouts
 
 **Application templates in the Ink Design System hierarchy.**
 
 ## Purpose
 
-Starter Layouts are complete page templates that demonstrate how to compose patterns and components into full application interfaces. They provide starting points for common application needs.
+Layouts are complete page templates that demonstrate how to compose patterns and components into full application interfaces. They provide starting points for common application needs.
 
 ## Hierarchy Rules
 
@@ -24,54 +24,84 @@ Starter Layouts are complete page templates that demonstrate how to compose patt
 - Complex interactions (delegate to patterns/composites)
 - Direct token usage (use components instead)
 
-## Available Layouts
+## Available Layouts (1 total)
 
-### DashboardLayout
-Complete dashboard with sidebar navigation, header, and content areas.
+### DocuSignShell
+
+Application shell layout with GlobalNav header, optional LocalNav sidebar, and main content area.
 
 ```tsx
-<DashboardLayout
-  navigation={<LocalNav />}
-  header={<GlobalNav />}
-  sidebar={<Widget />}
+import { DocuSignShell } from '@/design-system/6-layouts';
+
+// With sidebar
+<DocuSignShell
+  globalNav={{
+    logo: <Logo />,
+    navItems: [
+      { label: 'Home', href: '/', active: true },
+      { label: 'Agreements', href: '/agreements' },
+      { label: 'Templates', href: '/templates' },
+    ],
+    userMenu: { name: 'John Doe', avatar: '/avatar.jpg' }
+  }}
+  localNav={{
+    sections: [
+      {
+        title: 'Navigation',
+        items: [
+          { label: 'Overview', icon: 'home', active: true },
+          { label: 'Documents', icon: 'document' },
+          { label: 'Settings', icon: 'settings' },
+        ]
+      }
+    ]
+  }}
 >
   <YourContent />
-</DashboardLayout>
-```
+</DocuSignShell>
 
-**Use cases:**
-- Admin dashboards
-- Application main views
-- Data-heavy interfaces
-
-### AuthLayout
-Centered layout for authentication flows.
-
-```tsx
-<AuthLayout
-  logo={<Logo />}
-  variant="split"
-  footer={<Terms />}
+// Without sidebar (e.g., settings page)
+<DocuSignShell
+  globalNav={{ logo: <Logo />, navItems: [...] }}
 >
-  <LoginForm />
-</AuthLayout>
+  <SettingsContent />
+</DocuSignShell>
 ```
 
-**Variants:**
-- `default`: Simple centered form
-- `split`: Two-column layout with branded side panel
-- `minimal`: Minimal styling for custom designs
+### Props
 
-**Use cases:**
-- Login/signup pages
-- Password reset flows
-- Email verification
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `globalNav` | `GlobalNavProps` | ✅ | Configuration for the header navigation |
+| `localNav` | `LocalNavProps` | ❌ | Optional sidebar navigation configuration |
+| `children` | `ReactNode` | ✅ | Main content area |
+| `className` | `string` | ❌ | Additional CSS class for the shell container |
+
+### Use Cases
+
+- Application main views
+- Admin dashboards
+- Document management interfaces
+- Multi-section applications with sidebar navigation
+
+### Structure
+
+```
+┌─────────────────────────────────────────┐
+│              GlobalNav                   │
+├───────────┬─────────────────────────────┤
+│           │                             │
+│ LocalNav  │         Content             │
+│ (optional)│                             │
+│           │                             │
+└───────────┴─────────────────────────────┘
+```
 
 ## Creating New Layouts
 
 **Before adding a new layout:**
 
-1. **Check if existing layouts can be adapted**
+1. **Check if DocuSignShell can be adapted**
    - Most needs can be met with props/variants
    - Consider if this is truly reusable
 
@@ -82,7 +112,7 @@ Centered layout for authentication flows.
 
 3. **Use existing patterns**
    - Don't recreate navigation, forms, etc.
-   - Compose from Layer 5 patterns
+   - Compose from Layer 5 patterns (GlobalNav, LocalNav)
    - Layouts should be mostly structure + spacing
 
 4. **Document the use case**

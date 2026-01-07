@@ -24,7 +24,14 @@ const globalNavItems = [
   { id: 'admin', label: 'Admin' },
 ];
 
-const shellFeatures = ['GlobalNav always present', 'LocalNav optional', 'Sticky header', 'Scrollable content', 'Full-height layout', 'Composes Layer 5 patterns'];
+const shellFeatures = [
+  'GlobalNav always present',
+  'LocalNav optional',
+  'Sticky header',
+  'Scrollable content',
+  'Full-height layout',
+  'Composes Layer 5 patterns',
+];
 
 const docuSignLogo = (
   <img src={DocuSignLogo} alt="DocuSign" style={{ height: '24px', width: 'auto' }} />
@@ -46,26 +53,105 @@ export const LayoutsShowcase: React.FC<LayoutsShowcaseProps> = ({ activeSubpage 
     {
       id: 'main',
       items: [
-        { id: 'all-agreements', label: 'All Agreements', icon: 'envelope' as const, active: agreementsActive === 'all-agreements', onClick: () => setAgreementsActive('all-agreements') },
-        { id: 'drafts', label: 'Drafts', nested: true, active: agreementsActive === 'drafts', onClick: () => setAgreementsActive('drafts') },
-        { id: 'in-progress', label: 'In Progress', nested: true, active: agreementsActive === 'in-progress', onClick: () => setAgreementsActive('in-progress') },
-        { id: 'completed', label: 'Completed', nested: true, active: agreementsActive === 'completed', onClick: () => setAgreementsActive('completed') },
-        { id: 'deleted', label: 'Deleted', nested: true, active: agreementsActive === 'deleted', onClick: () => setAgreementsActive('deleted') },
+        {
+          id: 'all-agreements',
+          label: 'All Agreements',
+          icon: 'envelope' as const,
+          active: agreementsActive === 'all-agreements',
+          onClick: () => setAgreementsActive('all-agreements'),
+        },
+        {
+          id: 'drafts',
+          label: 'Drafts',
+          nested: true,
+          active: agreementsActive === 'drafts',
+          onClick: () => setAgreementsActive('drafts'),
+        },
+        {
+          id: 'in-progress',
+          label: 'In Progress',
+          nested: true,
+          active: agreementsActive === 'in-progress',
+          onClick: () => setAgreementsActive('in-progress'),
+        },
+        {
+          id: 'completed',
+          label: 'Completed',
+          nested: true,
+          active: agreementsActive === 'completed',
+          onClick: () => setAgreementsActive('completed'),
+        },
+        {
+          id: 'deleted',
+          label: 'Deleted',
+          nested: true,
+          active: agreementsActive === 'deleted',
+          onClick: () => setAgreementsActive('deleted'),
+        },
       ],
     },
     {
       id: 'folders',
-      items: [{ id: 'folders', label: 'Folders', icon: 'folder' as const, hasMenu: true, active: agreementsActive === 'folders', onClick: () => setAgreementsActive('folders') }],
+      items: [
+        {
+          id: 'folders',
+          label: 'Folders',
+          icon: 'folder' as const,
+          hasMenu: true,
+          active: agreementsActive === 'folders',
+          onClick: () => setAgreementsActive('folders'),
+        },
+      ],
     },
     {
       id: 'features',
+      hasDivider: true,
       items: [
-        { id: 'parties', label: 'Parties', icon: 'people' as const, badge: 'New', active: agreementsActive === 'parties', onClick: () => setAgreementsActive('parties') },
-        { id: 'requests', label: 'Requests', icon: 'tag' as const, badge: 'New', active: agreementsActive === 'requests', onClick: () => setAgreementsActive('requests') },
-        { id: 'maestro-workflows', label: 'Maestro Workflows', icon: 'workflow' as const, badge: 'New', active: agreementsActive === 'maestro-workflows', onClick: () => setAgreementsActive('maestro-workflows') },
-        { id: 'workspaces', label: 'Workspaces', icon: 'layout-grid' as const, active: agreementsActive === 'workspaces', onClick: () => setAgreementsActive('workspaces') },
-        { id: 'powerforms', label: 'PowerForms', icon: 'bolt' as const, active: agreementsActive === 'powerforms', onClick: () => setAgreementsActive('powerforms') },
-        { id: 'bulk-send', label: 'Bulk Send', icon: 'duplicate' as const, active: agreementsActive === 'bulk-send', onClick: () => setAgreementsActive('bulk-send') },
+        {
+          id: 'parties',
+          label: 'Parties',
+          icon: 'building-person' as const,
+          badge: 'New',
+          active: agreementsActive === 'parties',
+          onClick: () => setAgreementsActive('parties'),
+        },
+        {
+          id: 'requests',
+          label: 'Requests',
+          icon: 'ticket' as const,
+          badge: 'New',
+          active: agreementsActive === 'requests',
+          onClick: () => setAgreementsActive('requests'),
+        },
+        {
+          id: 'maestro-workflows',
+          label: 'Maestro Workflows',
+          icon: 'workflow' as const,
+          badge: 'New',
+          active: agreementsActive === 'maestro-workflows',
+          onClick: () => setAgreementsActive('maestro-workflows'),
+        },
+        {
+          id: 'workspaces',
+          label: 'Workspaces',
+          icon: 'transaction' as const,
+          active: agreementsActive === 'workspaces',
+          onClick: () => setAgreementsActive('workspaces'),
+        },
+        {
+          id: 'powerforms',
+          label: 'PowerForms',
+          icon: 'flash' as const,
+          active: agreementsActive === 'powerforms',
+          onClick: () => setAgreementsActive('powerforms'),
+        },
+        {
+          id: 'bulk-send',
+          label: 'Bulk Send',
+          icon: 'document-stack' as const,
+          active: agreementsActive === 'bulk-send',
+          onClick: () => setAgreementsActive('bulk-send'),
+        },
       ],
     },
   ];
@@ -81,7 +167,15 @@ export const LayoutsShowcase: React.FC<LayoutsShowcaseProps> = ({ activeSubpage 
           <Text size="small" color="secondary" style={{ margin: '0 12px 8px' }}>
             Exact replica of the DocuSign Agreements page with GlobalNav and LocalNav.
           </Text>
-          <div style={{ border: '2px solid var(--ink-border-default)', borderRadius: 'var(--ink-radius-size-sm)', overflow: 'hidden', height: '700px', margin: '0 8px' }}>
+          <div
+            style={{
+              border: '2px solid var(--ink-border-default)',
+              borderRadius: 'var(--ink-radius-size-sm)',
+              overflow: 'hidden',
+              height: '700px',
+              margin: '0 8px',
+            }}
+          >
             <DocuSignShell
               globalNav={{
                 logo: docuSignLogo,
@@ -99,7 +193,11 @@ export const LayoutsShowcase: React.FC<LayoutsShowcaseProps> = ({ activeSubpage 
                 sections: agreementsSections,
                 activeItemId: agreementsActive,
                 collapsed: agreementsCollapsed,
-                footerToggle: { label: 'New navigation', checked: agreementsToggle, onChange: setAgreementsToggle },
+                footerToggle: {
+                  label: 'New navigation',
+                  checked: agreementsToggle,
+                  onChange: setAgreementsToggle,
+                },
                 footerLockButton: { locked: agreementsLocked, onLockClick: handleLockClick },
               }}
             >
@@ -121,7 +219,15 @@ export const LayoutsShowcase: React.FC<LayoutsShowcaseProps> = ({ activeSubpage 
           <div className={styles.tokenSectionHeader}>
             <h3 className={styles.tokenSectionTitle}>Without LocalNav</h3>
           </div>
-          <div style={{ border: '2px solid var(--ink-border-default)', borderRadius: 'var(--ink-radius-size-sm)', overflow: 'hidden', height: '400px', margin: '0 8px' }}>
+          <div
+            style={{
+              border: '2px solid var(--ink-border-default)',
+              borderRadius: 'var(--ink-radius-size-sm)',
+              overflow: 'hidden',
+              height: '400px',
+              margin: '0 8px',
+            }}
+          >
             <DocuSignShell
               globalNav={{
                 logo: docuSignLogo,
@@ -138,7 +244,9 @@ export const LayoutsShowcase: React.FC<LayoutsShowcaseProps> = ({ activeSubpage 
             </DocuSignShell>
           </div>
           <div className={styles.demoRow}>
-            <span className={styles.demoDesc}>Shell without sidebar - useful for settings pages</span>
+            <span className={styles.demoDesc}>
+              Shell without sidebar - useful for settings pages
+            </span>
           </div>
         </div>
 
@@ -168,7 +276,9 @@ export const LayoutsShowcase: React.FC<LayoutsShowcaseProps> = ({ activeSubpage 
           </div>
           <div className={styles.demoGrid}>
             {shellFeatures.map((feature) => (
-              <Badge key={feature} variant="neutral">{feature}</Badge>
+              <Badge key={feature} variant="neutral">
+                {feature}
+              </Badge>
             ))}
           </div>
         </div>

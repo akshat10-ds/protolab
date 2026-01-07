@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ComponentShowcase from './examples/ComponentShowcase';
 import DocuSignShellDemo from './examples/DocuSignShellDemo';
 import EditorApp from './editor/EditorApp';
+import PrototypeIndex from './prototypes/PrototypeIndex';
+import SimpleFormPage from './prototypes/pages/SimpleFormPage';
+import PartiesViewPage from './prototypes/pages/PartiesViewPage';
 
 export default function App() {
   return (
@@ -18,6 +21,11 @@ export default function App() {
 
         {/* DocuSign Shell Demo - Full application shell */}
         <Route path="/shell" element={<DocuSignShellDemo />} />
+
+        {/* Prototypes - Browse and interact with generated prototypes */}
+        <Route path="/prototypes" element={<PrototypeIndex />} />
+        <Route path="/prototypes/simple-form" element={<SimpleFormPage />} />
+        <Route path="/prototypes/parties-view" element={<PartiesViewPage />} />
 
         {/* Redirect any other path to showcase */}
         <Route path="*" element={<Navigate to="/showcase" replace />} />

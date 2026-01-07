@@ -98,7 +98,7 @@ import { Stack } from '@/design-system/2-utilities';
 
 **Purpose**: Atomic components that use ONLY tokens
 
-**Contains** (25 components):
+**Contains** (26 components):
 - Action: `Button`, `IconButton`, `Link`
 - Forms: `Input`, `Select`, `Checkbox`, `Radio`, `Switch`, `TextArea`, `Slider`, `Stepper`
 - Display: `Badge`, `Avatar`, `Chip`, `AlertBadge`, `StatusLight`, `Divider`, `Card`, `Skeleton`
@@ -169,8 +169,7 @@ export const SearchInput = ({ ...props }) => (
 
 **Purpose**: Complex UI patterns composed from components
 
-**Contains** (3 patterns):
-- `VerticalNavigation` - Sidebar navigation
+**Contains** (2 patterns):
 - `GlobalNav` - Top navigation bar
 - `LocalNav` - Context-specific navigation
 
@@ -188,8 +187,9 @@ import { Badge } from '../../3-primitives/Badge';
 import { Tooltip } from '../../3-primitives/Tooltip';
 import { Icon } from '../../3-primitives/Icon';
 
-export const VerticalNavigation = ({ items }) => (
+export const GlobalNav = ({ items, logo }) => (
   <nav>
+    {logo}
     {items.map(item => (
       <Tooltip content={item.label}>
         <Icon name={item.icon} />
@@ -206,9 +206,8 @@ export const VerticalNavigation = ({ items }) => (
 
 **Purpose**: Complete application templates
 
-**Contains** (2 layouts):
-- `DashboardLayout` - Main app dashboard
-- `AuthLayout` - Authentication flows
+**Contains** (1 layout):
+- `DocuSignShell` - Application shell with navigation
 
 **Rules**:
 - ✅ Import from Layers 1-5
@@ -220,13 +219,13 @@ export const VerticalNavigation = ({ items }) => (
 **Example**:
 ```tsx
 // ✅ Correct - Layout composes patterns
-import { VerticalNavigation } from '../../5-patterns/VerticalNavigation';
 import { GlobalNav } from '../../5-patterns/GlobalNav';
+import { LocalNav } from '../../5-patterns/LocalNav';
 
-export const DashboardLayout = ({ children, navigation, header }) => (
+export const DocuSignShell = ({ children, globalNav, localNav }) => (
   <div>
-    <aside><VerticalNavigation {...navigation} /></aside>
-    <header><GlobalNav {...header} /></header>
+    <header><GlobalNav {...globalNav} /></header>
+    <aside><LocalNav {...localNav} /></aside>
     <main>{children}</main>
   </div>
 );
@@ -284,14 +283,12 @@ src/design-system/
 │   ├── index.ts
 │   └── README.md
 ├── 5-patterns/
-│   ├── VerticalNavigation/
 │   ├── GlobalNav/
 │   ├── LocalNav/
 │   ├── index.ts
 │   └── README.md
 ├── 6-layouts/
-│   ├── DashboardLayout/
-│   ├── AuthLayout/
+│   ├── DocuSignShell/
 │   ├── index.ts
 │   └── README.md
 └── index.ts (main export)
@@ -348,8 +345,8 @@ When building prototypes, **always search from highest level (Layer 6) to lowest
 ### The Algorithm
 
 ```
-1. Layer 6 (Layouts)    → Need a full page template? (DashboardLayout, AuthLayout)
-2. Layer 5 (Patterns)   → Need navigation? (VerticalNavigation, GlobalNav, LocalNav)
+1. Layer 6 (Layouts)    → Need a full page template? (DocuSignShell)
+2. Layer 5 (Patterns)   → Need navigation? (GlobalNav, LocalNav)
 3. Layer 4 (Composites) → Need composed UI? (Table, Modal, SearchInput, Tabs, etc.)
 4. Layer 3 (Primitives) → Need atomic elements (Button, Input, Card, Badge, etc.)
 5. Layer 2 (Utilities)  → How to lay out components (Stack, Grid, Inline)
@@ -358,11 +355,11 @@ When building prototypes, **always search from highest level (Layer 6) to lowest
 
 ### Quick Example
 
-**User Request**: "Create a dashboard with user data"
+**User Request**: "Create an application with user data"
 
 ```
-Layer 6 → DashboardLayout exists → START HERE
-Layer 5 → VerticalNavigation for sidebar → USE IT
+Layer 6 → DocuSignShell exists → START HERE
+Layer 5 → GlobalNav for header, LocalNav for sidebar → USE THEM
 Layer 4 → Table for data, SearchInput for filtering → USE THEM
 Layer 3 → Card, Badge, Button → USE AS NEEDED
 Layer 2 → Stack, Grid for layout → ALWAYS USE
@@ -392,7 +389,7 @@ See **COMPONENT_CATALOG.md** for the complete list of available components.
 
 ## Migration Status
 
-✅ **Complete** - All 50+ components migrated to new structure
+✅ **Complete** - All 52 components migrated to new structure
 ✅ **Complete** - All imports updated
 ✅ **Complete** - Build compiles successfully
 ✅ **Complete** - Layer documentation created

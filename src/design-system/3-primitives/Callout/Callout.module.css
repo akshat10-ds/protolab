@@ -32,18 +32,18 @@
   background: var(--ink-bg-default);
   border: var(--ink-form-border-width) solid var(--ink-form-border-subtle);
   border-radius: var(--ink-radius-size-s); /* 8px */
-  box-shadow: 0px 8px 20px rgba(19, 0, 50, 0.15);
+  box-shadow: var(--ink-elevation-medium);
   overflow: hidden;
 }
 
 /* Glass Effects */
 .glass-frost {
   backdrop-filter: blur(20px);
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--ink-white-fade-80);
 }
 
 .glass-tint {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--ink-bg-glass-frost);
 }
 
 /* Content Wrapper */
@@ -125,11 +125,11 @@
 }
 
 .closeButton:hover {
-  background-color: rgba(19, 0, 50, 0.05);
+  background-color: var(--ink-neutral-fade-5);
 }
 
 .closeButton:active {
-  background-color: rgba(19, 0, 50, 0.1);
+  background-color: var(--ink-neutral-fade-10);
 }
 
 /* Image */

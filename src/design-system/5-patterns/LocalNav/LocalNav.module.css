@@ -129,6 +129,23 @@
   margin-bottom: 0;
 }
 
+/* Section with divider line above - matches production exactly */
+.sectionWithDivider {
+  position: relative;
+  margin-top: var(--ink-spacing-200); /* 16px */
+}
+
+/* Divider line with horizontal inset to match production */
+.sectionWithDivider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 32px;
+  right: 16px;
+  height: 1px;
+  background-color: rgba(19, 0, 50, 0.1); /* Production exact color */
+}
+
 .sectionHeader {
   display: flex;
   align-items: center;
@@ -239,8 +256,10 @@
 }
 
 .item.nested {
-  /* Nested items align text with icon items - closest token to 56px */
+  /* Nested items align text with icon items */
   padding-left: var(--ink-spacing-600); /* 48px */
+  height: 42px; /* Production: 41.5px - nested items are shorter */
+  min-height: 42px;
 }
 
 .item.hasIcon {
@@ -262,6 +281,13 @@
   min-height: 48px;
   background-color: var(--ink-bg-active-subtle);
   font-weight: var(--ink-font-weight-semibold); /* 600 - DocuSign active weight */
+}
+
+/* Nested active items: no background, just font-weight and indicator */
+.item.nested.active {
+  height: 42px;
+  min-height: 42px;
+  background-color: transparent;
 }
 
 .itemIcon {
@@ -364,7 +390,9 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--ink-spacing-200); /* 16px - matches DocuSign footer padding */
-  min-height: calc(var(--ink-spacing-500) + var(--ink-spacing-400)); /* 40px + 32px = 72px total with padding */
+  min-height: calc(
+    var(--ink-spacing-500) + var(--ink-spacing-400)
+  ); /* 40px + 32px = 72px total with padding */
   margin-top: auto;
   gap: var(--ink-spacing-2);
   /* Note: DocuSign has no border-top */

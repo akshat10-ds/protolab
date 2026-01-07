@@ -255,7 +255,7 @@ export function InspectorPanel({
             <span className={styles.componentName}>Inspector</span>
           </div>
           <button className={styles.closeButton} onClick={onClose}>
-            <Icon name="x" size="small" />
+            <Icon name="close" size="small" />
           </button>
         </div>
         <div className={styles.content}>
@@ -282,7 +282,7 @@ export function InspectorPanel({
           </span>
         </div>
         <button className={styles.closeButton} onClick={onClose}>
-          <Icon name="x" size="small" />
+          <Icon name="close" size="small" />
         </button>
       </div>
 
@@ -435,11 +435,7 @@ export function InspectorPanel({
           <div className={styles.codeSection}>
             <div className={styles.codeHeader}>
               <span className={styles.codeLabel}>JSX</span>
-              <button
-                className={styles.copyButton}
-                data-copied={copied}
-                onClick={handleCopyCode}
-              >
+              <button className={styles.copyButton} data-copied={copied} onClick={handleCopyCode}>
                 <Icon name={copied ? 'check' : 'copy'} size="small" />
                 {copied ? 'Copied!' : 'Copy'}
               </button>

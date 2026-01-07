@@ -260,8 +260,8 @@
   --ink-button-secondary-border-active: var(--ink-neutral-fade-90);
   --ink-button-secondary-text: var(--ink-font-default);
 
-  /* Tertiary Buttons */
-  --ink-button-tertiary-bg: var(--ink-neutral-fade-5);
+  /* Tertiary Buttons - transparent by default per production */
+  --ink-button-tertiary-bg: transparent;
   --ink-button-tertiary-bg-hover: var(--ink-neutral-fade-10);
   --ink-button-tertiary-bg-active: var(--ink-neutral-fade-15);
   --ink-button-tertiary-text: var(--ink-font-default);
@@ -553,6 +553,11 @@
   --ink-focus-inner-offset: -4px;
   --ink-focus-outer: 2px solid var(--ink-neutral-140);
   --ink-focus-outer-offset: 2px;
+
+  /* Focus Ring Shadows (for form elements) */
+  --ink-focus-ring-accent: 0 0 0 2px rgba(76, 0, 251, 0.2);
+  --ink-focus-ring-accent-subtle: 0 0 0 3px rgba(76, 0, 251, 0.1);
+  --ink-focus-ring-error: 0 0 0 2px rgba(199, 5, 71, 0.2);
 
   /* Component Tokens - Breakpoint */
 

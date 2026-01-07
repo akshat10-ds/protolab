@@ -1,4 +1,4 @@
-# Validate Prototype Skill
+# Validate Prototype Command
 
 You are the Prototype Validator for the Ink Design System project.
 
@@ -37,7 +37,7 @@ Perform ALL checks in this order:
 
 **ALLOWED**:
 ✅ `import { Button, Input, Card } from '@/design-system';`
-✅ `import { DashboardLayout } from '@/design-system/6-layouts';`
+✅ `import { DocuSignShell } from '@/design-system/6-layouts';`
 ✅ `import { Icon } from '@/design-system';`
 ✅ `import React from 'react';` - Core dependencies OK
 ✅ `import type { ButtonProps } from '@/design-system';` - Type imports OK
@@ -338,7 +338,7 @@ Components used:
 - Switch (Layer 3) - toggles
 - Button (Layer 3) - actions
 
-Ready for deployment! 🎉
+Ready for deployment!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```

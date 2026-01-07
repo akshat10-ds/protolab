@@ -26,7 +26,7 @@ const breadcrumbItems = [
 
 const breadcrumbWithIcons = [
   { label: 'Home', href: '/', icon: <Icon name="home" size="small" /> },
-  { label: 'Products', href: '/products', icon: <Icon name="package" size="small" /> },
+  { label: 'Products', href: '/products', icon: <Icon name="bag" size="small" /> },
   { label: 'Details', icon: <Icon name="info" size="small" /> },
 ];
 
@@ -46,15 +46,44 @@ const separatorVariants = [
 ] as const;
 
 const accordionItems = [
-  { id: '1', title: 'What is React?', content: 'React is a JavaScript library for building user interfaces. It allows you to create reusable UI components.' },
-  { id: '2', title: 'What is TypeScript?', content: 'TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.' },
-  { id: '3', title: 'What are Design Systems?', content: 'Design systems are collections of reusable components and patterns that help maintain consistency.' },
+  {
+    id: '1',
+    title: 'What is React?',
+    content:
+      'React is a JavaScript library for building user interfaces. It allows you to create reusable UI components.',
+  },
+  {
+    id: '2',
+    title: 'What is TypeScript?',
+    content: 'TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.',
+  },
+  {
+    id: '3',
+    title: 'What are Design Systems?',
+    content:
+      'Design systems are collections of reusable components and patterns that help maintain consistency.',
+  },
 ];
 
 const accordionWithIcons = [
-  { id: '1', title: 'Features', icon: <Icon name="star" size="small" />, content: 'Fast, easy to use, and highly customizable.' },
-  { id: '2', title: 'Documentation', icon: <Icon name="book" size="small" />, content: 'Comprehensive documentation with examples.' },
-  { id: '3', title: 'Support', icon: <Icon name="help-circle" size="small" />, content: '24/7 support available for all users.' },
+  {
+    id: '1',
+    title: 'Features',
+    icon: <Icon name="star" size="small" />,
+    content: 'Fast, easy to use, and highly customizable.',
+  },
+  {
+    id: '2',
+    title: 'Documentation',
+    icon: <Icon name="book" size="small" />,
+    content: 'Comprehensive documentation with examples.',
+  },
+  {
+    id: '3',
+    title: 'Support',
+    icon: <Icon name="help" size="small" />,
+    content: '24/7 support available for all users.',
+  },
 ];
 
 export const NavigationComposites: React.FC<NavigationCompositesProps> = ({ activeSubpage }) => {
@@ -207,9 +236,33 @@ export const NavigationComposites: React.FC<NavigationCompositesProps> = ({ acti
 
   if (activeSubpage === 'tabs') {
     const tabItems = [
-      { id: 'tab1', label: 'Overview', content: <div style={{ padding: '16px' }}><Text>Overview content with detailed information.</Text></div> },
-      { id: 'tab2', label: 'Details', content: <div style={{ padding: '16px' }}><Text>Detailed specifications and technical information.</Text></div> },
-      { id: 'tab3', label: 'Settings', content: <div style={{ padding: '16px' }}><Text>Configure your preferences here.</Text></div> },
+      {
+        id: 'tab1',
+        label: 'Overview',
+        content: (
+          <div style={{ padding: '16px' }}>
+            <Text>Overview content with detailed information.</Text>
+          </div>
+        ),
+      },
+      {
+        id: 'tab2',
+        label: 'Details',
+        content: (
+          <div style={{ padding: '16px' }}>
+            <Text>Detailed specifications and technical information.</Text>
+          </div>
+        ),
+      },
+      {
+        id: 'tab3',
+        label: 'Settings',
+        content: (
+          <div style={{ padding: '16px' }}>
+            <Text>Configure your preferences here.</Text>
+          </div>
+        ),
+      },
       { id: 'tab4', label: 'Disabled', content: <div>Hidden</div>, disabled: true },
     ];
 
@@ -240,9 +293,36 @@ export const NavigationComposites: React.FC<NavigationCompositesProps> = ({ acti
                     <Stack gap="medium" style={{ padding: '16px' }}>
                       <Heading level={5}>Analytics Dashboard</Heading>
                       <Grid columns={3} gap="small">
-                        <Card><Card.Body><Stack gap="none"><Text size="small" color="secondary">Views</Text><Text weight="bold">12,345</Text></Stack></Card.Body></Card>
-                        <Card><Card.Body><Stack gap="none"><Text size="small" color="secondary">Conversions</Text><Text weight="bold">1,234</Text></Stack></Card.Body></Card>
-                        <Card><Card.Body><Stack gap="none"><Text size="small" color="secondary">Revenue</Text><Text weight="bold">$45K</Text></Stack></Card.Body></Card>
+                        <Card>
+                          <Card.Body>
+                            <Stack gap="none">
+                              <Text size="small" color="secondary">
+                                Views
+                              </Text>
+                              <Text weight="bold">12,345</Text>
+                            </Stack>
+                          </Card.Body>
+                        </Card>
+                        <Card>
+                          <Card.Body>
+                            <Stack gap="none">
+                              <Text size="small" color="secondary">
+                                Conversions
+                              </Text>
+                              <Text weight="bold">1,234</Text>
+                            </Stack>
+                          </Card.Body>
+                        </Card>
+                        <Card>
+                          <Card.Body>
+                            <Stack gap="none">
+                              <Text size="small" color="secondary">
+                                Revenue
+                              </Text>
+                              <Text weight="bold">$45K</Text>
+                            </Stack>
+                          </Card.Body>
+                        </Card>
                       </Grid>
                     </Stack>
                   ),
@@ -250,7 +330,11 @@ export const NavigationComposites: React.FC<NavigationCompositesProps> = ({ acti
                 {
                   id: 'reports',
                   label: 'Reports',
-                  content: <div style={{ padding: '16px' }}><Text>Generate and download custom reports here.</Text></div>,
+                  content: (
+                    <div style={{ padding: '16px' }}>
+                      <Text>Generate and download custom reports here.</Text>
+                    </div>
+                  ),
                 },
               ]}
             />

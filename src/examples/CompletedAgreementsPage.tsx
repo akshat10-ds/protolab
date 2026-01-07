@@ -138,30 +138,32 @@ export default function CompletedAgreementsPage() {
       key: 'favorite',
       header: '',
       width: '48px',
-      cell: () => (
-        <IconButton
-          icon="star-filled"
-          size="small"
-          variant="tertiary"
-          aria-label="Add to favorites"
-        />
-      ),
+      cell: () => <Icon name="spark" size="small" style={{ color: 'var(--ink-cobalt-100)' }} />,
     },
     {
       key: 'fileName',
       header: 'File Name',
-      cell: (row: typeof agreementsData[0]) => (
+      style: { borderRight: '1px solid var(--ink-neutral-fade-10)' },
+      cell: (row: (typeof agreementsData)[0]) => (
         <Stack gap="none">
-          <Text weight="medium">{row.fileName}</Text>
-          <Text size="sm" color="secondary">
+          <Text size="sm" weight="medium" style={{ color: 'var(--ink-font-default)' }}>
+            {row.fileName}
+          </Text>
+          <Text size="xs" weight="medium" style={{ color: 'var(--ink-neutral-fade-70)' }}>
             {row.subtext.includes('View Job') ? (
               <>
                 <Icon name="upload" size="small" /> {row.subtext.replace('View Job', '')}
-                <Link href="#">View Job</Link>
+                <Link href="#" kind="subtle" size="xs">
+                  View Job
+                </Link>
               </>
             ) : row.subtext.includes('Completed envelope') ? (
               <>
-                <Icon name="check" size="small" /> {row.subtext}
+                <Icon name="check" size="small" style={{ color: 'var(--ink-green-80)' }} />{' '}
+                Completed envelope:{' '}
+                <Link href="#" kind="subtle" size="xs">
+                  {row.subtext.replace('Completed envelope: ', '')}
+                </Link>
               </>
             ) : (
               row.subtext
@@ -173,18 +175,60 @@ export default function CompletedAgreementsPage() {
     {
       key: 'parties',
       header: 'Parties',
-      cell: (row: typeof agreementsData[0]) => (
-        <Stack gap="none">
-          {row.parties && <Link href="#">{row.parties}</Link>}
-          {row.partiesMore && <Text size="sm" color="secondary">{row.partiesMore}</Text>}
-          {row.partiesOrg && <Link href="#">{row.partiesOrg}</Link>}
+      cell: (row: (typeof agreementsData)[0]) => (
+        <Stack gap="small">
+          {row.parties && (
+            <span
+              style={{
+                display: 'inline-block',
+                padding: '0 var(--ink-spacing-100)',
+                border: '1px solid var(--ink-neutral-fade-10)',
+                borderRadius: 'var(--ink-radius-size-xs)',
+                backgroundColor: 'var(--ink-white-100)',
+              }}
+            >
+              <Link
+                href="#"
+                kind="subtle"
+                size="small"
+                style={{ fontWeight: 'var(--ink-font-weight-medium)' }}
+              >
+                {row.parties}
+              </Link>
+            </span>
+          )}
+          {row.partiesMore && (
+            <Text size="sm" color="secondary">
+              {row.partiesMore}
+            </Text>
+          )}
+          {row.partiesOrg && (
+            <span
+              style={{
+                display: 'inline-block',
+                padding: '0 var(--ink-spacing-100)',
+                border: '1px solid var(--ink-neutral-fade-10)',
+                borderRadius: 'var(--ink-radius-size-xs)',
+                backgroundColor: 'var(--ink-white-100)',
+              }}
+            >
+              <Link
+                href="#"
+                kind="subtle"
+                size="small"
+                style={{ fontWeight: 'var(--ink-font-weight-medium)' }}
+              >
+                {row.partiesOrg}
+              </Link>
+            </span>
+          )}
         </Stack>
       ),
     },
     {
       key: 'status',
       header: 'Status',
-      cell: (row: typeof agreementsData[0]) => (
+      cell: (row: (typeof agreementsData)[0]) => (
         <Stack gap="none">
           <Inline gap="small" align="center">
             <span
@@ -196,15 +240,11 @@ export default function CompletedAgreementsPage() {
                   row.status === 'Active'
                     ? 'var(--ink-status-success)'
                     : row.status === 'Expiring Soon'
-                    ? 'var(--ink-status-warning)'
-                    : 'var(--ink-neutral-40)',
+                      ? 'var(--ink-status-warning)'
+                      : 'var(--ink-neutral-40)',
               }}
             />
-            <Text
-              color={row.status === 'Expiring Soon' ? 'error' : 'primary'}
-            >
-              {row.status}
-            </Text>
+            <Text color={row.status === 'Expiring Soon' ? 'error' : 'primary'}>{row.status}</Text>
           </Inline>
           {row.statusDate && (
             <Text size="sm" color="secondary">
@@ -217,19 +257,16 @@ export default function CompletedAgreementsPage() {
     {
       key: 'agreementType',
       header: 'Agreement Type',
-      cell: (row: typeof agreementsData[0]) => (
-        <Text>{row.agreementType}</Text>
+      cell: (row: (typeof agreementsData)[0]) => (
+        <Link href="#" kind="subtle" size="small">
+          {row.agreementType}
+        </Link>
       ),
     },
     {
       key: 'actions',
       header: (
-        <IconButton
-          icon="table"
-          size="small"
-          variant="tertiary"
-          aria-label="Column settings"
-        />
+        <IconButton icon="table" size="small" variant="tertiary" aria-label="Column settings" />
       ),
       width: '48px',
       align: 'center' as const,
@@ -247,22 +284,44 @@ export default function CompletedAgreementsPage() {
   ];
 
   return (
-    <Stack gap="medium" style={{ padding: 'var(--ink-spacing-300)', backgroundColor: 'var(--ink-bg-canvas-page)', minHeight: '100%' }}>
+    <Stack
+      gap="medium"
+      style={{
+        padding: 'var(--ink-spacing-300)',
+        backgroundColor: 'var(--ink-bg-canvas-page)',
+        minHeight: '100%',
+      }}
+    >
       {/* Page Header */}
       <Inline justify="space-between" align="center">
         <Inline gap="small" align="center">
-          <Heading level={1}>Completed</Heading>
-          <Badge variant="promo">
-            <Inline gap="small" align="center">
-              <Icon name="spark" size="small" />
+          <Heading
+            level={1}
+            style={{
+              fontWeight: 400,
+              fontSize: '32px',
+              lineHeight: '40px',
+              color: 'var(--ink-font-default)',
+            }}
+          >
+            Completed
+          </Heading>
+          <Inline gap="small" align="center">
+            <Icon name="spark" size="small" />
+            <Text size="sm" color="secondary">
               AI-Assisted
-            </Inline>
-          </Badge>
+            </Text>
+          </Inline>
         </Inline>
         <Inline gap="none">
           <Inline gap="none" align="center">
             <IconButton icon="plus" variant="tertiary" aria-label="Add" />
-            <IconButton icon="chevron-down" variant="tertiary" aria-label="Add options" size="small" />
+            <IconButton
+              icon="chevron-down"
+              variant="tertiary"
+              aria-label="Add options"
+              size="small"
+            />
           </Inline>
           <IconButton icon="settings" variant="tertiary" aria-label="Settings" />
           <IconButton icon="chevron-down" variant="tertiary" aria-label="More options" />
@@ -299,16 +358,18 @@ export default function CompletedAgreementsPage() {
           </Select>
         </div>
         <div style={{ flex: 1, position: 'relative' }}>
-          <div style={{
-            position: 'absolute',
-            top: '-4px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '6px',
-            height: '6px',
-            borderRadius: '50%',
-            backgroundColor: 'var(--ink-button-primary-bg)'
-          }} />
+          <div
+            style={{
+              position: 'absolute',
+              top: '-4px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              backgroundColor: 'var(--ink-button-primary-bg)',
+            }}
+          />
           <SearchInput
             placeholder='Try "agreements expiring in 90 days?"'
             value={searchQuery}
@@ -360,19 +421,17 @@ export default function CompletedAgreementsPage() {
       </Inline>
 
       {/* Page Footer */}
-      <Inline justify="space-between" align="center" style={{
-        marginTop: 'auto',
-        paddingTop: 'var(--ink-spacing-300)',
-        borderTop: '1px solid var(--ink-border-default)'
-      }}>
+      <Inline
+        justify="space-between"
+        align="center"
+        style={{
+          marginTop: 'auto',
+          paddingTop: 'var(--ink-spacing-300)',
+          borderTop: '1px solid var(--ink-border-default)',
+        }}
+      >
         <Inline gap="medium" align="center">
-          <Select
-            label="Language"
-            hideLabel
-            value="en-us"
-            onChange={() => {}}
-            size="small"
-          >
+          <Select label="Language" hideLabel value="en-us" onChange={() => {}} size="small">
             <option value="en-us">English (US)</option>
             <option value="es">Español</option>
             <option value="fr">Français</option>

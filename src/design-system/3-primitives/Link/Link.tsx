@@ -3,9 +3,10 @@ import styles from './Link.module.css';
 import { Icon } from '../Icon';
 
 export type LinkKind = 'default' | 'subtle';
-export type LinkSize = 'small' | 'medium';
+export type LinkSize = 'xs' | 'small' | 'medium';
 
-export interface LinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'className'> {
+export interface LinkProps
+  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'className'> {
   /** Link text or content */
   children: React.ReactNode;
   /** URL to navigate to */

@@ -14,7 +14,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--ink-neutral-fade-50);
   pointer-events: auto;
   animation: fadeIn 0.2s ease-out;
 }
@@ -149,7 +149,9 @@
   border-radius: var(--ink-radius-md);
   cursor: pointer;
   color: var(--ink-neutral-70);
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
 
 .closeButton:hover {

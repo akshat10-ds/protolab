@@ -47,7 +47,7 @@
 
 /* Checkbox box - 20px × 20px in 24px container */
 .label::before {
-  content: "";
+  content: '';
   position: absolute;
   width: var(--ink-icon-size-s);
   height: var(--ink-icon-size-s);
@@ -66,7 +66,7 @@
 
 /* Check icon - Using label::after with SVG data URL */
 .label::after {
-  content: "";
+  content: '';
   pointer-events: none;
   position: absolute;
   background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="white" width="20" height="20" aria-hidden="true" focusable="false"><path d="M7.39 14.74 3 10.35l1.34-1.34L8 12.67 16.66 4 18 5.34l-9.39 9.39c-.17.17-.39.26-.61.26s-.44-.1-.61-.26Z"></path></svg>');
@@ -85,7 +85,7 @@
 }
 
 .label > span::before {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   height: 26px;
@@ -133,7 +133,7 @@
 .input:indeterminate + .label::after {
   background-image: none;
   background-color: var(--ink-white-100);
-  content: "";
+  content: '';
   height: 2px;
   left: 5px; /* 2px checkbox + 3px offset to center 14px dash */
   top: 50%;
@@ -150,7 +150,7 @@
 .label:hover > span::before {
   background-color: var(--ink-form-bg-highlight);
   border-radius: var(--ink-radius-size-xs); /* 4px to match checkbox */
-  content: "";
+  content: '';
   height: var(--ink-spacing-400);
   width: var(--ink-spacing-400);
   inset-inline-start: -36px; /* Center 32px bg over 20px checkbox (checkbox at 2px + 10px center = 12px, 32px hover centered = 12-16 = -4px, from span at 32px = -4-32 = -36px) */
@@ -170,7 +170,7 @@
 
 /* Focus state - Focus ring on span::after */
 .input:focus-visible + .label > span::after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   height: 22px;
@@ -180,27 +180,27 @@
   width: 22px;
   border: 2px solid var(--ink-form-border-active);
   border-radius: var(--ink-radius-size-xs); /* 4px */
-  box-shadow: 0 0 0 2px rgba(55, 3, 158, 0.2);
+  box-shadow: var(--ink-focus-ring-accent);
   pointer-events: none;
 }
 
 /* Error State */
-.input[aria-invalid="true"] + .label::before {
+.input[aria-invalid='true'] + .label::before {
   border-color: var(--ink-form-border-error);
 }
 
-.input[aria-invalid="true"]:checked + .label::before,
-.input[aria-invalid="true"]:indeterminate + .label::before {
+.input[aria-invalid='true']:checked + .label::before,
+.input[aria-invalid='true']:indeterminate + .label::before {
   background-color: var(--ink-form-border-error);
 }
 
-.input[aria-invalid="true"] + .label:hover::before {
+.input[aria-invalid='true'] + .label:hover::before {
   border-color: var(--ink-form-border-error);
 }
 
-.input[aria-invalid="true"]:focus-visible + .label > span::after {
+.input[aria-invalid='true']:focus-visible + .label > span::after {
   border-color: var(--ink-form-border-error);
-  box-shadow: 0 0 0 2px rgba(199, 5, 71, 0.2);
+  box-shadow: var(--ink-focus-ring-error);
 }
 
 /* Disabled state */

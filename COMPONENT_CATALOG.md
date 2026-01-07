@@ -1,6 +1,6 @@
 # Component Catalog
 
-**Complete index of all 50+ components in the Ink Design System.**
+**Complete index of all 52 components in the Ink Design System.**
 
 Use this document to quickly discover what components exist and where to find detailed documentation.
 
@@ -11,14 +11,10 @@ Use this document to quickly discover what components exist and where to find de
 | Component | Layer | Use When | Basic Example |
 |-----------|-------|----------|---------------|
 | **Layouts** |||||
-| DashboardLayout | Layout (6) | Dashboard pages with sidebar | `<DashboardLayout navigation={...}>` |
-| AuthLayout | Layout (6) | Login/signup pages | `<AuthLayout variant="split">` |
-| DocuSignShell | Layout (6) | DocuSign app wrapper | `<DocuSignShell activeTab="agreements" sideNav={...}>` |
+| DocuSignShell | Layout (6) | Application shell with navigation | `<DocuSignShell globalNav={...} localNav={...}>` |
 | **Patterns** |||||
-| VerticalNavigation | Pattern (5) | Sidebar navigation | `<VerticalNavigation items={navItems} />` |
 | GlobalNav | Pattern (5) | Top navigation bar | `<GlobalNav items={items} />` |
 | LocalNav | Pattern (5) | Context-specific nav | `<LocalNav items={contextItems} />` |
-| DocuSignTopNav | Pattern (5) | DocuSign top nav bar | `<DocuSignTopNav activeTab="home" />` |
 | **Composites** |||||
 | SearchInput | Composite (4) | Search with icon | `<SearchInput placeholder="Search..." />` |
 | FileInput | Composite (4) | File upload | `<FileInput accept=".pdf" />` |
@@ -73,7 +69,7 @@ Use this document to quickly discover what components exist and where to find de
 | Container | Utility (2) | Max-width centering | `<Container size="large">` |
 | Spacer | Utility (2) | Fixed/flexible spacing | `<Spacer size="large" />` |
 
-**Total: 57 components** (3 Layouts + 4 Patterns + 18 Composites + 27 Primitives + 5 Utilities)
+**Total: 52 components** (1 Layout + 2 Patterns + 18 Composites + 26 Primitives + 5 Utilities)
 
 ---
 
@@ -107,10 +103,8 @@ Use this document to quickly discover what components exist and where to find de
 ### Navigation
 
 **Page-Level (Patterns)**:
-- **VerticalNavigation** - Sidebar navigation with collapsible sections
 - **GlobalNav** - Top-level application navigation
-- **LocalNav** - Context-specific navigation
-- **DocuSignTopNav** - DocuSign-specific top navigation with Home/Agreements/Templates/Reports/Admin tabs
+- **LocalNav** - Context-specific sidebar navigation
 
 **Component-Level (Composites)**:
 - **Tabs** - Tab switching
@@ -148,9 +142,7 @@ Use this document to quickly discover what components exist and where to find de
 ### Layout
 
 **Application Templates (Layouts)**:
-- **DashboardLayout** - Dashboard with sidebar, header, content areas
-- **AuthLayout** - Centered authentication forms
-- **DocuSignShell** - DocuSign app wrapper with top nav + sidebar slot + content area
+- **DocuSignShell** - Application shell with GlobalNav header + LocalNav sidebar + content area
 
 **Layout Utilities**:
 - **Stack** - Vertical/horizontal flex layout
@@ -245,11 +237,11 @@ Combine multiple primitives.
 
 ### Level 5: Patterns
 Complex UI patterns.
-- VerticalNavigation, GlobalNav, LocalNav
+- GlobalNav, LocalNav
 
 ### Level 6: Layouts
 Full page templates.
-- DashboardLayout, AuthLayout
+- DocuSignShell
 
 ---
 
@@ -277,7 +269,7 @@ When implementing Figma designs, map Figma elements to Ink components:
 | Date Picker | DatePicker | Composite | |
 | File Upload | FileInput or FileUpload | Composite | FileUpload for advanced features |
 | **Navigation** ||||
-| Sidebar Nav | VerticalNavigation | Pattern | Collapsible navigation |
+| Sidebar Nav | LocalNav | Pattern | Sidebar navigation |
 | Top Nav Bar | GlobalNav | Pattern | Application header |
 | Tabs | Tabs | Composite | Tab navigation |
 | Breadcrumbs | Breadcrumb | Composite | Path navigation |
@@ -321,8 +313,8 @@ For complete component APIs, props, and examples, see the Layer READMEs:
 - **[Layer 2: Utilities](./src/design-system/2-utilities/README.md)** - Layout helpers
 - **[Layer 3: Primitives](./src/design-system/3-primitives/README.md)** - Atomic components (26 components)
 - **[Layer 4: Composites](./src/design-system/4-composites/README.md)** - Composed components (18 components)
-- **[Layer 5: Patterns](./src/design-system/5-patterns/README.md)** - UI patterns (3 patterns)
-- **[Layer 6: Layouts](./src/design-system/6-layouts/README.md)** - Application templates (2 layouts)
+- **[Layer 5: Patterns](./src/design-system/5-patterns/README.md)** - UI patterns (2 patterns)
+- **[Layer 6: Layouts](./src/design-system/6-layouts/README.md)** - Application templates (1 layout)
 
 ---
 
@@ -349,8 +341,8 @@ import { ComponentName } from '@/design-system';
 ## 💡 Component Selection Tips
 
 ### Starting a New Page?
-1. Check Layouts first (DashboardLayout, AuthLayout)
-2. Use Patterns for navigation (VerticalNavigation, GlobalNav)
+1. Check Layouts first (DocuSignShell)
+2. Use Patterns for navigation (GlobalNav, LocalNav)
 3. Compose with Composites and Primitives
 
 ### Need a Form?

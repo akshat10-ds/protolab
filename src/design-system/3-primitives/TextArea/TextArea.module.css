@@ -52,7 +52,9 @@
   background-color: var(--ink-white);
   border: 1px solid var(--ink-form-border-default);
   border-radius: var(--ink-radius-size-xs);
-  transition: border-color var(--ink-transition-fast), box-shadow var(--ink-transition-fast);
+  transition:
+    border-color var(--ink-transition-fast),
+    box-shadow var(--ink-transition-fast);
   outline: none;
 }
 
@@ -63,7 +65,7 @@
 .textarea:focus {
   border: 2px solid var(--ink-form-border-active);
   padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-200) - 1px);
-  box-shadow: 0 0 0 3px rgba(80, 0, 247, 0.1);
+  box-shadow: var(--ink-focus-ring-accent-subtle);
 }
 
 .textarea.error {
@@ -73,7 +75,7 @@
 .textarea.error:focus {
   border: 2px solid var(--ink-form-border-error);
   padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-200) - 1px);
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+  box-shadow: var(--ink-focus-ring-error);
 }
 
 .textarea:disabled {

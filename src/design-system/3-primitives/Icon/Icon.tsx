@@ -35,7 +35,7 @@ const sizeMap: Record<string, number> = {
  * ```tsx
  * <Icon name="check" size="small" />
  * <Icon name="arrow-left" size="medium" />
- * <Icon name="warning" size={32} color="#0066FF" aria-label="Warning" />
+ * <Icon name="status-warn" size={32} color="#0066FF" aria-label="Warning" />
  * ```
  */
 export const Icon: React.FC<IconProps> = ({

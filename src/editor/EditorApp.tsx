@@ -21,7 +21,11 @@ import {
   SearchInput,
 } from '@/design-system';
 import { useEditorStore, useSelectedNode, useCanUndo, useCanRedo } from './state/editorStore';
-import { componentRegistry, getComponentsByLayer, AVAILABLE_ICONS } from './registry/componentRegistry';
+import {
+  componentRegistry,
+  getComponentsByLayer,
+  AVAILABLE_ICONS,
+} from './registry/componentRegistry';
 import type { EditorNode, NodeId, ComponentMeta, ActivePanel } from './state/types';
 import styles from './EditorApp.module.css';
 
@@ -156,10 +160,7 @@ interface ComponentPaletteProps {
   onSearchChange: (value: string) => void;
 }
 
-const ComponentPalette: React.FC<ComponentPaletteProps> = ({
-  searchQuery,
-  onSearchChange,
-}) => {
+const ComponentPalette: React.FC<ComponentPaletteProps> = ({ searchQuery, onSearchChange }) => {
   const [expandedLayers, setExpandedLayers] = useState<Record<number, boolean>>({
     2: true,
     3: true,
@@ -227,10 +228,7 @@ const ComponentPalette: React.FC<ComponentPaletteProps> = ({
 
           return (
             <div key={layer.id} className={styles.layerSection}>
-              <button
-                className={styles.layerHeader}
-                onClick={() => toggleLayer(layer.id)}
-              >
+              <button className={styles.layerHeader} onClick={() => toggleLayer(layer.id)}>
                 <span className={styles.layerBadge} data-layer={layer.id}>
                   L{layer.id}
                 </span>
@@ -412,8 +410,8 @@ const PropertiesPanel: React.FC = () => {
         node.children.length > 0
           ? node.children.map((id) => nodeToJSX(id, indent + 1)).join('\n')
           : typeof node.props.children === 'string'
-          ? node.props.children
-          : '';
+            ? node.props.children
+            : '';
 
       if (!childrenJSX) {
         return `${spaces}<${node.type}${propsStr ? ' ' + propsStr : ''} />`;
@@ -479,7 +477,7 @@ ${jsx}
           <>
             {!selectedNode ? (
               <div className={styles.panelEmpty}>
-                <Icon name="pointer" size="large" className={styles.panelEmptyIcon} />
+                <Icon name="select" size="large" className={styles.panelEmptyIcon} />
                 <div className={styles.panelEmptyText}>
                   Select a component to edit its properties
                 </div>
@@ -488,7 +486,7 @@ ${jsx}
               <>
                 <div className={styles.selectedComponentHeader}>
                   <Icon
-                    name={meta?.icon as keyof typeof DesignSystem.iconPaths || 'star'}
+                    name={(meta?.icon as keyof typeof DesignSystem.iconPaths) || 'star'}
                     className={styles.selectedComponentIcon}
                   />
                   <div className={styles.selectedComponentInfo}>
@@ -509,11 +507,7 @@ ${jsx}
                     >
                       Duplicate
                     </Button>
-                    <Button
-                      kind="danger"
-                      size="small"
-                      onClick={() => deleteNode(selectedNode.id)}
-                    >
+                    <Button kind="danger" size="small" onClick={() => deleteNode(selectedNode.id)}>
                       Delete
                     </Button>
                   </Stack>
@@ -539,9 +533,7 @@ ${jsx}
                           size="small"
                           type="number"
                           value={String(selectedNode.props[propDef.name] || '')}
-                          onChange={(e) =>
-                            handlePropChange(propDef.name, Number(e.target.value))
-                          }
+                          onChange={(e) => handlePropChange(propDef.name, Number(e.target.value))}
                           className={styles.propInput}
                           hideLabel
                         />
@@ -604,7 +596,7 @@ ${jsx}
           <>
             <div className={styles.codeActions}>
               <Button kind="secondary" size="small" onClick={handleCopyCode}>
-                <Icon name="copy" size="small" /> Copy Code
+                <Icon name="carbon-copy" size="small" /> Copy Code
               </Button>
             </div>
             <pre className={styles.codePreview}>{generateCode()}</pre>

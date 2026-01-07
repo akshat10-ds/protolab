@@ -2,7 +2,7 @@
   "name": "protolab",
   "version": "1.0.0",
   "private": true,
-  "description": "Design system starter for rapid prototyping with 54 production-ready components",
+  "description": "Design system starter for rapid prototyping with 52 production-ready components",
   "repository": {
     "type": "git",
     "url": "https://github.com/akshat10-ds/protolab.git"
@@ -43,11 +43,15 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run validate && npm run validate:icons && vite build",
+    "build:skip-validation": "vite build",
     "preview": "vite preview",
     "lint": "eslint src/design-system --ext ts,tsx",
     "lint:fix": "eslint src/design-system --ext ts,tsx --fix",
     "typecheck": "tsc --noEmit",
+    "validate": "node scripts/validate-design-system.js",
+    "validate:icons": "node scripts/validate-icon-names.js",
+    "validate:all": "npm run validate && npm run validate:icons",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,md}\"",
     "prepare": "husky"

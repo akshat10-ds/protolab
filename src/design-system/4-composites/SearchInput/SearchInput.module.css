@@ -37,7 +37,8 @@
 
 .input {
   width: 100%;
-  padding: var(--ink-spacing-100) var(--ink-spacing-500) var(--ink-spacing-100) var(--ink-spacing-500);
+  padding: var(--ink-spacing-100) var(--ink-spacing-500) var(--ink-spacing-100)
+    var(--ink-spacing-500);
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-md);
   color: var(--ink-font-default);
@@ -95,11 +96,11 @@
 
 .clearButton:hover {
   color: var(--ink-font-default);
-  background-color: rgba(19, 0, 50, 0.05);
+  background-color: var(--ink-neutral-fade-5);
 }
 
 .clearButton:active {
-  background-color: rgba(19, 0, 50, 0.1);
+  background-color: var(--ink-neutral-fade-10);
 }
 
 /* Suggestions dropdown */
@@ -114,7 +115,7 @@
   background-color: var(--ink-white-100);
   border: var(--ink-form-border-width) solid var(--ink-form-border-default);
   border-radius: var(--ink-radius-size-xs);
-  box-shadow: 0 4px 12px rgba(19, 0, 50, 0.1);
+  box-shadow: 0 4px 12px var(--ink-neutral-fade-10);
   list-style: none;
   margin: 0;
   padding: var(--ink-spacing-50);
@@ -132,7 +133,7 @@
 
 .suggestion:hover,
 .suggestion.selected {
-  background-color: rgba(19, 0, 50, 0.05);
+  background-color: var(--ink-neutral-fade-5);
 }
 
 .suggestionIcon {

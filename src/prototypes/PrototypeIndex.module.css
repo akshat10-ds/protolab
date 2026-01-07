@@ -1,0 +1,211 @@
+@import '../design-system/1-tokens/tokens.css';
+
+/* ============================================
+   ANIMATIONS (matches Showcase)
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   PAGE LAYOUT
+   ============================================ */
+
+.page {
+  min-height: 100vh;
+  background-color: var(--ink-neutral-5);
+  background-image: radial-gradient(var(--ink-neutral-15) 1px, transparent 1px);
+  background-size: 16px 16px;
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.container {
+  width: 100%;
+  max-width: 720px;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.header {
+  margin-bottom: 32px;
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink-font-primary);
+  margin: 0 0 6px 0;
+  line-height: 1.25;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--ink-font-secondary);
+  margin: 0;
+}
+
+/* ============================================
+   CARD GRID
+   ============================================ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   PROTOTYPE CARDS (matches .demoCard style)
+   ============================================ */
+
+.card {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: var(--ink-white-100);
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 1px var(--ink-neutral-20),
+    inset 0 1px 2px rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  text-align: left;
+  font-family: inherit;
+  border: none;
+  animation: fadeInUp 0.4s ease-out backwards;
+}
+
+.card:nth-child(1) {
+  animation-delay: 0ms;
+}
+.card:nth-child(2) {
+  animation-delay: 50ms;
+}
+.card:nth-child(3) {
+  animation-delay: 100ms;
+}
+.card:nth-child(4) {
+  animation-delay: 150ms;
+}
+.card:nth-child(5) {
+  animation-delay: 200ms;
+}
+.card:nth-child(6) {
+  animation-delay: 250ms;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px var(--ink-neutral-30),
+    0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.card:focus {
+  outline: 2px solid var(--ink-focus-ring);
+  outline-offset: 2px;
+}
+
+.card:active {
+  transform: translateY(0);
+}
+
+.cardContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cardText {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardTitle {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-font-primary);
+  margin-bottom: 4px;
+}
+
+.cardDescription {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-font-secondary);
+  line-height: 1.4;
+}
+
+.cardArrow {
+  flex-shrink: 0;
+  color: var(--ink-font-tertiary);
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+  margin-top: 2px;
+}
+
+.card:hover .cardArrow {
+  transform: translateX(4px);
+  color: var(--ink-cobalt-100);
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 24px;
+  background: var(--ink-white-100);
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px var(--ink-neutral-20);
+  color: var(--ink-font-tertiary);
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.footer {
+  padding-top: 16px;
+  animation: fadeInUp 0.4s ease-out 0.2s backwards;
+}
