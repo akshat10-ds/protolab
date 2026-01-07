@@ -1,15 +1,12 @@
 /**
- * Starter Layouts
+ * Ink Design System - Layouts
  *
  * This is Layer 6 of the Ink Design System hierarchy.
- * Layouts are application templates that compose patterns and components.
+ * Layouts are application shells that compose patterns and components.
  *
- * DEPENDENCIES: Layers 3-5 (Primitives, Composites, Patterns)
- * These provide complete page layouts for common application needs.
+ * DEPENDENCIES: Layers 1-5 (Tokens, Utilities, Primitives, Composites, Patterns)
+ * These provide complete application shells for DocuSign products.
  */
 
-export { DashboardLayout } from './DashboardLayout';
-export type { DashboardLayoutProps } from './DashboardLayout';
-
-export { AuthLayout } from './AuthLayout';
-export type { AuthLayoutProps } from './AuthLayout';
+export { DocuSignShell } from './DocuSignShell';
+export type { DocuSignShellProps } from './DocuSignShell';

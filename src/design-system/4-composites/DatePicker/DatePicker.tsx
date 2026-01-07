@@ -2,6 +2,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import styles from './DatePicker.module.css';
 import { Icon } from '@/design-system';
+import { IconButton } from '../../3-primitives/IconButton';
 
 export interface DatePickerProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
@@ -191,31 +192,31 @@ const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
               readOnly
               {...props}
             />
-            <Icon name="calendar" size="sm" className={styles.icon} />
+            <Icon name="calendar" size="small" className={styles.icon} />
           </div>
 
           {isOpen && !disabled && (
             <div className={styles.calendar}>
               <div className={styles.calendarHeader}>
-                <button
-                  type="button"
-                  className={styles.navButton}
+                <IconButton
+                  icon="chevron-left"
+                  size="small"
+                  variant="tertiary"
                   onClick={handlePrevMonth}
                   aria-label="Previous month"
-                >
-                  <Icon name="chevron-left" size="sm" />
-                </button>
+                  className={styles.navButton}
+                />
                 <div className={styles.monthYear}>
                   {MONTHS[currentMonth.getMonth()]} {currentMonth.getFullYear()}
                 </div>
-                <button
-                  type="button"
-                  className={styles.navButton}
+                <IconButton
+                  icon="chevron-right"
+                  size="small"
+                  variant="tertiary"
                   onClick={handleNextMonth}
                   aria-label="Next month"
-                >
-                  <Icon name="chevron-right" size="sm" />
-                </button>
+                  className={styles.navButton}
+                />
               </div>
 
               <div className={styles.daysHeader}>

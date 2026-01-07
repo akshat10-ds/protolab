@@ -209,6 +209,10 @@
   --ink-bg-warning-emphasis: var(--ink-orange-110);
   --ink-bg-warning-subtle: var(--ink-orange-10);
 
+  /* Active/Selected State Backgrounds */
+  --ink-bg-active-subtle: rgba(19, 0, 50, 0.1); /* Subtle purple tint for active items */
+  --ink-border-active-indicator: rgba(25, 24, 35, 0.65); /* Active item left bar indicator */
+
   /* Font Colors */
   --ink-font-default: var(--ink-neutral-fade-90);
   --ink-font-accent: var(--ink-cobalt-100);

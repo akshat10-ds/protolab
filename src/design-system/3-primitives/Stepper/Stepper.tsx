@@ -92,7 +92,7 @@ const Stepper = React.forwardRef<HTMLDivElement, StepperProps>(
       if (status === 'error') {
         return (
           <span className={styles.errorIcon}>
-            <Icon name="error" size="small" />
+            <Icon name="status-error" size="small" />
           </span>
         );
       }

@@ -62,9 +62,9 @@
   font-weight: var(--ink-font-weight-regular); /* 400 */
   color: var(--ink-font-default);
   background: var(--ink-form-bg-default);
-  border: var(--ink-form-border-width) solid var(--ink-form-border-default);
+  border: var(--ink-form-border-width) solid var(--ink-neutral-fade-70); /* DocuSign: darker than Input */
   border-radius: var(--ink-radius-sm); /* 4px */
-  padding: var(--ink-spacing-100) var(--ink-spacing-400) var(--ink-spacing-100) var(--ink-spacing-200);
+  padding: var(--ink-spacing-100) var(--ink-spacing-600) var(--ink-spacing-100) var(--ink-spacing-200); /* DocuSign: 48px right padding for icon space */
   transition: all var(--ink-transition-fast);
   width: 100%;
   line-height: 1.5; /* Exact Figma spec */
@@ -80,7 +80,7 @@
 
 .select.small {
   height: 32px;
-  padding: var(--ink-spacing-50) var(--ink-spacing-400) var(--ink-spacing-50) var(--ink-spacing-200);
+  padding: var(--ink-spacing-50) var(--ink-spacing-600) var(--ink-spacing-50) var(--ink-spacing-200); /* DocuSign: 48px right padding */
   font-size: var(--ink-font-size-sm); /* 14px for small variant */
 }
 
@@ -93,12 +93,12 @@
 .select:focus:not(.error) {
   border: var(--ink-form-border-width-active) solid var(--ink-form-border-active);
   /* Adjust padding to compensate for thicker border */
-  padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-400) - 1px) calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-200) - 1px);
+  padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-600) - 1px) calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-200) - 1px);
 }
 
 .select.small:focus:not(.error) {
   /* Adjust padding for small variant on focus */
-  padding: calc(var(--ink-spacing-50) - 1px) calc(var(--ink-spacing-400) - 1px) calc(var(--ink-spacing-50) - 1px) calc(var(--ink-spacing-200) - 1px);
+  padding: calc(var(--ink-spacing-50) - 1px) calc(var(--ink-spacing-600) - 1px) calc(var(--ink-spacing-50) - 1px) calc(var(--ink-spacing-200) - 1px);
 }
 
 /* Error state */
@@ -109,12 +109,12 @@
 .select.error:focus {
   border: var(--ink-form-border-width) solid var(--ink-form-border-error);
   /* Keep same padding for error state */
-  padding: var(--ink-spacing-100) var(--ink-spacing-400) var(--ink-spacing-100) var(--ink-spacing-200);
+  padding: var(--ink-spacing-100) var(--ink-spacing-600) var(--ink-spacing-100) var(--ink-spacing-200); /* DocuSign: 48px right padding for icon space */
 }
 
 .select.small.error:focus {
   /* Keep same padding for small error state */
-  padding: var(--ink-spacing-50) var(--ink-spacing-400) var(--ink-spacing-50) var(--ink-spacing-200);
+  padding: var(--ink-spacing-50) var(--ink-spacing-600) var(--ink-spacing-50) var(--ink-spacing-200);
 }
 
 /* Disabled state */

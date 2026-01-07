@@ -18,6 +18,7 @@
   pointer-events: none;
 }
 
+/* Nav button - for simple mode text+icon buttons */
 .navButton {
   display: flex;
   align-items: center;

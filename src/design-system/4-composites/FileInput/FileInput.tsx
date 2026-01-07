@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styles from './FileInput.module.css';
 import { Icon } from '../../3-primitives/Icon';
+import { IconButton } from '../../3-primitives/IconButton';
 
 export interface FileInputFile {
   file: File;
@@ -262,7 +263,7 @@ export const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
         {error && (
           <div id={errorId} className={styles.errorMessage}>
             <span className={styles.errorIcon}>
-              <Icon name="error" size="small" />
+              <Icon name="status-error" size="small" />
             </span>
             <span>{error}</span>
           </div>
@@ -286,18 +287,18 @@ export const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
                     </div>
                   </div>
 
-                  <button
-                    type="button"
-                    className={styles.removeButton}
+                  <IconButton
+                    icon="close"
+                    size="small"
+                    variant="tertiary"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleRemoveFile(fileInputFile.id);
                     }}
                     aria-label={`Remove ${fileInputFile.file.name}`}
                     disabled={disabled}
-                  >
-                    <Icon name="close" size="small" />
-                  </button>
+                    className={styles.removeButton}
+                  />
                 </div>
               );
             })}

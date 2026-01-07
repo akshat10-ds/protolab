@@ -35,6 +35,7 @@ export type {
 export {
   // Icons
   Icon,
+  iconPaths,
   // Action Components
   Button,
   IconButton,
@@ -190,13 +191,11 @@ export type {
 // LAYER 5: PATTERNS
 // ============================================================================
 export {
-  VerticalNavigation,
   GlobalNav,
   LocalNav,
 } from './5-patterns';
 
 export type {
-  VerticalNavigationProps,
   GlobalNavProps,
   LocalNavProps,
 } from './5-patterns';
@@ -204,15 +203,9 @@ export type {
 // ============================================================================
 // LAYER 6: LAYOUTS
 // ============================================================================
-export {
-  DashboardLayout,
-  AuthLayout,
-} from './6-layouts';
+export { DocuSignShell } from './6-layouts';
 
-export type {
-  DashboardLayoutProps,
-  AuthLayoutProps,
-} from './6-layouts';
+export type { DocuSignShellProps } from './6-layouts';
 
 // ============================================================================
 // CONSTANTS & UTILITIES

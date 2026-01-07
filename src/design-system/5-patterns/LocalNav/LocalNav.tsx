@@ -265,7 +265,9 @@ export const LocalNav: React.FC<LocalNavProps> = ({
                       isItemActive ? styles.active : ''
                     } ${isItemHovered ? styles.hovered : ''} ${
                       item.nested ? styles.nested : ''
-                    } ${item.hasMenu ? styles.hasMenu : ''}`}
+                    } ${item.hasMenu ? styles.hasMenu : ''} ${
+                      item.icon ? styles.hasIcon : ''
+                    }`}
                     onClick={() => handleItemClick(item)}
                     onMouseEnter={() => setHoveredItemId(item.id)}
                     onMouseLeave={() => setHoveredItemId(null)}
@@ -280,25 +282,17 @@ export const LocalNav: React.FC<LocalNavProps> = ({
                     </Tooltip>
                     {item.badge && <Badge variant="subtle">{item.badge}</Badge>}
                     {item.hasMenu && (
-                      <span
-                        className={styles.menuButton}
+                      <IconButton
+                        icon="more-vertical"
+                        size="small"
+                        variant="tertiary"
                         onClick={(e) => {
                           e.stopPropagation();
                           item.onMenuClick?.(e);
                         }}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            item.onMenuClick?.(e as any);
-                          }
-                        }}
                         aria-label="More options"
-                      >
-                        <Icon name="more-vertical" size="medium" />
-                      </span>
+                        className={styles.menuButton}
+                      />
                     )}
                     {isItemActive && <div className={styles.activeIndicator} />}
                   </button>

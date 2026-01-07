@@ -2,6 +2,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import styles from './Pagination.module.css';
 import { Icon } from '../../3-primitives/Icon';
+import { IconButton } from '../../3-primitives/IconButton';
 
 export type PaginationMode = 'full' | 'simple';
 
@@ -146,7 +147,7 @@ const Pagination: React.FC<PaginationProps> = ({
               disabled={disabled || !canGoPrevious}
               aria-label="Previous page"
             >
-              <Icon name="chevron-left" size="sm" />
+              <Icon name="chevron-left" size="small" />
               <span>Previous</span>
             </button>
             <span className={styles.pageInfo}>
@@ -160,53 +161,49 @@ const Pagination: React.FC<PaginationProps> = ({
               aria-label="Next page"
             >
               <span>Next</span>
-              <Icon name="chevron-right" size="sm" />
+              <Icon name="chevron-right" size="small" />
             </button>
           </>
         ) : (
           <>
             {showFirstLast && (
-              <button
-                type="button"
-                className={styles.navButton}
+              <IconButton
+                icon="chevron-left"
+                size="small"
+                variant="tertiary"
                 onClick={() => handlePageChange(1)}
                 disabled={disabled || !canGoPrevious}
                 aria-label="First page"
-              >
-                <Icon name="chevron-left" size="sm" />
-              </button>
+              />
             )}
-            <button
-              type="button"
-              className={styles.navButton}
+            <IconButton
+              icon="chevron-left"
+              size="small"
+              variant="tertiary"
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={disabled || !canGoPrevious}
               aria-label="Previous page"
-            >
-              <Icon name="chevron-left" size="sm" />
-            </button>
+            />
 
             <div className={styles.pages}>{renderPageButtons()}</div>
 
-            <button
-              type="button"
-              className={styles.navButton}
+            <IconButton
+              icon="chevron-right"
+              size="small"
+              variant="tertiary"
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={disabled || !canGoNext}
               aria-label="Next page"
-            >
-              <Icon name="chevron-right" size="sm" />
-            </button>
+            />
             {showFirstLast && (
-              <button
-                type="button"
-                className={styles.navButton}
+              <IconButton
+                icon="chevron-right"
+                size="small"
+                variant="tertiary"
                 onClick={() => handlePageChange(totalPages)}
                 disabled={disabled || !canGoNext}
                 aria-label="Last page"
-              >
-                <Icon name="chevron-right" size="sm" />
-              </button>
+              />
             )}
           </>
         )}

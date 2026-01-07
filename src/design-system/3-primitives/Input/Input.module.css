@@ -86,12 +86,12 @@
   border-color: var(--ink-form-border-hover);
 }
 
-/* Focus/Active state - 2px border as per Figma */
+/* Focus/Active state - DocuSign uses outline, not thicker border */
 .input:focus:not(.error) {
-  border: var(--ink-form-border-width-active) solid var(--ink-form-border-active);
-  /* Adjust padding to compensate for thicker border */
-  padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-200) - 1px);
-  padding-left: calc(var(--ink-spacing-200) - 1px);
+  border-color: var(--ink-neutral-fade-70); /* Darker border on focus */
+  outline: 2px solid var(--ink-cobalt-100);
+  outline-offset: -2px;
+  /* NO padding adjustment needed - border stays 1px */
 }
 
 /* Error state */

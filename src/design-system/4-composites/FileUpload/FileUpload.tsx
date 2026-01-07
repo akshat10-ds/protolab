@@ -2,6 +2,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import styles from './FileUpload.module.css';
 import { Icon } from '@/design-system';
+import { IconButton } from '../../3-primitives/IconButton';
 
 export type FileStatus = 'uploading' | 'success' | 'error';
 
@@ -294,7 +295,7 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
                         className={styles.fileImage}
                       />
                     ) : (
-                      <Icon name="file" size="md" className={styles.fileIconDefault} />
+                      <Icon name="document" size="medium" className={styles.fileIconDefault} />
                     )}
                   </div>
 
@@ -319,31 +320,31 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
                   <div className={styles.fileActions}>
                     {uploadedFile.status === 'success' && (
                       <Icon
-                        name="check-circle"
-                        size="sm"
+                        name="status-check"
+                        size="small"
                         className={styles.statusIcon}
                         style={{ color: 'var(--ink-green-60)' }}
                       />
                     )}
                     {uploadedFile.status === 'error' && (
                       <Icon
-                        name="alert-circle"
-                        size="sm"
+                        name="status-error"
+                        size="small"
                         className={styles.statusIcon}
                         style={{ color: 'var(--ink-red-60)' }}
                       />
                     )}
-                    <button
-                      type="button"
-                      className={styles.removeButton}
+                    <IconButton
+                      icon="close"
+                      size="small"
+                      variant="tertiary"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleRemoveFile(uploadedFile.id);
                       }}
                       aria-label="Remove file"
-                    >
-                      <Icon name="x" size="sm" />
-                    </button>
+                      className={styles.removeButton}
+                    />
                   </div>
                 </div>
               );

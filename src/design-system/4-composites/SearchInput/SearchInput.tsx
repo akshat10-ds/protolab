@@ -2,6 +2,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import styles from './SearchInput.module.css';
 import { Icon } from '../../3-primitives/Icon';
+import { IconButton } from '../../3-primitives/IconButton';
 
 export interface SearchSuggestion {
   id: string;
@@ -159,7 +160,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
       }
     };
 
-    const defaultSearchIcon = <Icon name="search" size="sm" />;
+    const defaultSearchIcon = <Icon name="search" size="small" />;
 
     return (
       <div ref={containerRef} className={cn(styles.container, className)}>
@@ -199,14 +200,14 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
             </span>
           )}
           {clearable && currentValue && !loading && (
-            <button
-              type="button"
-              className={styles.clearButton}
+            <IconButton
+              icon="close"
+              size="small"
+              variant="tertiary"
               onClick={handleClear}
               aria-label="Clear search"
-            >
-              <Icon name="close" size="sm" />
-            </button>
+              className={styles.clearButton}
+            />
           )}
         </div>
 

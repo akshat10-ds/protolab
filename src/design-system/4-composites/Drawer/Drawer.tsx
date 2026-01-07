@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './Drawer.module.css';
 import { Icon } from '../../3-primitives/Icon';
+import { IconButton } from '../../3-primitives/IconButton';
 
 export type DrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 export type DrawerSize = 'small' | 'medium' | 'large' | 'full';
@@ -159,13 +160,14 @@ export const Drawer: React.FC<DrawerProps> = ({
             <div className={styles.headerActions}>
               {headerActions}
               {showCloseButton && (
-                <button
-                  className={styles.closeButton}
+                <IconButton
+                  icon="close"
+                  variant="tertiary"
+                  size="medium"
                   onClick={onClose}
                   aria-label="Close drawer"
-                >
-                  <Icon name="x" size="medium" />
-                </button>
+                  className={styles.closeButton}
+                />
               )}
             </div>
           </div>

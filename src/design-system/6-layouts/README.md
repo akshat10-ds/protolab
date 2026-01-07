@@ -31,7 +31,7 @@ Complete dashboard with sidebar navigation, header, and content areas.
 
 ```tsx
 <DashboardLayout
-  navigation={<VerticalNavigation />}
+  navigation={<LocalNav />}
   header={<GlobalNav />}
   sidebar={<Widget />}
 >

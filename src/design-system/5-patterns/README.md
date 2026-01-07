@@ -26,86 +26,7 @@ Patterns are reusable, composed UI patterns that solve common interface challeng
 
 ---
 
-## Available Patterns (3)
-
-### VerticalNavigation
-
-**Purpose**: Collapsible sidebar navigation with icon and text labels
-
-**Use When**:
-- Building application sidebars
-- Need hierarchical navigation
-- Navigation should be collapsible
-
-**Features**:
-- Expandable/collapsible sections
-- Icon + label format
-- Active state indication
-- Nested navigation support
-- Keyboard navigation
-
-**Basic Usage**:
-```tsx
-import { VerticalNavigation } from '@/design-system/5-patterns';
-
-<VerticalNavigation
-  items={[
-    {
-      id: 'dashboard',
-      label: 'Dashboard',
-      icon: 'home',
-      href: '/dashboard'
-    },
-    {
-      id: 'users',
-      label: 'Users',
-      icon: 'users',
-      href: '/users',
-      badge: 5 // Optional notification badge
-    },
-    {
-      id: 'settings',
-      label: 'Settings',
-      icon: 'settings',
-      children: [ // Nested items
-        { id: 'profile', label: 'Profile', href: '/settings/profile' },
-        { id: 'security', label: 'Security', href: '/settings/security' }
-      ]
-    }
-  ]}
-  collapsed={false}
-  onCollapse={() => setCollapsed(!collapsed)}
-/>
-```
-
-**Props**:
-- `items: NavigationItem[]` - Navigation items array
-- `collapsed?: boolean` - Whether sidebar is collapsed
-- `onCollapse?: () => void` - Callback when collapse button clicked
-- `activeId?: string` - Currently active item ID
-
-**NavigationItem Interface**:
-```typescript
-interface NavigationItem {
-  id: string;
-  label: string;
-  icon?: string; // Icon name (use Icon component from Layer 3)
-  href?: string;
-  onClick?: () => void;
-  badge?: number | string; // Optional notification badge
-  children?: NavigationItem[]; // Nested items
-  disabled?: boolean;
-}
-```
-
-**Composition**:
-- Uses `Stack` (Utility) for vertical layout
-- Uses `Button` (Primitive) for navigation items
-- Uses `Icon` (Primitive) for icons
-- Uses `Badge` (Primitive) for notifications
-- Uses `Divider` (Primitive) for separators
-
----
+## Available Patterns (2)
 
 ### GlobalNav
 
@@ -273,13 +194,13 @@ import { SearchInput } from '../../4-composites/SearchInput';
 ### From Application Code
 ```tsx
 // ✅ From main export
-import { VerticalNavigation, GlobalNav } from '@/design-system';
+import { GlobalNav, LocalNav } from '@/design-system';
 
 // ✅ From layer export
-import { VerticalNavigation } from '@/design-system/5-patterns';
+import { LocalNav } from '@/design-system/5-patterns';
 
 // ❌ Don't import from old structure
-import { VerticalNavigation } from '@/design-system/patterns';
+import { LocalNav } from '@/design-system/patterns';
 ```
 
 ---
@@ -367,25 +288,18 @@ Patterns must include:
 ```tsx
 const [activeId, setActiveId] = useState('dashboard');
 
-<VerticalNavigation
-  items={navItems}
-  activeId={activeId}
-  onItemClick={(id) => {
-    setActiveId(id);
-    navigate(`/${id}`);
-  }}
-/>
-```
-
-### Collapsible Sidebar
-
-```tsx
-const [collapsed, setCollapsed] = useState(false);
-
-<VerticalNavigation
-  items={navItems}
-  collapsed={collapsed}
-  onCollapse={() => setCollapsed(!collapsed)}
+<LocalNav
+  headerLabel="My App"
+  sections={[
+    {
+      id: 'main',
+      items: [
+        { id: 'dashboard', label: 'Dashboard', icon: 'home' },
+        { id: 'users', label: 'Users', icon: 'users' },
+      ],
+    },
+  ]}
+  activeItemId={activeId}
 />
 ```
 
@@ -446,30 +360,27 @@ Test patterns for:
 ```tsx
 it('navigates to correct route on item click', () => {
   const handleClick = jest.fn();
-  render(<VerticalNavigation items={items} onItemClick={handleClick} />);
+  render(<LocalNav sections={sections} activeItemId="dashboard" />);
 
   fireEvent.click(screen.getByText('Dashboard'));
-  expect(handleClick).toHaveBeenCalledWith('dashboard');
+  expect(handleClick).toHaveBeenCalled();
 });
 ```
 
 **Accessibility**:
 ```tsx
 it('has proper ARIA attributes', () => {
-  render(<VerticalNavigation items={items} activeId="dashboard" />);
+  render(<LocalNav sections={sections} activeItemId="dashboard" />);
 
   const nav = screen.getByRole('navigation');
   expect(nav).toBeInTheDocument();
-
-  const activeLink = screen.getByText('Dashboard').closest('a');
-  expect(activeLink).toHaveAttribute('aria-current', 'page');
 });
 ```
 
 **Keyboard Navigation**:
 ```tsx
 it('supports keyboard navigation', () => {
-  render(<VerticalNavigation items={items} />);
+  render(<LocalNav sections={sections} />);
 
   const firstItem = screen.getByText('Dashboard');
   firstItem.focus();

@@ -34,6 +34,33 @@ This is an **AI-powered prototype generator** built on the Ink Design System. Yo
 
 **If a component doesn't exist**: Use the closest existing primitive or compose from multiple components. Ask the user if uncertain.
 
+## 🎨 CSS/Styling Constraints
+
+**NEVER use hardcoded colors or inline styles. Follow these rules strictly:**
+
+### Colors
+- ❌ **NEVER use hex colors** (e.g., `#260559`, `#fff`)
+- ❌ **NEVER use rgb/rgba values** (e.g., `rgba(19, 0, 50, 0.1)`)
+- ❌ **NEVER use hsl values** directly
+- ✅ **ALWAYS use design tokens** (e.g., `var(--ink-button-primary-bg)`)
+- ✅ **ALWAYS check `tokens.css`** for existing color tokens before adding new ones
+
+### Styles
+- ❌ **NEVER use inline styles** in React components (`style={{...}}`)
+- ❌ **NEVER add custom CSS** outside of CSS modules
+- ✅ **ALWAYS use CSS modules** with `@import '../../1-tokens/tokens.css'`
+- ✅ **ALWAYS reference token variables** for colors, spacing, typography
+
+### Icon Names
+- ❌ **NEVER guess icon names** - they must exist in `iconPaths.ts`
+- ✅ **ALWAYS verify icon names** by checking `src/design-system/3-primitives/Icon/iconPaths.ts`
+- ✅ **Common mappings**: `mail` → `envelope`, `users` → `people`, `grid` → `layout-grid`, `zap` → `bolt`, `copy` → `duplicate`
+
+### Before Committing CSS Changes
+1. Run `grep -r "rgba\|rgb\|#[0-9a-fA-F]" src/design-system/` to check for hardcoded colors
+2. Run `grep -r "style={{" src/design-system/` to check for inline styles
+3. Verify all colors use `var(--ink-*)` token syntax
+
 ---
 
 ## 🤖 Claude Skills (Your Specialized Tools)

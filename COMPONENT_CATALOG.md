@@ -13,10 +13,12 @@ Use this document to quickly discover what components exist and where to find de
 | **Layouts** |||||
 | DashboardLayout | Layout (6) | Dashboard pages with sidebar | `<DashboardLayout navigation={...}>` |
 | AuthLayout | Layout (6) | Login/signup pages | `<AuthLayout variant="split">` |
+| DocuSignShell | Layout (6) | DocuSign app wrapper | `<DocuSignShell activeTab="agreements" sideNav={...}>` |
 | **Patterns** |||||
 | VerticalNavigation | Pattern (5) | Sidebar navigation | `<VerticalNavigation items={navItems} />` |
 | GlobalNav | Pattern (5) | Top navigation bar | `<GlobalNav items={items} />` |
 | LocalNav | Pattern (5) | Context-specific nav | `<LocalNav items={contextItems} />` |
+| DocuSignTopNav | Pattern (5) | DocuSign top nav bar | `<DocuSignTopNav activeTab="home" />` |
 | **Composites** |||||
 | SearchInput | Composite (4) | Search with icon | `<SearchInput placeholder="Search..." />` |
 | FileInput | Composite (4) | File upload | `<FileInput accept=".pdf" />` |
@@ -71,7 +73,7 @@ Use this document to quickly discover what components exist and where to find de
 | Container | Utility (2) | Max-width centering | `<Container size="large">` |
 | Spacer | Utility (2) | Fixed/flexible spacing | `<Spacer size="large" />` |
 
-**Total: 55 components** (2 Layouts + 3 Patterns + 18 Composites + 27 Primitives + 5 Utilities)
+**Total: 57 components** (3 Layouts + 4 Patterns + 18 Composites + 27 Primitives + 5 Utilities)
 
 ---
 
@@ -108,6 +110,7 @@ Use this document to quickly discover what components exist and where to find de
 - **VerticalNavigation** - Sidebar navigation with collapsible sections
 - **GlobalNav** - Top-level application navigation
 - **LocalNav** - Context-specific navigation
+- **DocuSignTopNav** - DocuSign-specific top navigation with Home/Agreements/Templates/Reports/Admin tabs
 
 **Component-Level (Composites)**:
 - **Tabs** - Tab switching
@@ -147,6 +150,7 @@ Use this document to quickly discover what components exist and where to find de
 **Application Templates (Layouts)**:
 - **DashboardLayout** - Dashboard with sidebar, header, content areas
 - **AuthLayout** - Centered authentication forms
+- **DocuSignShell** - DocuSign app wrapper with top nav + sidebar slot + content area
 
 **Layout Utilities**:
 - **Stack** - Vertical/horizontal flex layout

@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './GlobalNav.module.css';
 import { Avatar } from '../../3-primitives/Avatar';
 import { Icon } from '../../3-primitives/Icon';
+import { IconButton } from '../../3-primitives/IconButton';
 import type { IconName } from '../../3-primitives/Icon';
 
 export interface GlobalNavItem {
@@ -23,6 +24,8 @@ export interface GlobalNavProps {
   onAppSwitcherClick?: () => void;
   /** Show search icon */
   showSearch?: boolean;
+  /** Search button variant - 'icon' for icon only, 'pill' for pill-shaped button with text */
+  searchVariant?: 'icon' | 'pill';
   /** Search click handler */
   onSearchClick?: () => void;
   /** Show notifications */
@@ -33,6 +36,8 @@ export interface GlobalNavProps {
   notificationCount?: number;
   /** Show settings */
   showSettings?: boolean;
+  /** Settings icon to use */
+  settingsIcon?: IconName;
   /** Settings click handler */
   onSettingsClick?: () => void;
   /** User info for avatar */
@@ -52,11 +57,13 @@ export const GlobalNav = ({
   showAppSwitcher = true,
   onAppSwitcherClick,
   showSearch = false,
+  searchVariant = 'icon',
   onSearchClick,
   showNotifications = false,
   onNotificationClick,
   notificationCount,
   showSettings = false,
+  settingsIcon = 'settings',
   onSettingsClick,
   user,
   onUserMenuClick,
@@ -72,13 +79,14 @@ export const GlobalNav = ({
         <div className={styles.product}>
           {/* App Switcher */}
           {showAppSwitcher && (
-            <button
-              className={styles.appSwitcher}
+            <IconButton
+              icon="menu"
+              variant="tertiary"
+              size="medium"
               onClick={onAppSwitcherClick}
               aria-label="App switcher"
-            >
-              <Icon name="menu" size="medium" />
-            </button>
+              className={styles.appSwitcher}
+            />
           )}
 
           {/* Logo */}
@@ -110,13 +118,24 @@ export const GlobalNav = ({
       {/* Right Section */}
       <div className={styles.end}>
         {/* Search */}
-        {showSearch && (
-          <button
+        {showSearch && searchVariant === 'icon' && (
+          <IconButton
+            icon="search"
+            variant="tertiary"
+            size="medium"
+            onClick={onSearchClick}
+            aria-label="Search"
             className={styles.iconButton}
+          />
+        )}
+        {showSearch && searchVariant === 'pill' && (
+          <button
+            className={styles.searchPill}
             onClick={onSearchClick}
             aria-label="Search"
           >
-            <Icon name="search" size="medium" />
+            <Icon name="search" size="small" />
+            <span>Search</span>
           </button>
         )}
 
@@ -136,19 +155,24 @@ export const GlobalNav = ({
 
         {/* Settings */}
         {showSettings && (
-          <button
-            className={styles.iconButton}
+          <IconButton
+            icon={settingsIcon}
+            variant="tertiary"
+            size="medium"
             onClick={onSettingsClick}
             aria-label="Settings"
-          >
-            <Icon name="settings" size="medium" />
-          </button>
+            className={styles.iconButton}
+          />
         )}
 
         {/* Help Menu */}
-        <button className={styles.iconButton} aria-label="Help">
-          <Icon name="help" size="medium" />
-        </button>
+        <IconButton
+          icon="help"
+          variant="tertiary"
+          size="medium"
+          aria-label="Help"
+          className={styles.iconButton}
+        />
 
         {/* User Avatar */}
         {user && (

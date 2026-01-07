@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--ink-spacing-200); /* 16px */
-  background: var(--ink-bg-default);
+  background: var(--ink-white-100); /* Pure white for GlobalNav */
   border-bottom: var(--ink-form-border-width) solid var(--ink-border-default);
   position: sticky;
   top: 0;
@@ -151,6 +151,34 @@
   color: white;
   border-radius: 9px;
   pointer-events: none;
+}
+
+/* Search Pill Button */
+.searchPill {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100); /* 8px */
+  height: 40px;
+  padding: 0 var(--ink-spacing-200); /* 16px */
+  background: var(--ink-white-100);
+  border: var(--ink-form-border-width) solid var(--ink-border-default);
+  border-radius: var(--ink-radius-full);
+  color: var(--ink-font-secondary);
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-md); /* 16px */
+  font-weight: var(--ink-font-weight-regular);
+  cursor: pointer;
+  transition: all var(--ink-transition-fast);
+  white-space: nowrap;
+}
+
+.searchPill:hover {
+  background-color: var(--ink-item-bg-hover);
+  border-color: var(--ink-border-hover);
+}
+
+.searchPill:active {
+  background-color: var(--ink-item-bg-active);
 }
 
 /* Avatar Button */

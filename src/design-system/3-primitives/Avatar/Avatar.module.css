@@ -38,7 +38,7 @@
 .medium {
   width: var(--ink-spacing-500);
   height: var(--ink-spacing-500);
-  font-size: var(--ink-font-size-sm) !important; /* 14px */
+  font-size: var(--ink-font-size-md) !important; /* 16px - DocuSign standard */
   line-height: 1.4 !important;
   letter-spacing: 0 !important;
 }

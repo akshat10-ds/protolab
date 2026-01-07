@@ -4,9 +4,6 @@
  * Complex UI patterns and organisms built with Ink components
  */
 
-export { VerticalNavigation } from './VerticalNavigation';
-export type { VerticalNavigationProps, NavigationItem, NavigationSubItem } from './VerticalNavigation';
-
 export { GlobalNav } from './GlobalNav';
 export type { GlobalNavProps, GlobalNavItem } from './GlobalNav';
 

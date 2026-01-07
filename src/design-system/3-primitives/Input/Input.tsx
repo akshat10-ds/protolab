@@ -91,7 +91,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
         {error && (
           <div id={errorId} className={styles.errorMessage}>
             <span className={styles.errorIcon}>
-              <Icon name="error" size="sm" />
+              <Icon name="status-error" size="small" />
             </span>
             <span>{error}</span>
           </div>

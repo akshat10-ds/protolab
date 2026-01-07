@@ -269,7 +269,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
         {item.shortcut && <span className={styles.shortcut}>{item.shortcut}</span>}
         {hasSubmenu && (
           <span className={styles.arrow}>
-            <Icon name="chevron-right" size="sm" />
+            <Icon name="chevron-right" size="small" />
           </span>
         )}
       </button>

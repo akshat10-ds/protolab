@@ -14,12 +14,12 @@
   padding: var(--ink-spacing-3) var(--ink-spacing-4);
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-md);
-  font-weight: var(--ink-font-weight-medium);
-  color: var(--ink-neutral-70);
+  font-weight: var(--ink-font-weight-semibold); /* 600 - DocuSign standard */
+  color: var(--ink-neutral-fade-70); /* DocuSign: rgba(19, 0, 50, 0.7) */
   cursor: pointer;
   transition: all var(--ink-transition-fast);
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
+  border-bottom: 3px solid transparent; /* 3px - DocuSign standard */
+  margin-bottom: -3px; /* Match border width */
   position: relative;
 }
 
@@ -35,8 +35,8 @@
 }
 
 .tab.active {
-  color: var(--ink-blue-60);
-  border-bottom-color: var(--ink-blue-60);
+  color: var(--ink-neutral-fade-90); /* DocuSign: rgba(19, 0, 50, 0.9) */
+  border-bottom-color: rgb(19, 0, 50); /* DocuSign exact value */
 }
 
 .tab.disabled {

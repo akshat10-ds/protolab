@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import styles from './ComboBox.module.css';
 import { Icon } from '../../3-primitives/Icon';
+import { IconButton } from '../../3-primitives/IconButton';
 
 export interface ComboBoxOption {
   value: string;
@@ -284,18 +285,18 @@ export const ComboBox = forwardRef<HTMLInputElement, ComboBoxProps>(
 
           <div className={styles.iconContainer} onClick={handleChevronClick}>
             {value && !disabled && (
-              <button
-                type="button"
-                className={styles.clearButton}
+              <IconButton
+                icon="close"
+                size="small"
+                variant="tertiary"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleClear();
                 }}
                 aria-label="Clear selection"
                 tabIndex={-1}
-              >
-                <Icon name="close" size="small" />
-              </button>
+                className={styles.clearButton}
+              />
             )}
             <div
               className={`${styles.chevronIcon} ${isOpen ? styles.chevronOpen : ''}`}
@@ -351,7 +352,7 @@ export const ComboBox = forwardRef<HTMLInputElement, ComboBoxProps>(
         {error && (
           <div id={errorId} className={styles.errorMessage}>
             <span className={styles.errorIcon}>
-              <Icon name="error" size="small" />
+              <Icon name="status-error" size="small" />
             </span>
             <span>{error}</span>
           </div>

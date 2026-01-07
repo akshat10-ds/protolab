@@ -27,14 +27,14 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 
 // Default icons for each kind
 const defaultIcons: Record<string, React.ReactNode> = {
-  information: <Icon name="info" size="md" />,
-  danger: <Icon name="error" size="md" />,
-  success: <Icon name="check-circle" size="md" />,
-  warning: <Icon name="warning" size="md" />,
-  promo: <Icon name="star" size="md" />,
-  subtle: <Icon name="info" size="md" />,
-  neutral: <Icon name="info" size="md" />,
-  neutralDark: <Icon name="info" size="md" />,
+  information: <Icon name="status-info" size="medium" />,
+  danger: <Icon name="status-error" size="medium" />,
+  success: <Icon name="status-check" size="medium" />,
+  warning: <Icon name="status-warn" size="medium" />,
+  promo: <Icon name="star" size="medium" />,
+  subtle: <Icon name="status-info" size="medium" />,
+  neutral: <Icon name="status-info" size="medium" />,
+  neutralDark: <Icon name="status-info" size="medium" />,
 };
 
 export const Alert: React.FC<AlertProps> = ({

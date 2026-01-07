@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
+import { editorApiPlugin } from './src/server/editorApi';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), editorApiPlugin()],
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: {

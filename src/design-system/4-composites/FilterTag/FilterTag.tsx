@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './FilterTag.module.css';
 import { Icon } from '../../3-primitives/Icon';
+import { IconButton } from '../../3-primitives/IconButton';
 
 export interface FilterTagProps {
   /** Label text */
@@ -67,15 +68,15 @@ export const FilterTag = React.forwardRef<HTMLDivElement, FilterTagProps>(
           >
             <span className={styles.label}>{label}</span>
           </button>
-          <button
-            className={styles.dismissButton}
+          <IconButton
+            icon="close"
+            size="small"
+            variant="tertiary"
             onClick={handleDismissClick}
             disabled={disabled}
-            type="button"
             aria-label="Remove filter"
-          >
-            <Icon name="close" size="small" />
-          </button>
+            className={styles.dismissButton}
+          />
         </div>
       );
     }

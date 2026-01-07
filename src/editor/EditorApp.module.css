@@ -1,0 +1,567 @@
+/**
+ * Visual Editor Styles
+ */
+
+@import '../design-system/1-tokens/tokens.css';
+
+/* ============================================
+   Main Layout
+   ============================================ */
+
+.editorContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--ink-bg-default);
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 var(--ink-spacing-200);
+  background: var(--ink-neutral-10);
+  border-bottom: 1px solid var(--ink-border-default);
+  flex-shrink: 0;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-200);
+}
+
+.toolbarCenter {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-150);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  font-weight: var(--ink-font-weight-semibold);
+  font-size: var(--ink-font-size-md);
+  color: var(--ink-font-default);
+}
+
+.projectName {
+  padding: var(--ink-spacing-50) var(--ink-spacing-100);
+  border: 1px solid transparent;
+  border-radius: var(--ink-radius-size-xs);
+  font-size: var(--ink-font-size-sm);
+  color: var(--ink-font-secondary);
+  background: transparent;
+  cursor: text;
+  transition: all var(--ink-transition-fast);
+}
+
+.projectName:hover {
+  border-color: var(--ink-border-default);
+  background: var(--ink-bg-default);
+}
+
+.projectName:focus {
+  outline: none;
+  border-color: var(--ink-border-accent);
+  background: var(--ink-bg-default);
+}
+
+.dirtyIndicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ink-orange-100);
+}
+
+.modeToggle {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  background: var(--ink-neutral-20);
+  border-radius: var(--ink-radius-size-xs);
+}
+
+.modeButton {
+  padding: var(--ink-spacing-50) var(--ink-spacing-100);
+  border: none;
+  border-radius: var(--ink-radius-size-xs);
+  font-size: var(--ink-font-size-sm);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-secondary);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--ink-transition-fast);
+}
+
+.modeButton:hover {
+  color: var(--ink-font-default);
+}
+
+.modeButton[data-active='true'] {
+  background: var(--ink-bg-default);
+  color: var(--ink-font-default);
+  box-shadow: var(--ink-shadow-xs);
+}
+
+/* ============================================
+   Main Content Area
+   ============================================ */
+
+.mainArea {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ============================================
+   Component Palette (Left Sidebar)
+   ============================================ */
+
+.palette {
+  width: 280px;
+  background: var(--ink-bg-default);
+  border-right: 1px solid var(--ink-border-default);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.paletteHeader {
+  padding: var(--ink-spacing-200);
+  border-bottom: 1px solid var(--ink-border-default);
+}
+
+.paletteSearch {
+  width: 100%;
+}
+
+.paletteContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--ink-spacing-100);
+}
+
+.layerSection {
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.layerHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  border: none;
+  border-radius: var(--ink-radius-size-xs);
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-size: var(--ink-font-size-sm);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-default);
+  transition: background var(--ink-transition-fast);
+}
+
+.layerHeader:hover {
+  background: var(--ink-neutral-10);
+}
+
+.layerBadge {
+  padding: 2px 6px;
+  border-radius: var(--ink-radius-size-xs);
+  font-size: 10px;
+  font-weight: var(--ink-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.layerBadge[data-layer='2'] {
+  background: var(--ink-cobalt-10);
+  color: var(--ink-cobalt-100);
+}
+
+.layerBadge[data-layer='3'] {
+  background: var(--ink-green-10);
+  color: var(--ink-green-100);
+}
+
+.layerBadge[data-layer='4'] {
+  background: var(--ink-purple-10);
+  color: var(--ink-purple-100);
+}
+
+.layerBadge[data-layer='5'] {
+  background: var(--ink-orange-10);
+  color: var(--ink-orange-100);
+}
+
+.layerBadge[data-layer='6'] {
+  background: var(--ink-red-10);
+  color: var(--ink-red-100);
+}
+
+.chevron {
+  margin-left: auto;
+  transition: transform var(--ink-transition-fast);
+}
+
+.chevron[data-expanded='true'] {
+  transform: rotate(90deg);
+}
+
+.componentList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) 0 var(--ink-spacing-100) var(--ink-spacing-200);
+}
+
+.componentItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  padding: var(--ink-spacing-100);
+  border: 1px solid var(--ink-border-default);
+  border-radius: var(--ink-radius-size-xs);
+  background: var(--ink-bg-default);
+  cursor: grab;
+  transition: all var(--ink-transition-fast);
+  user-select: none;
+}
+
+.componentItem:hover {
+  border-color: var(--ink-border-accent);
+  background: var(--ink-cobalt-10);
+}
+
+.componentItem:active {
+  cursor: grabbing;
+}
+
+.componentItemIcon {
+  color: var(--ink-icon-color-default);
+}
+
+.componentItemName {
+  font-size: 11px;
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-secondary);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ============================================
+   Canvas Area
+   ============================================ */
+
+.canvasArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--ink-neutral-20);
+  overflow: hidden;
+  position: relative;
+}
+
+.canvasToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100);
+  background: var(--ink-bg-default);
+  border-bottom: 1px solid var(--ink-border-default);
+}
+
+.zoomControls {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+}
+
+.zoomLabel {
+  min-width: 48px;
+  text-align: center;
+  font-size: var(--ink-font-size-sm);
+  color: var(--ink-font-secondary);
+}
+
+.canvas {
+  flex: 1;
+  overflow: auto;
+  padding: var(--ink-spacing-400);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.canvasFrame {
+  min-width: 800px;
+  min-height: 600px;
+  background: var(--ink-bg-default);
+  border-radius: var(--ink-radius-size-m);
+  box-shadow: var(--ink-shadow-lg);
+  padding: var(--ink-spacing-300);
+  transition: transform var(--ink-transition-fast);
+}
+
+.canvasEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 400px;
+  color: var(--ink-font-tertiary);
+  text-align: center;
+}
+
+.canvasEmptyIcon {
+  margin-bottom: var(--ink-spacing-200);
+  opacity: 0.5;
+}
+
+.canvasEmptyTitle {
+  font-size: var(--ink-font-size-lg);
+  font-weight: var(--ink-font-weight-semibold);
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.canvasEmptyText {
+  font-size: var(--ink-font-size-sm);
+}
+
+.canvasDropZone {
+  min-height: 100%;
+  padding: var(--ink-spacing-200);
+  border: 2px dashed transparent;
+  border-radius: var(--ink-radius-size-s);
+  transition: all var(--ink-transition-fast);
+}
+
+.canvasDropZone[data-drag-over='true'] {
+  border-color: var(--ink-border-accent);
+  background: var(--ink-cobalt-10);
+}
+
+/* ============================================
+   Properties Panel (Right Sidebar)
+   ============================================ */
+
+.propertiesPanel {
+  width: 320px;
+  background: var(--ink-bg-default);
+  border-left: 1px solid var(--ink-border-default);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.panelTabs {
+  display: flex;
+  border-bottom: 1px solid var(--ink-border-default);
+}
+
+.panelTab {
+  flex: 1;
+  padding: var(--ink-spacing-150) var(--ink-spacing-100);
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  font-size: var(--ink-font-size-sm);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-secondary);
+  cursor: pointer;
+  transition: all var(--ink-transition-fast);
+}
+
+.panelTab:hover {
+  color: var(--ink-font-default);
+  background: var(--ink-neutral-10);
+}
+
+.panelTab[data-active='true'] {
+  color: var(--ink-font-accent);
+  border-bottom-color: var(--ink-border-accent);
+}
+
+.panelContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--ink-spacing-200);
+}
+
+.panelEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--ink-font-tertiary);
+  text-align: center;
+}
+
+.panelEmptyIcon {
+  margin-bottom: var(--ink-spacing-100);
+  opacity: 0.5;
+}
+
+.panelEmptyText {
+  font-size: var(--ink-font-size-sm);
+}
+
+/* ============================================
+   Properties Editor
+   ============================================ */
+
+.propSection {
+  margin-bottom: var(--ink-spacing-300);
+}
+
+.propSectionTitle {
+  font-size: var(--ink-font-size-xs);
+  font-weight: var(--ink-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink-font-tertiary);
+  margin-bottom: var(--ink-spacing-150);
+}
+
+.propRow {
+  margin-bottom: var(--ink-spacing-150);
+}
+
+.propLabel {
+  display: block;
+  font-size: var(--ink-font-size-sm);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-secondary);
+  margin-bottom: var(--ink-spacing-50);
+}
+
+.propInput {
+  width: 100%;
+}
+
+.selectedComponentHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding-bottom: var(--ink-spacing-200);
+  border-bottom: 1px solid var(--ink-border-default);
+  margin-bottom: var(--ink-spacing-200);
+}
+
+.selectedComponentIcon {
+  color: var(--ink-icon-color-accent);
+}
+
+.selectedComponentInfo {
+  flex: 1;
+}
+
+.selectedComponentName {
+  font-size: var(--ink-font-size-md);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-default);
+}
+
+.selectedComponentType {
+  font-size: var(--ink-font-size-xs);
+  color: var(--ink-font-tertiary);
+}
+
+/* ============================================
+   Code Preview Panel
+   ============================================ */
+
+.codePreview {
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  background: var(--ink-neutral-140);
+  color: var(--ink-font-default-inverse);
+  padding: var(--ink-spacing-200);
+  border-radius: var(--ink-radius-size-xs);
+  overflow: auto;
+  max-height: 100%;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.codeActions {
+  display: flex;
+  gap: var(--ink-spacing-100);
+  margin-bottom: var(--ink-spacing-150);
+}
+
+/* ============================================
+   Canvas Nodes
+   ============================================ */
+
+.canvasNode {
+  position: relative;
+  cursor: pointer;
+  transition: outline var(--ink-transition-fast);
+}
+
+.canvasNode:hover {
+  outline: 2px solid var(--ink-cobalt-40);
+  outline-offset: 2px;
+}
+
+.canvasNode[data-selected='true'] {
+  outline: 2px solid var(--ink-cobalt-100);
+  outline-offset: 2px;
+}
+
+.nodeLabel {
+  position: absolute;
+  top: -24px;
+  left: 0;
+  padding: 2px 6px;
+  background: var(--ink-cobalt-100);
+  color: var(--ink-white-100);
+  font-size: 10px;
+  font-weight: var(--ink-font-weight-medium);
+  border-radius: var(--ink-radius-size-xs);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--ink-transition-fast);
+}
+
+.canvasNode:hover .nodeLabel,
+.canvasNode[data-selected='true'] .nodeLabel {
+  opacity: 1;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 1200px) {
+  .palette {
+    width: 240px;
+  }
+
+  .propertiesPanel {
+    width: 280px;
+  }
+}

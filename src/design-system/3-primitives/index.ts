@@ -9,8 +9,8 @@
  */
 
 // Icons
-export { Icon } from './Icon';
-export type { IconProps } from './Icon';
+export { Icon, iconPaths } from './Icon';
+export type { IconProps, IconName } from './Icon';
 
 // Action Components
 export { Button } from './Button';
