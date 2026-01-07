@@ -25,6 +25,8 @@ export interface ComboButtonProps {
   className?: string;
   /** Compact mode (icon-only, for tertiary variant) */
   compact?: boolean;
+  /** Inverts colors for dark backgrounds */
+  inverted?: boolean;
 }
 
 export const ComboButton = React.forwardRef<HTMLDivElement, ComboButtonProps>(
@@ -39,6 +41,7 @@ export const ComboButton = React.forwardRef<HTMLDivElement, ComboButtonProps>(
       startIcon,
       className,
       compact = false,
+      inverted = false,
     },
     ref
   ) => {
@@ -48,29 +51,17 @@ export const ComboButton = React.forwardRef<HTMLDivElement, ComboButtonProps>(
       styles[size],
       disabled && styles.disabled,
       compact && styles.compact,
+      inverted && styles.inverted,
       className
     );
 
-    const mainButtonClasses = cn(
-      styles.mainButton,
-      styles[variant],
-      styles[size]
-    );
+    const mainButtonClasses = cn(styles.mainButton, styles[variant], styles[size]);
 
-    const dropdownButtonClasses = cn(
-      styles.dropdownButton,
-      styles[variant],
-      styles[size]
-    );
+    const dropdownButtonClasses = cn(styles.dropdownButton, styles[variant], styles[size]);
 
     return (
       <div ref={ref} className={wrapperClasses}>
-        <button
-          type="button"
-          className={mainButtonClasses}
-          onClick={onClick}
-          disabled={disabled}
-        >
+        <button type="button" className={mainButtonClasses} onClick={onClick} disabled={disabled}>
           {startIcon && !compact && (
             <Icon name={startIcon} size={size === 'small' ? 'small' : 'medium'} />
           )}

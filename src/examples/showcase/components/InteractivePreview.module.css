@@ -1,0 +1,38 @@
+/**
+ * InteractivePreview - Styles for the live preview section
+ */
+
+.previewContainer {
+  background: var(--ink-bg-default);
+  border: 1px solid var(--ink-border-default);
+  border-radius: var(--ink-radius-size-sm);
+  margin-bottom: var(--ink-spacing-400);
+}
+
+.previewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--ink-spacing-200) var(--ink-spacing-300);
+  border-bottom: 1px solid var(--ink-border-default);
+  background: var(--ink-bg-subtle);
+}
+
+.previewTitle {
+  font-size: var(--ink-font-size-14);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-default);
+}
+
+.previewHint {
+  font-size: var(--ink-font-size-12);
+  color: var(--ink-font-subtle);
+}
+
+.previewContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ink-spacing-600);
+  min-height: 120px;
+}

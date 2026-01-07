@@ -12,10 +12,13 @@ import {
   TextArea,
   Icon,
 } from '@/design-system';
+import { SelectableComponent } from '../../components/SelectableComponent';
 import styles from '../../Showcase.module.css';
 
 export interface FormPrimitivesProps {
   activeSubpage: string;
+  selectedComponentId?: string | null;
+  onComponentSelect?: (componentId: string, props: Record<string, unknown>) => void;
 }
 
 // Data definitions for compact rendering
@@ -32,7 +35,11 @@ const iconButtonIcons = [
 const inputTypes = ['text', 'email', 'password', 'number', 'date', 'time'] as const;
 const resizeModes = ['vertical', 'horizontal', 'both', 'none'] as const;
 
-export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage }) => {
+export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
+  activeSubpage,
+  selectedComponentId,
+  onComponentSelect,
+}) => {
   if (activeSubpage === 'button') {
     return (
       <div className={styles.tokenPage}>
@@ -45,7 +52,14 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
             <div className={styles.demoRow} key={kind}>
               <span className={styles.demoLabel}>{kind}</span>
               <div className={styles.demoPreview}>
-                <Button kind={kind}>{kind.charAt(0).toUpperCase() + kind.slice(1)}</Button>
+                <SelectableComponent
+                  componentId={`button-kind-${kind}`}
+                  componentProps={{ kind, children: kind.charAt(0).toUpperCase() + kind.slice(1) }}
+                  isSelected={selectedComponentId === `button-kind-${kind}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Button kind={kind}>{kind.charAt(0).toUpperCase() + kind.slice(1)}</Button>
+                </SelectableComponent>
               </div>
               <span className={styles.propsCode}>kind="{kind}"</span>
             </div>
@@ -61,7 +75,16 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
             <div className={styles.demoRow} key={size}>
               <span className={styles.demoLabel}>{size}</span>
               <div className={styles.demoPreview}>
-                <Button kind="brand" size={size}>{size}</Button>
+                <SelectableComponent
+                  componentId={`button-size-${size}`}
+                  componentProps={{ kind: 'brand', size, children: size }}
+                  isSelected={selectedComponentId === `button-size-${size}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Button kind="brand" size={size}>
+                    {size}
+                  </Button>
+                </SelectableComponent>
               </div>
               <span className={styles.propsCode}>size="{size}"</span>
             </div>
@@ -76,19 +99,29 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>startElement</span>
             <div className={styles.demoPreview}>
-              <Button kind="brand" startElement={<Icon name="plus" size="small" />}>Add Item</Button>
+              <Button kind="brand" startElement={<Icon name="plus" size="small" />}>
+                Add Item
+              </Button>
             </div>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>endElement</span>
             <div className={styles.demoPreview}>
-              <Button kind="primary" endElement={<Icon name="arrow-right" size="small" />}>Next</Button>
+              <Button kind="primary" endElement={<Icon name="arrow-right" size="small" />}>
+                Next
+              </Button>
             </div>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>Both</span>
             <div className={styles.demoPreview}>
-              <Button kind="secondary" startElement={<Icon name="download" size="small" />} endElement={<Icon name="external-link" size="small" />}>Download</Button>
+              <Button
+                kind="secondary"
+                startElement={<Icon name="download" size="small" />}
+                endElement={<Icon name="external-link" size="small" />}
+              >
+                Download
+              </Button>
             </div>
           </div>
         </div>
@@ -101,15 +134,21 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
           <div className={styles.stateRow}>
             <div className={styles.stateCell}>
               <span className={styles.stateLabel}>Loading</span>
-              <Button kind="brand" loading>Loading...</Button>
+              <Button kind="brand" loading>
+                Loading...
+              </Button>
             </div>
             <div className={styles.stateCell}>
               <span className={styles.stateLabel}>Disabled</span>
-              <Button kind="brand" disabled>Disabled</Button>
+              <Button kind="brand" disabled>
+                Disabled
+              </Button>
             </div>
             <div className={styles.stateCell}>
               <span className={styles.stateLabel}>Active</span>
-              <Button kind="brand" active>Active</Button>
+              <Button kind="brand" active>
+                Active
+              </Button>
             </div>
           </div>
         </div>
@@ -122,28 +161,38 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>fullWidth</span>
             <div style={{ flex: 1 }}>
-              <Button kind="brand" fullWidth>Full Width Button</Button>
+              <Button kind="brand" fullWidth>
+                Full Width Button
+              </Button>
             </div>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>rounded</span>
             <div className={styles.demoPreviewWide}>
               <Inline gap="small">
-                <Button kind="brand" rounded>Pill</Button>
-                <Button kind="secondary" rounded>Rounded</Button>
+                <Button kind="brand" rounded>
+                  Pill
+                </Button>
+                <Button kind="secondary" rounded>
+                  Rounded
+                </Button>
               </Inline>
             </div>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>menuTrigger</span>
             <div className={styles.demoPreview}>
-              <Button kind="secondary" menuTrigger>Options</Button>
+              <Button kind="secondary" menuTrigger>
+                Options
+              </Button>
             </div>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>href (link)</span>
             <div className={styles.demoPreview}>
-              <Button kind="brand" href="#" endElement={<Icon name="external-link" size="small" />}>Link</Button>
+              <Button kind="brand" href="#" endElement={<Icon name="external-link" size="small" />}>
+                Link
+              </Button>
             </div>
           </div>
         </div>
@@ -153,11 +202,20 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
           <div className={styles.tokenSectionHeader}>
             <h3 className={styles.tokenSectionTitle}>Inverted (dark bg)</h3>
           </div>
-          <div className={styles.interactiveArea} style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+          <div
+            className={styles.interactiveArea}
+            style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+          >
             <Inline gap="medium">
-              <Button inverted kind="primary">Primary</Button>
-              <Button inverted kind="secondary">Secondary</Button>
-              <Button inverted kind="tertiary">Tertiary</Button>
+              <Button inverted kind="primary">
+                Primary
+              </Button>
+              <Button inverted kind="secondary">
+                Secondary
+              </Button>
+              <Button inverted kind="tertiary">
+                Tertiary
+              </Button>
             </Inline>
           </div>
         </div>
@@ -310,7 +368,12 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
           </div>
           <div className={styles.interactiveArea}>
             <Stack gap="medium">
-              <Input label="Email Address" description="We'll never share your email" placeholder="you@example.com" type="email" />
+              <Input
+                label="Email Address"
+                description="We'll never share your email"
+                placeholder="you@example.com"
+                type="email"
+              />
               <Input label="Username" required placeholder="Enter username" />
             </Stack>
           </div>
@@ -371,7 +434,11 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
             <h3 className={styles.tokenSectionTitle}>With Description</h3>
           </div>
           <div className={styles.interactiveArea}>
-            <Checkbox label="Email notifications" description="Receive updates about your account activity" defaultChecked />
+            <Checkbox
+              label="Email notifications"
+              description="Receive updates about your account activity"
+              defaultChecked
+            />
           </div>
         </div>
 
@@ -417,9 +484,24 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
           </div>
           <div className={styles.interactiveArea}>
             <Stack gap="small">
-              <Radio label="Standard" description="5-7 business days" name="shipping" value="standard" />
-              <Radio label="Express" description="2-3 business days" name="shipping" value="express" />
-              <Radio label="Overnight" description="Next business day" name="shipping" value="overnight" />
+              <Radio
+                label="Standard"
+                description="5-7 business days"
+                name="shipping"
+                value="standard"
+              />
+              <Radio
+                label="Express"
+                description="2-3 business days"
+                name="shipping"
+                value="express"
+              />
+              <Radio
+                label="Overnight"
+                description="Next business day"
+                name="shipping"
+                value="overnight"
+              />
             </Stack>
           </div>
         </div>
@@ -511,7 +593,11 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
             <h3 className={styles.tokenSectionTitle}>With Description</h3>
           </div>
           <div className={styles.interactiveArea}>
-            <Switch label="Dark Mode" description="Switch to dark theme across the application" defaultChecked />
+            <Switch
+              label="Dark Mode"
+              description="Switch to dark theme across the application"
+              defaultChecked
+            />
           </div>
         </div>
       </div>
@@ -540,7 +626,13 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
             <div className={styles.demoRow} key={mode}>
               <span className={styles.demoLabel}>{mode}</span>
               <div style={{ flex: 1, maxWidth: '300px' }}>
-                <TextArea label={mode} resize={mode} placeholder={`resize="${mode}"`} hideLabel rows={2} />
+                <TextArea
+                  label={mode}
+                  resize={mode}
+                  placeholder={`resize="${mode}"`}
+                  hideLabel
+                  rows={2}
+                />
               </div>
               <span className={styles.propsCode}>resize="{mode}"</span>
             </div>
@@ -554,9 +646,20 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({ activeSubpage })
           </div>
           <div className={styles.interactiveArea}>
             <Stack gap="medium">
-              <TextArea label="Character Count" characterCount maxLength={280} placeholder="Tweet..." />
+              <TextArea
+                label="Character Count"
+                characterCount
+                maxLength={280}
+                placeholder="Tweet..."
+              />
               <TextArea label="Auto Expand" autoExpand placeholder="This grows as you type..." />
-              <TextArea label="Allow Over Limit" characterCount maxLength={50} allowOverLimit placeholder="Type beyond limit..." />
+              <TextArea
+                label="Allow Over Limit"
+                characterCount
+                maxLength={50}
+                allowOverLimit
+                placeholder="Type beyond limit..."
+              />
             </Stack>
           </div>
         </div>

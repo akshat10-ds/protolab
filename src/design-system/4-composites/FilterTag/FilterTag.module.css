@@ -48,7 +48,7 @@
 
 /* Active State - Inactive (pressed) */
 .filterTag:active:not(.active):not(.disabled) {
-  background: rgba(19, 0, 50, 0.15); /* var(--ctaBgColorTertiaryActive) */
+  background: var(--ink-neutral-fade-15); /* var(--ctaBgColorTertiaryActive) */
   border-width: 2px;
   border-color: var(--ink-font-default);
 }
@@ -61,12 +61,12 @@
 
 /* Active - Hover */
 .filterTag.active:hover:not(.disabled) {
-  background: rgba(19, 0, 50, 0.1); /* var(--ctaBgColorTertiaryHover) */
+  background: var(--ink-neutral-fade-10); /* var(--ctaBgColorTertiaryHover) */
 }
 
 /* Active - Active/Pressed */
 .filterTag.active:active:not(.disabled) {
-  background: rgba(19, 0, 50, 0.15); /* var(--ctaBgColorTertiaryActive) */
+  background: var(--ink-neutral-fade-15); /* var(--ctaBgColorTertiaryActive) */
 }
 
 /* Disabled State */
@@ -132,19 +132,19 @@
 
 /* Dismissible Hover States */
 .filterTag.dismissible .tagButton:hover:not(:disabled) {
-  background: rgba(19, 0, 50, 0.1); /* var(--ctaBgColorTertiaryHover) */
+  background: var(--ink-neutral-fade-10); /* var(--ctaBgColorTertiaryHover) */
 }
 
 .filterTag.dismissible .tagButton:active:not(:disabled) {
-  background: rgba(19, 0, 50, 0.15); /* var(--ctaBgColorTertiaryActive) */
+  background: var(--ink-neutral-fade-15); /* var(--ctaBgColorTertiaryActive) */
 }
 
 .filterTag.dismissible .dismissButton:hover:not(:disabled) {
-  background: rgba(19, 0, 50, 0.1); /* var(--ctaBgColorTertiaryHover) */
+  background: var(--ink-neutral-fade-10); /* var(--ctaBgColorTertiaryHover) */
 }
 
 .filterTag.dismissible .dismissButton:active:not(:disabled) {
-  background: rgba(19, 0, 50, 0.15); /* var(--ctaBgColorTertiaryActive) */
+  background: var(--ink-neutral-fade-15); /* var(--ctaBgColorTertiaryActive) */
 }
 
 /* Dismissible with border radius */

@@ -9,6 +9,8 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
   /** Remove all padding from header, body, and footer */
   noPadding?: boolean;
+  /** Border radius size */
+  radius?: 'small' | 'medium' | 'large';
 }
 
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -51,12 +53,21 @@ export const Card: React.FC<CardProps> & {
   Header: typeof CardHeader;
   Body: typeof CardBody;
   Footer: typeof CardFooter;
-} = ({ children, variant = 'light', disabled = false, noPadding = false, className, ...props }) => {
+} = ({
+  children,
+  variant = 'light',
+  disabled = false,
+  noPadding = false,
+  radius,
+  className,
+  ...props
+}) => {
   const cardClasses = [
     styles.card,
     styles[variant],
     disabled && styles.disabled,
     noPadding && styles.noPadding,
+    radius && styles[`radius-${radius}`],
     className,
   ]
     .filter(Boolean)

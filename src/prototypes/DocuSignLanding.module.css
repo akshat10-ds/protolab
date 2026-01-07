@@ -1,0 +1,94 @@
+@import '../design-system/1-tokens/tokens.css';
+
+/* Logo styling */
+.logo {
+  height: 24px;
+  width: auto;
+}
+
+/* Increased card body padding */
+.cardBody {
+  padding: var(--ink-spacing-400);
+}
+
+/* Extra spacing after headings */
+.heading {
+  margin-bottom: var(--ink-spacing-200);
+}
+
+.page {
+  min-height: 100vh;
+  background: var(--ink-bg-subtle);
+  padding-bottom: var(--ink-spacing-600);
+}
+
+.contentArea {
+  padding-top: var(--ink-spacing-500);
+}
+
+/* Hero Section - Full Bleed */
+.heroSection {
+  background: linear-gradient(
+    174deg,
+    var(--ink-cobalt-100, #4c00fb) 1.48%,
+    var(--ink-cobalt-140, #260559) 97.92%
+  );
+  padding: var(--ink-spacing-700) var(--ink-spacing-400);
+  text-align: center;
+  color: var(--ink-font-inverse);
+}
+
+.heroTitle {
+  color: var(--ink-font-inverse);
+}
+
+/* Main Grid Layout */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--ink-spacing-400);
+}
+
+@media (max-width: 900px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Empty State */
+.emptyState {
+  padding: var(--ink-spacing-600) var(--ink-spacing-400);
+  text-align: center;
+}
+
+.emptyStateTitle {
+  margin-bottom: var(--ink-spacing-100);
+}
+
+/* Info Icon */
+.infoIcon {
+  color: var(--ink-font-secondary);
+  cursor: help;
+}
+
+/* Overview Card */
+.overviewCard {
+  height: fit-content;
+}
+
+/* Promo Cards */
+.promoCard {
+  background: var(--ink-bg-default);
+}
+
+.promoIcon {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--ink-radius-size-md);
+  background: var(--ink-bg-accent-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-font-accent);
+}

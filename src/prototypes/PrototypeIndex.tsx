@@ -18,6 +18,13 @@ interface PrototypeInfo {
 
 const prototypes: PrototypeInfo[] = [
   {
+    id: 'docusign-landing',
+    title: 'DocuSign Landing',
+    description:
+      'A landing page experience for the DocuSign app platform with tasks, activity, and quick actions.',
+    path: '/prototypes/docusign-landing',
+  },
+  {
     id: 'simple-form',
     title: 'Simple Form',
     description: 'A basic contact form with text inputs, select dropdown, and validation.',

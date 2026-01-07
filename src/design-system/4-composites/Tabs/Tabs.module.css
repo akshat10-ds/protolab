@@ -36,7 +36,7 @@
 
 .tab.active {
   color: var(--ink-neutral-fade-90); /* DocuSign: rgba(19, 0, 50, 0.9) */
-  border-bottom-color: rgb(19, 0, 50); /* DocuSign exact value */
+  border-bottom-color: var(--ink-cobalt-140); /* DocuSign exact value */
 }
 
 .tab.disabled {

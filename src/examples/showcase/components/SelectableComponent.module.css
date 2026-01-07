@@ -1,0 +1,30 @@
+/**
+ * SelectableComponent - Hover and selection styles
+ */
+
+@import '../../../design-system/1-tokens/tokens.css';
+
+.selectableWrapper {
+  position: relative;
+  cursor: pointer;
+  border-radius: var(--ink-radius-size-xs);
+  transition: outline 0.1s ease;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Hover state - light blue outline */
+.selectableWrapper:hover {
+  outline-color: #cac2ff;
+}
+
+/* Selected state - darker blue outline */
+.selectableWrapper[data-selected='true'] {
+  outline-color: var(--ink-cobalt-100);
+  outline-width: 2px;
+}
+
+/* When selected, hover doesn't change the outline */
+.selectableWrapper[data-selected='true']:hover {
+  outline-color: var(--ink-cobalt-100);
+}

@@ -16,10 +16,13 @@ import {
   Text,
   Icon,
 } from '@/design-system';
+import { SelectableComponent } from '../../components/SelectableComponent';
 import styles from '../../Showcase.module.css';
 
 export interface DataPrimitivesProps {
   activeSubpage: string;
+  selectedComponentId?: string | null;
+  onComponentSelect?: (componentId: string, props: Record<string, unknown>) => void;
 }
 
 // Data definitions for compact rendering
@@ -31,7 +34,11 @@ const spinnerSizes = ['small', 'medium', 'large'] as const;
 const progressSizes = ['small', 'medium', 'large'] as const;
 const progressVariants = ['primary', 'success', 'warning', 'error'] as const;
 
-export const DataPrimitives: React.FC<DataPrimitivesProps> = ({ activeSubpage }) => {
+export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
+  activeSubpage,
+  selectedComponentId,
+  onComponentSelect,
+}) => {
   if (activeSubpage === 'slider') {
     return (
       <div className={styles.tokenPage}>
@@ -56,19 +63,43 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({ activeSubpage })
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>0-1000, step 50</span>
             <div style={{ flex: 1, maxWidth: '300px' }}>
-              <Slider label="Price" min={0} max={1000} step={50} defaultValue={500} showValue hideLabel />
+              <Slider
+                label="Price"
+                min={0}
+                max={1000}
+                step={50}
+                defaultValue={500}
+                showValue
+                hideLabel
+              />
             </div>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>0-10, step 1</span>
             <div style={{ flex: 1, maxWidth: '300px' }}>
-              <Slider label="Rating" min={0} max={10} step={1} defaultValue={5} showValue hideLabel />
+              <Slider
+                label="Rating"
+                min={0}
+                max={10}
+                step={1}
+                defaultValue={5}
+                showValue
+                hideLabel
+              />
             </div>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>0-100, step 5</span>
             <div style={{ flex: 1, maxWidth: '300px' }}>
-              <Slider label="Quality" min={0} max={100} step={5} defaultValue={50} showValue hideLabel />
+              <Slider
+                label="Quality"
+                min={0}
+                max={100}
+                step={5}
+                defaultValue={50}
+                showValue
+                hideLabel
+              />
             </div>
           </div>
         </div>
@@ -96,7 +127,14 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({ activeSubpage })
             <h3 className={styles.tokenSectionTitle}>With Description</h3>
           </div>
           <div className={styles.interactiveArea}>
-            <Slider label="Quality" description="Higher values = larger file size" min={1} max={100} defaultValue={75} showValue />
+            <Slider
+              label="Quality"
+              description="Higher values = larger file size"
+              min={1}
+              max={100}
+              defaultValue={75}
+              showValue
+            />
           </div>
         </div>
       </div>
@@ -115,7 +153,19 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({ activeSubpage })
             <div className={styles.demoRow} key={variant}>
               <span className={styles.demoLabel}>{variant}</span>
               <div className={styles.demoPreview}>
-                <Badge variant={variant}>{variant.charAt(0).toUpperCase() + variant.slice(1)}</Badge>
+                <SelectableComponent
+                  componentId={`badge-variant-${variant}`}
+                  componentProps={{
+                    variant,
+                    children: variant.charAt(0).toUpperCase() + variant.slice(1),
+                  }}
+                  isSelected={selectedComponentId === `badge-variant-${variant}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Badge variant={variant}>
+                    {variant.charAt(0).toUpperCase() + variant.slice(1)}
+                  </Badge>
+                </SelectableComponent>
               </div>
               <span className={styles.propsCode}>variant="{variant}"</span>
             </div>
@@ -428,7 +478,9 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({ activeSubpage })
             <div className={styles.demoRow} key={kind}>
               <span className={styles.demoLabel}>{kind}</span>
               <div className={styles.demoPreview}>
-                <StatusLight kind={kind}>{kind.charAt(0).toUpperCase() + kind.slice(1)}</StatusLight>
+                <StatusLight kind={kind}>
+                  {kind.charAt(0).toUpperCase() + kind.slice(1)}
+                </StatusLight>
               </div>
               <span className={styles.propsCode}>kind="{kind}"</span>
             </div>
@@ -444,15 +496,23 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({ activeSubpage })
             <div className={styles.stateCell}>
               <span className={styles.stateLabel}>Filled</span>
               <Inline gap="small">
-                <StatusLight kind="success" filled>Online</StatusLight>
-                <StatusLight kind="warning" filled>Away</StatusLight>
+                <StatusLight kind="success" filled>
+                  Online
+                </StatusLight>
+                <StatusLight kind="warning" filled>
+                  Away
+                </StatusLight>
               </Inline>
             </div>
             <div className={styles.stateCell}>
               <span className={styles.stateLabel}>Not Filled</span>
               <Inline gap="small">
-                <StatusLight kind="success" filled={false}>Online</StatusLight>
-                <StatusLight kind="warning" filled={false}>Away</StatusLight>
+                <StatusLight kind="success" filled={false}>
+                  Online
+                </StatusLight>
+                <StatusLight kind="warning" filled={false}>
+                  Away
+                </StatusLight>
               </Inline>
             </div>
           </div>

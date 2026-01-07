@@ -26,7 +26,7 @@
 
 /* Variant: emphasis (cobalt/primary) */
 .badge.emphasis {
-  background-color: #2b2843; /* statusBgColorEmphasis - exact Figma color */
+  background-color: var(--ink-neutral-110); /* statusBgColorEmphasis */
   color: var(--ink-white-100); /* fontColorInverse #ffffff */
 }
 
@@ -45,11 +45,11 @@
 /* Variant: alert (error/danger) */
 .badge.alert {
   background-color: var(--ink-red-20); /* statusBgColorAlert #fee8ea */
-  color: #a6003f; /* fontColorErrorEmphasis - exact Figma color */
+  color: var(--ink-red-100); /* fontColorErrorEmphasis */
 }
 
 /* Variant: promo (purple accent) */
 .badge.promo {
-  background-color: #4200ca; /* statusBgColorAccent - exact Figma color */
+  background-color: var(--ink-cobalt-110); /* statusBgColorAccent */
   color: var(--ink-white-100); /* fontColorInverse #ffffff */
 }

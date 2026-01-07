@@ -1,0 +1,647 @@
+# Inpage Editor - TDD Test Plan
+
+## TDD Approach: Write Tests First, Then Implement
+
+This document defines all tests that must pass. Implementation follows each test.
+
+---
+
+# FEATURE 1: LIVE PREVIEW
+
+## Test 1.1: Interactive Preview Section Exists
+
+### Test Description
+```
+GIVEN I am on the /showcase page
+WHEN I navigate to any component (e.g., Button)
+THEN I should see an "Interactive Preview" section at the top of the page
+AND the section should have a visible border/card styling
+AND the section should contain exactly ONE instance of the component
+```
+
+### Manual Test Steps
+1. Navigate to `http://localhost:3000/showcase`
+2. Click "Button" in the sidebar
+3. Verify: A card labeled "Interactive Preview" appears at the top
+4. Verify: The card contains a single Button component
+
+### Pass Criteria
+- [x] Preview section is visible
+- [x] Preview section has clear visual boundaries (card/border)
+- [x] Preview contains exactly one component instance
+
+---
+
+## Test 1.2: Preview Renders with Current liveProps
+
+### Test Description
+```
+GIVEN I am viewing the Button component
+AND the inspector shows kind: "primary"
+WHEN I look at the Interactive Preview
+THEN the preview should show a primary-styled button
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Open Inspector panel (if not already open)
+3. Note the current `kind` value in inspector
+4. Verify: Preview button matches that kind visually
+
+### Pass Criteria
+- [x] Preview component reflects inspector prop values
+- [x] Visual appearance matches the prop settings
+
+---
+
+## Test 1.3: Inspector Changes Update Preview Immediately
+
+### Test Description
+```
+GIVEN I am viewing the Button component
+AND the Interactive Preview shows a primary button
+WHEN I change the "kind" prop from "primary" to "danger" in the inspector
+THEN the Preview should immediately show a red/danger-styled button
+AND there should be no page reload
+AND the change should happen within 100ms
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Note the Preview shows primary button (blue)
+3. In Inspector, change `kind` dropdown to "danger"
+4. Verify: Preview button immediately turns red
+5. Verify: No page flicker/reload occurred
+
+### Pass Criteria
+- [x] Preview updates without page reload
+- [x] Update is instant (< 100ms perceived)
+- [x] Visual change matches the new prop value
+
+---
+
+## Test 1.4: All Prop Types Work
+
+### Test Description
+```
+GIVEN I am viewing a component with multiple prop types
+WHEN I modify each prop type in the inspector:
+  - string props (e.g., children text)
+  - boolean props (e.g., disabled)
+  - select props (e.g., size dropdown)
+  - icon props (e.g., icon selector)
+THEN each change should update the Preview correctly
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Test STRING: Change `children` from "Button" to "Click Me"
+   - Verify: Preview button text changes to "Click Me"
+3. Test BOOLEAN: Toggle `disabled` to true
+   - Verify: Preview button appears disabled (grayed out, not clickable)
+4. Test SELECT: Change `size` from "medium" to "large"
+   - Verify: Preview button grows larger
+5. Test ICON: Select an icon (if Button supports icons)
+   - Verify: Icon appears in Preview button
+
+### Pass Criteria
+- [x] String props update text content
+- [x] Boolean props toggle visual states
+- [x] Select props change from dropdown options
+- [x] Icon props show selected icons
+
+---
+
+## Test 1.5: Reset to Default Button Works
+
+### Test Description
+```
+GIVEN I have modified several props in the inspector
+AND the Preview shows a customized component
+WHEN I click the "Reset to Default" button
+THEN all props should return to their default values
+AND the Preview should show the default component appearance
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Change `kind` to "danger", `size` to "large", `disabled` to true
+3. Verify: Preview shows large, red, disabled button
+4. Click "Reset to Default" button
+5. Verify: Inspector shows default values (kind: primary, size: medium, disabled: false)
+6. Verify: Preview shows default primary medium button
+
+### Pass Criteria
+- [x] Reset button is visible and clickable
+- [x] All props return to defaults on click
+- [x] Preview updates to default appearance
+
+---
+
+## Test 1.6: Code Tab Shows Current liveProps
+
+### Test Description
+```
+GIVEN I have modified props in the inspector
+WHEN I switch to the "Code" tab in the inspector
+THEN the generated code should reflect the current prop values
+AND the code should be valid JSX syntax
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Change `kind` to "danger" and `children` to "Delete"
+3. Click "Code" tab in inspector
+4. Verify: Code shows `<Button kind="danger">Delete</Button>`
+5. Verify: Code is properly formatted JSX
+
+### Pass Criteria
+- [x] Code tab displays generated JSX
+- [x] JSX includes all modified props
+- [x] JSX syntax is valid and formatted
+
+---
+
+## Test 1.7: Copy Code Button Works
+
+### Test Description
+```
+GIVEN I am viewing the Code tab
+AND it shows generated JSX code
+WHEN I click the "Copy" button
+THEN the code should be copied to my clipboard
+AND I should see a "Copied!" confirmation
+```
+
+### Manual Test Steps
+1. Navigate to Button page, modify some props
+2. Click Code tab
+3. Click "Copy" button
+4. Verify: Button changes to "Copied!" temporarily
+5. Paste in a text editor
+6. Verify: Pasted content matches displayed code exactly
+
+### Pass Criteria
+- [x] Copy button is visible
+- [x] Click copies to clipboard
+- [x] Visual feedback shows "Copied!"
+- [x] Pasted content matches displayed code
+
+---
+
+## Test 1.8: Preview Works for ALL Component Types
+
+### Test Description
+```
+GIVEN the Interactive Preview feature is implemented
+WHEN I navigate to any component in any layer:
+  - Primitives (Button, Input, Badge, Card, etc.)
+  - Composites (SearchInput, Table, Modal, etc.)
+  - Patterns (GlobalNav, LocalNav)
+  - Utilities (Stack, Grid)
+THEN each should have a working Interactive Preview
+```
+
+### Manual Test Steps
+1. Test Primitive: Navigate to Button -> verify Preview works
+2. Test Primitive: Navigate to Input -> verify Preview works
+3. Test Composite: Navigate to SearchInput -> verify Preview works
+4. Test Composite: Navigate to Tabs -> verify Preview works
+5. Test Pattern: Navigate to GlobalNav -> verify Preview works
+6. Test Utility: Navigate to Stack -> verify Preview works
+
+### Pass Criteria
+- [x] All Primitives have working previews
+- [x] All Composites have working previews
+- [x] All Patterns have working previews
+- [x] All Utilities have working previews
+
+---
+
+# FEATURE 2: CLICK-TO-SELECT
+
+## Test 2.1: Hover State Shows on Component Examples
+
+### Test Description
+```
+GIVEN I am viewing the Button component page
+AND I see multiple Button variant examples
+WHEN I hover my mouse over any Button example
+THEN a subtle outline should appear around that example
+AND the outline should be light blue (--ink-cobalt-40)
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Move mouse over the "danger" button variant
+3. Verify: Light blue outline appears (2px, offset 2px)
+4. Move mouse away
+5. Verify: Outline disappears
+6. Repeat for other variants
+
+### Pass Criteria
+- [x] Hover shows outline on any example
+- [x] Outline is light blue (#cobalt-40)
+- [x] Outline disappears on mouse leave
+- [x] Works on all variant examples
+
+---
+
+## Test 2.2: Click Highlights Component with Selection Border
+
+### Test Description
+```
+GIVEN I am viewing component examples
+WHEN I click on a specific example (e.g., danger button)
+THEN that example should show a bold blue selection border
+AND the border should be darker than hover (--ink-cobalt-100)
+AND the border should persist until I click elsewhere
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Click on the "danger" button variant
+3. Verify: Bold blue border appears and stays
+4. Scroll up and down
+5. Verify: Border still visible on selected example
+
+### Pass Criteria
+- [x] Click shows bold selection border
+- [x] Border is darker blue (#cobalt-100)
+- [x] Border persists after click
+- [x] Border survives scrolling
+
+---
+
+## Test 2.3: Only One Component Selected at a Time
+
+### Test Description
+```
+GIVEN I have clicked and selected the "danger" Button
+WHEN I click on the "secondary" Button
+THEN only the "secondary" Button should be highlighted
+AND the "danger" Button should no longer be highlighted
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Click "danger" variant -> verify selected
+3. Click "secondary" variant
+4. Verify: Only "secondary" has selection border
+5. Verify: "danger" has no border
+
+### Pass Criteria
+- [x] New click deselects previous
+- [x] Only one component highlighted at any time
+- [x] Selection cleanly transfers
+
+---
+
+## Test 2.4: Click Populates Inspector with Component Props
+
+### Test Description
+```
+GIVEN I click on the "danger" Button variant
+WHEN I look at the Inspector panel
+THEN the Inspector should show:
+  - kind: "danger"
+  - children: "Danger" (or whatever the text was)
+AND these should match the clicked component exactly
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Click on "danger" variant (which shows "Danger" text)
+3. Look at Inspector panel
+4. Verify: `kind` dropdown shows "danger"
+5. Verify: `children` field shows "Danger"
+6. Click on "large" size variant
+7. Verify: `size` dropdown shows "large"
+
+### Pass Criteria
+- [x] Inspector updates on click
+- [x] All props from clicked component shown
+- [x] Values match the clicked example exactly
+
+---
+
+## Test 2.5: Inspector Auto-Opens When Clicking (if closed)
+
+### Test Description
+```
+GIVEN the Inspector panel is closed
+WHEN I click on any component example
+THEN the Inspector panel should automatically open
+AND it should show the clicked component's props
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Close the Inspector panel (click X or toggle)
+3. Verify: Inspector is closed/hidden
+4. Click on any Button variant
+5. Verify: Inspector slides open automatically
+6. Verify: Inspector shows clicked component's props
+
+### Pass Criteria
+- [x] Clicking component opens closed inspector
+- [x] Animation is smooth (not jarring)
+- [x] Props are immediately visible
+
+---
+
+## Test 2.6: Interactive Preview Updates When Clicking Example
+
+### Test Description
+```
+GIVEN I click on the "danger" Button variant
+WHEN I look at the Interactive Preview
+THEN the Preview should show a danger-styled button
+AND it should match the clicked example
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Note: Preview shows primary button (default)
+3. Click on "danger" variant in the examples
+4. Verify: Preview immediately shows danger button
+5. Click on "secondary" variant
+6. Verify: Preview shows secondary button
+
+### Pass Criteria
+- [x] Preview updates on example click
+- [x] Preview matches clicked example
+- [x] Update is immediate
+
+---
+
+## Test 2.7: Clicking Outside Components Deselects
+
+### Test Description
+```
+GIVEN I have selected a component example
+WHEN I click on empty space (not on any component)
+THEN the selection border should be removed
+AND no component should be highlighted
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Click on "danger" variant -> verify selected
+3. Click on empty white space in the page
+4. Verify: No component has selection border
+5. Verify: Inspector may show default or empty state
+
+### Pass Criteria
+- [x] Click on empty space deselects
+- [x] Selection border removed
+- [x] UI returns to neutral state
+
+---
+
+## Test 2.8: Selection Persists When Scrolling
+
+### Test Description
+```
+GIVEN I have selected a component example
+WHEN I scroll the page up or down
+THEN the selection should remain on the same component
+AND the border should still be visible when I scroll back
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Click on "danger" variant at top
+3. Scroll down to bottom of page
+4. Scroll back up to "danger" variant
+5. Verify: Selection border still present
+
+### Pass Criteria
+- [x] Selection survives scrolling
+- [x] Border visible when scrolled back into view
+- [x] No accidental deselection from scroll
+
+---
+
+## Test 2.9: Selection Clears When Switching Pages
+
+### Test Description
+```
+GIVEN I have selected a Button variant
+WHEN I navigate to a different component page (e.g., Input)
+THEN no component should be selected on the new page
+AND the selection from Button page should be forgotten
+```
+
+### Manual Test Steps
+1. Navigate to Button page
+2. Select "danger" variant
+3. Click "Input" in sidebar
+4. Verify: No Input examples are selected
+5. Navigate back to Button
+6. Verify: No Button examples are selected (fresh state)
+
+### Pass Criteria
+- [x] Page change clears selection
+- [x] New page starts with no selection
+- [x] Previous selection not restored on return
+
+---
+
+## Test 2.10: Click-to-Select Works Across ALL Showcase Pages
+
+### Test Description
+```
+GIVEN click-to-select is implemented
+WHEN I visit any component page:
+  - Primitives, Composites, Patterns, Utilities
+THEN I should be able to click-select examples on that page
+```
+
+### Manual Test Steps
+1. Test Primitive: Button page -> click variant -> verify selection works
+2. Test Primitive: Input page -> click variant -> verify selection works
+3. Test Composite: SearchInput page -> click example -> verify selection works
+4. Test Composite: Table page -> click example -> verify selection works
+5. Test Pattern: GlobalNav page -> click example -> verify selection works
+6. Test Utility: Stack page -> click example -> verify selection works
+
+### Pass Criteria
+- [x] All Primitive pages support click-select
+- [x] All Composite pages support click-select
+- [x] All Pattern pages support click-select
+- [x] All Utility pages support click-select
+
+---
+
+# EDGE CASE TESTS
+
+## Test E1: Component with No Configurable Props
+
+### Test Description
+```
+GIVEN I navigate to a component with no editable props
+WHEN I view the Inspector
+THEN it should show "No configurable props" message
+AND the Interactive Preview should still render the component
+```
+
+### Pass Criteria
+- [x] Message shown for prop-less components
+- [x] Preview still works
+
+---
+
+## Test E2: Component with Required Children
+
+### Test Description
+```
+GIVEN I navigate to Card component
+WHEN I view the Interactive Preview
+THEN it should have default children content
+AND I should be able to edit children in Inspector
+```
+
+### Pass Criteria
+- [x] Default children provided
+- [x] Children editable in inspector
+
+---
+
+## Test E3: Complex Components (Table, Tabs)
+
+### Test Description
+```
+GIVEN I navigate to Table component
+WHEN I view the Interactive Preview
+THEN it should show a table with sample data
+AND complex props (columns, data) should not be directly editable
+```
+
+### Pass Criteria
+- [x] Complex components render with sample data
+- [x] Complex props shown as read-only or hidden
+
+---
+
+## Test E4: Switching Between Components Resets Props
+
+### Test Description
+```
+GIVEN I am on Button with kind="danger" selected
+WHEN I navigate to Input component
+THEN liveProps should reset to Input defaults
+AND Preview should show default Input
+```
+
+### Pass Criteria
+- [x] Props reset on component switch
+- [x] No props "leak" between components
+
+---
+
+# INTEGRATION TESTS
+
+## Test I1: Both Features Work Together
+
+### Test Description
+```
+GIVEN both features are implemented
+WHEN I:
+  1. Click a "danger" Button example
+  2. Modify size to "large" in Inspector
+  3. View Preview
+THEN Preview should show a large danger button
+AND Code tab should show <Button kind="danger" size="large">
+```
+
+### Pass Criteria
+- [x] Click + Inspector edit = combined result in Preview
+- [x] Code reflects all changes
+
+---
+
+## Test I2: Performance with Many Selectable Components
+
+### Test Description
+```
+GIVEN a page with 20+ component examples
+WHEN I hover and click rapidly between examples
+THEN there should be no lag or jank
+AND selection should always be accurate
+```
+
+### Pass Criteria
+- [x] No visible lag on hover
+- [x] No lag on click
+- [x] Selection always correct
+
+---
+
+## Test I3: TypeScript Compiles Without Errors
+
+### Test Description
+```
+GIVEN all implementation is complete
+WHEN I run `npm run build`
+THEN there should be no TypeScript errors
+```
+
+### Pass Criteria
+- [x] `npm run build` succeeds
+- [x] No type errors
+
+---
+
+# IMPLEMENTATION ORDER (TDD Style)
+
+For each test:
+1. **RED**: Verify test fails (feature doesn't exist yet)
+2. **GREEN**: Implement minimal code to pass test
+3. **REFACTOR**: Clean up code while keeping test green
+
+## Phase 1: Core Infrastructure
+- [x] Test 1.1 -> Create InteractivePreview component
+- [x] Test 2.1 -> Create SelectableComponent wrapper + hover CSS
+- [x] Test 2.2 -> Add click handler + selection CSS
+
+## Phase 2: State Connection
+- [x] Test 1.2 -> Connect liveProps to Preview
+- [x] Test 1.3 -> Wire inspector onChange to liveProps
+- [x] Test 2.4 -> Wire click to populate liveProps
+
+## Phase 3: Features
+- [x] Test 1.5 -> Add Reset button
+- [x] Test 2.5 -> Auto-open inspector on click
+- [x] Test 2.6 -> Preview updates on click
+
+## Phase 4: Polish
+- [x] Test 1.4 -> Verify all prop types
+- [x] Test 2.7 -> Click outside deselects
+- [x] Test 2.3 -> Single selection enforcement
+
+## Phase 5: Rollout
+- [x] Test 1.8 -> All components have Preview
+- [x] Test 2.10 -> All pages support click-select
+
+## Phase 6: Edge Cases & Integration
+- [x] Tests E1-E3 (Edge cases complete)
+- [x] Test E4 (Props reset on component switch)
+- [x] Tests I1-I3 (Integration tests complete)
+
+---
+
+# FILES TO IMPLEMENT
+
+## New Files
+1. `src/examples/showcase/components/SelectableComponent.tsx`
+2. `src/examples/showcase/components/InteractivePreview.tsx`
+
+## Files to Modify
+1. `src/examples/ComponentShowcase.tsx` - Add state, handlers
+2. `src/examples/showcase/Showcase.module.css` - Selection styles
+3. `src/examples/showcase/layers/PrimitivesShowcase.tsx` - Pass props
+4. `src/examples/showcase/layers/CompositesShowcase.tsx` - Pass props
+5. `src/examples/showcase/layers/primitives/FormPrimitives.tsx` - Wrap examples
+6. `src/examples/showcase/layers/primitives/DataPrimitives.tsx` - Wrap examples
+7. (and remaining layer/category files)

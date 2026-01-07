@@ -106,6 +106,7 @@ interface InspectorPanelProps {
   activeSubpage: string;
   liveProps: Record<string, unknown>;
   onPropsChange: (props: Record<string, unknown>) => void;
+  onResetProps: () => void;
   onClose: () => void;
 }
 
@@ -116,6 +117,7 @@ export function InspectorPanel({
   activeSubpage,
   liveProps,
   onPropsChange,
+  onResetProps,
   onClose,
 }: InspectorPanelProps) {
   const [activeTab, setActiveTab] = useState<ActiveTab>('props');
@@ -316,68 +318,84 @@ export function InspectorPanel({
         {/* Props Tab */}
         {activeTab === 'props' && meta && (
           <div className={styles.section}>
-            <div className={styles.sectionTitle}>Properties</div>
-            {meta.props.map((propDef) => (
-              <div key={propDef.name} className={styles.propRow}>
-                <label className={styles.propLabel}>{propDef.name}</label>
-                <div className={styles.propInput}>
-                  {propDef.type === 'string' && (
-                    <input
-                      type="text"
-                      className={styles.propInputSmall}
-                      value={(liveProps[propDef.name] as string) || ''}
-                      onChange={(e) => handlePropChange(propDef.name, e.target.value)}
-                      placeholder={propDef.description}
-                    />
-                  )}
-                  {propDef.type === 'number' && (
-                    <input
-                      type="number"
-                      className={styles.propInputSmall}
-                      value={(liveProps[propDef.name] as number) || ''}
-                      onChange={(e) => handlePropChange(propDef.name, Number(e.target.value))}
-                    />
-                  )}
-                  {propDef.type === 'boolean' && (
-                    <div className={styles.propSwitch}>
-                      <Switch
-                        checked={Boolean(liveProps[propDef.name])}
-                        onChange={(e) => handlePropChange(propDef.name, e.target.checked)}
-                        size="small"
+            <div className={styles.sectionHeader}>
+              <div className={styles.sectionTitle}>Properties</div>
+              {meta.props.length > 0 && (
+                <button
+                  className={styles.resetButton}
+                  onClick={onResetProps}
+                  title="Reset to Default"
+                >
+                  <Icon name="refresh" size="small" />
+                  Reset
+                </button>
+              )}
+            </div>
+            {meta.props.length === 0 ? (
+              <div className={styles.emptyText}>No configurable props for this component.</div>
+            ) : (
+              meta.props.map((propDef) => (
+                <div key={propDef.name} className={styles.propRow}>
+                  <label className={styles.propLabel}>{propDef.name}</label>
+                  <div className={styles.propInput}>
+                    {propDef.type === 'string' && (
+                      <input
+                        type="text"
+                        className={styles.propInputSmall}
+                        value={(liveProps[propDef.name] as string) || ''}
+                        onChange={(e) => handlePropChange(propDef.name, e.target.value)}
+                        placeholder={propDef.description}
                       />
-                    </div>
-                  )}
-                  {propDef.type === 'select' && propDef.options && (
-                    <select
-                      className={styles.propSelect}
-                      value={(liveProps[propDef.name] as string) || ''}
-                      onChange={(e) => handlePropChange(propDef.name, e.target.value)}
-                    >
-                      <option value="">Select...</option>
-                      {propDef.options.map((opt) => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                  {propDef.type === 'icon' && (
-                    <select
-                      className={styles.propSelect}
-                      value={(liveProps[propDef.name] as string) || ''}
-                      onChange={(e) => handlePropChange(propDef.name, e.target.value)}
-                    >
-                      <option value="">None</option>
-                      {AVAILABLE_ICONS.map((icon) => (
-                        <option key={icon} value={icon}>
-                          {icon}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                    )}
+                    {propDef.type === 'number' && (
+                      <input
+                        type="number"
+                        className={styles.propInputSmall}
+                        value={(liveProps[propDef.name] as number) || ''}
+                        onChange={(e) => handlePropChange(propDef.name, Number(e.target.value))}
+                      />
+                    )}
+                    {propDef.type === 'boolean' && (
+                      <div className={styles.propSwitch}>
+                        <Switch
+                          checked={Boolean(liveProps[propDef.name])}
+                          onChange={(e) => handlePropChange(propDef.name, e.target.checked)}
+                          size="small"
+                        />
+                      </div>
+                    )}
+                    {propDef.type === 'select' && propDef.options && (
+                      <select
+                        className={styles.propSelect}
+                        value={(liveProps[propDef.name] as string) || ''}
+                        onChange={(e) => handlePropChange(propDef.name, e.target.value)}
+                      >
+                        <option value="">Select...</option>
+                        {propDef.options.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                    {propDef.type === 'icon' && (
+                      <select
+                        className={styles.propSelect}
+                        value={(liveProps[propDef.name] as string) || ''}
+                        onChange={(e) => handlePropChange(propDef.name, e.target.value)}
+                      >
+                        <option value="">None</option>
+                        {AVAILABLE_ICONS.map((icon) => (
+                          <option key={icon} value={icon}>
+                            {icon}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         )}
 

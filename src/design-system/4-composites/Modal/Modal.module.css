@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(19, 0, 50, 0.8); /* bgColorScrim from Figma */
+  background-color: var(--ink-bg-scrim); /* bgColorScrim from Figma */
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   display: flex;
@@ -74,7 +74,8 @@
 .header {
   display: flex;
   align-items: center;
-  padding: var(--ink-spacing-400) var(--ink-spacing-400) var(--ink-spacing-200) var(--ink-spacing-400); /* 32px 32px 16px 32px */
+  padding: var(--ink-spacing-400) var(--ink-spacing-400) var(--ink-spacing-200)
+    var(--ink-spacing-400); /* 32px 32px 16px 32px */
   position: relative;
 }
 
@@ -134,7 +135,8 @@
   align-items: center;
   justify-content: flex-end;
   gap: var(--ink-spacing-200); /* 16px gap from Figma */
-  padding: var(--ink-spacing-300) var(--ink-spacing-400) var(--ink-spacing-400) var(--ink-spacing-400); /* 24px 32px 32px 32px */
+  padding: var(--ink-spacing-300) var(--ink-spacing-400) var(--ink-spacing-400)
+    var(--ink-spacing-400); /* 24px 32px 32px 32px */
 }
 
 /* Responsive */

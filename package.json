@@ -29,6 +29,8 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
+    "stylelint": "^16.26.1",
+    "stylelint-config-standard": "^39.0.1",
     "typescript": "^5.3.3",
     "vite": "6.3.5"
   },
@@ -38,20 +40,27 @@
       "prettier --write"
     ],
     "src/**/*.css": [
+      "stylelint --fix",
       "prettier --write"
     ]
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run validate && npm run validate:icons && vite build",
-    "build:skip-validation": "vite build",
+    "build": "npm run validate:all && npm run lint && npm run stylelint && vite build",
     "preview": "vite preview",
     "lint": "eslint src/design-system --ext ts,tsx",
     "lint:fix": "eslint src/design-system --ext ts,tsx --fix",
+    "stylelint": "stylelint 'src/**/*.css'",
+    "stylelint:fix": "stylelint 'src/**/*.css' --fix",
     "typecheck": "tsc --noEmit",
     "validate": "node scripts/validate-design-system.js",
     "validate:icons": "node scripts/validate-icon-names.js",
-    "validate:all": "npm run validate && npm run validate:icons",
+    "validate:shadows": "node scripts/validate-no-shadow-components.js",
+    "validate:root": "node scripts/validate-single-root.js",
+    "validate:vars": "node scripts/validate-css-var-overrides.js",
+    "validate:semantic": "node scripts/validate-semantic-tokens.js",
+    "validate:calc": "node scripts/validate-calc-patterns.js",
+    "validate:all": "npm run validate && npm run validate:icons && npm run validate:shadows && npm run validate:root && npm run validate:vars && npm run validate:semantic && npm run validate:calc",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,md}\"",
     "prepare": "husky"

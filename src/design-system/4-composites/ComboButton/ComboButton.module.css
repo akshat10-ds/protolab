@@ -224,3 +224,21 @@
   display: inline-flex;
   align-items: center;
 }
+
+/* Inverted Variant (for dark backgrounds) */
+.comboButton.inverted .mainButton,
+.comboButton.inverted .dropdownButton {
+  background-color: var(--ink-bg-default);
+  color: var(--ink-font-default);
+  border-color: var(--ink-bg-default);
+}
+
+.comboButton.inverted .mainButton:hover:not(:disabled),
+.comboButton.inverted .dropdownButton:hover:not(:disabled) {
+  background-color: var(--ink-neutral-10);
+}
+
+.comboButton.inverted .mainButton:active:not(:disabled),
+.comboButton.inverted .dropdownButton:active:not(:disabled) {
+  background-color: var(--ink-neutral-20);
+}

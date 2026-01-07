@@ -73,34 +73,34 @@
   margin-left: 4px;
 }
 
-.layerBadge[data-layer="tokens"] {
-  background: #FFF5E6;
-  color: #B35900;
+.layerBadge[data-layer='tokens'] {
+  background: #fff5e6;
+  color: #b35900;
 }
 
-.layerBadge[data-layer="utilities"] {
-  background: #E6F7FF;
-  color: #0066CC;
+.layerBadge[data-layer='utilities'] {
+  background: #e6f7ff;
+  color: #0066cc;
 }
 
-.layerBadge[data-layer="primitives"] {
-  background: #F0FFF4;
-  color: #2E7D32;
+.layerBadge[data-layer='primitives'] {
+  background: #f0fff4;
+  color: #2e7d32;
 }
 
-.layerBadge[data-layer="composites"] {
-  background: #FFF0F5;
-  color: #C2185B;
+.layerBadge[data-layer='composites'] {
+  background: #fff0f5;
+  color: #c2185b;
 }
 
-.layerBadge[data-layer="patterns"] {
-  background: #F3E5F5;
-  color: #7B1FA2;
+.layerBadge[data-layer='patterns'] {
+  background: #f3e5f5;
+  color: #7b1fa2;
 }
 
-.layerBadge[data-layer="layouts"] {
-  background: #E8EAF6;
-  color: #3F51B5;
+.layerBadge[data-layer='layouts'] {
+  background: #e8eaf6;
+  color: #3f51b5;
 }
 
 .closeButton {
@@ -114,7 +114,9 @@
   border-radius: 6px;
   color: var(--ink-font-secondary);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .closeButton:hover {
@@ -142,14 +144,16 @@
   color: var(--ink-font-secondary);
   cursor: pointer;
   border-bottom: 2px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
 }
 
 .tab:hover {
   color: var(--ink-font-primary);
 }
 
-.tab[data-active="true"] {
+.tab[data-active='true'] {
   color: var(--ink-cobalt-100);
   border-bottom-color: var(--ink-cobalt-100);
 }
@@ -192,13 +196,47 @@
   margin-bottom: 20px;
 }
 
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
 .sectionTitle {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-font-tertiary);
-  margin-bottom: 12px;
+}
+
+.resetButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid var(--ink-neutral-30);
+  background: var(--ink-white-100);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-font-secondary);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.resetButton:hover {
+  background: var(--ink-neutral-10);
+  border-color: var(--ink-neutral-40);
+  color: var(--ink-font-primary);
+}
+
+.resetButton:active {
+  transform: scale(0.98);
 }
 
 .propRow {
@@ -228,7 +266,9 @@
   border-radius: 6px;
   background: var(--ink-white-100);
   color: var(--ink-font-primary);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .propInputSmall:focus {
@@ -282,7 +322,9 @@
   border: 1px solid var(--ink-neutral-20);
   flex-shrink: 0;
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
 }
 
 .tokenSwatch:hover {
@@ -384,7 +426,9 @@
   font-size: 11px;
   color: var(--ink-neutral-40);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .copyButton:hover {
@@ -392,7 +436,7 @@
   color: var(--ink-white-100);
 }
 
-.copyButton[data-copied="true"] {
+.copyButton[data-copied='true'] {
   background: var(--ink-green-100);
   color: var(--ink-white-100);
 }
@@ -444,7 +488,10 @@
   justify-content: center;
   color: var(--ink-font-secondary);
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.05);
-  transition: background 0.15s, color 0.15s, right 0.2s ease-out;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    right 0.2s ease-out;
   z-index: 50;
 }
 
@@ -477,7 +524,9 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s, transform 0.15s;
+  transition:
+    background 0.15s,
+    transform 0.15s;
 }
 
 .saveButton:hover {

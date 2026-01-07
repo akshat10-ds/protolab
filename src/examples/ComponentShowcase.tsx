@@ -8,7 +8,63 @@ import { PrimitivesShowcase } from './showcase/layers/PrimitivesShowcase';
 import { CompositesShowcase } from './showcase/layers/CompositesShowcase';
 import { PatternsShowcase } from './showcase/layers/PatternsShowcase';
 import { LayoutsShowcase } from './showcase/layers/LayoutsShowcase';
+import { InteractivePreview } from './showcase/components/InteractivePreview';
+import { componentRegistry } from '@/editor/registry/componentRegistry';
 import styles from './showcase/Showcase.module.css';
+
+// Map subpage IDs to component type names
+const subpageToComponent: Record<string, string> = {
+  // Primitives
+  button: 'Button',
+  iconbutton: 'IconButton',
+  link: 'Link',
+  input: 'Input',
+  select: 'Select',
+  checkbox: 'Checkbox',
+  radio: 'Radio',
+  switch: 'Switch',
+  textarea: 'TextArea',
+  slider: 'Slider',
+  stepper: 'Stepper',
+  badge: 'Badge',
+  avatar: 'Avatar',
+  chip: 'Chip',
+  divider: 'Divider',
+  card: 'Card',
+  skeleton: 'Skeleton',
+  typography: 'Text',
+  spinner: 'Spinner',
+  progressbar: 'ProgressBar',
+  callout: 'Callout',
+  banner: 'Banner',
+  tooltip: 'Tooltip',
+  icon: 'Icon',
+  // Composites
+  searchinput: 'SearchInput',
+  combobox: 'ComboBox',
+  datepicker: 'DatePicker',
+  fileupload: 'FileUpload',
+  tabs: 'Tabs',
+  accordion: 'Accordion',
+  modal: 'Modal',
+  drawer: 'Drawer',
+  dropdown: 'Dropdown',
+  alert: 'Alert',
+  table: 'Table',
+  pagination: 'Pagination',
+  breadcrumb: 'Breadcrumb',
+  // Patterns
+  globalnav: 'GlobalNav',
+  localnav: 'LocalNav',
+  // Layouts
+  'docusign-shell': 'DocuSignShell',
+  // Utilities
+  stack: 'Stack',
+  grid: 'Grid',
+  inline: 'Inline',
+  container: 'Container',
+  spacer: 'Spacer',
+};
 
 const layerLabels: Record<LayerView, string> = {
   tokens: 'Tokens',
@@ -84,9 +140,9 @@ const componentDescriptions: Record<string, string> = {
   'semantic-typography': 'Text style tokens',
   'component-tokens': 'Component-specific values',
   'state-tokens': 'Interactive state colors',
-  'spacing': 'Spacing scale',
+  spacing: 'Spacing scale',
   'border-radius': 'Corner radius values',
-  'shadows': 'Elevation shadows',
+  shadows: 'Elevation shadows',
   // Utilities
   stack: 'Vertical layout utility',
   grid: 'Grid layout utility',
@@ -103,13 +159,62 @@ export default function ComponentShowcase() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [inspectorOpen, setInspectorOpen] = useState(true);
   const [liveProps, setLiveProps] = useState<Record<string, unknown>>({});
+  const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const commandInputRef = useRef<HTMLInputElement>(null);
 
-  // Reset live props when component changes
+  // Reset live props and selection when component changes
   useEffect(() => {
     setLiveProps({});
+    setSelectedComponentId(null);
   }, [activeSubpage]);
+
+  // Handle component selection from showcase examples
+  const handleComponentSelect = useCallback(
+    (componentId: string, props: Record<string, unknown>) => {
+      setSelectedComponentId(componentId);
+      setLiveProps(props);
+      // Auto-open inspector if closed
+      if (!inspectorOpen) {
+        setInspectorOpen(true);
+      }
+    },
+    [inspectorOpen]
+  );
+
+  // Reset props to default values from component registry
+  const handleResetProps = useCallback(() => {
+    const componentType = subpageToComponent[activeSubpage];
+    if (!componentType) return;
+
+    const meta = componentRegistry[componentType];
+    if (!meta) return;
+
+    const defaultProps: Record<string, unknown> = {};
+    meta.props.forEach((prop) => {
+      if (prop.defaultValue !== undefined) {
+        defaultProps[prop.name] = prop.defaultValue;
+      }
+    });
+
+    setLiveProps(defaultProps);
+    setSelectedComponentId(null);
+  }, [activeSubpage]);
+
+  // Handle click outside to deselect
+  const handleContentClick = useCallback(
+    (e: React.MouseEvent) => {
+      // Check if click is on a selectable component or its descendants
+      const target = e.target as HTMLElement;
+      const isOnSelectable = target.closest('[data-selectable-component]');
+
+      // Only deselect if clicking on empty space (not on a selectable component)
+      if (!isOnSelectable && selectedComponentId) {
+        setSelectedComponentId(null);
+      }
+    },
+    [selectedComponentId]
+  );
 
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
@@ -197,7 +302,7 @@ export default function ComponentShowcase() {
   };
 
   const searchResults = getSearchResults();
-  const hasResults = searchResults && Object.values(searchResults).some(arr => arr.length > 0);
+  const hasResults = searchResults && Object.values(searchResults).some((arr) => arr.length > 0);
 
   const renderContent = () => {
     switch (activeLayer) {
@@ -206,7 +311,13 @@ export default function ComponentShowcase() {
       case 'utilities':
         return <UtilitiesShowcase activeSubpage={activeSubpage} />;
       case 'primitives':
-        return <PrimitivesShowcase activeSubpage={activeSubpage} />;
+        return (
+          <PrimitivesShowcase
+            activeSubpage={activeSubpage}
+            selectedComponentId={selectedComponentId}
+            onComponentSelect={handleComponentSelect}
+          />
+        );
       case 'composites':
         return <CompositesShowcase activeSubpage={activeSubpage} />;
       case 'patterns':
@@ -243,6 +354,7 @@ export default function ComponentShowcase() {
         className={styles.mainContent}
         key={activeSubpage}
         data-inspector-open={inspectorOpen}
+        onClick={handleContentClick}
       >
         <Stack gap="large">
           {/* Breadcrumb */}
@@ -259,10 +371,7 @@ export default function ComponentShowcase() {
 
           {/* Component Header */}
           <div className={styles.componentHeader}>
-            <span
-              className={styles.layerBadge}
-              data-layer={activeLayer}
-            >
+            <span className={styles.layerBadge} data-layer={activeLayer}>
               {layerNumbers[activeLayer]}
             </span>
             <div>
@@ -273,10 +382,13 @@ export default function ComponentShowcase() {
             </div>
           </div>
 
+          {/* Interactive Preview - only show for components (not tokens) */}
+          {activeLayer !== 'tokens' && (
+            <InteractivePreview activeSubpage={activeSubpage} liveProps={liveProps} />
+          )}
+
           {/* Dynamic Content */}
-          <div className={styles.contentSection}>
-            {renderContent()}
-          </div>
+          <div className={styles.contentSection}>{renderContent()}</div>
         </Stack>
       </div>
 
@@ -297,6 +409,7 @@ export default function ComponentShowcase() {
           activeSubpage={activeSubpage}
           liveProps={liveProps}
           onPropsChange={setLiveProps}
+          onResetProps={handleResetProps}
           onClose={() => setInspectorOpen(false)}
         />
       )}
@@ -339,18 +452,14 @@ export default function ComponentShowcase() {
                   Type to search across all components...
                 </div>
               ) : !hasResults ? (
-                <div className={styles.commandPaletteEmpty}>
-                  No results for "{searchQuery}"
-                </div>
+                <div className={styles.commandPaletteEmpty}>No results for "{searchQuery}"</div>
               ) : (
                 Object.entries(searchResults!).map(([layerId, items]) => {
                   if (items.length === 0) return null;
                   const layer = layerId as LayerView;
                   return (
                     <div key={layerId} className={styles.commandPaletteGroup}>
-                      <div className={styles.commandPaletteGroupLabel}>
-                        {layerLabels[layer]}
-                      </div>
+                      <div className={styles.commandPaletteGroupLabel}>{layerLabels[layer]}</div>
                       {items.map((item) => (
                         <button
                           key={item.id}

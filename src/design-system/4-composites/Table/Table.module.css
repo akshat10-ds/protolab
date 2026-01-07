@@ -143,7 +143,9 @@
 
 /* Selected Rows - Exact Figma Spec */
 .tr.selected {
-  background: rgba(19, 0, 50, 0.05) !important; /* var(--itemBgColorSelectedSubtle) from Figma */
+  background: var(
+    --ink-neutral-fade-5
+  ) !important; /* var(--itemBgColorSelectedSubtle) from Figma */
 }
 
 /* Table Cells - Matches DocuSign production */

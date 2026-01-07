@@ -71,3 +71,16 @@
   background: var(--ink-neutral-fade-10);
   border-top-color: var(--ink-white-fade-10);
 }
+
+/* Radius variants */
+.card.radius-small {
+  border-radius: var(--ink-radius-size-xs);
+}
+
+.card.radius-medium {
+  border-radius: var(--ink-radius-size-md);
+}
+
+.card.radius-large {
+  border-radius: var(--ink-radius-size-lg);
+}
