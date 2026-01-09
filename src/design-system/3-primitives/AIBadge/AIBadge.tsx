@@ -187,11 +187,6 @@ export const AIBadge: React.FC<AIBadgeProps> = ({
     .filter(Boolean)
     .join(' ');
 
-  // Map calloutPosition to Callout location prop
-  // 'bottom' position means callout appears below badge, so caret points up (location="below")
-  // 'top' position means callout appears above badge, so caret points down (location="above")
-  const calloutLocation = calloutPosition === 'top' ? 'above' : 'below';
-
   return (
     <span className={styles.container}>
       <span
@@ -211,12 +206,7 @@ export const AIBadge: React.FC<AIBadgeProps> = ({
 
       {hasCallout && isOpen && (
         <div ref={calloutRef} className={styles.calloutWrapper}>
-          <Callout
-            heading={infoTitle}
-            location={calloutLocation}
-            width="medium"
-            onClose={() => setOpen(false)}
-          >
+          <Callout heading={infoTitle} width="medium" onClose={() => setOpen(false)}>
             {calloutContent}
           </Callout>
         </div>

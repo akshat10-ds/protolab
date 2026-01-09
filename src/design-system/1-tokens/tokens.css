@@ -286,6 +286,7 @@
 
   /* Form Borders */
   --ink-form-border-default: var(--ink-neutral-fade-50);
+  --ink-form-border-subtle: var(--ink-neutral-30); /* Subtle border for callouts, popovers */
   --ink-form-border-hover: var(--ink-neutral-fade-70);
   --ink-form-border-active: var(--ink-cobalt-120);
   --ink-form-border-error: var(--ink-red-90);

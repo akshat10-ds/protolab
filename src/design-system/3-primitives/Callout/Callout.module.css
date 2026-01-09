@@ -184,39 +184,45 @@
 }
 
 /* Caret for above/below */
+/* location="above" = callout is ABOVE trigger, arrow at BOTTOM pointing DOWN */
 .location-above .caret {
-  order: 2;
+  order: 2; /* Move caret to bottom */
 }
 
 .location-above .caret::before {
   left: 50%;
   transform: translateX(-50%);
-  border-width: 0 8px 10px 8px;
-  border-color: transparent transparent var(--ink-form-border-subtle) transparent;
+  border-width: 10px 8px 0 8px;
+  border-color: var(--ink-form-border-subtle) transparent transparent transparent;
 }
 
 .location-above .caret::after {
   left: 50%;
   transform: translateX(-50%);
-  top: 1px;
-  border-width: 0 7.5px 9px 7.5px;
-  border-color: transparent transparent var(--ink-bg-default) transparent;
+  top: -1px;
+  border-width: 9px 7.5px 0 7.5px;
+  border-color: var(--ink-bg-default) transparent transparent transparent;
+}
+
+/* location="below" = callout is BELOW trigger, arrow at TOP pointing UP */
+.location-below .caret {
+  order: -1; /* Move caret to top */
 }
 
 .location-below .caret::before {
   left: 50%;
-  top: 0;
+  bottom: 0;
   transform: translateX(-50%);
-  border-width: 10px 8px 0 8px;
-  border-color: var(--ink-form-border-subtle) transparent transparent transparent;
+  border-width: 0 8px 10px 8px;
+  border-color: transparent transparent var(--ink-form-border-subtle) transparent;
 }
 
 .location-below .caret::after {
   left: 50%;
-  top: -1px;
+  bottom: -1px;
   transform: translateX(-50%);
-  border-width: 9px 7.5px 0 7.5px;
-  border-color: var(--ink-bg-default) transparent transparent transparent;
+  border-width: 0 7.5px 9px 7.5px;
+  border-color: transparent transparent var(--ink-bg-default) transparent;
 }
 
 /* Caret for before/after - horizontal */

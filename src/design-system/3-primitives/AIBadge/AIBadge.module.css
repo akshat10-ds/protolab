@@ -16,10 +16,10 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: var(--ink-spacing-50);
+  gap: 2px;
   height: 24px;
   width: fit-content;
-  padding: var(--ink-spacing-50) var(--ink-spacing-150) var(--ink-spacing-50) var(--ink-spacing-75);
+  padding: 2px 12px 2px 6px;
   background: var(--ink-ai-badge-bg);
   border-radius: var(--ink-radius-full);
   font-family: var(--ink-font-family-default);
@@ -74,9 +74,20 @@
   animation: calloutFadeIn 150ms ease;
 }
 
-/* Hide Callout's built-in caret and add our own */
-.calloutWrapper [class*='caret'] {
-  display: none;
+/* Hide Callout's built-in caret completely */
+.calloutWrapper [class*='caret'],
+.calloutWrapper [class*='caret']::before,
+.calloutWrapper [class*='caret']::after {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Also target by structure - hide first child if it's the caret */
+.calloutWrapper > div > div:first-child:not([class*='callout']) {
+  display: none !important;
 }
 
 /* Custom caret at top-left */
@@ -84,24 +95,26 @@
   content: '';
   position: absolute;
   top: -8px;
-  left: var(--ink-spacing-200);
+  left: 16px;
   width: 0;
   height: 0;
   border-style: solid;
   border-width: 0 8px 8px 8px;
   border-color: transparent transparent var(--ink-form-border-subtle) transparent;
+  z-index: 1;
 }
 
 .calloutWrapper::after {
   content: '';
   position: absolute;
   top: -7px;
-  left: var(--ink-spacing-200);
+  left: 16px;
   width: 0;
   height: 0;
   border-style: solid;
   border-width: 0 8px 8px 8px;
   border-color: transparent transparent var(--ink-bg-default) transparent;
+  z-index: 2;
 }
 
 @keyframes calloutFadeIn {
