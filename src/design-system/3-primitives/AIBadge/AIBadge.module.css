@@ -1,0 +1,116 @@
+/**
+ * AIBadge Styles
+ * AI denotation badge - matches Figma node-id=19467-181071
+ * Uses Callout component for the info popup
+ */
+
+@import '../../1-tokens/tokens.css';
+
+/* Container for relative positioning */
+.container {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Base badge styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  height: 24px;
+  width: fit-content;
+  padding: var(--ink-spacing-50) var(--ink-spacing-150) var(--ink-spacing-50) var(--ink-spacing-75);
+  background: var(--ink-ai-badge-bg);
+  border-radius: var(--ink-radius-full);
+  font-family: var(--ink-font-family-default);
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition: all 150ms ease;
+}
+
+/* Hover state */
+.badge:hover {
+  background: var(--ink-ai-badge-bg-hover);
+}
+
+/* Interactive variant (has callout) */
+.badge.interactive {
+  cursor: pointer;
+}
+
+.badge.interactive:hover {
+  background: var(--ink-ai-badge-bg-hover-interactive);
+}
+
+.badge.interactive:focus-visible {
+  outline: 2px solid var(--ink-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Active/open state */
+.badge.active {
+  background: var(--ink-ai-badge-bg-active);
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.text {
+  font-size: var(--ink-font-size-xs);
+  font-weight: var(--ink-font-weight-semibold);
+  line-height: 24px;
+  color: var(--ink-font-default);
+}
+
+/* Callout wrapper for positioning */
+.calloutWrapper {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: var(--ink-z-popover, 1000);
+  animation: calloutFadeIn 150ms ease;
+}
+
+/* Hide Callout's built-in caret and add our own */
+.calloutWrapper [class*='caret'] {
+  display: none;
+}
+
+/* Custom caret at top-left */
+.calloutWrapper::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: var(--ink-spacing-200);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 8px 8px 8px;
+  border-color: transparent transparent var(--ink-form-border-subtle) transparent;
+}
+
+.calloutWrapper::after {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: var(--ink-spacing-200);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 8px 8px 8px;
+  border-color: transparent transparent var(--ink-bg-default) transparent;
+}
+
+@keyframes calloutFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

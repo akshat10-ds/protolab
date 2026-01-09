@@ -652,6 +652,12 @@
   --ink-recipient-bg-sign-hover: var(--ink-cobalt-40);
   --ink-recipient-bg-sign-active: var(--ink-cobalt-50);
 
+  /* AI Badge Colors - Extended Orchid palette from Figma */
+  --ink-ai-badge-bg: #f6f2ff;
+  --ink-ai-badge-bg-hover: #ebe4ff;
+  --ink-ai-badge-bg-hover-interactive: #e0d6ff;
+  --ink-ai-badge-bg-active: #d9ccff;
+
   /* Recipient Border Colors */
   --ink-recipient-border-100: #009dbd;
   --ink-recipient-border-150: #127874;
