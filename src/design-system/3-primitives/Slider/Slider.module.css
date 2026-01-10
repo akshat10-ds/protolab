@@ -13,7 +13,7 @@
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-sm); /* 14px */
   font-weight: var(--ink-font-weight-medium); /* 500 */
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   line-height: 1.4;
   display: flex;
   align-items: center;
@@ -40,7 +40,7 @@
 .description {
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-sm);
-  color: var(--ink-font-neutral);
+  color: var(--ink-font-color-neutral);
   line-height: var(--ink-line-height-normal);
 }
 
@@ -230,7 +230,7 @@
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-md);
   font-weight: var(--ink-font-weight-medium);
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   min-width: 40px;
   text-align: right;
   flex-shrink: 0;

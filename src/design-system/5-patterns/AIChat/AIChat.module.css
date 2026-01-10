@@ -1,0 +1,406 @@
+/**
+ * AIChat Pattern Styles
+ * Uses design tokens exclusively - no hardcoded values
+ */
+
+@import '../../1-tokens/tokens.css';
+
+/* ============================================================================
+   Container
+   ============================================================================ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ============================================================================
+   Header
+   ============================================================================ */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ink-spacing-100) var(--ink-spacing-150) var(--ink-spacing-100)
+    var(--ink-spacing-150);
+  background: var(--ink-bg-color-default);
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+}
+
+/* ============================================================================
+   Message List
+   ============================================================================ */
+
+.messageList {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--ink-spacing-200) var(--ink-spacing-200) var(--ink-spacing-200)
+    var(--ink-spacing-150);
+  scroll-behavior: smooth;
+  max-height: var(--ai-chat-max-height, 600px);
+}
+
+.messages {
+  min-height: 100%;
+}
+
+/* ============================================================================
+   Message Styles
+   ============================================================================ */
+
+.message {
+  display: flex;
+  gap: var(--ink-spacing-150);
+  max-width: 85%;
+}
+
+.userMessage {
+  margin-left: auto;
+  flex-direction: row-reverse;
+}
+
+.assistantMessage {
+  margin-right: auto;
+}
+
+.messageAvatar {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: var(--ink-spacing-50);
+}
+
+.messageContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-50);
+  min-width: 0; /* Allow text to wrap properly */
+}
+
+.messageBubble {
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  border-radius: var(--ink-radius-size-m);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* User message bubble */
+.userMessage .messageBubble {
+  background: var(--ink-bg-color-muted);
+  color: var(--ink-font-color-default);
+}
+
+/* Assistant message bubble */
+.assistantMessage .messageBubble {
+  background: var(--ink-bg-subtle);
+  border: none;
+}
+
+/* System message (centered, subtle) */
+.systemMessage {
+  display: flex;
+  justify-content: center;
+  padding: var(--ink-spacing-100) var(--ink-spacing-200);
+}
+
+/* Message actions (copy, etc.) */
+.messageActions {
+  display: flex;
+  gap: var(--ink-spacing-50);
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.message:hover .messageActions {
+  opacity: 1;
+}
+
+/* ============================================================================
+   Typing Indicator
+   ============================================================================ */
+
+.typingIndicator {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: var(--ink-bg-color-canvas-page);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-m);
+  width: fit-content;
+}
+
+.typingDot {
+  width: 8px;
+  height: 8px;
+  background: var(--ink-font-color-neutral);
+  border-radius: var(--ink-radius-full);
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typingDot:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.typingDot:nth-child(2) {
+  animation-delay: 200ms;
+}
+
+.typingDot:nth-child(3) {
+  animation-delay: 400ms;
+}
+
+@keyframes typingBounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+   Input Area
+   ============================================================================ */
+
+.inputArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-150) var(--ink-spacing-150) var(--ink-spacing-100);
+  border-top: 1px solid var(--ink-border-color-subtle);
+  background: var(--ink-bg-color-default);
+  border-radius: var(--ink-radius-size-s) var(--ink-radius-size-s) 0 0;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+  padding: 0 var(--ink-spacing-150) var(--ink-spacing-100);
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+}
+
+.inputContent {
+  flex: 1;
+}
+
+.textInput {
+  border: none !important;
+  background: transparent !important;
+  resize: none;
+  padding: var(--ink-spacing-100) 0 0 0 !important;
+  min-height: 40px;
+}
+
+.textInput:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
+.inputActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ink-spacing-100);
+}
+
+.addSourceButton {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  background: transparent;
+  border: 1px dashed var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-full);
+  cursor: pointer;
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  transition: all 150ms ease;
+}
+
+.addSourceButton:hover:not(:disabled) {
+  border-color: var(--ink-border-color-subtle);
+  background: var(--ink-bg-color-muted);
+}
+
+.addSourceButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.disclaimer {
+  padding: 0 var(--ink-spacing-100);
+}
+
+/* ============================================================================
+   Welcome State
+   ============================================================================ */
+
+.welcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px;
+  padding: var(--ink-spacing-400);
+}
+
+.welcomeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: var(--ink-bg-accent-subtle);
+  border-radius: var(--ink-radius-full);
+  color: var(--ink-font-accent);
+}
+
+/* Zero Query State */
+.welcomeZeroQuery {
+  padding: var(--ink-spacing-300) var(--ink-spacing-300) var(--ink-spacing-300)
+    var(--ink-spacing-150);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.welcomeGreeting {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-50);
+  padding-bottom: var(--ink-spacing-300);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+}
+
+/* Add spacing below AIBadge */
+.welcomeGreeting > span:first-child {
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.greetingName {
+  color: var(--ink-cobalt-140) !important;
+  font-weight: var(--ink-font-weight-bold) !important;
+  font-size: var(--ink-font-size-xl) !important;
+  letter-spacing: var(--ink-letter-spacing-tight) !important;
+}
+
+.greetingSubtitle {
+  font-size: var(--ink-font-size-xl) !important;
+  letter-spacing: var(--ink-letter-spacing-tight) !important;
+}
+
+.suggestionsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-150);
+}
+
+.sectionHeader {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100%;
+  cursor: pointer;
+}
+
+.sectionHeader:hover {
+  opacity: 0.8;
+}
+
+.suggestionCard {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: var(--ink-ecru-10);
+  border: none;
+  border-radius: var(--ink-radius-size-m);
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease;
+  width: 100%;
+}
+
+.suggestionCard:hover {
+  background: var(--ink-ecru-20);
+}
+
+.suggestionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  color: var(--ink-font-color-default);
+}
+
+.suggestionContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-50);
+  min-width: 0;
+}
+
+.questionCard {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: var(--ink-ecru-10);
+  border: none;
+  border-radius: var(--ink-radius-size-m);
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease;
+  width: 100%;
+  color: var(--ink-font-color-default);
+}
+
+.questionCard:hover {
+  background: var(--ink-ecru-20);
+}
+
+/* ============================================================================
+   Scrollbar Styling
+   ============================================================================ */
+
+.messageList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messageList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messageList::-webkit-scrollbar-thumb {
+  background: var(--ink-neutral-40);
+  border-radius: var(--ink-radius-full);
+}
+
+.messageList::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-neutral-50);
+}

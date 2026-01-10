@@ -125,7 +125,7 @@
 /* Primary Variant */
 .mainButton.primary,
 .dropdownButton.primary {
-  background-color: var(--ink-button-primary-bg);
+  background-color: var(--ink-cta-bg-color-primary-default);
   color: var(--ink-button-primary-text);
   box-shadow: var(--ink-shadow-sm);
 }
@@ -136,22 +136,22 @@
 
 .mainButton.primary:hover:not(:disabled),
 .dropdownButton.primary:hover:not(:disabled) {
-  background-color: var(--ink-button-primary-bg-hover);
+  background-color: var(--ink-cta-bg-color-primary-hover);
   box-shadow: var(--ink-shadow-md);
 }
 
 .mainButton.primary:active:not(:disabled),
 .dropdownButton.primary:active:not(:disabled) {
-  background-color: var(--ink-button-primary-bg-active);
+  background-color: var(--ink-cta-bg-color-primary-active);
   box-shadow: var(--ink-shadow-sm);
 }
 
 /* Secondary Variant */
 .mainButton.secondary,
 .dropdownButton.secondary {
-  background-color: var(--ink-button-secondary-bg);
+  background-color: var(--ink-cta-bg-color-secondary-default);
   color: var(--ink-button-secondary-text);
-  border: 1px solid var(--ink-button-secondary-border);
+  border: 1px solid var(--ink-cta-border-color-secondary-default);
 }
 
 .mainButton.secondary {
@@ -160,20 +160,20 @@
 
 .mainButton.secondary:hover:not(:disabled),
 .dropdownButton.secondary:hover:not(:disabled) {
-  background-color: var(--ink-button-secondary-bg-hover);
-  border-color: var(--ink-button-secondary-border-hover);
+  background-color: var(--ink-cta-bg-color-secondary-hover);
+  border-color: var(--ink-cta-border-color-secondary-hover);
 }
 
 .mainButton.secondary:active:not(:disabled),
 .dropdownButton.secondary:active:not(:disabled) {
-  background-color: var(--ink-button-secondary-bg-active);
-  border-color: var(--ink-button-secondary-border-active);
+  background-color: var(--ink-cta-bg-color-secondary-active);
+  border-color: var(--ink-cta-border-color-secondary-active);
 }
 
 /* Tertiary Variant */
 .mainButton.tertiary,
 .dropdownButton.tertiary {
-  background-color: var(--ink-button-tertiary-bg);
+  background-color: var(--ink-cta-bg-color-tertiary-default);
   color: var(--ink-button-tertiary-text);
 }
 
@@ -186,24 +186,24 @@
 /* Tertiary Compact - Individual button hovers */
 .comboButton.compact.tertiary .mainButton:hover:not(:disabled),
 .comboButton.compact.tertiary .dropdownButton:hover:not(:disabled) {
-  background-color: var(--ink-button-tertiary-bg-hover);
+  background-color: var(--ink-cta-bg-color-tertiary-hover);
 }
 
 /* Tertiary Non-Compact Hover */
 .comboButton:not(.compact) .mainButton.tertiary:hover:not(:disabled),
 .comboButton:not(.compact) .dropdownButton.tertiary:hover:not(:disabled) {
-  background-color: var(--ink-button-tertiary-bg-hover);
+  background-color: var(--ink-cta-bg-color-tertiary-hover);
 }
 
 .mainButton.tertiary:active:not(:disabled),
 .dropdownButton.tertiary:active:not(:disabled) {
-  background-color: var(--ink-button-tertiary-bg-active);
+  background-color: var(--ink-cta-bg-color-tertiary-active);
 }
 
 /* Focus States */
 .mainButton:focus-visible,
 .dropdownButton:focus-visible {
-  outline: 2px solid var(--ink-form-border-active);
+  outline: 2px solid var(--ink-form-control-border-color-active);
   outline-offset: 2px;
   z-index: 1;
 }
@@ -228,9 +228,9 @@
 /* Inverted Variant (for dark backgrounds) */
 .comboButton.inverted .mainButton,
 .comboButton.inverted .dropdownButton {
-  background-color: var(--ink-bg-default);
-  color: var(--ink-font-default);
-  border-color: var(--ink-bg-default);
+  background-color: var(--ink-bg-color-default);
+  color: var(--ink-font-color-default);
+  border-color: var(--ink-bg-color-default);
 }
 
 .comboButton.inverted .mainButton:hover:not(:disabled),

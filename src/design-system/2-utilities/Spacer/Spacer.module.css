@@ -21,58 +21,58 @@
 
 /* Fixed sizes for vertical spacing */
 .vertical.size-xs {
-  height: 4px;
+  height: var(--ink-spacing-50);
 }
 
 .vertical.size-small {
-  height: 8px;
+  height: var(--ink-spacing-100);
 }
 
 .vertical.size-medium {
-  height: 16px;
+  height: var(--ink-spacing-200);
 }
 
 .vertical.size-large {
-  height: 24px;
+  height: var(--ink-spacing-300);
 }
 
 .vertical.size-xl {
-  height: 32px;
+  height: var(--ink-spacing-400);
 }
 
 .vertical.size-2xl {
-  height: 48px;
+  height: var(--ink-spacing-600);
 }
 
 .vertical.size-3xl {
-  height: 64px;
+  height: var(--ink-spacing-700);
 }
 
 /* Fixed sizes for horizontal spacing */
 .horizontal.size-xs {
-  width: 4px;
+  width: var(--ink-spacing-50);
 }
 
 .horizontal.size-small {
-  width: 8px;
+  width: var(--ink-spacing-100);
 }
 
 .horizontal.size-medium {
-  width: 16px;
+  width: var(--ink-spacing-200);
 }
 
 .horizontal.size-large {
-  width: 24px;
+  width: var(--ink-spacing-300);
 }
 
 .horizontal.size-xl {
-  width: 32px;
+  width: var(--ink-spacing-400);
 }
 
 .horizontal.size-2xl {
-  width: 48px;
+  width: var(--ink-spacing-600);
 }
 
 .horizontal.size-3xl {
-  width: 64px;
+  width: var(--ink-spacing-700);
 }

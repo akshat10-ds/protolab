@@ -13,7 +13,7 @@
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-sm); /* 14px */
   font-weight: var(--ink-font-weight-medium); /* 500 */
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   line-height: 1.4; /* Exact Figma spec */
   display: flex;
   align-items: center;
@@ -44,7 +44,7 @@
 .description {
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-sm);
-  color: var(--ink-font-neutral);
+  color: var(--ink-font-color-neutral);
   line-height: var(--ink-line-height-normal);
 }
 
@@ -53,9 +53,9 @@
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-md); /* 16px */
   font-weight: var(--ink-font-weight-regular); /* 400 */
-  color: var(--ink-font-default);
-  background: var(--ink-form-bg-default);
-  border: var(--ink-form-border-width) solid var(--ink-form-border-default);
+  color: var(--ink-font-color-default);
+  background: var(--ink-form-control-bg-color-default);
+  border: var(--ink-form-border-width) solid var(--ink-form-control-border-color-default);
   border-radius: var(--ink-radius-sm); /* 4px */
   padding: var(--ink-spacing-100) var(--ink-spacing-200);
   padding-left: var(--ink-spacing-200);
@@ -83,7 +83,7 @@
 
 /* Hover state */
 .input:hover:not(:disabled):not(:read-only):not(.error) {
-  border-color: var(--ink-form-border-hover);
+  border-color: var(--ink-form-control-border-color-hover);
 }
 
 /* Focus/Active state - DocuSign uses outline, not thicker border */
@@ -96,11 +96,11 @@
 
 /* Error state */
 .input.error {
-  border-color: var(--ink-form-border-error);
+  border-color: var(--ink-form-control-border-color-error);
 }
 
 .input.error:focus {
-  border: var(--ink-form-border-width) solid var(--ink-form-border-error);
+  border: var(--ink-form-border-width) solid var(--ink-form-control-border-color-error);
   /* Keep same padding for error state */
   padding: var(--ink-spacing-100) var(--ink-spacing-200);
   padding-left: var(--ink-spacing-200);
@@ -118,12 +118,12 @@
   background: var(--ink-form-bg-disabled);
   opacity: var(--ink-opacity-disabled);
   cursor: not-allowed;
-  border-color: var(--ink-form-border-default);
+  border-color: var(--ink-form-control-border-color-default);
 }
 
 /* Placeholder */
 .input::placeholder {
-  color: var(--ink-font-placeholder);
+  color: var(--ink-font-color-placeholder);
   opacity: 1;
 }
 
@@ -132,7 +132,7 @@
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-xs); /* 12px */
   font-weight: var(--ink-font-weight-medium); /* 500 */
-  color: var(--ink-font-error);
+  color: var(--ink-font-color-error);
   line-height: 1.5; /* Exact Figma spec */
   display: flex;
   align-items: flex-start;

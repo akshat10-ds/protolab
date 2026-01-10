@@ -51,6 +51,9 @@ export type { StepperProps } from './Stepper';
 export { Badge } from './Badge';
 export type { BadgeProps } from './Badge';
 
+export { AIBadge } from './AIBadge';
+export type { AIBadgeProps } from './AIBadge';
+
 export { Avatar, AvatarGroup } from './Avatar';
 export type { AvatarProps, AvatarGroupProps } from './Avatar';
 

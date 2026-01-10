@@ -31,7 +31,7 @@
   font-weight: var(--ink-font-weight-medium);
   line-height: 1.25; /* Figma spec */
   letter-spacing: -0.16px; /* cozy tracking */
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   background-color: transparent;
   border: none;
   text-align: left;
@@ -40,7 +40,7 @@
 }
 
 .header:hover:not(:disabled) {
-  background-color: var(--ink-item-bg-hover);
+  background-color: var(--ink-item-bg-color-hover);
 }
 
 .header:disabled {
@@ -91,13 +91,13 @@
   padding: var(--ink-spacing-2) var(--ink-spacing-4) var(--ink-spacing-6); /* 8px top, 16px horizontal, 24px bottom */
   font-size: var(--ink-font-size-sm); /* 14px */
   font-weight: var(--ink-font-weight-regular);
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   line-height: 1.4; /* Figma spec */
 }
 
 /* Focus styles */
 .header:focus-visible {
-  outline: 2px solid var(--ink-form-border-active);
+  outline: 2px solid var(--ink-form-control-border-color-active);
   outline-offset: -2px;
   z-index: 1;
 }

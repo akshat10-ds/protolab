@@ -32,13 +32,13 @@
 }
 
 .dropzone:hover:not(.disabled) {
-  border-color: var(--ink-blue-60);
-  background-color: var(--ink-blue-10);
+  border-color: var(--ink-cobalt-60);
+  background-color: var(--ink-cobalt-10);
 }
 
 .dropzone.dragging {
-  border-color: var(--ink-blue-60);
-  background-color: var(--ink-blue-10);
+  border-color: var(--ink-cobalt-60);
+  background-color: var(--ink-cobalt-10);
   border-style: solid;
 }
 
@@ -74,7 +74,7 @@
 
 .dropzone:hover:not(.disabled) .uploadIcon,
 .dropzone.dragging .uploadIcon {
-  color: var(--ink-blue-60);
+  color: var(--ink-cobalt-60);
 }
 
 .dropzoneText {
@@ -106,7 +106,7 @@
   align-items: center;
   gap: var(--ink-spacing-3);
   padding: var(--ink-spacing-3);
-  background-color: var(--ink-white);
+  background-color: var(--ink-white-100);
   border: 1px solid var(--ink-neutral-20);
   border-radius: var(--ink-radius-md);
   transition: all var(--ink-transition-fast);
@@ -181,11 +181,7 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--ink-blue-60) 0%,
-    var(--ink-blue-50) 100%
-  );
+  background: linear-gradient(90deg, var(--ink-cobalt-60) 0%, var(--ink-cobalt-50) 100%);
   border-radius: var(--ink-radius-full);
   transition: width 200ms ease-out;
   animation: shimmer 1.5s ease-in-out infinite;

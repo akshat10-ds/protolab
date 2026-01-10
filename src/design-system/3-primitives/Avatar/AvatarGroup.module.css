@@ -60,6 +60,6 @@
   font-weight: var(--ink-font-weight-medium); /* 500 */
   line-height: var(--ink-font-avatar-group-line-height); /* 1.5 */
   letter-spacing: 0.16px; /* wide tracking */
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   white-space: nowrap;
 }

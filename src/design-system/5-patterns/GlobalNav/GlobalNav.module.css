@@ -9,7 +9,7 @@
   justify-content: space-between;
   padding: 0 var(--ink-spacing-200); /* 16px */
   background: var(--ink-white-100); /* Pure white for GlobalNav */
-  border-bottom: var(--ink-form-border-width) solid var(--ink-border-default);
+  border-bottom: var(--ink-form-border-width) solid var(--ink-border-color-default);
   position: sticky;
   top: 0;
   z-index: var(--ink-z-sticky);
@@ -40,17 +40,17 @@
   padding: 0 var(--ink-spacing-150); /* 12px */
   background: transparent;
   border: none;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   cursor: pointer;
   transition: background-color var(--ink-transition-fast);
 }
 
 .appSwitcher:hover {
-  background-color: var(--ink-item-bg-hover);
+  background-color: var(--ink-item-bg-color-hover);
 }
 
 .appSwitcher:active {
-  background-color: var(--ink-item-bg-active);
+  background-color: var(--ink-item-bg-color-active);
 }
 
 /* Logo */
@@ -93,13 +93,13 @@
 }
 
 .navItem:hover {
-  color: var(--ink-font-default);
-  background-color: var(--ink-item-bg-hover);
+  color: var(--ink-font-color-default);
+  background-color: var(--ink-item-bg-color-hover);
 }
 
 .navItemActive {
-  color: var(--ink-font-default); /* rgba(25,24,35,0.9) */
-  border-bottom-color: var(--ink-font-default);
+  color: var(--ink-font-color-default); /* rgba(25,24,35,0.9) */
+  border-bottom-color: var(--ink-font-color-default);
 }
 
 /* End Section */
@@ -120,18 +120,18 @@
   padding: 0 var(--ink-spacing-150); /* 12px */
   background: transparent;
   border: none;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   cursor: pointer;
   transition: background-color var(--ink-transition-fast);
   position: relative;
 }
 
 .iconButton:hover {
-  background-color: var(--ink-item-bg-hover);
+  background-color: var(--ink-item-bg-color-hover);
 }
 
 .iconButton:active {
-  background-color: var(--ink-item-bg-active);
+  background-color: var(--ink-item-bg-color-active);
 }
 
 /* Badge */
@@ -161,7 +161,7 @@
   height: 40px;
   padding: 0 var(--ink-spacing-200); /* 16px */
   background: var(--ink-white-100);
-  border: var(--ink-form-border-width) solid var(--ink-border-default);
+  border: var(--ink-form-border-width) solid var(--ink-border-color-default);
   border-radius: var(--ink-radius-full);
   color: var(--ink-font-secondary);
   font-family: var(--ink-font-family);
@@ -173,12 +173,12 @@
 }
 
 .searchPill:hover {
-  background-color: var(--ink-item-bg-hover);
+  background-color: var(--ink-item-bg-color-hover);
   border-color: var(--ink-border-hover);
 }
 
 .searchPill:active {
-  background-color: var(--ink-item-bg-active);
+  background-color: var(--ink-item-bg-color-active);
 }
 
 /* Avatar Button */
@@ -195,11 +195,11 @@
 }
 
 .avatarButton:hover {
-  background-color: var(--ink-item-bg-hover);
+  background-color: var(--ink-item-bg-color-hover);
 }
 
 .avatarButton:active {
-  background-color: var(--ink-item-bg-active);
+  background-color: var(--ink-item-bg-color-active);
 }
 
 /* Responsive */

@@ -16,7 +16,7 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
+  gap: var(--ink-spacing-25);
   height: 24px;
   width: fit-content;
   padding: 2px 12px 2px 6px;
@@ -43,7 +43,7 @@
 }
 
 .badge.interactive:focus-visible {
-  outline: 2px solid var(--ink-focus-ring);
+  outline: 2px solid var(--ink-focus-ring-color);
   outline-offset: 2px;
 }
 
@@ -62,7 +62,7 @@
   font-size: var(--ink-font-size-xs);
   font-weight: var(--ink-font-weight-semibold);
   line-height: 24px;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 /* Callout wrapper for positioning */
@@ -100,7 +100,7 @@
   height: 0;
   border-style: solid;
   border-width: 0 8px 8px 8px;
-  border-color: transparent transparent var(--ink-form-border-subtle) transparent;
+  border-color: transparent transparent var(--ink-form-control-border-color-subtle) transparent;
   z-index: 1;
 }
 
@@ -113,7 +113,7 @@
   height: 0;
   border-style: solid;
   border-width: 0 8px 8px 8px;
-  border-color: transparent transparent var(--ink-bg-default) transparent;
+  border-color: transparent transparent var(--ink-bg-color-default) transparent;
   z-index: 2;
 }
 

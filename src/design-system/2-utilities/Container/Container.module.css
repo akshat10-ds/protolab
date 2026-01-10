@@ -29,13 +29,13 @@
 
 /* Padding */
 .padded {
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: var(--ink-spacing-200);
+  padding-right: var(--ink-spacing-200);
 }
 
 @media (min-width: 768px) {
   .padded {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: var(--ink-spacing-300);
+    padding-right: var(--ink-spacing-300);
   }
 }

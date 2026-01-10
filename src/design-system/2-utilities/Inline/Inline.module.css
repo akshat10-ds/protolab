@@ -11,23 +11,23 @@
 }
 
 .gap-xs {
-  gap: 4px;
+  gap: var(--ink-spacing-50);
 }
 
 .gap-small {
-  gap: 8px;
+  gap: var(--ink-spacing-100);
 }
 
 .gap-medium {
-  gap: 12px;
+  gap: var(--ink-spacing-150);
 }
 
 .gap-large {
-  gap: 16px;
+  gap: var(--ink-spacing-200);
 }
 
 .gap-xl {
-  gap: 24px;
+  gap: var(--ink-spacing-300);
 }
 
 /* Alignment */

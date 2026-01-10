@@ -5,7 +5,7 @@
   flex-direction: column;
   width: 280px; /* Fixed width for local navigation sidebar */
   height: 100%;
-  background-color: var(--ink-bg-canvas-page); /* #F7F6F7 - DocuSign canvas page background */
+  background-color: var(--ink-bg-color-canvas-page); /* #F7F6F7 - DocuSign canvas page background */
   font-family: var(--ink-font-family);
   transition: width var(--ink-transition-normal);
   /* Note: No border-right - DocuSign separates via content area background */
@@ -299,7 +299,7 @@
 }
 
 .item.active .itemIcon {
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 .itemLabel {
@@ -314,7 +314,7 @@
 }
 
 .item.active .itemLabel {
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 /* Active Indicator */
@@ -351,7 +351,7 @@
 
 .itemCollapsed.active {
   background-color: var(--ink-bg-active-subtle);
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 .itemCollapsed .activeIndicator {

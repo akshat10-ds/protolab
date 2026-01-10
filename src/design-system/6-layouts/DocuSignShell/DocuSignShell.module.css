@@ -22,13 +22,13 @@
 
 .sidebar {
   flex-shrink: 0;
-  border-right: 1px solid var(--ink-border-default);
-  background: var(--ink-bg-default);
+  border-right: 1px solid var(--ink-border-color-default);
+  background: var(--ink-bg-color-default);
 }
 
 .content {
   flex: 1;
   overflow-y: auto;
   min-width: 0;
-  background: var(--ink-bg-default);
+  background: var(--ink-bg-color-default);
 }

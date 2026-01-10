@@ -5,7 +5,8 @@
   display: flex;
   align-items: center;
   gap: var(--ink-spacing-100); /* 8px */
-  padding: var(--ink-spacing-100) var(--ink-spacing-100) var(--ink-spacing-100) var(--ink-spacing-200); /* 8px 8px 8px 16px */
+  padding: var(--ink-spacing-100) var(--ink-spacing-100) var(--ink-spacing-100)
+    var(--ink-spacing-200); /* 8px 8px 8px 16px */
   width: 100%;
   box-sizing: border-box;
   position: relative;
@@ -98,7 +99,7 @@
 /* Kind Variants - Information (Blue/Cobalt) */
 .kind-information {
   background-color: var(--ink-cobalt-10);
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 .kind-information .bottomBorder {
@@ -106,7 +107,7 @@
 }
 
 .kind-information .closeButton {
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 .kind-information .closeButton:hover {
@@ -119,16 +120,16 @@
 
 /* Kind Variants - Danger (Red) */
 .kind-danger {
-  background-color: var(--ink-bg-error);
-  color: var(--ink-font-default);
+  background-color: var(--ink-bg-color-error);
+  color: var(--ink-font-color-default);
 }
 
 .kind-danger .bottomBorder {
-  border-bottom-color: var(--ink-border-error);
+  border-bottom-color: var(--ink-border-color-error);
 }
 
 .kind-danger .closeButton {
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 .kind-danger .closeButton:hover {
@@ -141,8 +142,8 @@
 
 /* Kind Variants - Success (Green) */
 .kind-success {
-  background-color: var(--ink-bg-success);
-  color: var(--ink-font-default);
+  background-color: var(--ink-bg-color-success);
+  color: var(--ink-font-color-default);
 }
 
 .kind-success .bottomBorder {
@@ -150,7 +151,7 @@
 }
 
 .kind-success .closeButton {
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 .kind-success .closeButton:hover {
@@ -163,8 +164,8 @@
 
 /* Kind Variants - Warning (Orange) */
 .kind-warning {
-  background-color: var(--ink-bg-warning);
-  color: var(--ink-font-default);
+  background-color: var(--ink-bg-color-warning);
+  color: var(--ink-font-color-default);
 }
 
 .kind-warning .bottomBorder {
@@ -172,7 +173,7 @@
 }
 
 .kind-warning .closeButton {
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 .kind-warning .closeButton:hover {
@@ -186,7 +187,7 @@
 /* Kind Variants - Promo (Purple) */
 .kind-promo {
   background-color: var(--ink-purple-10);
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 .kind-promo .bottomBorder {
@@ -194,7 +195,7 @@
 }
 
 .kind-promo .closeButton {
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 .kind-promo .closeButton:hover {
@@ -208,7 +209,7 @@
 /* Kind Variants - Subtle (Light Gray) */
 .kind-subtle {
   background-color: var(--ink-neutral-fade-5);
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 .kind-subtle .bottomBorder {
@@ -216,7 +217,7 @@
 }
 
 .kind-subtle .closeButton {
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 .kind-subtle .closeButton:hover {

@@ -7,13 +7,15 @@
   gap: var(--ink-spacing-50); /* 4px - gap50 from Figma */
   height: var(--ink-spacing-400); /* 32px */
   padding: 0 var(--ink-spacing-100); /* 0 8px - gap100 from Figma */
-  background-color: var(--ink-button-tertiary-bg); /* rgba(19,0,50,0.05) - ctaBgColorTertiaryDefault */
+  background-color: var(
+    --ink-cta-bg-color-tertiary-default
+  ); /* rgba(19,0,50,0.05) - ctaBgColorTertiaryDefault */
   border-radius: var(--ink-radius-size-xs); /* 4px - radiusSizeXS from Figma */
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-sm); /* 14px */
   font-weight: var(--ink-font-weight-regular); /* 400 */
   line-height: 1.4;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   border: none;
   transition: background-color var(--ink-transition-fast);
   user-select: none;
@@ -26,16 +28,20 @@
 }
 
 .chip.clickable:hover {
-  background-color: var(--ink-button-tertiary-bg-hover); /* rgba(19,0,50,0.1) - ctaBgColorTertiaryHover */
+  background-color: var(
+    --ink-cta-bg-color-tertiary-hover
+  ); /* rgba(19,0,50,0.1) - ctaBgColorTertiaryHover */
 }
 
 .chip.clickable:active {
-  background-color: var(--ink-button-tertiary-bg-active); /* rgba(19,0,50,0.15) - ctaBgColorTertiaryActive */
+  background-color: var(
+    --ink-cta-bg-color-tertiary-active
+  ); /* rgba(19,0,50,0.15) - ctaBgColorTertiaryActive */
 }
 
 /* Focus state for keyboard navigation */
 .chip.clickable:focus-visible {
-  outline: 2px solid var(--ink-form-border-active);
+  outline: 2px solid var(--ink-form-control-border-color-active);
   outline-offset: 2px;
 }
 
@@ -73,7 +79,7 @@
   padding: 0;
   background: transparent;
   border: none;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   cursor: pointer;
   flex-shrink: 0;
 }
@@ -81,7 +87,7 @@
 /* No hover or active states - the icon is static, only the chip changes */
 
 .removeButton:focus-visible {
-  outline: 2px solid var(--ink-form-border-active);
+  outline: 2px solid var(--ink-form-control-border-color-active);
   outline-offset: 1px;
 }
 

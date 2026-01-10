@@ -46,7 +46,7 @@
 }
 
 /* Ordered list numbering */
-.list[role="list"] {
+.list[role='list'] {
   counter-reset: list-counter;
 }
 
@@ -55,7 +55,7 @@ ol.list .listItemWrapper {
 }
 
 ol.list .item::before {
-  content: counter(list-counter) ".";
+  content: counter(list-counter) '.';
   margin-right: var(--ink-spacing-md);
   color: var(--ink-neutral-60);
   font-weight: var(--ink-font-weight-medium);
@@ -105,18 +105,18 @@ ol.list .item::before {
 }
 
 .item.clickable:focus {
-  outline: 2px solid var(--ink-blue-60);
+  outline: 2px solid var(--ink-cobalt-60);
   outline-offset: -2px;
 }
 
 /* Selected Item */
 .item.selected {
-  background: var(--ink-blue-10);
-  color: var(--ink-blue-100);
+  background: var(--ink-cobalt-10);
+  color: var(--ink-cobalt-100);
 }
 
 .item.selected:hover:not(.disabled) {
-  background: var(--ink-blue-20);
+  background: var(--ink-cobalt-20);
 }
 
 .item.selected::before {
@@ -126,7 +126,7 @@ ol.list .item::before {
   top: 0;
   bottom: 0;
   width: 3px;
-  background: var(--ink-blue-60);
+  background: var(--ink-cobalt-60);
 }
 
 /* Disabled Item */
@@ -212,20 +212,20 @@ ol.list .item::before {
 
 /* Avatar in list items */
 .startElement > img,
-.startElement > [class*="avatar"] {
+.startElement > [class*='avatar'] {
   width: 32px;
   height: 32px;
   border-radius: 50%;
 }
 
 .list.small .startElement > img,
-.list.small .startElement > [class*="avatar"] {
+.list.small .startElement > [class*='avatar'] {
   width: 24px;
   height: 24px;
 }
 
 .list.large .startElement > img,
-.list.large .startElement > [class*="avatar"] {
+.list.large .startElement > [class*='avatar'] {
   width: 40px;
   height: 40px;
 }
@@ -245,6 +245,6 @@ ol.list .item::before {
   }
 
   .content {
-    gap: 2px;
+    gap: var(--ink-spacing-25);
   }
 }

@@ -16,9 +16,9 @@
   width: 20px;
   height: 20px;
   margin: 2px 0 0 0;
-  border: 2px solid var(--ink-form-border-default); /* DocuSign: neutral-fade-50 */
+  border: 2px solid var(--ink-form-control-border-color-default); /* DocuSign: neutral-fade-50 */
   border-radius: var(--ink-radius-full);
-  background: var(--ink-white);
+  background: var(--ink-white-100);
   cursor: pointer;
   transition: all var(--ink-transition-fast);
   flex-shrink: 0;
@@ -64,7 +64,7 @@
 .label {
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-sm); /* 14px - matches DocuSign & Checkbox */
-  color: var(--ink-font-default); /* DocuSign: neutral-fade-90 */
+  color: var(--ink-font-color-default); /* DocuSign: neutral-fade-90 */
   line-height: 1.4; /* DocuSign: 19.6px at 14px */
   cursor: pointer;
   user-select: none;
@@ -96,7 +96,7 @@
   font-size: var(--ink-font-size-sm);
   color: var(--ink-neutral-70);
   line-height: var(--ink-line-height-normal);
-  margin-left: 28px;
+  margin-left: var(--ink-spacing-7);
 }
 
 .errorMessage {
@@ -104,5 +104,5 @@
   font-size: var(--ink-font-size-sm);
   color: var(--ink-red-60);
   line-height: var(--ink-line-height-normal);
-  margin-left: 28px;
+  margin-left: var(--ink-spacing-7);
 }

@@ -34,7 +34,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1.4;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   cursor: pointer;
   user-select: none;
   display: inline-flex;
@@ -51,8 +51,8 @@
   position: absolute;
   width: var(--ink-icon-size-s);
   height: var(--ink-icon-size-s);
-  background-color: var(--ink-form-bg-default);
-  border: var(--ink-form-border-width-active) solid var(--ink-form-border-default);
+  background-color: var(--ink-form-control-bg-color-default);
+  border: var(--ink-form-border-width-active) solid var(--ink-form-control-border-color-default);
   border-radius: var(--ink-radius-size-xs); /* 4px */
   left: 2px; /* 2px offset from left to center in 24px space */
   top: 50%;
@@ -116,7 +116,7 @@
 
 /* Checked state */
 .input:checked + .label::before {
-  background-color: var(--ink-form-bg-selected);
+  background-color: var(--ink-form-control-bg-color-selected);
   border-color: var(--ink-form-border-selected);
 }
 
@@ -126,7 +126,7 @@
 
 /* Indeterminate state */
 .input:indeterminate + .label::before {
-  background-color: var(--ink-form-bg-selected);
+  background-color: var(--ink-form-control-bg-color-selected);
   border-color: var(--ink-form-border-selected);
 }
 
@@ -143,7 +143,7 @@
 
 /* Hover state - Border changes to hover color */
 .label:hover::before {
-  border-color: var(--ink-form-border-hover);
+  border-color: var(--ink-form-control-border-color-hover);
 }
 
 /* Hover effect - Background area around checkbox - 32px per Figma */
@@ -164,7 +164,7 @@
 
 .input:checked + .label:hover::before,
 .input:indeterminate + .label:hover::before {
-  background-color: var(--ink-form-bg-selected-hover);
+  background-color: var(--ink-form-control-bg-color-selected-hover);
   border-color: var(--ink-form-border-selected-hover);
 }
 
@@ -178,7 +178,7 @@
   top: 50%;
   transform: translateY(-50%);
   width: 22px;
-  border: 2px solid var(--ink-form-border-active);
+  border: 2px solid var(--ink-form-control-border-color-active);
   border-radius: var(--ink-radius-size-xs); /* 4px */
   box-shadow: var(--ink-focus-ring-accent);
   pointer-events: none;
@@ -186,20 +186,20 @@
 
 /* Error State */
 .input[aria-invalid='true'] + .label::before {
-  border-color: var(--ink-form-border-error);
+  border-color: var(--ink-form-control-border-color-error);
 }
 
 .input[aria-invalid='true']:checked + .label::before,
 .input[aria-invalid='true']:indeterminate + .label::before {
-  background-color: var(--ink-form-border-error);
+  background-color: var(--ink-form-control-border-color-error);
 }
 
 .input[aria-invalid='true'] + .label:hover::before {
-  border-color: var(--ink-form-border-error);
+  border-color: var(--ink-form-control-border-color-error);
 }
 
 .input[aria-invalid='true']:focus-visible + .label > span::after {
-  border-color: var(--ink-form-border-error);
+  border-color: var(--ink-form-control-border-color-error);
   box-shadow: var(--ink-focus-ring-error);
 }
 
@@ -258,7 +258,7 @@
   font-size: 12px;
   font-weight: 400;
   line-height: 1.4;
-  color: var(--ink-font-neutral);
+  color: var(--ink-font-color-neutral);
   margin-left: var(--ink-spacing-400); /* 32px - 24px checkbox container + 8px gap */
 }
 
@@ -269,9 +269,9 @@
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: 0.16px;
-  color: var(--ink-font-error);
+  color: var(--ink-font-color-error);
   margin-left: var(--ink-spacing-400);
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--ink-spacing-50);
 }

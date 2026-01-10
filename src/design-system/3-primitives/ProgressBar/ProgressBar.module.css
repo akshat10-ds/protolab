@@ -49,7 +49,7 @@
 
 /* Variants */
 .primary .fill {
-  background-color: var(--ink-blue-60);
+  background-color: var(--ink-cobalt-60);
 }
 
 .success .fill {
@@ -69,7 +69,7 @@
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-xs);
   font-weight: var(--ink-font-weight-semibold);
-  color: var(--ink-white);
+  color: var(--ink-white-100);
   white-space: nowrap;
   padding-right: var(--ink-spacing-1);
 }

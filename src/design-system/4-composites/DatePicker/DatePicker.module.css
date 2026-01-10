@@ -35,7 +35,7 @@
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-md);
   color: var(--ink-neutral-100);
-  background-color: var(--ink-white);
+  background-color: var(--ink-white-100);
   border: 1px solid var(--ink-neutral-30);
   border-radius: var(--ink-radius-md);
   outline: none;
@@ -52,8 +52,8 @@
 }
 
 .input:focus {
-  border-color: var(--ink-blue-60);
-  box-shadow: 0 0 0 3px var(--ink-blue-10);
+  border-color: var(--ink-cobalt-60);
+  box-shadow: 0 0 0 3px var(--ink-cobalt-10);
 }
 
 .input:disabled {
@@ -87,7 +87,7 @@
   top: calc(100% + 4px);
   left: 0;
   z-index: var(--ink-z-popover);
-  background-color: var(--ink-white);
+  background-color: var(--ink-white-100);
   border: 1px solid var(--ink-neutral-30);
   border-radius: var(--ink-radius-lg);
   box-shadow: var(--ink-shadow-lg);
@@ -196,13 +196,13 @@
 }
 
 .day.selected {
-  background-color: var(--ink-blue-60);
-  color: var(--ink-white);
+  background-color: var(--ink-cobalt-60);
+  color: var(--ink-white-100);
   font-weight: var(--ink-font-weight-semibold);
 }
 
 .day.today:not(.selected) {
-  color: var(--ink-blue-60);
+  color: var(--ink-cobalt-60);
   font-weight: var(--ink-font-weight-semibold);
 }
 
@@ -215,7 +215,7 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background-color: var(--ink-blue-60);
+  background-color: var(--ink-cobalt-60);
 }
 
 .day.otherMonth {

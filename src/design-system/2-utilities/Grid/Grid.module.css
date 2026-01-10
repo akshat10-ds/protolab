@@ -10,15 +10,15 @@
 }
 
 .grid.gap-small {
-  gap: var(--ink-spacing-2);
+  gap: var(--ink-spacing-100);
 }
 
 .grid.gap-medium {
-  gap: var(--ink-spacing-4);
+  gap: var(--ink-spacing-200);
 }
 
 .grid.gap-large {
-  gap: var(--ink-spacing-6);
+  gap: var(--ink-spacing-300);
 }
 
 /* Align */

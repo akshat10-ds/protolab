@@ -22,7 +22,7 @@
 
 /* Focus styles */
 .button:focus-visible {
-  outline: 2px solid var(--ink-form-border-active);
+  outline: 2px solid var(--ink-form-control-border-color-active);
   outline-offset: 2px;
 }
 
@@ -63,83 +63,83 @@
 
 /* Brand - Bright vibrant purple for brand actions */
 .brand {
-  background-color: var(--ink-button-brand-bg);
-  color: var(--ink-button-brand-text);
+  background-color: var(--ink-cta-bg-color-brand-default);
+  color: var(--ink-cta-font-color-brand);
   box-shadow: var(--ink-shadow-sm);
 }
 
 .brand:hover:not(:disabled):not(.disabled) {
-  background-color: var(--ink-button-brand-bg-hover);
+  background-color: var(--ink-cta-bg-color-brand-hover);
   box-shadow: var(--ink-shadow-md);
 }
 
 .brand:active:not(:disabled):not(.disabled) {
-  background-color: var(--ink-button-brand-bg-active);
+  background-color: var(--ink-cta-bg-color-brand-active);
   box-shadow: var(--ink-shadow-sm);
 }
 
 /* Primary - Dark purple for primary actions */
 .primary {
-  background-color: var(--ink-button-primary-bg);
-  color: var(--ink-button-primary-text);
+  background-color: var(--ink-cta-bg-color-primary-default);
+  color: var(--ink-cta-font-color-primary);
   box-shadow: var(--ink-shadow-sm);
 }
 
 .primary:hover:not(:disabled):not(.disabled) {
-  background-color: var(--ink-button-primary-bg-hover);
+  background-color: var(--ink-cta-bg-color-primary-hover);
   box-shadow: var(--ink-shadow-md);
 }
 
 .primary:active:not(:disabled):not(.disabled) {
-  background-color: var(--ink-button-primary-bg-active);
+  background-color: var(--ink-cta-bg-color-primary-active);
   box-shadow: var(--ink-shadow-sm);
 }
 
 /* Secondary */
 .secondary {
-  background-color: var(--ink-button-secondary-bg);
-  color: var(--ink-button-secondary-text);
-  border: 1px solid var(--ink-button-secondary-border);
+  background-color: var(--ink-cta-bg-color-secondary-default);
+  color: var(--ink-cta-font-color-secondary);
+  border: 1px solid var(--ink-cta-border-color-secondary-default);
 }
 
 .secondary:hover:not(:disabled):not(.disabled) {
-  background-color: var(--ink-button-secondary-bg-hover);
-  border-color: var(--ink-button-secondary-border-hover);
+  background-color: var(--ink-cta-bg-color-secondary-hover);
+  border-color: var(--ink-cta-border-color-secondary-hover);
 }
 
 .secondary:active:not(:disabled):not(.disabled) {
-  background-color: var(--ink-button-secondary-bg-active);
-  border-color: var(--ink-button-secondary-border-active);
+  background-color: var(--ink-cta-bg-color-secondary-active);
+  border-color: var(--ink-cta-border-color-secondary-active);
 }
 
 /* Tertiary */
 .tertiary {
-  background-color: var(--ink-button-tertiary-bg);
-  color: var(--ink-button-tertiary-text);
+  background-color: var(--ink-cta-bg-color-tertiary-default);
+  color: var(--ink-cta-font-color-tertiary);
 }
 
 .tertiary:hover:not(:disabled):not(.disabled) {
-  background-color: var(--ink-button-tertiary-bg-hover);
+  background-color: var(--ink-cta-bg-color-tertiary-hover);
 }
 
 .tertiary:active:not(:disabled):not(.disabled) {
-  background-color: var(--ink-button-tertiary-bg-active);
+  background-color: var(--ink-cta-bg-color-tertiary-active);
 }
 
 /* Danger */
 .danger {
-  background-color: var(--ink-button-danger-bg);
-  color: var(--ink-button-danger-text);
+  background-color: var(--ink-cta-bg-color-danger-default);
+  color: var(--ink-cta-font-color-danger);
   box-shadow: var(--ink-shadow-sm);
 }
 
 .danger:hover:not(:disabled):not(.disabled) {
-  background-color: var(--ink-button-danger-bg-hover);
+  background-color: var(--ink-cta-bg-color-danger-hover);
   box-shadow: var(--ink-shadow-md);
 }
 
 .danger:active:not(:disabled):not(.disabled) {
-  background-color: var(--ink-button-danger-bg-active);
+  background-color: var(--ink-cta-bg-color-danger-active);
   box-shadow: var(--ink-shadow-sm);
 }
 

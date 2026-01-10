@@ -1,7 +1,9 @@
-/* Ink Design System Tokens - Official Values from ui-tools-main */
+/* Ink Design System Tokens - ds-ui Naming Convention */
 
 :root {
-  /* ========== Color Primitives ========== */
+  /* ========================================== */
+  /* COLOR PRIMITIVES                           */
+  /* ========================================== */
 
   /* Semantic Black */
   --ink-black-100: #000000;
@@ -55,7 +57,9 @@
   --ink-green-140: #02231a;
 
   /* Semantic Neutral */
+  --ink-neutral-5: #fafafa;
   --ink-neutral-10: #f7f6f7;
+  --ink-neutral-15: #f3f2f3;
   --ink-neutral-20: #f0eff0;
   --ink-neutral-30: #e5e4e5;
   --ink-neutral-40: #d8d7d8;
@@ -184,153 +188,312 @@
   /* Transparent */
   --ink-transparent: transparent;
 
-  /* ========== Semantic Tokens ========== */
+  /* ========================================== */
+  /* inkCTATokens (Buttons, Toggles, FABs)      */
+  /* ========================================== */
 
-  /* Background Colors */
-  --ink-bg-default: var(--ink-white-100);
-  --ink-bg-accent: var(--ink-cobalt-100);
-  --ink-bg-accent-emphasis: var(--ink-cobalt-140);
-  --ink-bg-accent-subtle: var(--ink-cobalt-40);
-  --ink-bg-canvas-document: var(--ink-neutral-20);
-  --ink-bg-canvas-page: var(--ink-neutral-10);
-  --ink-bg-error: var(--ink-red-20);
-  --ink-bg-error-emphasis: var(--ink-red-110);
-  --ink-bg-error-subtle: var(--ink-red-10);
-  --ink-bg-glass-frost: var(--ink-white-fade-90);
-  --ink-bg-glass-tint: var(--ink-neutral-fade-90);
-  --ink-bg-inverse: var(--ink-neutral-140);
-  --ink-bg-popover-close: var(--ink-white-fade-80);
-  --ink-bg-popover-close-inverse: var(--ink-neutral-fade-80);
-  --ink-bg-scrim: var(--ink-neutral-fade-80);
-  --ink-bg-success: var(--ink-green-20);
-  --ink-bg-success-emphasis: var(--ink-green-110);
-  --ink-bg-success-subtle: var(--ink-green-10);
-  --ink-bg-warning: var(--ink-orange-20);
-  --ink-bg-warning-emphasis: var(--ink-orange-110);
-  --ink-bg-warning-subtle: var(--ink-orange-10);
+  /* CTA Background - Brand */
+  --ink-cta-bg-color-brand-default: var(--ink-cobalt-100);
+  --ink-cta-bg-color-brand-hover: var(--ink-cobalt-90);
+  --ink-cta-bg-color-brand-active: var(--ink-cobalt-110);
+
+  /* CTA Background - Primary */
+  --ink-cta-bg-color-primary-default: var(--ink-cobalt-140);
+  --ink-cta-bg-color-primary-hover: var(--ink-cobalt-130);
+  --ink-cta-bg-color-primary-active: var(--ink-cobalt-120);
+
+  /* CTA Background - Secondary */
+  --ink-cta-bg-color-secondary-default: transparent;
+  --ink-cta-bg-color-secondary-hover: var(--ink-neutral-fade-5);
+  --ink-cta-bg-color-secondary-active: var(--ink-neutral-fade-10);
+
+  /* CTA Background - Tertiary */
+  --ink-cta-bg-color-tertiary-default: transparent;
+  --ink-cta-bg-color-tertiary-hover: var(--ink-neutral-fade-10);
+  --ink-cta-bg-color-tertiary-active: var(--ink-neutral-fade-15);
+
+  /* CTA Background - Danger */
+  --ink-cta-bg-color-danger-default: var(--ink-red-90);
+  --ink-cta-bg-color-danger-hover: var(--ink-red-100);
+  --ink-cta-bg-color-danger-active: var(--ink-red-110);
+
+  /* CTA Border - Secondary */
+  --ink-cta-border-color-secondary-default: var(--ink-neutral-fade-50);
+  --ink-cta-border-color-secondary-hover: var(--ink-neutral-fade-70);
+  --ink-cta-border-color-secondary-active: var(--ink-neutral-fade-90);
+
+  /* CTA Font */
+  --ink-cta-font-color-brand: var(--ink-white-100);
+  --ink-cta-font-color-primary: var(--ink-white-100);
+  --ink-cta-font-color-secondary: var(--ink-neutral-fade-90);
+  --ink-cta-font-color-tertiary: var(--ink-neutral-fade-90);
+  --ink-cta-font-color-danger: var(--ink-white-100);
+
+  /* CTA Toggle */
+  --ink-cta-toggle-bg-hover: var(--ink-neutral-fade-10);
+  --ink-cta-toggle-bg-active: var(--ink-neutral-fade-15);
+  --ink-cta-toggle-bg-selected: var(--ink-cobalt-140);
+  --ink-cta-toggle-bg-selected-hover: var(--ink-cobalt-130);
+  --ink-cta-toggle-bg-selected-active: var(--ink-cobalt-120);
+  --ink-cta-toggle-bg-selected-subtle: var(--ink-cobalt-10);
+  --ink-cta-toggle-bg-selected-subtle-hover: var(--ink-cobalt-20);
+  --ink-cta-toggle-bg-selected-subtle-active: var(--ink-cobalt-30);
+
+  /* CTA FAB - Primary */
+  --ink-cta-fab-bg-primary-default: var(--ink-cobalt-140);
+  --ink-cta-fab-bg-primary-hover: var(--ink-cobalt-130);
+  --ink-cta-fab-bg-primary-active: var(--ink-cobalt-120);
+
+  /* CTA FAB - Brand */
+  --ink-cta-fab-bg-brand-default: var(--ink-cobalt-100);
+  --ink-cta-fab-bg-brand-hover: var(--ink-cobalt-90);
+  --ink-cta-fab-bg-brand-active: var(--ink-cobalt-110);
+
+  /* CTA FAB Elevation */
+  --ink-cta-fab-elevation-default: 0 4px 8px 0 rgba(19, 0, 50, 0.15);
+  --ink-cta-fab-elevation-hover: 0 8px 20px 0 rgba(19, 0, 50, 0.15);
+
+  /* CTA FAB Inverse */
+  --ink-cta-fab-bg-primary-inverse-default: var(--ink-cobalt-10);
+  --ink-cta-fab-bg-primary-inverse-hover: var(--ink-cobalt-20);
+  --ink-cta-fab-bg-primary-inverse-active: var(--ink-cobalt-30);
+  --ink-cta-fab-bg-brand-inverse-default: var(--ink-cobalt-40);
+  --ink-cta-fab-bg-brand-inverse-hover: var(--ink-cobalt-50);
+  --ink-cta-fab-bg-brand-inverse-active: var(--ink-cobalt-30);
+
+  /* CTA Combo Button Borders */
+  --ink-cta-combo-border-brand: var(--ink-cobalt-90);
+  --ink-cta-combo-border-primary: var(--ink-cobalt-130);
+  --ink-cta-combo-border-secondary: var(--ink-neutral-fade-50);
+  --ink-cta-combo-border-brand-inverse: var(--ink-cobalt-50);
+  --ink-cta-combo-border-primary-inverse: var(--ink-cobalt-30);
+  --ink-cta-combo-border-secondary-inverse: var(--ink-white-fade-50);
+
+  /* ========================================== */
+  /* inkFormTokens (Form Controls)              */
+  /* ========================================== */
+
+  /* Form Control Background */
+  --ink-form-control-bg-color-default: var(--ink-white-100);
+  --ink-form-control-bg-color-disabled: var(--ink-neutral-fade-15);
+  --ink-form-control-bg-color-error: var(--ink-red-90);
+  --ink-form-control-bg-color-read: var(--ink-neutral-fade-5);
+  --ink-form-control-bg-color-selected: var(--ink-cobalt-120);
+  --ink-form-control-bg-color-selected-hover: var(--ink-cobalt-130);
+  --ink-form-control-bg-color-selected-active: var(--ink-cobalt-110);
+  --ink-form-control-bg-color-highlight: var(--ink-neutral-fade-10);
+
+  /* Form Control Border */
+  --ink-form-control-border-color-default: var(--ink-neutral-fade-50);
+  --ink-form-control-border-color-subtle: var(--ink-neutral-30);
+  --ink-form-control-border-color-hover: var(--ink-neutral-fade-70);
+  --ink-form-control-border-color-active: var(--ink-cobalt-120);
+  --ink-form-control-border-color-error: var(--ink-red-90);
+  --ink-form-control-border-color-selected: var(--ink-cobalt-120);
+  --ink-form-control-border-color-selected-hover: var(--ink-cobalt-130);
+  --ink-form-control-border-color-selected-active: var(--ink-cobalt-110);
+
+  /* Form Control Border Width */
+  --ink-form-control-border-width: 1px;
+  --ink-form-control-border-width-s: 2px;
+  --ink-form-control-border-width-active: 2px;
+
+  /* Form Control Font */
+  --ink-form-control-font-color-required: var(--ink-red-90);
+  --ink-form-control-font-color-disabled: var(--ink-neutral-fade-50);
+
+  /* Form Control Thumb (Slider/Switch) */
+  --ink-form-control-thumb-bg-default: var(--ink-neutral-100);
+  --ink-form-control-thumb-bg-hover: var(--ink-neutral-140);
+  --ink-form-control-thumb-bg-active: var(--ink-cobalt-120);
+
+  /* Form Control Inverse */
+  --ink-form-control-bg-color-inverse-default: var(--ink-neutral-140);
+  --ink-form-control-bg-color-inverse-disabled: var(--ink-white-fade-15);
+  --ink-form-control-bg-color-inverse-error: var(--ink-red-50);
+  --ink-form-control-bg-color-inverse-read: var(--ink-white-fade-5);
+  --ink-form-control-bg-color-inverse-selected: var(--ink-cobalt-40);
+  --ink-form-control-bg-color-inverse-selected-hover: var(--ink-cobalt-30);
+  --ink-form-control-bg-color-inverse-selected-active: var(--ink-cobalt-60);
+  --ink-form-control-bg-color-inverse-highlight: var(--ink-white-fade-10);
+  --ink-form-control-border-color-inverse-default: var(--ink-white-fade-50);
+  --ink-form-control-border-color-inverse-hover: var(--ink-white-fade-70);
+  --ink-form-control-border-color-inverse-active: var(--ink-cobalt-40);
+  --ink-form-control-border-color-inverse-error: var(--ink-red-50);
+  --ink-form-control-border-color-inverse-selected: var(--ink-cobalt-40);
+  --ink-form-control-border-color-inverse-selected-hover: var(--ink-cobalt-30);
+  --ink-form-control-border-color-inverse-selected-active: var(--ink-cobalt-60);
+  --ink-form-control-font-color-inverse-required: var(--ink-red-50);
+  --ink-form-control-font-color-inverse-disabled: var(--ink-white-fade-50);
+  --ink-form-control-thumb-bg-inverse-default: var(--ink-neutral-50);
+  --ink-form-control-thumb-bg-inverse-hover: var(--ink-white-100);
+  --ink-form-control-thumb-bg-inverse-active: var(--ink-cobalt-40);
+
+  /* ========================================== */
+  /* inkFontTokens (Typography Colors)          */
+  /* ========================================== */
+
+  /* Font Color */
+  --ink-font-color-default: var(--ink-neutral-fade-90);
+  --ink-font-color-primary: var(--ink-neutral-fade-90);
+  --ink-font-color-secondary: var(--ink-neutral-fade-65);
+  --ink-font-color-tertiary: var(--ink-neutral-fade-50);
+  --ink-font-color-accent: var(--ink-cobalt-100);
+  --ink-font-color-accent-emphasis: var(--ink-cobalt-110);
+  --ink-font-color-accent-subtle: var(--ink-cobalt-30);
+  --ink-font-color-disabled: var(--ink-neutral-fade-30);
+  --ink-font-color-error: var(--ink-red-100);
+  --ink-font-color-inverse: var(--ink-white-100);
+  --ink-font-color-neutral: var(--ink-neutral-fade-70);
+  --ink-font-color-neutral-emphasis: var(--ink-neutral-100);
+  --ink-font-color-neutral-subtle: var(--ink-neutral-50);
+  --ink-font-color-placeholder: var(--ink-neutral-fade-30);
+  --ink-font-color-success: var(--ink-green-100);
+  --ink-font-color-warning: var(--ink-orange-100);
+
+  /* Font Link Color */
+  --ink-font-color-link-default: var(--ink-cobalt-100);
+  --ink-font-color-link-hover: var(--ink-cobalt-110);
+  --ink-font-color-link-active: var(--ink-cobalt-120);
+  --ink-font-color-link-visited: var(--ink-cobalt-110);
+  --ink-font-color-link-subtle-default: var(--ink-neutral-fade-90);
+  --ink-font-color-link-subtle-hover: var(--ink-cobalt-100);
+  --ink-font-color-link-subtle-active: var(--ink-cobalt-110);
+  --ink-font-color-link-subtle-visited: var(--ink-neutral-fade-90);
+
+  /* Font Link Color Inverse */
+  --ink-font-color-link-inverse-default: var(--ink-cobalt-40);
+  --ink-font-color-link-inverse-hover: var(--ink-cobalt-30);
+  --ink-font-color-link-inverse-active: var(--ink-cobalt-50);
+  --ink-font-color-link-inverse-visited: var(--ink-cobalt-50);
+  --ink-font-color-link-subtle-inverse-default: var(--ink-white-fade-90);
+  --ink-font-color-link-subtle-inverse-hover: var(--ink-cobalt-40);
+  --ink-font-color-link-subtle-inverse-active: var(--ink-cobalt-30);
+  --ink-font-color-link-subtle-inverse-visited: var(--ink-white-fade-90);
+
+  /* ========================================== */
+  /* inkBackgroundTokens                        */
+  /* ========================================== */
+
+  /* Background Color */
+  --ink-bg-color-default: var(--ink-white-100);
+  --ink-bg-color-accent: var(--ink-cobalt-100);
+  --ink-bg-color-accent-emphasis: var(--ink-cobalt-140);
+  --ink-bg-color-accent-subtle: var(--ink-cobalt-40);
+  --ink-bg-color-canvas-document: var(--ink-neutral-20);
+  --ink-bg-color-canvas-page: var(--ink-neutral-10);
+  --ink-bg-color-error: var(--ink-red-20);
+  --ink-bg-color-error-emphasis: var(--ink-red-110);
+  --ink-bg-color-error-subtle: var(--ink-red-10);
+  --ink-bg-color-glass-frost: var(--ink-white-fade-90);
+  --ink-bg-color-glass-tint: var(--ink-neutral-fade-90);
+  --ink-bg-color-inverse: var(--ink-neutral-140);
+  --ink-bg-color-popover-close: var(--ink-white-fade-80);
+  --ink-bg-color-popover-close-inverse: var(--ink-neutral-fade-80);
+  --ink-bg-color-scrim: var(--ink-neutral-fade-80);
+  --ink-bg-color-success: var(--ink-green-20);
+  --ink-bg-color-success-emphasis: var(--ink-green-110);
+  --ink-bg-color-success-subtle: var(--ink-green-10);
+  --ink-bg-color-warning: var(--ink-orange-20);
+  --ink-bg-color-warning-emphasis: var(--ink-orange-110);
+  --ink-bg-color-warning-subtle: var(--ink-orange-10);
+  --ink-bg-color-muted: var(--ink-neutral-10);
+  --ink-bg-color-subtle: var(--ink-neutral-fade-5);
 
   /* Active/Selected State Backgrounds */
-  --ink-bg-active-subtle: rgba(19, 0, 50, 0.1); /* Subtle purple tint for active items */
-  --ink-border-active-indicator: rgba(25, 24, 35, 0.65); /* Active item left bar indicator */
+  --ink-bg-color-active-subtle: rgba(19, 0, 50, 0.1);
 
-  /* Font Colors */
-  --ink-font-default: var(--ink-neutral-fade-90);
-  --ink-font-accent: var(--ink-cobalt-100);
-  --ink-font-accent-emphasis: var(--ink-cobalt-110);
-  --ink-font-accent-subtle: var(--ink-cobalt-30);
-  --ink-font-disabled: var(--ink-neutral-fade-30);
-  --ink-font-error: var(--ink-red-100);
-  --ink-font-inverse: var(--ink-white-100);
-  --ink-font-neutral: var(--ink-neutral-fade-70);
-  --ink-font-neutral-emphasis: var(--ink-neutral-100);
-  --ink-font-neutral-subtle: var(--ink-neutral-50);
-  --ink-font-placeholder: var(--ink-neutral-fade-30);
-  --ink-font-success: var(--ink-green-100);
-  --ink-font-warning: var(--ink-orange-100);
+  /* ========================================== */
+  /* inkBorderTokens                            */
+  /* ========================================== */
 
-  /* Border Colors */
-  --ink-border-default: var(--ink-neutral-30);
-  --ink-border-accent: var(--ink-cobalt-100);
-  --ink-border-error: var(--ink-red-100);
-  --ink-border-success: var(--ink-green-100);
-  --ink-border-warning: var(--ink-orange-100);
-  --ink-border-focus: var(--ink-cobalt-100);
-  --ink-border-emphasis-inverse: var(--ink-white-100);
+  /* Border Color */
+  --ink-border-color-default: var(--ink-neutral-fade-50);
+  --ink-border-color-accent: var(--ink-cobalt-100);
+  --ink-border-color-accent-emphasis: var(--ink-cobalt-110);
+  --ink-border-color-accent-subtle: var(--ink-cobalt-80);
+  --ink-border-color-emphasis: var(--ink-neutral-140);
+  --ink-border-color-emphasis-inverse: var(--ink-white-100);
+  --ink-border-color-subtle: var(--ink-neutral-fade-10);
+  --ink-border-color-subtle-inverse: var(--ink-white-fade-10);
+  --ink-border-color-error: var(--ink-red-80);
+  --ink-border-color-error-emphasis: var(--ink-red-110);
+  --ink-border-color-error-subtle: var(--ink-red-70);
+  --ink-border-color-success: var(--ink-green-80);
+  --ink-border-color-success-emphasis: var(--ink-green-110);
+  --ink-border-color-success-subtle: var(--ink-green-70);
+  --ink-border-color-warning: var(--ink-orange-90);
+  --ink-border-color-warning-emphasis: var(--ink-orange-110);
+  --ink-border-color-warning-subtle: var(--ink-orange-80);
+  --ink-border-color-focus: var(--ink-cobalt-100);
+  --ink-border-color-hover: var(--ink-neutral-fade-70);
+  --ink-border-color-active-indicator: rgba(25, 24, 35, 0.65);
 
-  /* Component Tokens - Buttons (CTA tokens from official spec) */
+  /* Border Width */
+  --ink-border-width-xs: 1px;
+  --ink-border-width-s: 2px;
 
-  /* Brand Buttons - Bright vibrant purple for brand actions */
-  --ink-button-brand-bg: var(--ink-cobalt-100);
-  --ink-button-brand-bg-hover: var(--ink-cobalt-90);
-  --ink-button-brand-bg-active: var(--ink-cobalt-110);
-  --ink-button-brand-text: var(--ink-white-100);
+  /* ========================================== */
+  /* inkFocusTokens                             */
+  /* ========================================== */
 
-  /* Primary Buttons - Dark purple for primary actions */
-  --ink-button-primary-bg: var(--ink-cobalt-140);
-  --ink-button-primary-bg-hover: var(--ink-cobalt-130);
-  --ink-button-primary-bg-active: var(--ink-cobalt-120);
-  --ink-button-primary-text: var(--ink-white-100);
+  /* Focus Color */
+  --ink-focus-color-default: var(--ink-neutral-140);
+  --ink-focus-color-inverse: var(--ink-white-100);
+  --ink-focus-color-inverse-inverse: var(--ink-neutral-140);
 
-  /* Secondary Buttons */
-  --ink-button-secondary-bg: transparent;
-  --ink-button-secondary-bg-hover: var(--ink-neutral-fade-5);
-  --ink-button-secondary-bg-active: var(--ink-neutral-fade-10);
-  --ink-button-secondary-border: var(--ink-neutral-fade-50);
-  --ink-button-secondary-border-hover: var(--ink-neutral-fade-70);
-  --ink-button-secondary-border-active: var(--ink-neutral-fade-90);
-  --ink-button-secondary-text: var(--ink-font-default);
+  /* Focus Width */
+  --ink-focus-width: 2px;
 
-  /* Tertiary Buttons - transparent by default per production */
-  --ink-button-tertiary-bg: transparent;
-  --ink-button-tertiary-bg-hover: var(--ink-neutral-fade-10);
-  --ink-button-tertiary-bg-active: var(--ink-neutral-fade-15);
-  --ink-button-tertiary-text: var(--ink-font-default);
+  /* Focus Offsets */
+  --ink-focus-inset: -4px;
+  --ink-focus-outset-s: 2px;
+  --ink-focus-outset-m: 4px;
+  --ink-focus-outset-l: 8px;
 
-  /* Danger Buttons */
-  --ink-button-danger-bg: var(--ink-red-90);
-  --ink-button-danger-bg-hover: var(--ink-red-100);
-  --ink-button-danger-bg-active: var(--ink-red-110);
-  --ink-button-danger-text: var(--ink-white-100);
+  /* Focus Outline Styles */
+  --ink-focus-inner: 2px solid var(--ink-neutral-140);
+  --ink-focus-inner-offset: -4px;
+  --ink-focus-outer: 2px solid var(--ink-neutral-140);
+  --ink-focus-outer-offset: 2px;
 
-  /* Component Tokens - Forms (Form tokens from official spec) */
+  /* Focus Ring */
+  --ink-focus-ring-color: var(--ink-cobalt-100);
+  --ink-focus-ring-accent: 0 0 0 2px rgba(76, 0, 251, 0.2);
+  --ink-focus-ring-accent-subtle: 0 0 0 3px rgba(76, 0, 251, 0.1);
+  --ink-focus-ring-error: 0 0 0 2px rgba(199, 5, 71, 0.2);
 
-  /* Form Backgrounds */
-  --ink-form-bg-default: var(--ink-white-100);
-  --ink-form-bg-disabled: var(--ink-neutral-fade-15);
-  --ink-form-bg-error: var(--ink-red-90);
-  --ink-form-bg-read: var(--ink-neutral-fade-5);
-  --ink-form-bg-selected: var(--ink-cobalt-120);
-  --ink-form-bg-selected-hover: var(--ink-cobalt-130);
-  --ink-form-bg-selected-active: var(--ink-cobalt-110);
-  --ink-form-bg-highlight: var(--ink-neutral-fade-10);
+  /* ========================================== */
+  /* inkItemTokens (Lists, Menus)               */
+  /* ========================================== */
 
-  /* Form Borders */
-  --ink-form-border-default: var(--ink-neutral-fade-50);
-  --ink-form-border-subtle: var(--ink-neutral-30); /* Subtle border for callouts, popovers */
-  --ink-form-border-hover: var(--ink-neutral-fade-70);
-  --ink-form-border-active: var(--ink-cobalt-120);
-  --ink-form-border-error: var(--ink-red-90);
-  --ink-form-border-selected: var(--ink-cobalt-120);
-  --ink-form-border-selected-hover: var(--ink-cobalt-130);
-  --ink-form-border-selected-active: var(--ink-cobalt-110);
-  --ink-form-border-width: 1px;
-  --ink-form-border-width-s: 2px;
-  --ink-form-border-width-active: 2px;
+  /* Item Background */
+  --ink-item-bg-color-hover: var(--ink-neutral-fade-10);
+  --ink-item-bg-color-hover-subtle: var(--ink-neutral-fade-5);
+  --ink-item-bg-color-active: var(--ink-neutral-fade-15);
+  --ink-item-bg-color-active-subtle: var(--ink-neutral-fade-10);
+  --ink-item-bg-color-selected: var(--ink-neutral-fade-10);
+  --ink-item-bg-color-selected-subtle: var(--ink-neutral-fade-5);
 
-  /* Form Text Colors */
-  --ink-form-text-required: var(--ink-red-90);
-  --ink-form-text-disabled: var(--ink-neutral-fade-50);
+  /* Item Border */
+  --ink-item-border-color-hover: var(--ink-neutral-fade-70);
+  --ink-item-border-color-active: var(--ink-neutral-fade-90);
 
-  /* Form Thumb (Slider/Switch) */
-  --ink-form-thumb-bg-default: var(--ink-neutral-100);
-  --ink-form-thumb-bg-hover: var(--ink-neutral-140);
-  --ink-form-thumb-bg-active: var(--ink-cobalt-120);
+  /* Item Inverse */
+  --ink-item-bg-color-inverse-hover: var(--ink-white-fade-10);
+  --ink-item-bg-color-inverse-hover-subtle: var(--ink-white-fade-5);
+  --ink-item-bg-color-inverse-active: var(--ink-white-fade-15);
+  --ink-item-bg-color-inverse-active-subtle: var(--ink-white-fade-10);
+  --ink-item-bg-color-inverse-selected: var(--ink-white-fade-10);
+  --ink-item-bg-color-inverse-selected-subtle: var(--ink-white-fade-5);
+  --ink-item-border-color-inverse-hover: var(--ink-white-fade-70);
+  --ink-item-border-color-inverse-active: var(--ink-neutral-fade-90);
 
-  /* Form Inverse Values (for dark/inverse themes) */
-  --ink-form-bg-default-inverse: var(--ink-neutral-140);
-  --ink-form-bg-disabled-inverse: var(--ink-white-fade-15);
-  --ink-form-bg-error-inverse: var(--ink-red-50);
-  --ink-form-bg-read-inverse: var(--ink-white-fade-5);
-  --ink-form-bg-selected-inverse: var(--ink-cobalt-40);
-  --ink-form-bg-selected-hover-inverse: var(--ink-cobalt-30);
-  --ink-form-bg-selected-active-inverse: var(--ink-cobalt-60);
-  --ink-form-bg-highlight-inverse: var(--ink-white-fade-10);
-  --ink-form-border-default-inverse: var(--ink-white-fade-50);
-  --ink-form-border-hover-inverse: var(--ink-white-fade-70);
-  --ink-form-border-active-inverse: var(--ink-cobalt-40);
-  --ink-form-border-error-inverse: var(--ink-red-50);
-  --ink-form-border-selected-inverse: var(--ink-cobalt-40);
-  --ink-form-border-selected-hover-inverse: var(--ink-cobalt-30);
-  --ink-form-border-selected-active-inverse: var(--ink-cobalt-60);
-  --ink-form-text-required-inverse: var(--ink-red-50);
-  --ink-form-text-disabled-inverse: var(--ink-white-fade-50);
-  --ink-form-thumb-bg-default-inverse: var(--ink-neutral-50);
-  --ink-form-thumb-bg-hover-inverse: var(--ink-white-100);
-  --ink-form-thumb-bg-active-inverse: var(--ink-cobalt-40);
+  /* ========================================== */
+  /* inkIconTokens                              */
+  /* ========================================== */
 
-  /* Component Tokens - Icons */
-
-  /* Icon Colors */
+  /* Icon Color */
   --ink-icon-color-default: var(--ink-neutral-fade-90);
   --ink-icon-color-accent: var(--ink-cobalt-100);
   --ink-icon-color-accent-emphasis: var(--ink-cobalt-110);
@@ -351,167 +514,286 @@
   --ink-icon-color-warning-emphasis: var(--ink-orange-110);
   --ink-icon-color-warning-subtle: var(--ink-orange-30);
 
-  /* Icon Colors Inverse (for dark/inverse themes) */
-  --ink-icon-color-default-inverse: var(--ink-white-fade-90);
-  --ink-icon-color-accent-inverse: var(--ink-cobalt-40);
-  --ink-icon-color-accent-emphasis-inverse: var(--ink-cobalt-20);
-  --ink-icon-color-accent-subtle-inverse: var(--ink-cobalt-110);
-  --ink-icon-color-disabled-inverse: var(--ink-white-fade-20);
-  --ink-icon-color-emphasis-inverse: var(--ink-white-100);
-  --ink-icon-color-error-inverse: var(--ink-red-50);
-  --ink-icon-color-error-emphasis-inverse: var(--ink-red-30);
-  --ink-icon-color-error-subtle-inverse: var(--ink-red-100);
+  /* Icon Color Inverse */
+  --ink-icon-color-inverse-default: var(--ink-white-fade-90);
+  --ink-icon-color-inverse-accent: var(--ink-cobalt-40);
+  --ink-icon-color-inverse-accent-emphasis: var(--ink-cobalt-20);
+  --ink-icon-color-inverse-accent-subtle: var(--ink-cobalt-110);
+  --ink-icon-color-inverse-disabled: var(--ink-white-fade-20);
+  --ink-icon-color-inverse-emphasis: var(--ink-white-100);
+  --ink-icon-color-inverse-error: var(--ink-red-50);
+  --ink-icon-color-inverse-error-emphasis: var(--ink-red-30);
+  --ink-icon-color-inverse-error-subtle: var(--ink-red-100);
   --ink-icon-color-inverse-inverse: var(--ink-neutral-fade-90);
-  --ink-icon-color-inverse-emphasis-inverse: var(--ink-neutral-140);
-  --ink-icon-color-inverse-subtle-inverse: var(--ink-neutral-fade-70);
-  --ink-icon-color-success-inverse: var(--ink-green-50);
-  --ink-icon-color-success-emphasis-inverse: var(--ink-green-30);
-  --ink-icon-color-success-subtle-inverse: var(--ink-green-100);
-  --ink-icon-color-subtle-inverse: var(--ink-white-fade-70);
-  --ink-icon-color-warning-inverse: var(--ink-orange-40);
-  --ink-icon-color-warning-emphasis-inverse: var(--ink-orange-30);
-  --ink-icon-color-warning-subtle-inverse: var(--ink-orange-100);
+  --ink-icon-color-inverse-inverse-emphasis: var(--ink-neutral-140);
+  --ink-icon-color-inverse-inverse-subtle: var(--ink-neutral-fade-70);
+  --ink-icon-color-inverse-success: var(--ink-green-50);
+  --ink-icon-color-inverse-success-emphasis: var(--ink-green-30);
+  --ink-icon-color-inverse-success-subtle: var(--ink-green-100);
+  --ink-icon-color-inverse-subtle: var(--ink-white-fade-70);
+  --ink-icon-color-inverse-warning: var(--ink-orange-40);
+  --ink-icon-color-inverse-warning-emphasis: var(--ink-orange-30);
+  --ink-icon-color-inverse-warning-subtle: var(--ink-orange-100);
 
-  /* Icon Sizes */
+  /* Icon Size */
   --ink-icon-size-s: 20px;
   --ink-icon-size-m: 24px;
 
-  /* Component Tokens - Items (Lists, Menus, etc.) */
+  /* ========================================== */
+  /* inkBarTokens (Progress, Sliders)           */
+  /* ========================================== */
 
-  /* Item Backgrounds */
-  --ink-item-bg-hover: var(--ink-neutral-fade-10);
-  --ink-item-bg-hover-subtle: var(--ink-neutral-fade-5);
-  --ink-item-bg-active: var(--ink-neutral-fade-15);
-  --ink-item-bg-active-subtle: var(--ink-neutral-fade-10);
-  --ink-item-bg-selected: var(--ink-neutral-fade-10);
-  --ink-item-bg-selected-subtle: var(--ink-neutral-fade-5);
+  /* Bar Fill */
+  --ink-bar-fill-color-default: var(--ink-cobalt-80);
+  --ink-bar-fill-color-emphasis: var(--ink-neutral-140);
+  --ink-bar-fill-color-accent-emphasis: var(--ink-cobalt-120);
+  --ink-bar-fill-color-error: var(--ink-red-80);
+  --ink-bar-fill-color-subtle: var(--ink-neutral-fade-70);
+  --ink-bar-fill-color-success: var(--ink-green-80);
+  --ink-bar-fill-color-warning: var(--ink-orange-80);
 
-  /* Item Borders */
-  --ink-item-border-hover: var(--ink-neutral-fade-70);
-  --ink-item-border-active: var(--ink-neutral-fade-90);
+  /* Bar Track */
+  --ink-bar-track-color-default: var(--ink-neutral-fade-10);
+  --ink-bar-track-color-emphasis: var(--ink-neutral-140);
+  --ink-bar-track-color-visited: var(--ink-cobalt-140);
 
-  /* Item Inverse Values (for dark/inverse themes) */
-  --ink-item-bg-hover-inverse: var(--ink-white-fade-10);
-  --ink-item-bg-hover-subtle-inverse: var(--ink-white-fade-5);
-  --ink-item-bg-active-inverse: var(--ink-white-fade-15);
-  --ink-item-bg-active-subtle-inverse: var(--ink-white-fade-10);
-  --ink-item-bg-selected-inverse: var(--ink-white-fade-10);
-  --ink-item-bg-selected-subtle-inverse: var(--ink-white-fade-5);
-  --ink-item-border-hover-inverse: var(--ink-white-fade-70);
-  --ink-item-border-active-inverse: var(--ink-neutral-fade-90);
+  /* Bar Stop Indicator */
+  --ink-bar-stop-indicator-color: var(--ink-neutral-fade-50);
 
-  /* Opacity */
-  --ink-opacity-disabled: 0.25;
-
-  /* Component Tokens - Status */
-
-  /* Status Backgrounds */
-  --ink-status-bg-accent: var(--ink-cobalt-110);
-  --ink-status-bg-accent-subtle: var(--ink-cobalt-20);
-  --ink-status-bg-alert: var(--ink-red-20);
-  --ink-status-bg-current: var(--ink-cobalt-110);
-  --ink-status-bg-emphasis: var(--ink-neutral-110);
-  --ink-status-bg-future: var(--ink-neutral-fade-10);
-  --ink-status-bg-neutral: var(--ink-neutral-fade-70);
-  --ink-status-bg-past: var(--ink-cobalt-20);
-  --ink-status-bg-subtle: var(--ink-neutral-20);
-  --ink-status-bg-subtle-inverse: var(--ink-neutral-90);
-  --ink-status-bg-success: var(--ink-green-20);
-  --ink-status-bg-warning: var(--ink-orange-20);
-
-  /* Status Inverse Values (for dark/inverse themes) */
-  --ink-status-bg-accent-inverse: var(--ink-cobalt-40);
-  --ink-status-bg-accent-subtle-inverse: var(--ink-cobalt-130);
-  --ink-status-bg-alert-inverse: var(--ink-red-110);
-  --ink-status-bg-current-inverse: var(--ink-cobalt-40);
-  --ink-status-bg-emphasis-inverse: var(--ink-neutral-20);
-  --ink-status-bg-future-inverse: var(--ink-white-fade-10);
-  --ink-status-bg-neutral-inverse: var(--ink-white-fade-70);
-  --ink-status-bg-past-inverse: var(--ink-cobalt-20);
-  --ink-status-bg-subtle-inverse: var(--ink-neutral-110);
-  --ink-status-bg-subtle-inverse-inverse: var(--ink-white-100);
-  --ink-status-bg-success-inverse: var(--ink-green-110);
-  --ink-status-bg-warning-inverse: var(--ink-orange-110);
-
-  /* Component Tokens - Messages */
-
-  /* Message Backgrounds */
-  --ink-message-bg-default: var(--ink-neutral-110);
-  --ink-message-bg-alert: var(--ink-red-90);
-  --ink-message-bg-alert-alternate: var(--ink-neutral-90);
-  --ink-message-bg-emphasis: var(--ink-neutral-fade-90);
-  --ink-message-bg-error: var(--ink-red-20);
-  --ink-message-bg-promo: var(--ink-cobalt-20);
-  --ink-message-bg-subtle: var(--ink-neutral-fade-5);
-  --ink-message-bg-success: var(--ink-green-20);
-  --ink-message-bg-warning: var(--ink-orange-20);
-
-  /* Message Borders */
-  --ink-message-border-default: var(--ink-neutral-140);
-  --ink-message-border-promo: var(--ink-cobalt-100);
-
-  /* Message Inverse Values (for dark/inverse themes) */
-  --ink-message-bg-default-inverse: var(--ink-neutral-20);
-  --ink-message-bg-alert-inverse: var(--ink-red-50);
-  --ink-message-bg-alert-alternate-inverse: var(--ink-white-100);
-  --ink-message-bg-emphasis-inverse: var(--ink-white-fade-90);
-  --ink-message-bg-error-inverse: var(--ink-red-110);
-  --ink-message-bg-promo-inverse: var(--ink-cobalt-110);
-  --ink-message-bg-subtle-inverse: var(--ink-white-fade-5);
-  --ink-message-bg-success-inverse: var(--ink-green-110);
-  --ink-message-bg-warning-inverse: var(--ink-orange-110);
-  --ink-message-border-default-inverse: var(--ink-neutral-140);
-  --ink-message-border-promo-inverse: var(--ink-cobalt-100);
-
-  /* Component Tokens - Bar */
-
-  /* Bar Fill Colors */
-  --ink-bar-fill-default: var(--ink-cobalt-80);
-  --ink-bar-fill-emphasis: var(--ink-neutral-140);
-  --ink-bar-fill-accent-emphasis: var(--ink-cobalt-120);
-  --ink-bar-fill-error: var(--ink-red-80);
-  --ink-bar-fill-subtle: var(--ink-neutral-fade-70);
-  --ink-bar-fill-success: var(--ink-green-80);
-  --ink-bar-fill-warning: var(--ink-orange-80);
-
-  /* Bar Track Colors */
-  --ink-bar-track-default: var(--ink-neutral-fade-10);
-  --ink-bar-track-emphasis: var(--ink-neutral-140);
-  --ink-bar-track-visited: var(--ink-cobalt-140);
-
-  /* Bar Indicator Colors */
-  --ink-bar-stop-indicator: var(--ink-neutral-fade-50);
-
-  /* Bar Widths */
+  /* Bar Width */
   --ink-bar-width-xs: 2px;
   --ink-bar-width-s: 4px;
   --ink-bar-width-m: 8px;
 
-  /* Bar Inverse Values (for dark/inverse themes) */
-  --ink-bar-fill-default-inverse: var(--ink-cobalt-60);
-  --ink-bar-fill-emphasis-inverse: var(--ink-white-100);
-  --ink-bar-fill-accent-emphasis-inverse: var(--ink-cobalt-20);
-  --ink-bar-fill-error-inverse: var(--ink-red-50);
-  --ink-bar-fill-subtle-inverse: var(--ink-white-fade-70);
-  --ink-bar-fill-success-inverse: var(--ink-green-50);
-  --ink-bar-fill-warning-inverse: var(--ink-orange-50);
-  --ink-bar-track-default-inverse: var(--ink-white-fade-10);
-  --ink-bar-track-emphasis-inverse: var(--ink-white-100);
-  --ink-bar-track-visited-inverse: var(--ink-cobalt-40);
-  --ink-bar-stop-indicator-inverse: var(--ink-white-fade-50);
+  /* Bar Inverse */
+  --ink-bar-fill-color-inverse-default: var(--ink-cobalt-60);
+  --ink-bar-fill-color-inverse-emphasis: var(--ink-white-100);
+  --ink-bar-fill-color-inverse-accent-emphasis: var(--ink-cobalt-20);
+  --ink-bar-fill-color-inverse-error: var(--ink-red-50);
+  --ink-bar-fill-color-inverse-subtle: var(--ink-white-fade-70);
+  --ink-bar-fill-color-inverse-success: var(--ink-green-50);
+  --ink-bar-fill-color-inverse-warning: var(--ink-orange-50);
+  --ink-bar-track-color-inverse-default: var(--ink-white-fade-10);
+  --ink-bar-track-color-inverse-emphasis: var(--ink-white-100);
+  --ink-bar-track-color-inverse-visited: var(--ink-cobalt-40);
+  --ink-bar-stop-indicator-color-inverse: var(--ink-white-fade-50);
 
-  /* Component Tokens - Elevation */
+  /* ========================================== */
+  /* inkStatusTokens                            */
+  /* ========================================== */
+
+  /* Status Background */
+  --ink-status-bg-color-accent: var(--ink-cobalt-110);
+  --ink-status-bg-color-accent-subtle: var(--ink-cobalt-20);
+  --ink-status-bg-color-alert: var(--ink-red-20);
+  --ink-status-bg-color-current: var(--ink-cobalt-110);
+  --ink-status-bg-color-emphasis: var(--ink-neutral-110);
+  --ink-status-bg-color-future: var(--ink-neutral-fade-10);
+  --ink-status-bg-color-neutral: var(--ink-neutral-fade-70);
+  --ink-status-bg-color-past: var(--ink-cobalt-20);
+  --ink-status-bg-color-subtle: var(--ink-neutral-20);
+  --ink-status-bg-color-subtle-inverse: var(--ink-neutral-90);
+  --ink-status-bg-color-success: var(--ink-green-20);
+  --ink-status-bg-color-warning: var(--ink-orange-20);
+
+  /* Status Semantic */
+  --ink-status-info-bg-color: var(--ink-cobalt-20);
+  --ink-status-info-border-color: var(--ink-cobalt-100);
+  --ink-status-info-icon-color: var(--ink-cobalt-100);
+  --ink-status-warn-bg-color: var(--ink-orange-20);
+  --ink-status-warn-border-color: var(--ink-orange-80);
+  --ink-status-warn-icon-color: var(--ink-orange-80);
+  --ink-status-critical-bg-color: var(--ink-red-20);
+  --ink-status-critical-border-color: var(--ink-red-80);
+  --ink-status-critical-icon-color: var(--ink-red-80);
+  --ink-status-warning-font-color: var(--ink-orange-100);
+
+  /* Status Inverse */
+  --ink-status-bg-color-inverse-accent: var(--ink-cobalt-40);
+  --ink-status-bg-color-inverse-accent-subtle: var(--ink-cobalt-130);
+  --ink-status-bg-color-inverse-alert: var(--ink-red-110);
+  --ink-status-bg-color-inverse-current: var(--ink-cobalt-40);
+  --ink-status-bg-color-inverse-emphasis: var(--ink-neutral-20);
+  --ink-status-bg-color-inverse-future: var(--ink-white-fade-10);
+  --ink-status-bg-color-inverse-neutral: var(--ink-white-fade-70);
+  --ink-status-bg-color-inverse-past: var(--ink-cobalt-20);
+  --ink-status-bg-color-inverse-subtle: var(--ink-neutral-110);
+  --ink-status-bg-color-inverse-subtle-inverse: var(--ink-white-100);
+  --ink-status-bg-color-inverse-success: var(--ink-green-110);
+  --ink-status-bg-color-inverse-warning: var(--ink-orange-110);
+
+  /* ========================================== */
+  /* inkMessageTokens (Alerts, Banners, Toast)  */
+  /* ========================================== */
+
+  /* Message Background */
+  --ink-message-bg-color-default: var(--ink-neutral-110);
+  --ink-message-bg-color-alert: var(--ink-red-90);
+  --ink-message-bg-color-alert-alternate: var(--ink-neutral-90);
+  --ink-message-bg-color-emphasis: var(--ink-neutral-fade-90);
+  --ink-message-bg-color-error: var(--ink-red-20);
+  --ink-message-bg-color-promo: var(--ink-cobalt-20);
+  --ink-message-bg-color-subtle: var(--ink-neutral-fade-5);
+  --ink-message-bg-color-success: var(--ink-green-20);
+  --ink-message-bg-color-warning: var(--ink-orange-20);
+
+  /* Message Border */
+  --ink-message-border-color-default: var(--ink-neutral-140);
+  --ink-message-border-color-promo: var(--ink-cobalt-100);
+
+  /* Message Inverse */
+  --ink-message-bg-color-inverse-default: var(--ink-neutral-20);
+  --ink-message-bg-color-inverse-alert: var(--ink-red-50);
+  --ink-message-bg-color-inverse-alert-alternate: var(--ink-white-100);
+  --ink-message-bg-color-inverse-emphasis: var(--ink-white-fade-90);
+  --ink-message-bg-color-inverse-error: var(--ink-red-110);
+  --ink-message-bg-color-inverse-promo: var(--ink-cobalt-110);
+  --ink-message-bg-color-inverse-subtle: var(--ink-white-fade-5);
+  --ink-message-bg-color-inverse-success: var(--ink-green-110);
+  --ink-message-bg-color-inverse-warning: var(--ink-orange-110);
+  --ink-message-border-color-inverse-default: var(--ink-neutral-140);
+  --ink-message-border-color-inverse-promo: var(--ink-cobalt-100);
+
+  /* ========================================== */
+  /* inkTagTokens                               */
+  /* ========================================== */
+
+  /* Tag Background */
+  --ink-tag-bg-color-active: var(--ink-neutral-fade-5);
+  --ink-tag-bg-color-selected: var(--ink-cobalt-140);
+  --ink-tag-bg-color-selected-active: var(--ink-cobalt-120);
+  --ink-tag-bg-color-selected-hover: var(--ink-cobalt-130);
+
+  /* Tag Inverse */
+  --ink-tag-bg-color-inverse-active: var(--ink-white-fade-10);
+  --ink-tag-bg-color-inverse-selected: var(--ink-cobalt-10);
+  --ink-tag-bg-color-inverse-selected-active: var(--ink-cobalt-30);
+  --ink-tag-bg-color-inverse-selected-hover: var(--ink-cobalt-20);
+
+  /* ========================================== */
+  /* inkBadgeTokens                             */
+  /* ========================================== */
+
+  /* AI Badge Colors */
+  --ink-badge-ai-bg-color: #f6f2ff;
+  --ink-badge-ai-bg-color-hover: #ebe4ff;
+  --ink-badge-ai-bg-color-hover-interactive: #e0d6ff;
+  --ink-badge-ai-bg-color-active: #d9ccff;
+
+  /* ========================================== */
+  /* inkRecipientTokens                         */
+  /* ========================================== */
+
+  /* Recipient Background - Variant 100 (Cyan) */
+  --ink-recipient-bg-color-100: var(--ink-cyan-20);
+  --ink-recipient-bg-color-100-rest: var(--ink-cyan-30);
+  --ink-recipient-bg-color-100-hover: var(--ink-cyan-40);
+  --ink-recipient-bg-color-100-active: var(--ink-cyan-50);
+
+  /* Recipient Background - Variant 150 (Teal) */
+  --ink-recipient-bg-color-150: #b6e9e7;
+  --ink-recipient-bg-color-150-rest: #a8dfdd;
+  --ink-recipient-bg-color-150-hover: #a2d5d3;
+  --ink-recipient-bg-color-150-active: #96d3d0;
+
+  /* Recipient Background - Variant 200 (Green) */
+  --ink-recipient-bg-color-200: var(--ink-green-20);
+  --ink-recipient-bg-color-200-rest: var(--ink-green-30);
+  --ink-recipient-bg-color-200-hover: var(--ink-green-40);
+  --ink-recipient-bg-color-200-active: var(--ink-green-50);
+
+  /* Recipient Background - Variant 250 (Purple) */
+  --ink-recipient-bg-color-250: var(--ink-purple-20);
+  --ink-recipient-bg-color-250-rest: var(--ink-purple-30);
+  --ink-recipient-bg-color-250-hover: var(--ink-purple-40);
+  --ink-recipient-bg-color-250-active: var(--ink-purple-50);
+
+  /* Recipient Background - Variant 300 (Light Purple) */
+  --ink-recipient-bg-color-300: #e6e2ff;
+  --ink-recipient-bg-color-300-rest: #d8d3f3;
+  --ink-recipient-bg-color-300-hover: #d5cdfd;
+  --ink-recipient-bg-color-300-active: #d1c8ff;
+
+  /* Recipient Background - Variant 350 (Pink/Red) */
+  --ink-recipient-bg-color-350: #ffd8d6;
+  --ink-recipient-bg-color-350-rest: #ffc2c4;
+  --ink-recipient-bg-color-350-hover: #f6adb0;
+  --ink-recipient-bg-color-350-active: #ff9da0;
+
+  /* Recipient Background - Variant 400 (Orange) */
+  --ink-recipient-bg-color-400: var(--ink-orange-10);
+  --ink-recipient-bg-color-400-rest: var(--ink-orange-20);
+  --ink-recipient-bg-color-400-hover: var(--ink-orange-30);
+  --ink-recipient-bg-color-400-active: var(--ink-orange-40);
+
+  /* Recipient Background - Variant 450 (Yellow) */
+  --ink-recipient-bg-color-450: #fff0b2;
+  --ink-recipient-bg-color-450-rest: #ffe98f;
+  --ink-recipient-bg-color-450-hover: #fbe27b;
+  --ink-recipient-bg-color-450-active: #f9e17c;
+
+  /* Recipient Background - Variant 500 (Blue) */
+  --ink-recipient-bg-color-500: #d9e3ff;
+  --ink-recipient-bg-color-500-rest: #beceff;
+  --ink-recipient-bg-color-500-hover: #b4c7ff;
+  --ink-recipient-bg-color-500-active: #94b0ff;
+
+  /* Recipient Background - Variant 550 (Fuchsia) */
+  --ink-recipient-bg-color-550: #ffc6e3;
+  --ink-recipient-bg-color-550-rest: #ffb2d9;
+  --ink-recipient-bg-color-550-hover: #ffaad5;
+  --ink-recipient-bg-color-550-active: #ff9fcf;
+
+  /* Recipient Background - Special */
+  --ink-recipient-bg-color-fallback: var(--ink-neutral-20);
+  --ink-recipient-bg-color-sign: var(--ink-cobalt-20);
+  --ink-recipient-bg-color-sign-rest: var(--ink-cobalt-30);
+  --ink-recipient-bg-color-sign-hover: var(--ink-cobalt-40);
+  --ink-recipient-bg-color-sign-active: var(--ink-cobalt-50);
+
+  /* Recipient Border */
+  --ink-recipient-border-color-100: #009dbd;
+  --ink-recipient-border-color-150: #127874;
+  --ink-recipient-border-color-200: #06a16c;
+  --ink-recipient-border-color-250: #b245c6;
+  --ink-recipient-border-color-300: #6a6495;
+  --ink-recipient-border-color-350: #ba5100;
+  --ink-recipient-border-color-400: #e77504;
+  --ink-recipient-border-color-450: #c98400;
+  --ink-recipient-border-color-500: #5b8bff;
+  --ink-recipient-border-color-550: #ff42a3;
+  --ink-recipient-border-color-sign: var(--ink-cobalt-100);
+  --ink-recipient-border-color-selected: var(--ink-cobalt-70);
+  --ink-recipient-border-color-selected-emphasis: var(--ink-cobalt-110);
+  --ink-recipient-border-color-selected-subtle: var(--ink-cobalt-50);
+
+  /* Recipient Font */
+  --ink-recipient-font-color-100: var(--ink-cyan-100);
+  --ink-recipient-font-color-150: #02504d;
+  --ink-recipient-font-color-200: var(--ink-green-100);
+  --ink-recipient-font-color-250: var(--ink-fuchsia-100);
+  --ink-recipient-font-color-300: #4b12ce;
+  --ink-recipient-font-color-350: var(--ink-red-90);
+  --ink-recipient-font-color-400: var(--ink-orange-100);
+  --ink-recipient-font-color-450: #6f3b0d;
+  --ink-recipient-font-color-500: #002965;
+  --ink-recipient-font-color-550: #7c1089;
+  --ink-recipient-font-color-sign: var(--ink-cobalt-100);
+
+  /* ========================================== */
+  /* inkElevationTokens                         */
+  /* ========================================== */
 
   /* Elevation Shadows */
   --ink-elevation-low: 0 4px 8px 0 rgba(19, 0, 50, 0.15);
   --ink-elevation-medium: 0 8px 20px 0 rgba(19, 0, 50, 0.15);
   --ink-elevation-high: 0 8px 32px 0 rgba(19, 0, 50, 0.15);
   --ink-elevation-drag: 0 8px 20px 0 rgba(19, 0, 50, 0.15);
-
-  /* Elevation Glass Effect */
   --ink-elevation-glass: 8px;
 
-  /* Component Tokens - Gradient */
+  /* ========================================== */
+  /* inkGradientTokens                          */
+  /* ========================================== */
 
   /* Decorative Gradients */
   --ink-gradient-pearl: linear-gradient(174deg, var(--ink-ecru-10) 0%, var(--ink-white-100) 100%);
@@ -531,36 +813,9 @@
     var(--ink-cobalt-100) 100%
   );
 
-  /* Component Tokens - Focus */
-
-  /* Focus Colors */
-  --ink-focus-color: var(--ink-neutral-140);
-  --ink-focus-color-inverse: var(--ink-white-100);
-
-  /* Focus Inverse Values (for dark/inverse themes) */
-  --ink-focus-color-inverse-inverse: var(--ink-neutral-140);
-
-  /* Focus Width */
-  --ink-focus-width: 2px;
-
-  /* Focus Offsets */
-  --ink-focus-inset: -4px;
-  --ink-focus-outset-s: 2px;
-  --ink-focus-outset-m: 4px;
-  --ink-focus-outset-l: 8px;
-
-  /* Focus Outline Styles (composite values) */
-  --ink-focus-inner: 2px solid var(--ink-neutral-140);
-  --ink-focus-inner-offset: -4px;
-  --ink-focus-outer: 2px solid var(--ink-neutral-140);
-  --ink-focus-outer-offset: 2px;
-
-  /* Focus Ring Shadows (for form elements) */
-  --ink-focus-ring-accent: 0 0 0 2px rgba(76, 0, 251, 0.2);
-  --ink-focus-ring-accent-subtle: 0 0 0 3px rgba(76, 0, 251, 0.1);
-  --ink-focus-ring-error: 0 0 0 2px rgba(199, 5, 71, 0.2);
-
-  /* Component Tokens - Breakpoint */
+  /* ========================================== */
+  /* inkBreakpointTokens                        */
+  /* ========================================== */
 
   /* Device Breakpoints */
   --ink-breakpoint-xs: 544px;
@@ -570,127 +825,22 @@
   --ink-breakpoint-xl: 1440px;
   --ink-breakpoint-xxl: 1920px;
 
-  /* Component Tokens - Tags */
+  /* ========================================== */
+  /* inkOpacityTokens                           */
+  /* ========================================== */
 
-  /* Tag Backgrounds */
-  --ink-tag-bg-active: var(--ink-neutral-fade-5);
-  --ink-tag-bg-selected: var(--ink-cobalt-140);
-  --ink-tag-bg-selected-active: var(--ink-cobalt-120);
-  --ink-tag-bg-selected-hover: var(--ink-cobalt-130);
+  --ink-opacity-disabled: 0.25;
 
-  /* Tag Inverse Values (for dark/inverse themes) */
-  --ink-tag-bg-active-inverse: var(--ink-white-fade-10);
-  --ink-tag-bg-selected-inverse: var(--ink-cobalt-10);
-  --ink-tag-bg-selected-active-inverse: var(--ink-cobalt-30);
-  --ink-tag-bg-selected-hover-inverse: var(--ink-cobalt-20);
+  /* ========================================== */
+  /* TYPOGRAPHY                                 */
+  /* ========================================== */
 
-  /* Component Tokens - Recipients */
-
-  /* Recipient Background Colors - Variant 100 (Cyan) */
-  --ink-recipient-bg-100: var(--ink-cyan-20);
-  --ink-recipient-bg-100-rest: var(--ink-cyan-30);
-  --ink-recipient-bg-100-hover: var(--ink-cyan-40);
-  --ink-recipient-bg-100-active: var(--ink-cyan-50);
-
-  /* Recipient Background Colors - Variant 150 (Teal) */
-  --ink-recipient-bg-150: #b6e9e7;
-  --ink-recipient-bg-150-rest: #a8dfdd;
-  --ink-recipient-bg-150-hover: #a2d5d3;
-  --ink-recipient-bg-150-active: #96d3d0;
-
-  /* Recipient Background Colors - Variant 200 (Green) */
-  --ink-recipient-bg-200: var(--ink-green-20);
-  --ink-recipient-bg-200-rest: var(--ink-green-30);
-  --ink-recipient-bg-200-hover: var(--ink-green-40);
-  --ink-recipient-bg-200-active: var(--ink-green-50);
-
-  /* Recipient Background Colors - Variant 250 (Purple) */
-  --ink-recipient-bg-250: var(--ink-purple-20);
-  --ink-recipient-bg-250-rest: var(--ink-purple-30);
-  --ink-recipient-bg-250-hover: var(--ink-purple-40);
-  --ink-recipient-bg-250-active: var(--ink-purple-50);
-
-  /* Recipient Background Colors - Variant 300 (Light Purple) */
-  --ink-recipient-bg-300: #e6e2ff;
-  --ink-recipient-bg-300-rest: #d8d3f3;
-  --ink-recipient-bg-300-hover: #d5cdfd;
-  --ink-recipient-bg-300-active: #d1c8ff;
-
-  /* Recipient Background Colors - Variant 350 (Pink/Red) */
-  --ink-recipient-bg-350: #ffd8d6;
-  --ink-recipient-bg-350-rest: #ffc2c4;
-  --ink-recipient-bg-350-hover: #f6adb0;
-  --ink-recipient-bg-350-active: #ff9da0;
-
-  /* Recipient Background Colors - Variant 400 (Orange) */
-  --ink-recipient-bg-400: var(--ink-orange-10);
-  --ink-recipient-bg-400-rest: var(--ink-orange-20);
-  --ink-recipient-bg-400-hover: var(--ink-orange-30);
-  --ink-recipient-bg-400-active: var(--ink-orange-40);
-
-  /* Recipient Background Colors - Variant 450 (Yellow) */
-  --ink-recipient-bg-450: #fff0b2;
-  --ink-recipient-bg-450-rest: #ffe98f;
-  --ink-recipient-bg-450-hover: #fbe27b;
-  --ink-recipient-bg-450-active: #f9e17c;
-
-  /* Recipient Background Colors - Variant 500 (Blue) */
-  --ink-recipient-bg-500: #d9e3ff;
-  --ink-recipient-bg-500-rest: #beceff;
-  --ink-recipient-bg-500-hover: #b4c7ff;
-  --ink-recipient-bg-500-active: #94b0ff;
-
-  /* Recipient Background Colors - Variant 550 (Fuchsia) */
-  --ink-recipient-bg-550: #ffc6e3;
-  --ink-recipient-bg-550-rest: #ffb2d9;
-  --ink-recipient-bg-550-hover: #ffaad5;
-  --ink-recipient-bg-550-active: #ff9fcf;
-
-  /* Recipient Background Colors - Special */
-  --ink-recipient-bg-fallback: var(--ink-neutral-20);
-  --ink-recipient-bg-sign: var(--ink-cobalt-20);
-  --ink-recipient-bg-sign-rest: var(--ink-cobalt-30);
-  --ink-recipient-bg-sign-hover: var(--ink-cobalt-40);
-  --ink-recipient-bg-sign-active: var(--ink-cobalt-50);
-
-  /* AI Badge Colors - Extended Orchid palette from Figma */
-  --ink-ai-badge-bg: #f6f2ff;
-  --ink-ai-badge-bg-hover: #ebe4ff;
-  --ink-ai-badge-bg-hover-interactive: #e0d6ff;
-  --ink-ai-badge-bg-active: #d9ccff;
-
-  /* Recipient Border Colors */
-  --ink-recipient-border-100: #009dbd;
-  --ink-recipient-border-150: #127874;
-  --ink-recipient-border-200: #06a16c;
-  --ink-recipient-border-250: #b245c6;
-  --ink-recipient-border-300: #6a6495;
-  --ink-recipient-border-350: #ba5100;
-  --ink-recipient-border-400: #e77504;
-  --ink-recipient-border-450: #c98400;
-  --ink-recipient-border-500: #5b8bff;
-  --ink-recipient-border-550: #ff42a3;
-  --ink-recipient-border-sign: var(--ink-cobalt-100);
-  --ink-recipient-border-selected: var(--ink-cobalt-70);
-  --ink-recipient-border-selected-emphasis: var(--ink-cobalt-110);
-  --ink-recipient-border-selected-subtle: var(--ink-cobalt-50);
-
-  /* Recipient Font Colors */
-  --ink-recipient-font-100: var(--ink-cyan-100);
-  --ink-recipient-font-150: #02504d;
-  --ink-recipient-font-200: var(--ink-green-100);
-  --ink-recipient-font-250: var(--ink-fuchsia-100);
-  --ink-recipient-font-300: #4b12ce;
-  --ink-recipient-font-350: var(--ink-red-90);
-  --ink-recipient-font-400: var(--ink-orange-100);
-  --ink-recipient-font-450: #6f3b0d;
-  --ink-recipient-font-500: #002965;
-  --ink-recipient-font-550: #7c1089;
-  --ink-recipient-font-sign: var(--ink-cobalt-100);
-
-  /* Typography */
+  /* Font Family */
   --ink-font-family:
     'DS Indigo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --ink-font-family-default: var(--ink-font-family);
+
+  /* Font Size */
   --ink-font-size-xs: 12px;
   --ink-font-size-sm: 14px;
   --ink-font-size-md: 16px;
@@ -700,22 +850,22 @@
   --ink-font-size-3xl: 30px;
   --ink-font-size-4xl: 36px;
 
+  /* Font Weight */
   --ink-font-weight-light: 300;
   --ink-font-weight-regular: 400;
   --ink-font-weight-medium: 500;
   --ink-font-weight-semibold: 600;
   --ink-font-weight-bold: 700;
 
+  /* Line Height */
   --ink-line-height-tight: 1.25;
   --ink-line-height-normal: 1.5;
   --ink-line-height-relaxed: 1.75;
 
+  /* Letter Spacing */
   --ink-letter-spacing-wide: 0.16px;
   --ink-letter-spacing-normal: 0;
   --ink-letter-spacing-tight: -0.02em;
-
-  /* ========== Component Typography Tokens ========== */
-  /* Semantic typography styles matching Figma's component-specific font styles */
 
   /* Detail Text Styles */
   --ink-font-detail-xs-size: 10px;
@@ -755,7 +905,7 @@
   --ink-font-display-xl-size: 72px;
   --ink-font-display-xl-line-height: 1.25;
 
-  /* Component-Specific Typography */
+  /* Component Typography */
   --ink-font-avatar-group-size: 12px;
   --ink-font-avatar-group-line-height: 1.5;
   --ink-font-badge-size: 12px;
@@ -774,6 +924,8 @@
   --ink-font-link-line-height: 1.5;
   --ink-font-link-s-size: 14px;
   --ink-font-link-s-line-height: 1.4;
+  --ink-font-link-m-size: 16px;
+  --ink-font-link-m-line-height: 1.5;
   --ink-font-section-headline-size: 12px;
   --ink-font-section-headline-line-height: 1.5;
   --ink-font-tab-size: 14px;
@@ -781,42 +933,63 @@
   --ink-font-timestamp-size: 12px;
   --ink-font-timestamp-line-height: 1.5;
 
-  /* Spacing - Updated to match official tokens */
-  --ink-spacing-0: 0px;
-  --ink-spacing-50: 4px; /* spacingGap50 */
-  --ink-spacing-100: 8px; /* spacingGap100 */
-  --ink-spacing-150: 12px; /* spacingGap150 */
-  --ink-spacing-200: 16px; /* spacingGap200 */
-  --ink-spacing-250: 20px; /* spacingGap250 */
-  --ink-spacing-300: 24px; /* spacingGap300 */
-  --ink-spacing-350: 36px; /* spacingGap350 - for Switch track width */
-  --ink-spacing-400: 32px; /* spacingGap400 */
-  --ink-spacing-500: 40px; /* spacingGap500 */
-  --ink-spacing-600: 48px; /* spacingGap600 */
-  --ink-spacing-700: 64px; /* spacingGap700 */
+  /* Link Typography */
+  --ink-font-link-text-decoration: underline;
+  --ink-font-link-underline-offset: 3px;
+  --ink-font-link-underline-thickness: 1px;
 
-  /* Legacy spacing aliases for compatibility */
+  /* Breadcrumb Typography */
+  --ink-font-breadcrumb-size: 14px;
+  --ink-font-breadcrumb-line-height: 1.4;
+  --ink-font-breadcrumb-weight: 400;
+  --ink-font-breadcrumb-active-weight: 500;
+
+  /* ========================================== */
+  /* SPACING                                    */
+  /* ========================================== */
+
+  /* Spacing Scale (ds-ui) */
+  --ink-spacing-0: 0px;
+  --ink-spacing-25: 2px;
+  --ink-spacing-50: 4px;
+  --ink-spacing-100: 8px;
+  --ink-spacing-125: 10px;
+  --ink-spacing-150: 12px;
+  --ink-spacing-200: 16px;
+  --ink-spacing-250: 20px;
+  --ink-spacing-300: 24px;
+  --ink-spacing-350: 36px;
+  --ink-spacing-400: 32px;
+  --ink-spacing-500: 40px;
+  --ink-spacing-600: 48px;
+  --ink-spacing-700: 64px;
+
+  /* Legacy Spacing Aliases */
   --ink-spacing-1: var(--ink-spacing-50);
-  --ink-spacing-1-5: 6px; /* Half-step between 1 and 2 */
+  --ink-spacing-1-5: 6px;
   --ink-spacing-2: var(--ink-spacing-100);
   --ink-spacing-3: var(--ink-spacing-150);
   --ink-spacing-4: var(--ink-spacing-200);
   --ink-spacing-5: var(--ink-spacing-250);
   --ink-spacing-6: var(--ink-spacing-300);
-  --ink-spacing-7: 28px; /* Between 6 and 8 */
+  --ink-spacing-7: 28px;
   --ink-spacing-8: var(--ink-spacing-400);
   --ink-spacing-10: var(--ink-spacing-500);
   --ink-spacing-12: var(--ink-spacing-600);
   --ink-spacing-16: var(--ink-spacing-700);
 
-  /* Border Radius - Official Tokens */
+  /* ========================================== */
+  /* BORDER RADIUS                              */
+  /* ========================================== */
+
+  /* Radius Scale (ds-ui) */
   --ink-radius-size-xs: 4px;
   --ink-radius-size-s: 8px;
   --ink-radius-size-m: 12px;
   --ink-radius-size-l: 16px;
   --ink-radius-size-full: 9999px;
 
-  /* Legacy radius aliases for backwards compatibility */
+  /* Legacy Radius Aliases */
   --ink-radius-none: 0;
   --ink-radius-sm: var(--ink-radius-size-xs);
   --ink-radius-md: var(--ink-radius-size-s);
@@ -824,7 +997,10 @@
   --ink-radius-xl: var(--ink-radius-size-m);
   --ink-radius-full: var(--ink-radius-size-full);
 
-  /* Shadows */
+  /* ========================================== */
+  /* SHADOWS                                    */
+  /* ========================================== */
+
   --ink-shadow-xs: 0 1px 2px 0 rgba(19, 0, 50, 0.05);
   --ink-shadow-sm: 0 1px 3px 0 rgba(19, 0, 50, 0.1), 0 1px 2px 0 rgba(19, 0, 50, 0.06);
   --ink-shadow-md: 0 4px 6px -1px rgba(19, 0, 50, 0.1), 0 2px 4px -1px rgba(19, 0, 50, 0.06);
@@ -832,12 +1008,40 @@
   --ink-shadow-xl: 0 20px 25px -5px rgba(19, 0, 50, 0.1), 0 10px 10px -5px rgba(19, 0, 50, 0.04);
   --ink-shadow-elevated: 0px 4px 8px 0px rgba(19, 0, 50, 0.15);
 
-  /* Transitions */
+  /* ========================================== */
+  /* TRANSITIONS                                */
+  /* ========================================== */
+
   --ink-transition-fast: 150ms ease-in-out;
   --ink-transition-normal: 250ms ease-in-out;
   --ink-transition-slow: 350ms ease-in-out;
 
-  /* Z-index layers */
+  /* ========================================== */
+  /* MOTION                                     */
+  /* ========================================== */
+
+  /* Motion Curves */
+  --ink-motion-curve-default: cubic-bezier(0.35, 0, 0.2, 1);
+  --ink-motion-curve-opacity: cubic-bezier(0.33, 0, 0.67, 1);
+  --ink-motion-curve-snap: cubic-bezier(0.8, 0, 0.65, 1);
+  --ink-motion-curve-spring: cubic-bezier(0.3, 1.7, 0.5, 1);
+
+  /* Motion Durations */
+  --ink-motion-duration-100: 100ms;
+  --ink-motion-duration-200: 200ms;
+  --ink-motion-duration-300: 300ms;
+  --ink-motion-duration-400: 400ms;
+  --ink-motion-duration-500: 500ms;
+  --ink-motion-duration-600: 600ms;
+  --ink-motion-duration-700: 700ms;
+  --ink-motion-duration-1000: 1000ms;
+  --ink-motion-duration-2000: 2000ms;
+  --ink-motion-duration-3000: 3000ms;
+
+  /* ========================================== */
+  /* Z-INDEX                                    */
+  /* ========================================== */
+
   --ink-z-dropdown: 1000;
   --ink-z-sticky: 1020;
   --ink-z-fixed: 1030;
@@ -845,9 +1049,407 @@
   --ink-z-popover: 1060;
   --ink-z-tooltip: 1070;
 
-  /* Aliases for backwards compatibility */
+  /* ========================================== */
+  /* LEGACY ALIASES (for backwards compat)     */
+  /* ========================================== */
+
+  /* Color Aliases */
   --ink-primary: var(--ink-cobalt-100);
   --ink-white: var(--ink-white-100);
   --ink-paperwhite: var(--ink-neutral-10);
   --ink-black: var(--ink-black-100);
+
+  /* Background Aliases (map old → new) */
+  --ink-bg-default: var(--ink-bg-color-default);
+  --ink-bg-accent: var(--ink-bg-color-accent);
+  --ink-bg-accent-emphasis: var(--ink-bg-color-accent-emphasis);
+  --ink-bg-accent-subtle: var(--ink-bg-color-accent-subtle);
+  --ink-bg-canvas-document: var(--ink-bg-color-canvas-document);
+  --ink-bg-canvas-page: var(--ink-bg-color-canvas-page);
+  --ink-bg-error: var(--ink-bg-color-error);
+  --ink-bg-error-emphasis: var(--ink-bg-color-error-emphasis);
+  --ink-bg-error-subtle: var(--ink-bg-color-error-subtle);
+  --ink-bg-glass-frost: var(--ink-bg-color-glass-frost);
+  --ink-bg-glass-tint: var(--ink-bg-color-glass-tint);
+  --ink-bg-inverse: var(--ink-bg-color-inverse);
+  --ink-bg-popover-close: var(--ink-bg-color-popover-close);
+  --ink-bg-popover-close-inverse: var(--ink-bg-color-popover-close-inverse);
+  --ink-bg-scrim: var(--ink-bg-color-scrim);
+  --ink-bg-success: var(--ink-bg-color-success);
+  --ink-bg-success-emphasis: var(--ink-bg-color-success-emphasis);
+  --ink-bg-success-subtle: var(--ink-bg-color-success-subtle);
+  --ink-bg-warning: var(--ink-bg-color-warning);
+  --ink-bg-warning-emphasis: var(--ink-bg-color-warning-emphasis);
+  --ink-bg-warning-subtle: var(--ink-bg-color-warning-subtle);
+  --ink-bg-muted: var(--ink-bg-color-muted);
+  --ink-bg-active-subtle: var(--ink-bg-color-active-subtle);
+  --ink-bg-subtle: var(--ink-bg-color-subtle);
+
+  /* Font Color Aliases (map old → new) */
+  --ink-font-default: var(--ink-font-color-default);
+  --ink-font-primary: var(--ink-font-color-primary);
+  --ink-font-secondary: var(--ink-font-color-secondary);
+  --ink-font-tertiary: var(--ink-font-color-tertiary);
+  --ink-font-accent: var(--ink-font-color-accent);
+  --ink-font-accent-emphasis: var(--ink-font-color-accent-emphasis);
+  --ink-font-accent-subtle: var(--ink-font-color-accent-subtle);
+  --ink-font-disabled: var(--ink-font-color-disabled);
+  --ink-font-error: var(--ink-font-color-error);
+  --ink-font-inverse: var(--ink-font-color-inverse);
+  --ink-font-neutral: var(--ink-font-color-neutral);
+  --ink-font-neutral-emphasis: var(--ink-font-color-neutral-emphasis);
+  --ink-font-neutral-subtle: var(--ink-font-color-neutral-subtle);
+  --ink-font-placeholder: var(--ink-font-color-placeholder);
+  --ink-font-success: var(--ink-font-color-success);
+  --ink-font-warning: var(--ink-font-color-warning);
+
+  /* Font Link Aliases */
+  --ink-font-link: var(--ink-font-color-link-default);
+  --ink-font-link-hover: var(--ink-font-color-link-hover);
+  --ink-font-link-active: var(--ink-font-color-link-active);
+  --ink-font-link-visited: var(--ink-font-color-link-visited);
+  --ink-font-link-subtle: var(--ink-font-color-link-subtle-default);
+  --ink-font-link-subtle-hover: var(--ink-font-color-link-subtle-hover);
+  --ink-font-link-subtle-active: var(--ink-font-color-link-subtle-active);
+  --ink-font-link-subtle-visited: var(--ink-font-color-link-subtle-visited);
+  --ink-font-link-inverse: var(--ink-font-color-link-inverse-default);
+  --ink-font-link-hover-inverse: var(--ink-font-color-link-inverse-hover);
+  --ink-font-link-active-inverse: var(--ink-font-color-link-inverse-active);
+  --ink-font-link-visited-inverse: var(--ink-font-color-link-inverse-visited);
+  --ink-font-link-subtle-inverse: var(--ink-font-color-link-subtle-inverse-default);
+  --ink-font-link-subtle-hover-inverse: var(--ink-font-color-link-subtle-inverse-hover);
+  --ink-font-link-subtle-active-inverse: var(--ink-font-color-link-subtle-inverse-active);
+  --ink-font-link-subtle-visited-inverse: var(--ink-font-color-link-subtle-inverse-visited);
+
+  /* Border Aliases (map old → new) */
+  --ink-border-default: var(--ink-border-color-default);
+  --ink-border-accent: var(--ink-border-color-accent);
+  --ink-border-accent-emphasis: var(--ink-border-color-accent-emphasis);
+  --ink-border-accent-subtle: var(--ink-border-color-accent-subtle);
+  --ink-border-emphasis: var(--ink-border-color-emphasis);
+  --ink-border-emphasis-inverse: var(--ink-border-color-emphasis-inverse);
+  --ink-border-subtle: var(--ink-border-color-subtle);
+  --ink-border-subtle-inverse: var(--ink-border-color-subtle-inverse);
+  --ink-border-error: var(--ink-border-color-error);
+  --ink-border-error-emphasis: var(--ink-border-color-error-emphasis);
+  --ink-border-error-subtle: var(--ink-border-color-error-subtle);
+  --ink-border-success: var(--ink-border-color-success);
+  --ink-border-success-emphasis: var(--ink-border-color-success-emphasis);
+  --ink-border-success-subtle: var(--ink-border-color-success-subtle);
+  --ink-border-warning: var(--ink-border-color-warning);
+  --ink-border-warning-emphasis: var(--ink-border-color-warning-emphasis);
+  --ink-border-warning-subtle: var(--ink-border-color-warning-subtle);
+  --ink-border-focus: var(--ink-border-color-focus);
+  --ink-border-hover: var(--ink-border-color-hover);
+  --ink-border-active-indicator: var(--ink-border-color-active-indicator);
+
+  /* Button Aliases (map old → new CTA) */
+  --ink-button-brand-bg: var(--ink-cta-bg-color-brand-default);
+  --ink-button-brand-bg-hover: var(--ink-cta-bg-color-brand-hover);
+  --ink-button-brand-bg-active: var(--ink-cta-bg-color-brand-active);
+  --ink-button-brand-text: var(--ink-cta-font-color-brand);
+  --ink-button-primary-bg: var(--ink-cta-bg-color-primary-default);
+  --ink-button-primary-bg-hover: var(--ink-cta-bg-color-primary-hover);
+  --ink-button-primary-bg-active: var(--ink-cta-bg-color-primary-active);
+  --ink-button-primary-text: var(--ink-cta-font-color-primary);
+  --ink-button-secondary-bg: var(--ink-cta-bg-color-secondary-default);
+  --ink-button-secondary-bg-hover: var(--ink-cta-bg-color-secondary-hover);
+  --ink-button-secondary-bg-active: var(--ink-cta-bg-color-secondary-active);
+  --ink-button-secondary-border: var(--ink-cta-border-color-secondary-default);
+  --ink-button-secondary-border-hover: var(--ink-cta-border-color-secondary-hover);
+  --ink-button-secondary-border-active: var(--ink-cta-border-color-secondary-active);
+  --ink-button-secondary-text: var(--ink-cta-font-color-secondary);
+  --ink-button-tertiary-bg: var(--ink-cta-bg-color-tertiary-default);
+  --ink-button-tertiary-bg-hover: var(--ink-cta-bg-color-tertiary-hover);
+  --ink-button-tertiary-bg-active: var(--ink-cta-bg-color-tertiary-active);
+  --ink-button-tertiary-text: var(--ink-cta-font-color-tertiary);
+  --ink-button-danger-bg: var(--ink-cta-bg-color-danger-default);
+  --ink-button-danger-bg-hover: var(--ink-cta-bg-color-danger-hover);
+  --ink-button-danger-bg-active: var(--ink-cta-bg-color-danger-active);
+  --ink-button-danger-text: var(--ink-cta-font-color-danger);
+
+  /* FAB Aliases */
+  --ink-fab-bg-primary: var(--ink-cta-fab-bg-primary-default);
+  --ink-fab-bg-primary-hover: var(--ink-cta-fab-bg-primary-hover);
+  --ink-fab-bg-primary-active: var(--ink-cta-fab-bg-primary-active);
+  --ink-fab-bg-brand: var(--ink-cta-fab-bg-brand-default);
+  --ink-fab-bg-brand-hover: var(--ink-cta-fab-bg-brand-hover);
+  --ink-fab-bg-brand-active: var(--ink-cta-fab-bg-brand-active);
+  --ink-fab-elevation-default: var(--ink-cta-fab-elevation-default);
+  --ink-fab-elevation-hover: var(--ink-cta-fab-elevation-hover);
+  --ink-fab-bg-primary-inverse: var(--ink-cta-fab-bg-primary-inverse-default);
+  --ink-fab-bg-primary-hover-inverse: var(--ink-cta-fab-bg-primary-inverse-hover);
+  --ink-fab-bg-primary-active-inverse: var(--ink-cta-fab-bg-primary-inverse-active);
+  --ink-fab-bg-brand-inverse: var(--ink-cta-fab-bg-brand-inverse-default);
+  --ink-fab-bg-brand-hover-inverse: var(--ink-cta-fab-bg-brand-inverse-hover);
+  --ink-fab-bg-brand-active-inverse: var(--ink-cta-fab-bg-brand-inverse-active);
+
+  /* Combo Button Aliases */
+  --ink-combo-border-brand: var(--ink-cta-combo-border-brand);
+  --ink-combo-border-primary: var(--ink-cta-combo-border-primary);
+  --ink-combo-border-secondary: var(--ink-cta-combo-border-secondary);
+  --ink-combo-border-brand-inverse: var(--ink-cta-combo-border-brand-inverse);
+  --ink-combo-border-primary-inverse: var(--ink-cta-combo-border-primary-inverse);
+  --ink-combo-border-secondary-inverse: var(--ink-cta-combo-border-secondary-inverse);
+
+  /* Toggle Aliases */
+  --ink-toggle-bg-hover: var(--ink-cta-toggle-bg-hover);
+  --ink-toggle-bg-active: var(--ink-cta-toggle-bg-active);
+  --ink-toggle-bg-selected: var(--ink-cta-toggle-bg-selected);
+  --ink-toggle-bg-selected-hover: var(--ink-cta-toggle-bg-selected-hover);
+  --ink-toggle-bg-selected-active: var(--ink-cta-toggle-bg-selected-active);
+  --ink-toggle-bg-selected-subtle: var(--ink-cta-toggle-bg-selected-subtle);
+  --ink-toggle-bg-selected-subtle-hover: var(--ink-cta-toggle-bg-selected-subtle-hover);
+  --ink-toggle-bg-selected-subtle-active: var(--ink-cta-toggle-bg-selected-subtle-active);
+
+  /* Form Aliases (map old → new form-control) */
+  --ink-form-bg-default: var(--ink-form-control-bg-color-default);
+  --ink-form-bg-disabled: var(--ink-form-control-bg-color-disabled);
+  --ink-form-bg-error: var(--ink-form-control-bg-color-error);
+  --ink-form-bg-read: var(--ink-form-control-bg-color-read);
+  --ink-form-bg-selected: var(--ink-form-control-bg-color-selected);
+  --ink-form-bg-selected-hover: var(--ink-form-control-bg-color-selected-hover);
+  --ink-form-bg-selected-active: var(--ink-form-control-bg-color-selected-active);
+  --ink-form-bg-highlight: var(--ink-form-control-bg-color-highlight);
+  --ink-form-border-default: var(--ink-form-control-border-color-default);
+  --ink-form-border-subtle: var(--ink-form-control-border-color-subtle);
+  --ink-form-border-hover: var(--ink-form-control-border-color-hover);
+  --ink-form-border-active: var(--ink-form-control-border-color-active);
+  --ink-form-border-error: var(--ink-form-control-border-color-error);
+  --ink-form-border-selected: var(--ink-form-control-border-color-selected);
+  --ink-form-border-selected-hover: var(--ink-form-control-border-color-selected-hover);
+  --ink-form-border-selected-active: var(--ink-form-control-border-color-selected-active);
+  --ink-form-border-width: var(--ink-form-control-border-width);
+  --ink-form-border-width-s: var(--ink-form-control-border-width-s);
+  --ink-form-border-width-active: var(--ink-form-control-border-width-active);
+  --ink-form-text-required: var(--ink-form-control-font-color-required);
+  --ink-form-text-disabled: var(--ink-form-control-font-color-disabled);
+  --ink-form-thumb-bg-default: var(--ink-form-control-thumb-bg-default);
+  --ink-form-thumb-bg-hover: var(--ink-form-control-thumb-bg-hover);
+  --ink-form-thumb-bg-active: var(--ink-form-control-thumb-bg-active);
+
+  /* Form Inverse Aliases */
+  --ink-form-bg-default-inverse: var(--ink-form-control-bg-color-inverse-default);
+  --ink-form-bg-disabled-inverse: var(--ink-form-control-bg-color-inverse-disabled);
+  --ink-form-bg-error-inverse: var(--ink-form-control-bg-color-inverse-error);
+  --ink-form-bg-read-inverse: var(--ink-form-control-bg-color-inverse-read);
+  --ink-form-bg-selected-inverse: var(--ink-form-control-bg-color-inverse-selected);
+  --ink-form-bg-selected-hover-inverse: var(--ink-form-control-bg-color-inverse-selected-hover);
+  --ink-form-bg-selected-active-inverse: var(--ink-form-control-bg-color-inverse-selected-active);
+  --ink-form-bg-highlight-inverse: var(--ink-form-control-bg-color-inverse-highlight);
+  --ink-form-border-default-inverse: var(--ink-form-control-border-color-inverse-default);
+  --ink-form-border-hover-inverse: var(--ink-form-control-border-color-inverse-hover);
+  --ink-form-border-active-inverse: var(--ink-form-control-border-color-inverse-active);
+  --ink-form-border-error-inverse: var(--ink-form-control-border-color-inverse-error);
+  --ink-form-border-selected-inverse: var(--ink-form-control-border-color-inverse-selected);
+  --ink-form-border-selected-hover-inverse: var(
+    --ink-form-control-border-color-inverse-selected-hover
+  );
+  --ink-form-border-selected-active-inverse: var(
+    --ink-form-control-border-color-inverse-selected-active
+  );
+  --ink-form-text-required-inverse: var(--ink-form-control-font-color-inverse-required);
+  --ink-form-text-disabled-inverse: var(--ink-form-control-font-color-inverse-disabled);
+  --ink-form-thumb-bg-default-inverse: var(--ink-form-control-thumb-bg-inverse-default);
+  --ink-form-thumb-bg-hover-inverse: var(--ink-form-control-thumb-bg-inverse-hover);
+  --ink-form-thumb-bg-active-inverse: var(--ink-form-control-thumb-bg-inverse-active);
+
+  /* Item Aliases */
+  --ink-item-bg-hover: var(--ink-item-bg-color-hover);
+  --ink-item-bg-hover-subtle: var(--ink-item-bg-color-hover-subtle);
+  --ink-item-bg-active: var(--ink-item-bg-color-active);
+  --ink-item-bg-active-subtle: var(--ink-item-bg-color-active-subtle);
+  --ink-item-bg-selected: var(--ink-item-bg-color-selected);
+  --ink-item-bg-selected-subtle: var(--ink-item-bg-color-selected-subtle);
+  --ink-item-border-hover: var(--ink-item-border-color-hover);
+  --ink-item-border-active: var(--ink-item-border-color-active);
+  --ink-item-bg-hover-inverse: var(--ink-item-bg-color-inverse-hover);
+  --ink-item-bg-hover-subtle-inverse: var(--ink-item-bg-color-inverse-hover-subtle);
+  --ink-item-bg-active-inverse: var(--ink-item-bg-color-inverse-active);
+  --ink-item-bg-active-subtle-inverse: var(--ink-item-bg-color-inverse-active-subtle);
+  --ink-item-bg-selected-inverse: var(--ink-item-bg-color-inverse-selected);
+  --ink-item-bg-selected-subtle-inverse: var(--ink-item-bg-color-inverse-selected-subtle);
+  --ink-item-border-hover-inverse: var(--ink-item-border-color-inverse-hover);
+  --ink-item-border-active-inverse: var(--ink-item-border-color-inverse-active);
+
+  /* Status Aliases */
+  --ink-status-bg-accent: var(--ink-status-bg-color-accent);
+  --ink-status-bg-accent-subtle: var(--ink-status-bg-color-accent-subtle);
+  --ink-status-bg-alert: var(--ink-status-bg-color-alert);
+  --ink-status-bg-current: var(--ink-status-bg-color-current);
+  --ink-status-bg-emphasis: var(--ink-status-bg-color-emphasis);
+  --ink-status-bg-future: var(--ink-status-bg-color-future);
+  --ink-status-bg-neutral: var(--ink-status-bg-color-neutral);
+  --ink-status-bg-past: var(--ink-status-bg-color-past);
+  --ink-status-bg-subtle: var(--ink-status-bg-color-subtle);
+  --ink-status-bg-subtle-inverse: var(--ink-status-bg-color-subtle-inverse);
+  --ink-status-bg-success: var(--ink-status-bg-color-success);
+  --ink-status-bg-warning: var(--ink-status-bg-color-warning);
+  --ink-status-info-bg: var(--ink-status-info-bg-color);
+  --ink-status-info-border: var(--ink-status-info-border-color);
+  --ink-status-info-icon: var(--ink-status-info-icon-color);
+  --ink-status-warn-bg: var(--ink-status-warn-bg-color);
+  --ink-status-warn-border: var(--ink-status-warn-border-color);
+  --ink-status-warn-icon: var(--ink-status-warn-icon-color);
+  --ink-status-critical-bg: var(--ink-status-critical-bg-color);
+  --ink-status-critical-border: var(--ink-status-critical-border-color);
+  --ink-status-critical-icon: var(--ink-status-critical-icon-color);
+  --ink-status-warning: var(--ink-status-warning-font-color);
+
+  /* Status Inverse Aliases */
+  --ink-status-bg-accent-inverse: var(--ink-status-bg-color-inverse-accent);
+  --ink-status-bg-accent-subtle-inverse: var(--ink-status-bg-color-inverse-accent-subtle);
+  --ink-status-bg-alert-inverse: var(--ink-status-bg-color-inverse-alert);
+  --ink-status-bg-current-inverse: var(--ink-status-bg-color-inverse-current);
+  --ink-status-bg-emphasis-inverse: var(--ink-status-bg-color-inverse-emphasis);
+  --ink-status-bg-future-inverse: var(--ink-status-bg-color-inverse-future);
+  --ink-status-bg-neutral-inverse: var(--ink-status-bg-color-inverse-neutral);
+  --ink-status-bg-past-inverse: var(--ink-status-bg-color-inverse-past);
+  --ink-status-bg-subtle-inverse-inverse: var(--ink-status-bg-color-inverse-subtle-inverse);
+  --ink-status-bg-success-inverse: var(--ink-status-bg-color-inverse-success);
+  --ink-status-bg-warning-inverse: var(--ink-status-bg-color-inverse-warning);
+
+  /* Message Aliases */
+  --ink-message-bg-default: var(--ink-message-bg-color-default);
+  --ink-message-bg-alert: var(--ink-message-bg-color-alert);
+  --ink-message-bg-alert-alternate: var(--ink-message-bg-color-alert-alternate);
+  --ink-message-bg-emphasis: var(--ink-message-bg-color-emphasis);
+  --ink-message-bg-error: var(--ink-message-bg-color-error);
+  --ink-message-bg-promo: var(--ink-message-bg-color-promo);
+  --ink-message-bg-subtle: var(--ink-message-bg-color-subtle);
+  --ink-message-bg-success: var(--ink-message-bg-color-success);
+  --ink-message-bg-warning: var(--ink-message-bg-color-warning);
+  --ink-message-border-default: var(--ink-message-border-color-default);
+  --ink-message-border-promo: var(--ink-message-border-color-promo);
+
+  /* Message Inverse Aliases */
+  --ink-message-bg-default-inverse: var(--ink-message-bg-color-inverse-default);
+  --ink-message-bg-alert-inverse: var(--ink-message-bg-color-inverse-alert);
+  --ink-message-bg-alert-alternate-inverse: var(--ink-message-bg-color-inverse-alert-alternate);
+  --ink-message-bg-emphasis-inverse: var(--ink-message-bg-color-inverse-emphasis);
+  --ink-message-bg-error-inverse: var(--ink-message-bg-color-inverse-error);
+  --ink-message-bg-promo-inverse: var(--ink-message-bg-color-inverse-promo);
+  --ink-message-bg-subtle-inverse: var(--ink-message-bg-color-inverse-subtle);
+  --ink-message-bg-success-inverse: var(--ink-message-bg-color-inverse-success);
+  --ink-message-bg-warning-inverse: var(--ink-message-bg-color-inverse-warning);
+  --ink-message-border-default-inverse: var(--ink-message-border-color-inverse-default);
+  --ink-message-border-promo-inverse: var(--ink-message-border-color-inverse-promo);
+
+  /* Bar Aliases */
+  --ink-bar-fill-default: var(--ink-bar-fill-color-default);
+  --ink-bar-fill-emphasis: var(--ink-bar-fill-color-emphasis);
+  --ink-bar-fill-accent-emphasis: var(--ink-bar-fill-color-accent-emphasis);
+  --ink-bar-fill-error: var(--ink-bar-fill-color-error);
+  --ink-bar-fill-subtle: var(--ink-bar-fill-color-subtle);
+  --ink-bar-fill-success: var(--ink-bar-fill-color-success);
+  --ink-bar-fill-warning: var(--ink-bar-fill-color-warning);
+  --ink-bar-track-default: var(--ink-bar-track-color-default);
+  --ink-bar-track-emphasis: var(--ink-bar-track-color-emphasis);
+  --ink-bar-track-visited: var(--ink-bar-track-color-visited);
+  --ink-bar-stop-indicator: var(--ink-bar-stop-indicator-color);
+
+  /* Bar Inverse Aliases */
+  --ink-bar-fill-default-inverse: var(--ink-bar-fill-color-inverse-default);
+  --ink-bar-fill-emphasis-inverse: var(--ink-bar-fill-color-inverse-emphasis);
+  --ink-bar-fill-accent-emphasis-inverse: var(--ink-bar-fill-color-inverse-accent-emphasis);
+  --ink-bar-fill-error-inverse: var(--ink-bar-fill-color-inverse-error);
+  --ink-bar-fill-subtle-inverse: var(--ink-bar-fill-color-inverse-subtle);
+  --ink-bar-fill-success-inverse: var(--ink-bar-fill-color-inverse-success);
+  --ink-bar-fill-warning-inverse: var(--ink-bar-fill-color-inverse-warning);
+  --ink-bar-track-default-inverse: var(--ink-bar-track-color-inverse-default);
+  --ink-bar-track-emphasis-inverse: var(--ink-bar-track-color-inverse-emphasis);
+  --ink-bar-track-visited-inverse: var(--ink-bar-track-color-inverse-visited);
+  --ink-bar-stop-indicator-inverse: var(--ink-bar-stop-indicator-color-inverse);
+
+  /* Tag Aliases */
+  --ink-tag-bg-active: var(--ink-tag-bg-color-active);
+  --ink-tag-bg-selected: var(--ink-tag-bg-color-selected);
+  --ink-tag-bg-selected-active: var(--ink-tag-bg-color-selected-active);
+  --ink-tag-bg-selected-hover: var(--ink-tag-bg-color-selected-hover);
+  --ink-tag-bg-active-inverse: var(--ink-tag-bg-color-inverse-active);
+  --ink-tag-bg-selected-inverse: var(--ink-tag-bg-color-inverse-selected);
+  --ink-tag-bg-selected-active-inverse: var(--ink-tag-bg-color-inverse-selected-active);
+  --ink-tag-bg-selected-hover-inverse: var(--ink-tag-bg-color-inverse-selected-hover);
+
+  /* AI Badge Aliases */
+  --ink-ai-badge-bg: var(--ink-badge-ai-bg-color);
+  --ink-ai-badge-bg-hover: var(--ink-badge-ai-bg-color-hover);
+  --ink-ai-badge-bg-hover-interactive: var(--ink-badge-ai-bg-color-hover-interactive);
+  --ink-ai-badge-bg-active: var(--ink-badge-ai-bg-color-active);
+
+  /* Recipient Aliases */
+  --ink-recipient-bg-100: var(--ink-recipient-bg-color-100);
+  --ink-recipient-bg-100-rest: var(--ink-recipient-bg-color-100-rest);
+  --ink-recipient-bg-100-hover: var(--ink-recipient-bg-color-100-hover);
+  --ink-recipient-bg-100-active: var(--ink-recipient-bg-color-100-active);
+  --ink-recipient-bg-150: var(--ink-recipient-bg-color-150);
+  --ink-recipient-bg-150-rest: var(--ink-recipient-bg-color-150-rest);
+  --ink-recipient-bg-150-hover: var(--ink-recipient-bg-color-150-hover);
+  --ink-recipient-bg-150-active: var(--ink-recipient-bg-color-150-active);
+  --ink-recipient-bg-200: var(--ink-recipient-bg-color-200);
+  --ink-recipient-bg-200-rest: var(--ink-recipient-bg-color-200-rest);
+  --ink-recipient-bg-200-hover: var(--ink-recipient-bg-color-200-hover);
+  --ink-recipient-bg-200-active: var(--ink-recipient-bg-color-200-active);
+  --ink-recipient-bg-250: var(--ink-recipient-bg-color-250);
+  --ink-recipient-bg-250-rest: var(--ink-recipient-bg-color-250-rest);
+  --ink-recipient-bg-250-hover: var(--ink-recipient-bg-color-250-hover);
+  --ink-recipient-bg-250-active: var(--ink-recipient-bg-color-250-active);
+  --ink-recipient-bg-300: var(--ink-recipient-bg-color-300);
+  --ink-recipient-bg-300-rest: var(--ink-recipient-bg-color-300-rest);
+  --ink-recipient-bg-300-hover: var(--ink-recipient-bg-color-300-hover);
+  --ink-recipient-bg-300-active: var(--ink-recipient-bg-color-300-active);
+  --ink-recipient-bg-350: var(--ink-recipient-bg-color-350);
+  --ink-recipient-bg-350-rest: var(--ink-recipient-bg-color-350-rest);
+  --ink-recipient-bg-350-hover: var(--ink-recipient-bg-color-350-hover);
+  --ink-recipient-bg-350-active: var(--ink-recipient-bg-color-350-active);
+  --ink-recipient-bg-400: var(--ink-recipient-bg-color-400);
+  --ink-recipient-bg-400-rest: var(--ink-recipient-bg-color-400-rest);
+  --ink-recipient-bg-400-hover: var(--ink-recipient-bg-color-400-hover);
+  --ink-recipient-bg-400-active: var(--ink-recipient-bg-color-400-active);
+  --ink-recipient-bg-450: var(--ink-recipient-bg-color-450);
+  --ink-recipient-bg-450-rest: var(--ink-recipient-bg-color-450-rest);
+  --ink-recipient-bg-450-hover: var(--ink-recipient-bg-color-450-hover);
+  --ink-recipient-bg-450-active: var(--ink-recipient-bg-color-450-active);
+  --ink-recipient-bg-500: var(--ink-recipient-bg-color-500);
+  --ink-recipient-bg-500-rest: var(--ink-recipient-bg-color-500-rest);
+  --ink-recipient-bg-500-hover: var(--ink-recipient-bg-color-500-hover);
+  --ink-recipient-bg-500-active: var(--ink-recipient-bg-color-500-active);
+  --ink-recipient-bg-550: var(--ink-recipient-bg-color-550);
+  --ink-recipient-bg-550-rest: var(--ink-recipient-bg-color-550-rest);
+  --ink-recipient-bg-550-hover: var(--ink-recipient-bg-color-550-hover);
+  --ink-recipient-bg-550-active: var(--ink-recipient-bg-color-550-active);
+  --ink-recipient-bg-fallback: var(--ink-recipient-bg-color-fallback);
+  --ink-recipient-bg-sign: var(--ink-recipient-bg-color-sign);
+  --ink-recipient-bg-sign-rest: var(--ink-recipient-bg-color-sign-rest);
+  --ink-recipient-bg-sign-hover: var(--ink-recipient-bg-color-sign-hover);
+  --ink-recipient-bg-sign-active: var(--ink-recipient-bg-color-sign-active);
+  --ink-recipient-border-100: var(--ink-recipient-border-color-100);
+  --ink-recipient-border-150: var(--ink-recipient-border-color-150);
+  --ink-recipient-border-200: var(--ink-recipient-border-color-200);
+  --ink-recipient-border-250: var(--ink-recipient-border-color-250);
+  --ink-recipient-border-300: var(--ink-recipient-border-color-300);
+  --ink-recipient-border-350: var(--ink-recipient-border-color-350);
+  --ink-recipient-border-400: var(--ink-recipient-border-color-400);
+  --ink-recipient-border-450: var(--ink-recipient-border-color-450);
+  --ink-recipient-border-500: var(--ink-recipient-border-color-500);
+  --ink-recipient-border-550: var(--ink-recipient-border-color-550);
+  --ink-recipient-border-sign: var(--ink-recipient-border-color-sign);
+  --ink-recipient-border-selected: var(--ink-recipient-border-color-selected);
+  --ink-recipient-border-selected-emphasis: var(--ink-recipient-border-color-selected-emphasis);
+  --ink-recipient-border-selected-subtle: var(--ink-recipient-border-color-selected-subtle);
+  --ink-recipient-font-100: var(--ink-recipient-font-color-100);
+  --ink-recipient-font-150: var(--ink-recipient-font-color-150);
+  --ink-recipient-font-200: var(--ink-recipient-font-color-200);
+  --ink-recipient-font-250: var(--ink-recipient-font-color-250);
+  --ink-recipient-font-300: var(--ink-recipient-font-color-300);
+  --ink-recipient-font-350: var(--ink-recipient-font-color-350);
+  --ink-recipient-font-400: var(--ink-recipient-font-color-400);
+  --ink-recipient-font-450: var(--ink-recipient-font-color-450);
+  --ink-recipient-font-500: var(--ink-recipient-font-color-500);
+  --ink-recipient-font-550: var(--ink-recipient-font-color-550);
+  --ink-recipient-font-sign: var(--ink-recipient-font-color-sign);
+
+  /* Focus Aliases */
+  --ink-focus-color: var(--ink-focus-color-default);
+  --ink-focus-ring: var(--ink-focus-ring-color);
 }

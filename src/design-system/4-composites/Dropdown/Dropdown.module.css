@@ -1,6 +1,8 @@
 .dropdown {
   position: fixed;
-  background-color: var(--ink-bg-glass-frost); /* bgColorGlassFrost from Figma - semi-transparent white */
+  background-color: var(
+    --ink-bg-glass-frost
+  ); /* bgColorGlassFrost from Figma - semi-transparent white */
   backdrop-filter: blur(10px); /* Glass frost effect */
   -webkit-backdrop-filter: blur(10px); /* Safari support */
   border: var(--ink-form-border-width-active) solid var(--ink-neutral-fade-10); /* 2px borderColorSubtle from Figma */
@@ -31,7 +33,8 @@
   display: flex;
   align-items: flex-start;
   gap: var(--ink-spacing-100); /* 8px - gap100 from Figma */
-  padding: var(--ink-spacing-100) var(--ink-spacing-100) var(--ink-spacing-100) var(--ink-spacing-200); /* 8px 8px 8px 16px from Figma */
+  padding: var(--ink-spacing-100) var(--ink-spacing-100) var(--ink-spacing-100)
+    var(--ink-spacing-200); /* 8px 8px 8px 16px from Figma */
   border: none;
   background: none;
   border-radius: var(--ink-radius-size-xs); /* 4px - radiusSizeXS from Figma */
@@ -42,7 +45,7 @@
   font-size: var(--ink-font-size-sm); /* 14px from Figma */
   font-weight: var(--ink-font-weight-regular); /* 400 from Figma */
   line-height: 1.4; /* Exact Figma spec */
-  color: var(--ink-font-default); /* fontColorDefault from Figma */
+  color: var(--ink-font-color-default); /* fontColorDefault from Figma */
   position: relative;
 }
 

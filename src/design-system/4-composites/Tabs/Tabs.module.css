@@ -29,7 +29,7 @@
 }
 
 .tab:focus {
-  outline: 2px solid var(--ink-blue-60);
+  outline: 2px solid var(--ink-cobalt-60);
   outline-offset: -2px;
   border-radius: var(--ink-radius-sm) var(--ink-radius-sm) 0 0;
 }

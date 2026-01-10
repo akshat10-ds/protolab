@@ -65,7 +65,7 @@
   font-weight: var(--ink-font-weight-semibold); /* 600 */
   line-height: 1.5;
   letter-spacing: 0.12px; /* Matches DocuSign */
-  color: var(--ink-font-default); /* rgba(19,0,50,0.9) */
+  color: var(--ink-font-color-default); /* rgba(19,0,50,0.9) */
   white-space: nowrap;
   position: relative;
   vertical-align: middle;
@@ -113,7 +113,7 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   transition: color var(--ink-transition-fast);
 }
 
@@ -154,7 +154,7 @@
   font-size: var(--ink-font-size-sm); /* 14px - matches DocuSign */
   font-weight: var(--ink-font-weight-regular); /* 400 */
   line-height: 1.4; /* ~19.6px at 14px base - matches DocuSign */
-  color: var(--ink-font-default); /* rgba(19,0,50,0.9) */
+  color: var(--ink-font-color-default); /* rgba(19,0,50,0.9) */
   vertical-align: middle;
 }
 

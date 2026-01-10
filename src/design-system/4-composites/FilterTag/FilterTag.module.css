@@ -12,9 +12,9 @@
   font-size: var(--ink-font-size-md); /* 14px */
   font-weight: var(--ink-font-weight-regular); /* 400 */
   line-height: 1.4;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   background: transparent;
-  border: 1px solid var(--ink-form-border-default); /* rgba(19,0,50,0.5) */
+  border: 1px solid var(--ink-form-control-border-color-default); /* rgba(19,0,50,0.5) */
   border-radius: var(--ink-radius-size-xs); /* 4px */
   cursor: pointer;
   transition: all var(--ink-transition-fast);
@@ -43,14 +43,14 @@
 
 /* Hover State - Inactive */
 .filterTag:hover:not(.active):not(.disabled) {
-  border-color: var(--ink-font-default); /* Emphasis border */
+  border-color: var(--ink-font-color-default); /* Emphasis border */
 }
 
 /* Active State - Inactive (pressed) */
 .filterTag:active:not(.active):not(.disabled) {
   background: var(--ink-neutral-fade-15); /* var(--ctaBgColorTertiaryActive) */
   border-width: 2px;
-  border-color: var(--ink-font-default);
+  border-color: var(--ink-font-color-default);
 }
 
 /* Active Filter */
@@ -96,7 +96,7 @@
   font-size: var(--ink-font-size-md); /* 14px */
   font-weight: var(--ink-font-weight-regular); /* 400 */
   line-height: 1.4;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   background: var(--ink-neutral-fade-5); /* Active background */
   border: none;
   border-radius: 0;
@@ -127,7 +127,7 @@
   cursor: pointer;
   transition: background-color var(--ink-transition-fast);
   flex-shrink: 0;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
 }
 
 /* Dismissible Hover States */
@@ -164,12 +164,12 @@
 
 /* Focus States */
 .filterTag:focus-visible {
-  outline: 2px solid var(--ink-form-border-active);
+  outline: 2px solid var(--ink-form-control-border-color-active);
   outline-offset: 2px;
 }
 
 .filterTag.dismissible .tagButton:focus-visible,
 .filterTag.dismissible .dismissButton:focus-visible {
-  outline: 2px solid var(--ink-form-border-active);
+  outline: 2px solid var(--ink-form-control-border-color-active);
   outline-offset: -2px;
 }

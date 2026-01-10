@@ -34,14 +34,14 @@
   display: block;
   width: var(--ink-spacing-350); /* 36px */
   height: var(--ink-spacing-250); /* 20px */
-  background-color: var(--ink-form-border-default);
+  background-color: var(--ink-form-control-border-color-default);
   border-radius: var(--ink-radius-full);
   transition: background-color var(--ink-transition-fast);
   cursor: pointer;
 }
 
 .track.checked {
-  background-color: var(--ink-form-bg-selected);
+  background-color: var(--ink-form-control-bg-color-selected);
 }
 
 .container.disabled .track {
@@ -90,20 +90,20 @@
 
 /* Focus styles */
 .input:focus-visible + .track {
-  outline: var(--ink-focus-width) solid var(--ink-blue-60);
+  outline: var(--ink-focus-width) solid var(--ink-cobalt-60);
   outline-offset: var(--ink-focus-width);
 }
 
 /* Hover state */
 .container:not(.disabled):hover .track:not(.checked) {
-  background-color: var(--ink-form-border-hover);
+  background-color: var(--ink-form-control-border-color-hover);
 }
 
 .container:not(.disabled):hover .track.checked {
-  background-color: var(--ink-form-bg-selected-hover);
+  background-color: var(--ink-form-control-bg-color-selected-hover);
 }
 
 /* Active state */
 .container:not(.disabled):active .track.checked {
-  background-color: var(--ink-form-bg-selected-active);
+  background-color: var(--ink-form-control-bg-color-selected-active);
 }

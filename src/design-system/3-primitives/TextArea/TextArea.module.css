@@ -12,7 +12,7 @@
 .label {
   font-size: var(--ink-font-size-sm); /* 14px */
   font-weight: var(--ink-font-weight-medium); /* 500 */
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   line-height: 1.4; /* Exact Figma spec */
 }
 
@@ -49,8 +49,8 @@
   font-size: var(--ink-font-size-md);
   line-height: 1.5;
   color: var(--ink-neutral-100);
-  background-color: var(--ink-white);
-  border: 1px solid var(--ink-form-border-default);
+  background-color: var(--ink-white-100);
+  border: 1px solid var(--ink-form-control-border-color-default);
   border-radius: var(--ink-radius-size-xs);
   transition:
     border-color var(--ink-transition-fast),
@@ -59,21 +59,21 @@
 }
 
 .textarea:hover:not(:disabled):not(.error) {
-  border-color: var(--ink-form-border-hover);
+  border-color: var(--ink-form-control-border-color-hover);
 }
 
 .textarea:focus {
-  border: 2px solid var(--ink-form-border-active);
+  border: 2px solid var(--ink-form-control-border-color-active);
   padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-200) - 1px);
   box-shadow: var(--ink-focus-ring-accent-subtle);
 }
 
 .textarea.error {
-  border-color: var(--ink-form-border-error);
+  border-color: var(--ink-form-control-border-color-error);
 }
 
 .textarea.error:focus {
-  border: 2px solid var(--ink-form-border-error);
+  border: 2px solid var(--ink-form-control-border-color-error);
   padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-200) - 1px);
   box-shadow: var(--ink-focus-ring-error);
 }
@@ -81,7 +81,7 @@
 .textarea:disabled {
   background-color: var(--ink-form-bg-disabled);
   cursor: not-allowed;
-  border-color: var(--ink-form-border-default);
+  border-color: var(--ink-form-control-border-color-default);
 }
 
 .textarea:read-only {

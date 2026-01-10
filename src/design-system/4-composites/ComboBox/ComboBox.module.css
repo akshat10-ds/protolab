@@ -13,7 +13,7 @@
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-sm); /* 14px */
   font-weight: var(--ink-font-weight-medium); /* 500 */
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   line-height: 1.4;
   display: flex;
   align-items: center;
@@ -44,7 +44,7 @@
 .description {
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-sm);
-  color: var(--ink-font-neutral);
+  color: var(--ink-font-color-neutral);
   line-height: var(--ink-line-height-normal);
 }
 
@@ -60,9 +60,9 @@
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-body-m-size); /* 16px - fontBodyM from Figma */
   font-weight: var(--ink-font-weight-regular); /* 400 */
-  color: var(--ink-font-default);
-  background: var(--ink-form-bg-default);
-  border: var(--ink-form-border-width) solid var(--ink-form-border-default);
+  color: var(--ink-font-color-default);
+  background: var(--ink-form-control-bg-color-default);
+  border: var(--ink-form-border-width) solid var(--ink-form-control-border-color-default);
   border-radius: var(--ink-radius-size-xs); /* 4px - radiusSizeXS */
   padding: var(--ink-spacing-100) 46px var(--ink-spacing-100) var(--ink-spacing-200); /* 8px top, 46px right (for icon), 8px bottom, 16px left */
   transition: all var(--ink-transition-fast);
@@ -76,23 +76,24 @@
 
 /* Hover state */
 .input:hover:not(:disabled):not(.error) {
-  border-color: var(--ink-form-border-hover);
+  border-color: var(--ink-form-control-border-color-hover);
 }
 
 /* Focus/Active state - 2px border */
 .input:focus:not(.error) {
-  border: var(--ink-form-border-width-active) solid var(--ink-form-border-active);
+  border: var(--ink-form-border-width-active) solid var(--ink-form-control-border-color-active);
   /* Adjust padding to compensate for thicker border */
-  padding: calc(var(--ink-spacing-100) - 1px) calc(46px - 1px) calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-200) - 1px);
+  padding: calc(var(--ink-spacing-100) - 1px) calc(46px - 1px) calc(var(--ink-spacing-100) - 1px)
+    calc(var(--ink-spacing-200) - 1px);
 }
 
 /* Error state */
 .input.error {
-  border-color: var(--ink-form-border-error);
+  border-color: var(--ink-form-control-border-color-error);
 }
 
 .input.error:focus {
-  border: var(--ink-form-border-width) solid var(--ink-form-border-error);
+  border: var(--ink-form-border-width) solid var(--ink-form-control-border-color-error);
   /* Keep same padding for error state */
   padding: var(--ink-spacing-100) 46px var(--ink-spacing-100) var(--ink-spacing-200);
 }
@@ -102,12 +103,12 @@
   background: var(--ink-form-bg-disabled);
   opacity: var(--ink-opacity-disabled);
   cursor: not-allowed;
-  border-color: var(--ink-form-border-default);
+  border-color: var(--ink-form-control-border-color-default);
 }
 
 /* Placeholder */
 .input::placeholder {
-  color: var(--ink-font-neutral);
+  color: var(--ink-font-color-neutral);
   opacity: 1;
 }
 
@@ -131,11 +132,11 @@
 }
 
 .iconContainer:hover {
-  background-color: var(--ink-button-tertiary-bg-hover); /* rgba(19,0,50,0.1) */
+  background-color: var(--ink-cta-bg-color-tertiary-hover); /* rgba(19,0,50,0.1) */
 }
 
 .iconContainer:active {
-  background-color: var(--ink-button-tertiary-bg-active); /* rgba(19,0,50,0.15) */
+  background-color: var(--ink-cta-bg-color-tertiary-active); /* rgba(19,0,50,0.15) */
 }
 
 /* Clear Button - IconButton style */
@@ -146,7 +147,7 @@
   padding: 0;
   background: transparent;
   border: none;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   cursor: pointer;
   pointer-events: all;
   transition: opacity var(--ink-transition-fast);
@@ -162,7 +163,7 @@
 }
 
 .clearButton:focus-visible {
-  outline: 2px solid var(--ink-form-border-active);
+  outline: 2px solid var(--ink-form-control-border-color-active);
   outline-offset: 2px;
 }
 
@@ -171,7 +172,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   transition: transform var(--ink-transition-fast);
   flex-shrink: 0;
 }
@@ -218,14 +219,14 @@
   transition: background-color var(--ink-transition-fast);
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-sm); /* 14px per Figma */
-  color: var(--ink-font-default);
+  color: var(--ink-font-color-default);
   line-height: 1.4; /* 1.4 per Figma */
   user-select: none;
 }
 
 .option:hover:not(.optionDisabled),
 .optionHighlighted:not(.optionDisabled) {
-  background-color: var(--ink-item-bg-hover);
+  background-color: var(--ink-item-bg-color-hover);
 }
 
 .optionSelected {
@@ -253,7 +254,7 @@
   text-align: center;
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-sm);
-  color: var(--ink-font-neutral);
+  color: var(--ink-font-color-neutral);
   line-height: 1.5;
 }
 
@@ -262,7 +263,7 @@
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-xs); /* 12px */
   font-weight: var(--ink-font-weight-medium); /* 500 */
-  color: var(--ink-font-error);
+  color: var(--ink-font-color-error);
   line-height: 1.5;
   display: flex;
   align-items: flex-start;

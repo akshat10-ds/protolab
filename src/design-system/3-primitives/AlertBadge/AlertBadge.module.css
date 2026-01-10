@@ -12,7 +12,7 @@
   font-weight: var(--ink-font-weight-medium);
   line-height: 1.5;
   letter-spacing: 0.12px;
-  color: var(--ink-font-inverse);
+  color: var(--ink-font-color-inverse);
   text-align: center;
   white-space: nowrap;
 }
