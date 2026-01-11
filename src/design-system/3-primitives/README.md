@@ -299,13 +299,25 @@ Loading indicator.
 **Sizes:** small, medium, large
 
 #### ProgressBar
-Visual progress indicator.
+Visual progress indicator with determinate and indeterminate states.
 
 ```tsx
-<ProgressBar value={75} max={100} variant="primary" showLabel />
+{/* Determinate progress bar */}
+<ProgressBar value={75} max={100} kind="info" showLabel label="Loading..." />
+
+{/* Success variant */}
+<ProgressBar value={100} kind="success" showLabel label="Complete" />
+
+{/* Indeterminate loading state */}
+<ProgressBar variant="indeterminate" kind="info" showLabel label="Processing..." />
 ```
 
-**Variants:** primary, success, warning, danger
+**Props:**
+- `kind`: `info` (default) | `success` - Color variant
+- `variant`: `determinate` (default) | `indeterminate` - Progress type
+- `showLabel`: Show label and percentage
+- `label`: Label text (default: "Label")
+- `showContent`: Show percentage text (determinate only)
 
 #### Callout
 Inline informational message.

@@ -1,123 +1,134 @@
+@import '../../1-tokens/tokens.css';
+
 .container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-50);
   width: 100%;
 }
 
-.labelOuter {
+/* Label row with label on left, percentage on right */
+.labelRow {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--ink-spacing-1);
+  align-items: flex-start;
+  gap: var(--ink-spacing-200);
+  width: 100%;
 }
 
 .labelText {
-  font-family: var(--ink-font-family);
-  font-size: var(--ink-font-size-sm);
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-14);
   font-weight: var(--ink-font-weight-medium);
-  color: var(--ink-neutral-80);
+  line-height: 1.4;
+  color: var(--ink-font-color-default);
+  flex: 1 0 0;
 }
 
+.percentageText {
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-14);
+  font-weight: var(--ink-font-weight-regular);
+  line-height: 1.4;
+  color: var(--ink-font-color-default);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Track container */
 .track {
   position: relative;
   width: 100%;
-  background-color: var(--ink-neutral-20);
+  height: var(--ink-bar-width-s);
+  background-color: var(--ink-bar-track-default);
   border-radius: var(--ink-radius-full);
   overflow: hidden;
-}
-
-/* Sizes */
-.small {
-  height: 4px;
-}
-
-.medium {
-  height: 8px;
-}
-
-.large {
-  height: 12px;
-}
-
-.fill {
-  height: 100%;
-  border-radius: var(--ink-radius-full);
-  transition: width var(--ink-transition-normal);
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: var(--ink-spacing-2);
 }
 
-/* Variants */
-.primary .fill {
-  background-color: var(--ink-cobalt-60);
+/* Fill bar */
+.fill {
+  height: 100%;
+  min-width: 0;
+  min-height: 1px;
+  transition: width var(--ink-transition-normal);
+}
+
+/* Kind variants */
+.info .fill {
+  background-color: var(--ink-bar-fill-default);
 }
 
 .success .fill {
-  background-color: var(--ink-green-50);
+  background-color: var(--ink-bar-fill-success);
 }
 
-.warning .fill {
-  background-color: var(--ink-orange-50);
-}
-
-.error .fill {
-  background-color: var(--ink-red-60);
-}
-
-/* Label inside */
-.labelInner {
-  font-family: var(--ink-font-family);
-  font-size: var(--ink-font-size-xs);
-  font-weight: var(--ink-font-weight-semibold);
-  color: var(--ink-white-100);
-  white-space: nowrap;
-  padding-right: var(--ink-spacing-1);
+/* Stop indicator - appears at the end of the track */
+.stopIndicator {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: var(--ink-bar-width-s);
+  height: var(--ink-bar-width-s);
+  background-color: var(--ink-bar-stop-indicator);
+  border-radius: var(--ink-radius-full);
 }
 
 /* Indeterminate state */
-.indeterminate {
+.trackIndeterminate {
+  position: relative;
   width: 100%;
+  height: var(--ink-bar-width-s);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.trackIndeterminateBackground {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: var(--ink-bar-width-s);
+  background-color: var(--ink-bar-track-default);
+  transform: translateY(-50%);
+}
+
+.fillIndeterminate {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: var(--ink-bar-width-s);
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-700);
+  transform: translateY(-50%);
   animation: indeterminate 1.5s ease-in-out infinite;
-  transform-origin: left;
+}
+
+.fillIndeterminateBar {
+  width: var(--ink-spacing-700);
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.info .fillIndeterminateBar {
+  background-color: var(--ink-bar-fill-default);
+}
+
+.success .fillIndeterminateBar {
+  background-color: var(--ink-bar-fill-success);
 }
 
 @keyframes indeterminate {
   0% {
-    transform: translateX(-100%);
+    transform: translateY(-50%) translateX(-100%);
   }
   50% {
-    transform: translateX(0);
+    transform: translateY(-50%) translateX(50%);
   }
   100% {
-    transform: translateX(100%);
-  }
-}
-
-/* Striped pattern */
-.striped {
-  background-image: linear-gradient(
-    45deg,
-    var(--ink-white-fade-15) 25%,
-    transparent 25%,
-    transparent 50%,
-    var(--ink-white-fade-15) 50%,
-    var(--ink-white-fade-15) 75%,
-    transparent 75%,
-    transparent
-  );
-  background-size: 20px 20px;
-}
-
-/* Animated stripes */
-.animated {
-  animation: stripes 1s linear infinite;
-}
-
-@keyframes stripes {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 20px 0;
+    transform: translateY(-50%) translateX(200%);
   }
 }

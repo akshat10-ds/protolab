@@ -2,17 +2,37 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import styles from './Slider.module.css';
 
 export interface SliderProps {
+  /** The label text for the slider */
   label: string;
+  /** Hide the label visually (still accessible to screen readers) */
   hideLabel?: boolean;
+  /** Description text shown below the label */
   description?: string;
+  /** Minimum value */
   min?: number;
+  /** Maximum value */
   max?: number;
+  /** Step increment */
   step?: number;
+  /** Current value */
   value: number;
+  /** Callback when value changes */
   onChange: (value: number) => void;
+  /** Whether the slider is disabled */
   disabled?: boolean;
+  /** Show the current value next to the slider */
   showValue?: boolean;
+  /** Show tooltip on hover/drag */
+  showTooltip?: boolean;
+  /** Element to display at the start of the slider (e.g., icon) */
+  startElement?: React.ReactNode;
+  /** Element to display at the end of the slider (e.g., icon) */
+  endElement?: React.ReactNode;
+  /** Custom formatter for tooltip value */
+  formatTooltip?: (value: number) => string;
+  /** ID for the slider input */
   id?: string;
+  /** Custom width for the slider wrapper */
   width?: string;
 }
 
@@ -29,6 +49,10 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
       onChange,
       disabled = false,
       showValue = false,
+      showTooltip: showTooltipProp = true,
+      startElement,
+      endElement,
+      formatTooltip,
       id,
       width,
     },
@@ -112,30 +136,34 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
       }
     }, [isDragging, handleMouseUp]);
 
-    const wrapperClasses = [
-      styles.wrapper,
-    ].filter(Boolean).join(' ');
+    const wrapperClasses = [styles.wrapper, disabled && styles.disabled].filter(Boolean).join(' ');
 
-    const labelClasses = [
-      styles.label,
-      hideLabel && styles.visuallyHidden,
-      disabled && styles.disabled,
-    ].filter(Boolean).join(' ');
+    const labelClasses = [styles.label, hideLabel && styles.visuallyHidden]
+      .filter(Boolean)
+      .join(' ');
 
-    const containerClasses = [
-      styles.container,
-      showValue && styles.withValue,
-    ].filter(Boolean).join(' ');
+    const containerClasses = [styles.container, showValue && styles.withValue]
+      .filter(Boolean)
+      .join(' ');
 
-    const sliderClasses = [
-      styles.slider,
-      disabled && styles.disabled,
-    ].filter(Boolean).join(' ');
+    const sliderClasses = [styles.slider].filter(Boolean).join(' ');
 
-    const showTooltip = (isHovering || isDragging) && !disabled;
+    // Track fill classes based on state
+    const trackFilledClasses = [
+      styles.trackFilled,
+      isHovering && !disabled && !isDragging && styles.hover,
+      isDragging && !disabled && styles.active,
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    const shouldShowTooltip = showTooltipProp && (isHovering || isDragging) && !disabled;
+
+    // Format the tooltip value
+    const tooltipValue = formatTooltip ? formatTooltip(value) : `${value}%`;
 
     return (
-      <div className={wrapperClasses} style={{ width }}>
+      <div className={wrapperClasses} style={width ? { width } : undefined}>
         <label htmlFor={sliderId} className={labelClasses}>
           {label}
         </label>
@@ -147,16 +175,18 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
         )}
 
         <div className={containerClasses}>
+          {startElement && <div className={styles.startElement}>{startElement}</div>}
+
           <div
             className={styles.sliderContainer}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
           >
             <div className={styles.track} ref={trackRef}>
-              <div
-                className={styles.trackFilled}
-                style={{ width: `${percentage}%` }}
-              />
+              {/* Stop indicator at end of track */}
+              <div className={styles.stopIndicator} />
+              {/* Filled track */}
+              <div className={trackFilledClasses} style={{ width: `${percentage}%` }} />
             </div>
 
             <input
@@ -179,21 +209,16 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
             />
 
             {/* Tooltip on hover/drag */}
-            {showTooltip && (
-              <div
-                className={styles.tooltip}
-                style={{ left: `${percentage}%` }}
-              >
-                {value}
+            {shouldShowTooltip && (
+              <div className={styles.tooltip} style={{ left: `${percentage}%` }}>
+                {tooltipValue}
               </div>
             )}
           </div>
 
-          {showValue && (
-            <div className={styles.valueDisplay}>
-              {value}
-            </div>
-          )}
+          {endElement && <div className={styles.endElement}>{endElement}</div>}
+
+          {showValue && <div className={styles.valueDisplay}>{value}</div>}
         </div>
       </div>
     );

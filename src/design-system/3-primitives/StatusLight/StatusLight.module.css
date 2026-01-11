@@ -28,63 +28,77 @@
   flex-shrink: 0;
 }
 
-/* Text styling */
+/* Text styling - matches Figma badge font spec */
 .text {
   font-size: var(--ink-font-size-xs); /* 12px */
   font-weight: var(--ink-font-weight-medium); /* 500 */
   line-height: 1.5;
-  letter-spacing: 0.16px;
+  letter-spacing: var(--ink-letter-spacing-wide); /* 0.16px */
   flex-shrink: 0;
 }
 
-/* Neutral variant */
+/* =================================
+   Neutral variant
+   ================================= */
 .statusLight.neutral .dot {
   background-color: var(--ink-neutral-70);
 }
 
 .statusLight.neutral .text {
-  color: var(--ink-font-subtle);
+  color: var(--ink-font-color-neutral); /* rgba(19,0,50,0.7) */
 }
 
+/* Neutral filled - semi-transparent background (default) */
 .statusLight.neutral.filled {
-  background-color: var(--ink-status-bg-subtle);
+  background-color: var(--ink-message-bg-color-subtle); /* rgba(19,0,50,0.05) */
 }
 
-/* Success variant */
+/* Neutral filled opaque - solid background */
+.statusLight.neutral.filled.opaque {
+  background-color: var(--ink-status-bg-color-subtle); /* #f0eff0 */
+}
+
+/* =================================
+   Success variant
+   ================================= */
 .statusLight.success .dot {
   background-color: var(--ink-green-80);
 }
 
 .statusLight.success .text {
-  color: var(--ink-font-success-emphasis);
+  color: var(--ink-font-color-success); /* #005f43 */
 }
 
 .statusLight.success.filled {
-  background-color: var(--ink-status-bg-success);
+  background-color: var(--ink-status-bg-color-success); /* #b9f6dd */
 }
 
-/* Warning variant */
+/* =================================
+   Warning variant
+   ================================= */
 .statusLight.warning .dot {
   background-color: var(--ink-orange-80);
 }
 
 .statusLight.warning .text {
-  color: var(--ink-font-warning-emphasis);
+  color: var(--ink-font-color-warning); /* #a52608 */
 }
 
 .statusLight.warning.filled {
-  background-color: var(--ink-status-bg-warning);
+  background-color: var(--ink-status-bg-color-warning); /* #fce1c2 */
 }
 
-/* Alert variant */
+/* =================================
+   Alert variant
+   ================================= */
 .statusLight.alert .dot {
   background-color: var(--ink-red-80);
 }
 
 .statusLight.alert .text {
-  color: var(--ink-font-error-emphasis);
+  color: var(--ink-font-color-error); /* #a6003f */
 }
 
 .statusLight.alert.filled {
-  background-color: var(--ink-status-bg-alert);
+  background-color: var(--ink-status-bg-color-alert); /* #fee8ea */
 }

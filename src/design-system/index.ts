@@ -103,7 +103,7 @@ export type {
   // Feedback Components
   SpinnerProps,
   ProgressBarProps,
-  ProgressBarSize,
+  ProgressBarKind,
   ProgressBarVariant,
   // Overlay Components (Basic)
   TooltipProps,

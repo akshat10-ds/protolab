@@ -29,8 +29,8 @@ const avatarSizes = ['xsmall', 'small', 'medium', 'large'] as const;
 const avatarColors = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
 const statusKinds = ['neutral', 'success', 'warning', 'alert'] as const;
 const spinnerSizes = ['small', 'medium', 'large'] as const;
-const progressSizes = ['small', 'medium', 'large'] as const;
-const progressVariants = ['primary', 'success', 'warning', 'error'] as const;
+const progressKinds = ['info', 'success'] as const;
+const progressVariants = ['determinate', 'indeterminate'] as const;
 
 export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
   activeSubpage,
@@ -566,25 +566,25 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
   if (activeSubpage === 'progressbar') {
     return (
       <div className={styles.tokenPage}>
-        {/* Sizes */}
+        {/* Kinds */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Sizes</h3>
+            <h3 className={styles.tokenSectionTitle}>Kinds</h3>
           </div>
-          {progressSizes.map((size) => (
-            <div className={styles.demoRow} key={size}>
-              <span className={styles.demoLabel}>{size}</span>
-              <div style={{ flex: 1, maxWidth: '300px' }}>
+          {progressKinds.map((kind) => (
+            <div className={styles.demoRow} key={kind}>
+              <span className={styles.demoLabel}>{kind}</span>
+              <div style={{ flex: 1, maxWidth: '320px' }}>
                 <SelectableComponent
-                  componentId={`progressbar-size-${size}`}
-                  componentProps={{ value: 60, size }}
-                  isSelected={selectedComponentId === `progressbar-size-${size}`}
+                  componentId={`progressbar-kind-${kind}`}
+                  componentProps={{ value: 100, kind, showLabel: true }}
+                  isSelected={selectedComponentId === `progressbar-kind-${kind}`}
                   onSelect={onComponentSelect}
                 >
-                  <ProgressBar value={60} size={size} />
+                  <ProgressBar value={100} kind={kind} showLabel label="Label" />
                 </SelectableComponent>
               </div>
-              <span className={styles.propsCode}>size="{size}"</span>
+              <span className={styles.propsCode}>kind="{kind}"</span>
             </div>
           ))}
         </div>
@@ -597,8 +597,14 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
           {progressVariants.map((variant) => (
             <div className={styles.demoRow} key={variant}>
               <span className={styles.demoLabel}>{variant}</span>
-              <div style={{ flex: 1, maxWidth: '300px' }}>
-                <ProgressBar value={65} variant={variant} />
+              <div style={{ flex: 1, maxWidth: '320px' }}>
+                <ProgressBar
+                  value={variant === 'determinate' ? 50 : 0}
+                  variant={variant}
+                  kind="info"
+                  showLabel
+                  label="Label"
+                />
               </div>
               <span className={styles.propsCode}>variant="{variant}"</span>
             </div>
@@ -611,48 +617,38 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
             <h3 className={styles.tokenSectionTitle}>Labels</h3>
           </div>
           <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>outside</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar value={65} showLabel />
+            <span className={styles.demoLabel}>with label</span>
+            <div style={{ flex: 1, maxWidth: '320px' }}>
+              <ProgressBar value={75} showLabel label="Uploading" />
             </div>
           </div>
           <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>inside</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar value={65} showLabel labelInside size="large" />
+            <span className={styles.demoLabel}>no label</span>
+            <div style={{ flex: 1, maxWidth: '320px' }}>
+              <ProgressBar value={75} showLabel={false} />
             </div>
           </div>
           <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>custom</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar value={45} showLabel label="45 of 100 files" />
+            <span className={styles.demoLabel}>custom content</span>
+            <div style={{ flex: 1, maxWidth: '320px' }}>
+              <ProgressBar value={45} showLabel label="Processing" content="45 of 100" />
             </div>
           </div>
         </div>
 
-        {/* Styles */}
+        {/* Progress Values */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Styles</h3>
+            <h3 className={styles.tokenSectionTitle}>Progress Values</h3>
           </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>indeterminate</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar indeterminate />
+          {[0, 25, 50, 75, 100].map((val) => (
+            <div className={styles.demoRow} key={val}>
+              <span className={styles.demoLabel}>{val}%</span>
+              <div style={{ flex: 1, maxWidth: '320px' }}>
+                <ProgressBar value={val} showLabel label="Progress" />
+              </div>
             </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>striped</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar value={70} striped />
-            </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>animated</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar value={70} striped animated />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     );

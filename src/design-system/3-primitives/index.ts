@@ -75,7 +75,7 @@ export { Spinner } from './Spinner';
 export type { SpinnerProps } from './Spinner';
 
 export { ProgressBar } from './ProgressBar';
-export type { ProgressBarProps, ProgressBarSize, ProgressBarVariant } from './ProgressBar';
+export type { ProgressBarProps, ProgressBarKind, ProgressBarVariant } from './ProgressBar';
 
 // Overlay Components (Basic)
 export { Tooltip } from './Tooltip';
