@@ -1,111 +1,153 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 import styles from './Breadcrumb.module.css';
-import { Link } from '../../3-primitives/Link';
+import { Icon } from '../../3-primitives/Icon';
+import { IconButton } from '../../3-primitives/IconButton';
 
 export interface BreadcrumbItem {
   /** Label for the breadcrumb */
   label: string;
-  /** URL to navigate to */
+  /** URL to navigate to (optional - items without href are text-only) */
   href?: string;
-  /** Icon to display before label */
-  icon?: React.ReactNode;
-  /** Is this the current page */
+  /** Is this the current page (styled with medium weight, no hover/active) */
   current?: boolean;
 }
 
 export interface BreadcrumbProps {
   /** Array of breadcrumb items */
   items: BreadcrumbItem[];
-  /** Custom separator (default: /) */
-  separator?: React.ReactNode;
-  /** Collapse breadcrumbs on mobile */
-  collapsible?: boolean;
-  /** Max items to show before collapsing */
-  maxItems?: number;
+  /** Show home icon as first item instead of text */
+  rootIcon?: boolean;
+  /** Show or hide the current page item */
+  showCurrentPage?: boolean;
+  /** Enable overflow menu - collapses to: Root > ... > Current (max 3 items) */
+  overflowMenu?: boolean;
   /** Additional className */
   className?: string;
   /** Callback when item is clicked */
   onItemClick?: (item: BreadcrumbItem, index: number) => void;
+  /** Callback when overflow menu is clicked */
+  onOverflowClick?: () => void;
 }
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({
   items,
-  separator = '/',
-  collapsible = true,
-  maxItems,
+  rootIcon = false,
+  showCurrentPage = true,
+  overflowMenu = false,
   className,
   onItemClick,
+  onOverflowClick,
 }) => {
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
-
-  React.useEffect(() => {
-    if (collapsible) {
-      const handleResize = () => {
-        setIsCollapsed(window.innerWidth < 768);
-      };
-      handleResize();
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }
-  }, [collapsible]);
+  // Separator is always chevron-right per Figma spec
+  const renderSeparator = (key: string | number) => (
+    <span className={styles.separator} key={`sep-${key}`} aria-hidden="true">
+      <Icon name="chevron-right" size="small" />
+    </span>
+  );
 
   const renderItems = () => {
-    let displayItems = [...items];
-
-    // Handle maxItems truncation
-    if (maxItems && items.length > maxItems) {
-      const firstItem = items[0];
-      const lastItems = items.slice(-(maxItems - 1));
-      displayItems = [firstItem, { label: '...', href: undefined }, ...lastItems];
+    // Guard against undefined or empty items
+    if (!items || items.length === 0) {
+      return null;
     }
 
-    // Handle mobile collapse - show only first and last
-    if (isCollapsed && items.length > 2) {
-      displayItems = [items[0], { label: '...', href: undefined }, items[items.length - 1]];
+    // Filter out current page if showCurrentPage is false
+    let displayItems = showCurrentPage
+      ? [...items]
+      : items.filter((item, idx) => idx !== items.length - 1 && !item.current);
+
+    // Overflow menu mode: Root > Overflow Icon > Current Page (max 3 crumbs per Figma)
+    if (overflowMenu && displayItems.length > 2) {
+      const firstItem = displayItems[0];
+      const lastItem = displayItems[displayItems.length - 1];
+
+      return (
+        <>
+          <React.Fragment key="first-item">
+            {renderItem(firstItem, 0, false)}
+            {renderSeparator(0)}
+          </React.Fragment>
+
+          <React.Fragment key="overflow">
+            <li className={styles.item}>
+              <IconButton
+                icon="overflow-horizontal"
+                size="small"
+                kind="tertiary"
+                aria-label="Show more breadcrumbs"
+                onClick={onOverflowClick}
+                className={styles.overflowButton}
+              />
+            </li>
+            {renderSeparator('overflow')}
+          </React.Fragment>
+
+          <React.Fragment key="current">
+            {renderItem(lastItem, displayItems.length - 1, true)}
+          </React.Fragment>
+        </>
+      );
     }
 
     return displayItems.map((item, index) => {
       const isLast = index === displayItems.length - 1;
       const isCurrent = item.current || isLast;
-      const isEllipsis = item.label === '...';
-
-      const handleClick = (e: React.MouseEvent) => {
-        if (onItemClick && !isCurrent && !isEllipsis) {
-          e.preventDefault();
-          onItemClick(item, index);
-        }
-      };
 
       return (
-        <li key={`${item.label}-${index}`} className={styles.item}>
-          {item.href && !isCurrent ? (
-            <Link
-              href={item.href}
-              className={cn(styles.link, isEllipsis && styles.ellipsis)}
-              onClick={handleClick}
-              aria-current={isCurrent ? 'page' : undefined}
-            >
-              {item.icon && <span className={styles.icon}>{item.icon}</span>}
-              {item.label}
-            </Link>
-          ) : (
-            <span
-              className={cn(
-                styles.text,
-                isCurrent && styles.current,
-                isEllipsis && styles.ellipsis
-              )}
-              aria-current={isCurrent ? 'page' : undefined}
-            >
-              {item.icon && <span className={styles.icon}>{item.icon}</span>}
-              {item.label}
-            </span>
-          )}
-          {!isLast && <span className={styles.separator}>{separator}</span>}
-        </li>
+        <React.Fragment key={`${item.label}-${index}`}>
+          {renderItem(item, index, isCurrent)}
+          {!isLast && renderSeparator(index)}
+        </React.Fragment>
       );
     });
+  };
+
+  const renderItem = (item: BreadcrumbItem, index: number, isCurrent: boolean) => {
+    const isFirst = index === 0;
+    const showAsRootIcon = rootIcon && isFirst;
+
+    const handleClick = (e: React.MouseEvent) => {
+      if (onItemClick && !isCurrent) {
+        e.preventDefault();
+        onItemClick(item, index);
+      }
+    };
+
+    // Root icon for first item (home/folder icon per Figma)
+    if (showAsRootIcon) {
+      return (
+        <li className={styles.item}>
+          <IconButton
+            icon="folder"
+            size="small"
+            kind="tertiary"
+            aria-label={item.label}
+            onClick={handleClick}
+            className={styles.rootIconButton}
+            href={item.href}
+          />
+        </li>
+      );
+    }
+
+    // Regular item - current page has medium weight, no hover/active states
+    return (
+      <li className={styles.item}>
+        {item.href && !isCurrent ? (
+          <a href={item.href} className={styles.link} onClick={handleClick}>
+            <span className={styles.itemText}>{item.label}</span>
+          </a>
+        ) : (
+          <span
+            className={cn(styles.text, isCurrent && styles.current)}
+            aria-current={isCurrent ? 'page' : undefined}
+          >
+            <span className={styles.itemText}>{item.label}</span>
+          </span>
+        )}
+      </li>
+    );
   };
 
   return (

@@ -841,6 +841,7 @@
   --ink-font-family-default: var(--ink-font-family);
 
   /* Font Size */
+  --ink-font-size-xxs: 10px;
   --ink-font-size-xs: 12px;
   --ink-font-size-sm: 14px;
   --ink-font-size-md: 16px;

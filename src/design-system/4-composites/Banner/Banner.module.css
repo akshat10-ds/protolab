@@ -1,0 +1,197 @@
+/* Ink Design System - Banner - Exact Figma Specs */
+
+/* Banner Container */
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100); /* 8px */
+  padding: var(--ink-spacing-100) var(--ink-spacing-100) var(--ink-spacing-100)
+    var(--ink-spacing-200); /* 8px 8px 8px 16px */
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Shape Variants */
+.shape-square {
+  border-radius: 0;
+}
+
+.shape-round {
+  border-radius: var(--ink-radius-size-s); /* 8px */
+  overflow: hidden;
+}
+
+/* Bottom Border */
+.bottomBorder {
+  border-bottom: var(--ink-form-border-width) solid;
+}
+
+/* Content Wrapper */
+.content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--ink-spacing-200); /* 16px */
+  padding-right: var(--ink-spacing-100); /* 8px */
+  min-width: 0;
+}
+
+/* Message Wrapper */
+.messageWrapper {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  gap: var(--ink-spacing-100); /* 8px */
+  padding: var(--ink-spacing-100) 0; /* 8px top/bottom */
+  min-width: 0;
+}
+
+/* Icon Wrapper */
+.iconWrapper {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Message Text */
+.message {
+  flex: 1;
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-sm); /* 14px */
+  font-weight: var(--ink-font-weight-regular); /* 400 */
+  line-height: 1.4;
+  margin: 0;
+  min-width: 0;
+}
+
+/* Line Wrap */
+.lineWrap .content {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ink-spacing-100); /* 8px */
+}
+
+.lineWrap .messageWrapper {
+  width: 100%;
+}
+
+.lineWrap .message {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.banner:not(.lineWrap) .message {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Close Button Wrapper */
+.closeButtonWrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Kind Variants - Information (Blue/Cobalt) */
+.kind-information {
+  background-color: var(--ink-message-bg-color-subtle);
+  color: var(--ink-font-color-default);
+}
+
+.kind-information .iconWrapper {
+  color: var(--ink-icon-color-accent);
+}
+
+.kind-information.bottomBorder {
+  border-bottom-color: var(--ink-cobalt-100);
+}
+
+/* Kind Variants - Danger (Red) */
+.kind-danger {
+  background-color: var(--ink-bg-color-error);
+  color: var(--ink-font-color-error);
+}
+
+.kind-danger .iconWrapper {
+  color: var(--ink-icon-color-error);
+}
+
+.kind-danger.bottomBorder {
+  border-bottom-color: var(--ink-border-color-error);
+}
+
+/* Kind Variants - Success (Green) */
+.kind-success {
+  background-color: var(--ink-bg-color-success);
+  color: var(--ink-font-color-success);
+}
+
+.kind-success .iconWrapper {
+  color: var(--ink-icon-color-success);
+}
+
+.kind-success.bottomBorder {
+  border-bottom-color: var(--ink-border-success);
+}
+
+/* Kind Variants - Warning (Orange) */
+.kind-warning {
+  background-color: var(--ink-bg-color-warning);
+  color: var(--ink-font-color-warning);
+}
+
+.kind-warning .iconWrapper {
+  color: var(--ink-icon-color-warning);
+}
+
+.kind-warning.bottomBorder {
+  border-bottom-color: var(--ink-border-warning);
+}
+
+/* Kind Variants - Promo (Purple) */
+.kind-promo {
+  background-color: var(--ink-purple-10);
+  color: var(--ink-font-color-accent-emphasis);
+}
+
+.kind-promo .iconWrapper {
+  color: var(--ink-purple-100);
+}
+
+.kind-promo.bottomBorder {
+  border-bottom-color: var(--ink-purple-100);
+}
+
+/* Kind Variants - Subtle (Light Gray) */
+.kind-subtle {
+  background-color: var(--ink-message-bg-color-subtle);
+  color: var(--ink-font-color-default);
+}
+
+.kind-subtle .iconWrapper {
+  color: var(--ink-icon-color-subtle);
+}
+
+.kind-subtle.bottomBorder {
+  border-bottom-color: var(--ink-neutral-30);
+}
+
+/* Kind Variants - Neutral (Dark) */
+.kind-neutral {
+  background-color: var(--ink-neutral-110);
+  color: var(--ink-white-100);
+}
+
+.kind-neutral .iconWrapper {
+  color: var(--ink-icon-color-inverse);
+}
+
+.kind-neutral.bottomBorder {
+  border-bottom-color: var(--ink-white-fade-20);
+}

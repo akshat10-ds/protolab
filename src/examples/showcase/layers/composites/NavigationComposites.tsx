@@ -10,6 +10,7 @@ import {
   Pagination,
   Tabs,
   Accordion,
+  Stepper,
 } from '@/design-system';
 import styles from '../../Showcase.module.css';
 
@@ -24,12 +25,6 @@ const breadcrumbItems = [
   { label: 'Details' },
 ];
 
-const breadcrumbWithIcons = [
-  { label: 'Home', href: '/', icon: <Icon name="home" size="small" /> },
-  { label: 'Products', href: '/products', icon: <Icon name="bag" size="small" /> },
-  { label: 'Details', icon: <Icon name="info" size="small" /> },
-];
-
 const longBreadcrumb = [
   { label: 'Home', href: '/' },
   { label: 'Products', href: '/products' },
@@ -38,12 +33,6 @@ const longBreadcrumb = [
   { label: 'Laptops', href: '/products/electronics/computers/laptops' },
   { label: 'Gaming' },
 ];
-
-const separatorVariants = [
-  { sep: '>', label: '>' },
-  { sep: '·', label: '·' },
-  { sep: <Icon name="chevron-right" size="small" />, label: 'icon' },
-] as const;
 
 const accordionItems = [
   {
@@ -69,20 +58,47 @@ const accordionWithIcons = [
   {
     id: '1',
     title: 'Features',
-    icon: <Icon name="star" size="small" />,
+    startIcon: 'star' as const,
     content: 'Fast, easy to use, and highly customizable.',
   },
   {
     id: '2',
     title: 'Documentation',
-    icon: <Icon name="book" size="small" />,
+    startIcon: 'book' as const,
     content: 'Comprehensive documentation with examples.',
   },
   {
     id: '3',
     title: 'Support',
-    icon: <Icon name="help" size="small" />,
+    startIcon: 'help' as const,
     content: '24/7 support available for all users.',
+  },
+];
+
+const accordionWithSubtitle = [
+  {
+    id: '1',
+    title: 'Account Settings',
+    subtitle: 'Manage your account preferences',
+    startIcon: 'user' as const,
+    metadata: 'Updated 2 days ago',
+    content: 'Configure your profile, password, and notification settings.',
+  },
+  {
+    id: '2',
+    title: 'Security',
+    subtitle: 'Protect your account',
+    startIcon: 'lock' as const,
+    metadata: 'Last reviewed 1 week ago',
+    content: 'Enable two-factor authentication and manage security keys.',
+  },
+  {
+    id: '3',
+    title: 'Billing',
+    subtitle: 'Manage your subscription',
+    startIcon: 'credit-card' as const,
+    metadata: '$29/month',
+    content: 'View invoices, update payment methods, and change plans.',
   },
 ];
 
@@ -104,43 +120,52 @@ export const NavigationComposites: React.FC<NavigationCompositesProps> = ({ acti
           </div>
         </div>
 
-        {/* With Icons */}
+        {/* Root Icon */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>With Icons</h3>
+            <h3 className={styles.tokenSectionTitle}>Root Icon</h3>
           </div>
           <div className={styles.interactiveArea}>
-            <Breadcrumb items={breadcrumbWithIcons} />
-          </div>
-        </div>
-
-        {/* Custom Separators */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Custom Separators</h3>
-          </div>
-          {separatorVariants.map(({ sep, label }) => (
-            <div className={styles.demoRow} key={label}>
-              <span className={styles.demoLabel}>{label}</span>
-              <div style={{ flex: 1 }}>
-                <Breadcrumb items={breadcrumbItems} separator={sep} />
-              </div>
-              <span className={styles.propsCode}>separator="{label}"</span>
-            </div>
-          ))}
-        </div>
-
-        {/* With MaxItems */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>With MaxItems</h3>
-          </div>
-          <div className={styles.interactiveArea}>
-            <Breadcrumb items={longBreadcrumb} maxItems={4} />
+            <Breadcrumb items={breadcrumbItems} rootIcon />
           </div>
           <div className={styles.demoRow}>
-            <span className={styles.demoDesc}>6 items collapsed to 4 with ellipsis</span>
-            <span className={styles.propsCode}>maxItems={'{4}'}</span>
+            <span className={styles.demoDesc}>First item replaced with home icon</span>
+            <span className={styles.propsCode}>rootIcon</span>
+          </div>
+        </div>
+
+        {/* Overflow Menu */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Overflow Menu</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <Breadcrumb items={longBreadcrumb} overflowMenu />
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoDesc}>Middle items collapsed to overflow icon</span>
+            <span className={styles.propsCode}>overflowMenu</span>
+          </div>
+        </div>
+
+        {/* Show/Hide Current Page */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Show/Hide Current Page</h3>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>visible</span>
+            <div style={{ flex: 1 }}>
+              <Breadcrumb items={breadcrumbItems} showCurrentPage />
+            </div>
+            <span className={styles.propsCode}>showCurrentPage={'{true}'}</span>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>hidden</span>
+            <div style={{ flex: 1 }}>
+              <Breadcrumb items={breadcrumbItems} showCurrentPage={false} />
+            </div>
+            <span className={styles.propsCode}>showCurrentPage={'{false}'}</span>
           </div>
         </div>
       </div>
@@ -363,20 +388,112 @@ export const NavigationComposites: React.FC<NavigationCompositesProps> = ({ acti
   if (activeSubpage === 'accordion') {
     return (
       <div className={styles.tokenPage}>
-        {/* Default */}
+        {/* Variants */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Default (Single Open)</h3>
+            <h3 className={styles.tokenSectionTitle}>Variants</h3>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>bordered</span>
+            <div style={{ flex: 1 }}>
+              <Accordion items={accordionItems.slice(0, 2)} bordered />
+            </div>
+            <span className={styles.propsCode}>bordered</span>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>card</span>
+            <div style={{ flex: 1 }}>
+              <Accordion items={accordionItems.slice(0, 2)} bordered={false} />
+            </div>
+            <span className={styles.propsCode}>bordered={'{false}'}</span>
+          </div>
+        </div>
+
+        {/* Item Height */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Item Height</h3>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>compact</span>
+            <div style={{ flex: 1 }}>
+              <Accordion items={accordionItems.slice(0, 2)} itemHeight="compact" />
+            </div>
+            <span className={styles.propsCode}>itemHeight="compact"</span>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>default</span>
+            <div style={{ flex: 1 }}>
+              <Accordion items={accordionItems.slice(0, 2)} itemHeight="default" />
+            </div>
+            <span className={styles.propsCode}>itemHeight="default"</span>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>tall</span>
+            <div style={{ flex: 1 }}>
+              <Accordion items={accordionItems.slice(0, 2)} itemHeight="tall" />
+            </div>
+            <span className={styles.propsCode}>itemHeight="tall"</span>
+          </div>
+        </div>
+
+        {/* With Start Icons */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>With Start Icons</h3>
           </div>
           <div className={styles.interactiveArea}>
-            <Accordion items={accordionItems} />
+            <Accordion items={accordionWithIcons} allowMultiple />
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.propsCode}>startIcon="star"</span>
+          </div>
+        </div>
+
+        {/* With Subtitle & Metadata */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>With Subtitle & Metadata</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <Accordion items={accordionWithSubtitle} bordered={false} />
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.propsCode}>subtitle="Description" metadata="Info"</span>
+          </div>
+        </div>
+
+        {/* Display Level */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Display Level</h3>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>xs (14px)</span>
+            <div style={{ flex: 1 }}>
+              <Accordion items={accordionItems.slice(0, 2)} displayLevel="xs" />
+            </div>
+            <span className={styles.propsCode}>displayLevel="xs"</span>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>default (16px)</span>
+            <div style={{ flex: 1 }}>
+              <Accordion items={accordionItems.slice(0, 2)} />
+            </div>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>s (18px)</span>
+            <div style={{ flex: 1 }}>
+              <Accordion items={accordionItems.slice(0, 2)} displayLevel="s" />
+            </div>
+            <span className={styles.propsCode}>displayLevel="s"</span>
           </div>
         </div>
 
         {/* Allow Multiple */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Allow Multiple Open</h3>
+            <h3 className={styles.tokenSectionTitle}>Allow Multiple</h3>
           </div>
           <div className={styles.interactiveArea}>
             <Accordion
@@ -391,13 +508,53 @@ export const NavigationComposites: React.FC<NavigationCompositesProps> = ({ acti
           </div>
         </div>
 
-        {/* With Icons */}
+        {/* States */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>With Icons</h3>
+            <h3 className={styles.tokenSectionTitle}>States</h3>
           </div>
           <div className={styles.interactiveArea}>
-            <Accordion items={accordionWithIcons} allowMultiple />
+            <Accordion
+              items={[
+                { id: '1', title: 'Available Item', content: 'This item can be opened.' },
+                { id: '2', title: 'Disabled Item', content: 'Hidden', disabled: true },
+                { id: '3', title: 'Another Available', content: 'This is also available.' },
+              ]}
+            />
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.propsCode}>disabled</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeSubpage === 'stepper') {
+    const basicSteps = [
+      { id: '1', title: 'Account', description: 'Create account' },
+      { id: '2', title: 'Profile', description: 'Add info' },
+      { id: '3', title: 'Review', description: 'Confirm' },
+    ];
+
+    return (
+      <div className={styles.tokenPage}>
+        {/* Orientation */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Orientation</h3>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>horizontal</span>
+            <div style={{ flex: 1 }}>
+              <Stepper steps={basicSteps} activeStep={1} />
+            </div>
+          </div>
+          <div className={styles.interactiveArea}>
+            <span className={styles.stateLabel} style={{ marginBottom: '8px', display: 'block' }}>
+              vertical
+            </span>
+            <Stepper steps={basicSteps} activeStep={1} orientation="vertical" />
           </div>
         </div>
 
@@ -407,26 +564,55 @@ export const NavigationComposites: React.FC<NavigationCompositesProps> = ({ acti
             <h3 className={styles.tokenSectionTitle}>Options</h3>
           </div>
           <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>no border</span>
+            <span className={styles.demoLabel}>clickable</span>
             <div style={{ flex: 1 }}>
-              <Accordion items={accordionItems.slice(0, 2)} bordered={false} />
+              <Stepper steps={basicSteps} activeStep={1} clickable />
             </div>
-            <span className={styles.propsCode}>bordered={'{false}'}</span>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>no descriptions</span>
+            <div style={{ flex: 1 }}>
+              <Stepper steps={basicSteps} activeStep={1} showDescription={false} />
+            </div>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>no connectors</span>
+            <div style={{ flex: 1 }}>
+              <Stepper steps={basicSteps} activeStep={1} showConnector={false} />
+            </div>
           </div>
         </div>
 
-        {/* With Disabled */}
+        {/* With Icons */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>With Disabled Item</h3>
+            <h3 className={styles.tokenSectionTitle}>Custom Icons</h3>
           </div>
           <div className={styles.interactiveArea}>
-            <Accordion
-              items={[
-                { id: '1', title: 'Available Item', content: 'This item can be opened.' },
-                { id: '2', title: 'Disabled Item', content: 'Hidden', disabled: true },
-                { id: '3', title: 'Another Available', content: 'This is also available.' },
+            <Stepper
+              steps={[
+                { id: '1', title: 'Login', icon: <Icon name="user" size="small" /> },
+                { id: '2', title: 'Verify', icon: <Icon name="check" size="small" /> },
+                { id: '3', title: 'Done', icon: <Icon name="star" size="small" /> },
               ]}
+              activeStep={1}
+            />
+          </div>
+        </div>
+
+        {/* With Error */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Error State</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <Stepper
+              steps={[
+                { id: '1', title: 'Complete', status: 'completed' },
+                { id: '2', title: 'Error', status: 'error' },
+                { id: '3', title: 'Upcoming', status: 'upcoming' },
+              ]}
+              activeStep={1}
             />
           </div>
         </div>

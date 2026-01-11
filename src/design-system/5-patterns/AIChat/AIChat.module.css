@@ -206,16 +206,16 @@
 }
 
 .textInput {
-  border: none !important;
-  background: transparent !important;
+  border: none;
+  background: transparent;
   resize: none;
-  padding: var(--ink-spacing-100) 0 0 0 !important;
+  padding: var(--ink-spacing-100) 0 0 0;
   min-height: 40px;
 }
 
 .textInput:focus {
   outline: none;
-  box-shadow: none !important;
+  box-shadow: none;
 }
 
 .inputActions {
@@ -301,15 +301,15 @@
 }
 
 .greetingName {
-  color: var(--ink-cobalt-140) !important;
-  font-weight: var(--ink-font-weight-bold) !important;
-  font-size: var(--ink-font-size-xl) !important;
-  letter-spacing: var(--ink-letter-spacing-tight) !important;
+  color: var(--ink-cobalt-140);
+  font-weight: var(--ink-font-weight-bold);
+  font-size: var(--ink-font-size-xl);
+  letter-spacing: var(--ink-letter-spacing-tight);
 }
 
 .greetingSubtitle {
-  font-size: var(--ink-font-size-xl) !important;
-  letter-spacing: var(--ink-letter-spacing-tight) !important;
+  font-size: var(--ink-font-size-xl);
+  letter-spacing: var(--ink-letter-spacing-tight);
 }
 
 .suggestionsSection {
@@ -319,9 +319,9 @@
 }
 
 .sectionHeader {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   cursor: pointer;
 }

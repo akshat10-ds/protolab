@@ -86,8 +86,8 @@
 .modeToggle {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 2px;
+  gap: var(--ink-spacing-25);
+  padding: var(--ink-spacing-25);
   background: var(--ink-neutral-20);
   border-radius: var(--ink-radius-size-xs);
 }

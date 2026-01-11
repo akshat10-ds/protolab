@@ -1,19 +1,12 @@
 import React from 'react';
-import {
-  Stack,
-  Inline,
-  Link,
-  Stepper,
-  Heading,
-  Text,
-  Icon,
-  Tooltip,
-  iconPaths,
-} from '@/design-system';
+import { Stack, Inline, Link, Heading, Text, Icon, Tooltip, iconPaths } from '@/design-system';
+import { SelectableComponent } from '../../components/SelectableComponent';
 import styles from '../../Showcase.module.css';
 
 export interface TypographyPrimitivesProps {
   activeSubpage: string;
+  selectedComponentId?: string | null;
+  onComponentSelect?: (componentId: string, props: Record<string, unknown>) => void;
 }
 
 // Data definitions for compact rendering
@@ -55,7 +48,11 @@ const popularIcons = [
   'menu',
 ];
 
-export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ activeSubpage }) => {
+export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({
+  activeSubpage,
+  selectedComponentId,
+  onComponentSelect,
+}) => {
   if (activeSubpage === 'link') {
     return (
       <div className={styles.tokenPage}>
@@ -68,9 +65,16 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
             <div className={styles.demoRow} key={kind}>
               <span className={styles.demoLabel}>{kind}</span>
               <div className={styles.demoPreviewWide}>
-                <Link kind={kind} href="#">
-                  This is a {kind} link
-                </Link>
+                <SelectableComponent
+                  componentId={`link-kind-${kind}`}
+                  componentProps={{ kind, href: '#', children: `This is a ${kind} link` }}
+                  isSelected={selectedComponentId === `link-kind-${kind}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Link kind={kind} href="#">
+                    This is a {kind} link
+                  </Link>
+                </SelectableComponent>
               </div>
               <span className={styles.propsCode}>kind="{kind}"</span>
             </div>
@@ -147,96 +151,6 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
     );
   }
 
-  if (activeSubpage === 'stepper') {
-    const basicSteps = [
-      { id: '1', title: 'Account', description: 'Create account' },
-      { id: '2', title: 'Profile', description: 'Add info' },
-      { id: '3', title: 'Review', description: 'Confirm' },
-    ];
-
-    return (
-      <div className={styles.tokenPage}>
-        {/* Orientation */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Orientation</h3>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>horizontal</span>
-            <div style={{ flex: 1 }}>
-              <Stepper steps={basicSteps} activeStep={1} />
-            </div>
-          </div>
-          <div className={styles.interactiveArea}>
-            <span className={styles.stateLabel} style={{ marginBottom: '8px', display: 'block' }}>
-              vertical
-            </span>
-            <Stepper steps={basicSteps} activeStep={1} orientation="vertical" />
-          </div>
-        </div>
-
-        {/* Options */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Options</h3>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>clickable</span>
-            <div style={{ flex: 1 }}>
-              <Stepper steps={basicSteps} activeStep={1} clickable />
-            </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>no descriptions</span>
-            <div style={{ flex: 1 }}>
-              <Stepper steps={basicSteps} activeStep={1} showDescription={false} />
-            </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>no connectors</span>
-            <div style={{ flex: 1 }}>
-              <Stepper steps={basicSteps} activeStep={1} showConnector={false} />
-            </div>
-          </div>
-        </div>
-
-        {/* With Icons */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Custom Icons</h3>
-          </div>
-          <div className={styles.interactiveArea}>
-            <Stepper
-              steps={[
-                { id: '1', title: 'Login', icon: <Icon name="user" size="small" /> },
-                { id: '2', title: 'Verify', icon: <Icon name="check" size="small" /> },
-                { id: '3', title: 'Done', icon: <Icon name="star" size="small" /> },
-              ]}
-              activeStep={1}
-            />
-          </div>
-        </div>
-
-        {/* With Error */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Error State</h3>
-          </div>
-          <div className={styles.interactiveArea}>
-            <Stepper
-              steps={[
-                { id: '1', title: 'Complete', status: 'completed' },
-                { id: '2', title: 'Error', status: 'error' },
-                { id: '3', title: 'Upcoming', status: 'upcoming' },
-              ]}
-              activeStep={1}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (activeSubpage === 'typography') {
     return (
       <div className={styles.tokenPage}>
@@ -249,7 +163,14 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
             <div className={styles.demoRow} key={level}>
               <span className={styles.demoLabel}>H{level}</span>
               <div style={{ flex: 1 }}>
-                <Heading level={level}>Heading Level {level}</Heading>
+                <SelectableComponent
+                  componentId={`heading-level-${level}`}
+                  componentProps={{ level, children: `Heading Level ${level}` }}
+                  isSelected={selectedComponentId === `heading-level-${level}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Heading level={level}>Heading Level {level}</Heading>
+                </SelectableComponent>
               </div>
               <span className={styles.propsCode}>level={level}</span>
             </div>
@@ -265,7 +186,14 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
             <div className={styles.demoRow} key={size}>
               <span className={styles.demoLabel}>{size}</span>
               <div style={{ flex: 1 }}>
-                <Text size={size}>{size} text</Text>
+                <SelectableComponent
+                  componentId={`text-size-${size}`}
+                  componentProps={{ size, children: `${size} text` }}
+                  isSelected={selectedComponentId === `text-size-${size}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Text size={size}>{size} text</Text>
+                </SelectableComponent>
               </div>
               <span className={styles.propsCode}>size="{size}"</span>
             </div>
@@ -320,7 +248,14 @@ export const TypographyPrimitives: React.FC<TypographyPrimitivesProps> = ({ acti
           <div className={styles.demoGrid}>
             {iconSizes.map(({ size, label }) => (
               <div className={styles.demoGridItem} key={label}>
-                <Icon name="star" size={size as any} />
+                <SelectableComponent
+                  componentId={`icon-size-${label}`}
+                  componentProps={{ name: 'star', size }}
+                  isSelected={selectedComponentId === `icon-size-${label}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Icon name="star" size={size as any} />
+                </SelectableComponent>
                 <span className={styles.demoGridLabel}>{label}</span>
               </div>
             ))}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 import styles from './Accordion.module.css';
-import { Icon } from '../../3-primitives/Icon';
+import { Icon, IconName } from '../../3-primitives/Icon';
 
 export interface AccordionItemData {
   /** Unique identifier */
@@ -10,10 +10,16 @@ export interface AccordionItemData {
   title: string;
   /** Content to display when expanded */
   content: React.ReactNode;
-  /** Icon to display before title */
-  icon?: React.ReactNode;
+  /** Icon name to display before title */
+  startIcon?: IconName;
+  /** Subtitle text below title */
+  subtitle?: string;
+  /** Metadata text displayed on the right */
+  metadata?: string;
   /** Disabled state */
   disabled?: boolean;
+  /** Remove padding from content area */
+  noPadding?: boolean;
 }
 
 export interface AccordionProps {
@@ -29,8 +35,12 @@ export interface AccordionProps {
   onOpenItemsChange?: (openItems: string[]) => void;
   /** Additional className */
   className?: string;
-  /** Show border around accordion */
+  /** Show bordered variant (border-top separators) vs card variant (gap, radius, selected bg) */
   bordered?: boolean;
+  /** Header height: compact (8px), default (12px), tall (20px) vertical padding */
+  itemHeight?: 'compact' | 'default' | 'tall';
+  /** Title display level for font size: xs (14px), s (18px), default (16px) */
+  displayLevel?: 'xs' | 's';
 }
 
 const Accordion: React.FC<AccordionProps> = ({
@@ -41,6 +51,8 @@ const Accordion: React.FC<AccordionProps> = ({
   onOpenItemsChange,
   className,
   bordered = true,
+  itemHeight = 'default',
+  displayLevel,
 }) => {
   const [internalOpenItems, setInternalOpenItems] = React.useState<string[]>(defaultOpenItems);
   const isControlled = controlledOpenItems !== undefined;
@@ -67,8 +79,19 @@ const Accordion: React.FC<AccordionProps> = ({
     onOpenItemsChange?.(newOpenItems);
   };
 
+  // Build accordion container classes
+  const accordionClasses = cn(
+    styles.accordion,
+    bordered && styles.bordered,
+    itemHeight === 'compact' && styles.compact,
+    itemHeight === 'tall' && styles.tall,
+    displayLevel === 'xs' && styles.displayLevelXs,
+    displayLevel === 's' && styles.displayLevelS,
+    className
+  );
+
   return (
-    <div className={cn(styles.accordion, bordered && styles.bordered, className)}>
+    <div className={accordionClasses}>
       {items.map((item) => {
         const isOpen = openItems.includes(item.id);
 
@@ -90,8 +113,18 @@ const Accordion: React.FC<AccordionProps> = ({
               aria-controls={`accordion-content-${item.id}`}
               id={`accordion-header-${item.id}`}
             >
-              {item.icon && <span className={styles.icon}>{item.icon}</span>}
-              <span className={styles.title}>{item.title}</span>
+              {item.startIcon && (
+                <span className={styles.startIcon}>
+                  <Icon name={item.startIcon} size="medium" />
+                </span>
+              )}
+              <div className={styles.titleWrapper}>
+                <div className={styles.titleRow}>
+                  <span className={styles.title}>{item.title}</span>
+                </div>
+                {item.subtitle && <span className={styles.subtitle}>{item.subtitle}</span>}
+              </div>
+              {item.metadata && <span className={styles.metadata}>{item.metadata}</span>}
               <span className={cn(styles.chevron, isOpen && styles.chevronOpen)}>
                 <Icon name="chevron-down" size="small" />
               </span>
@@ -103,7 +136,9 @@ const Accordion: React.FC<AccordionProps> = ({
               aria-labelledby={`accordion-header-${item.id}`}
               role="region"
             >
-              <div className={styles.content}>{item.content}</div>
+              <div className={cn(styles.content, item.noPadding && styles.noPadding)}>
+                {item.content}
+              </div>
             </div>
           </div>
         );

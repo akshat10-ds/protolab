@@ -1,13 +1,12 @@
 import React from 'react';
 import styles from './Callout.module.css';
-import { Icon } from '../Icon';
-import { Button } from '../Button';
+import { Button, IconButton } from '../../3-primitives';
 
 export type CalloutWidth = 'small' | 'medium' | 'large' | 'xlarge';
 export type CalloutAlignment = 'start' | 'center' | 'end';
 export type CalloutLocation = 'above' | 'below' | 'before' | 'after';
 export type CalloutImagePosition = 'start' | 'top';
-export type CalloutGlass = 'none' | 'frost' | 'tint';
+export type CalloutGlass = 'None' | 'glassFrost' | 'glassTint';
 
 export interface CalloutAction {
   label: string;
@@ -19,24 +18,28 @@ export interface CalloutProps {
   heading: string;
   /** Body content */
   children: React.ReactNode;
-  /** Width variant */
+  /** Width variant: xlarge (640px), large (480px), medium (384px), small (320px) */
   width?: CalloutWidth;
-  /** Text alignment */
+  /** Arrow alignment position along edge */
   alignment?: CalloutAlignment;
-  /** Caret location */
+  /** Caret/arrow location relative to trigger */
   location?: CalloutLocation;
   /** Image position (when image is provided) */
   imagePosition?: CalloutImagePosition;
-  /** Glass effect */
+  /** Glass effect: None, glassFrost, glassTint */
   glass?: CalloutGlass;
+  /** Show action buttons footer (Figma: actions) */
+  actions?: boolean;
   /** Primary action button */
   primaryAction?: CalloutAction;
   /** Secondary action button */
   secondaryAction?: CalloutAction;
-  /** Show close button */
-  closable?: boolean;
+  /** Show close button (Figma: closeButton) */
+  closeButton?: boolean;
   /** Close handler */
   onClose?: () => void;
+  /** Show arrow/caret pointing to trigger (Figma: enableArrow) */
+  enableArrow?: boolean;
   /** Optional image */
   image?: React.ReactNode;
   /** Additional className */
@@ -52,45 +55,48 @@ export const Callout = React.forwardRef<HTMLDivElement, CalloutProps>(
       alignment = 'start',
       location = 'above',
       imagePosition = 'start',
-      glass = 'none',
+      glass = 'None',
+      actions = false,
       primaryAction,
       secondaryAction,
-      closable = true,
+      closeButton = true,
       onClose,
+      enableArrow = true,
       image,
       className,
     },
     ref
   ) => {
+    // Check if we're in glass mode
+    const isGlass = glass !== 'None';
+    // Map glass values to CSS class names
+    const glassClassMap: Record<CalloutGlass, string> = {
+      None: '',
+      glassFrost: styles['glass-frost'],
+      glassTint: styles['glass-tint'],
+    };
+
     const containerClasses = [
       styles.container,
       styles[`width-${width}`],
       styles[`location-${location}`],
+      styles[`align-${alignment}`],
+      glass !== 'None' && styles[`container-${glass.toLowerCase()}`],
       className,
     ]
       .filter(Boolean)
       .join(' ');
 
-    const calloutClasses = [
-      styles.callout,
-      styles[`align-${alignment}`],
-      styles[`glass-${glass}`],
-    ]
-      .filter(Boolean)
-      .join(' ');
+    const calloutClasses = [styles.callout, glassClassMap[glass]].filter(Boolean).join(' ');
 
     return (
       <div ref={ref} className={containerClasses}>
-        {location === 'above' && <div className={styles.caret} />}
-        {location === 'before' && <div className={styles.caretBefore} />}
+        {enableArrow && location === 'above' && <div className={styles.caret} />}
+        {enableArrow && location === 'before' && <div className={styles.caretBefore} />}
 
         <div className={calloutClasses}>
           <div className={styles.content}>
-            {image && (
-              <div className={styles.image}>
-                {image}
-              </div>
-            )}
+            {image && <div className={styles.image}>{image}</div>}
 
             <div className={styles.body}>
               <div className={styles.header}>
@@ -99,22 +105,24 @@ export const Callout = React.forwardRef<HTMLDivElement, CalloutProps>(
 
               <div className={styles.text}>{children}</div>
 
-              {(primaryAction || secondaryAction) && (
-                <div className={styles.footer}>
+              {actions && (primaryAction || secondaryAction) && (
+                <div className={`${styles.footer} ${isGlass ? styles.footerGlass : ''}`}>
                   {secondaryAction && (
                     <Button
-                      kind="tertiary"
+                      kind={isGlass ? 'secondary' : 'tertiary'}
                       size="medium"
                       onClick={secondaryAction.onClick}
+                      className={isGlass ? styles.buttonGlassSecondary : undefined}
                     >
                       {secondaryAction.label}
                     </Button>
                   )}
                   {primaryAction && (
                     <Button
-                      kind="primary"
+                      kind={isGlass ? 'secondary' : 'primary'}
                       size="medium"
                       onClick={primaryAction.onClick}
+                      className={isGlass ? styles.buttonGlassPrimary : undefined}
                     >
                       {primaryAction.label}
                     </Button>
@@ -123,21 +131,21 @@ export const Callout = React.forwardRef<HTMLDivElement, CalloutProps>(
               )}
             </div>
 
-            {closable && (
-              <button
-                type="button"
-                className={styles.closeButton}
+            {closeButton && (
+              <IconButton
+                icon="close"
+                size="medium"
+                kind="tertiary"
                 onClick={onClose}
-                aria-label="Close"
-              >
-                <Icon name="close" size="small" />
-              </button>
+                aria-label="Close callout"
+                className={`${styles.closeButtonWrapper} ${isGlass ? styles.closeButtonGlass : ''}`}
+              />
             )}
           </div>
         </div>
 
-        {location === 'below' && <div className={styles.caret} />}
-        {location === 'after' && <div className={styles.caretAfter} />}
+        {enableArrow && location === 'below' && <div className={styles.caret} />}
+        {enableArrow && location === 'after' && <div className={styles.caretAfter} />}
       </div>
     );
   }

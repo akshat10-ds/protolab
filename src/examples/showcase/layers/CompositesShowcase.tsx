@@ -4,9 +4,27 @@ import { NavigationComposites } from './composites/NavigationComposites';
 import { OverlayComposites } from './composites/OverlayComposites';
 
 // Component groupings
-const inputComposites = ['searchinput', 'fileinput', 'combobox', 'datepicker', 'fileupload', 'filtertag'];
-const navigationComposites = ['breadcrumb', 'pagination', 'tabs', 'accordion'];
-const overlayComposites = ['combobutton', 'modal', 'dropdown', 'alert', 'table', 'list'];
+const inputComposites = [
+  'searchinput',
+  'fileinput',
+  'combobox',
+  'datepicker',
+  'fileupload',
+  'filtertag',
+];
+const navigationComposites = ['breadcrumb', 'pagination', 'tabs', 'accordion', 'stepper'];
+const overlayComposites = [
+  'combobutton',
+  'modal',
+  'dropdown',
+  'callout',
+  'alert',
+  'banner',
+  'ai-badge',
+  'chip',
+  'table',
+  'list',
+];
 
 export interface CompositesShowcaseProps {
   activeSubpage: string;

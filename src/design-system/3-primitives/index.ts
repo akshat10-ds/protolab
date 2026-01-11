@@ -44,21 +44,12 @@ export type { TextAreaProps } from './TextArea';
 export { Slider } from './Slider';
 export type { SliderProps } from './Slider';
 
-export { Stepper } from './Stepper';
-export type { StepperProps } from './Stepper';
-
 // Display Components
 export { Badge } from './Badge';
 export type { BadgeProps } from './Badge';
 
-export { AIBadge } from './AIBadge';
-export type { AIBadgeProps } from './AIBadge';
-
 export { Avatar, AvatarGroup } from './Avatar';
 export type { AvatarProps, AvatarGroupProps } from './Avatar';
-
-export { Chip } from './Chip';
-export type { ChipProps } from './Chip';
 
 export { AlertBadge } from './AlertBadge';
 export type { AlertBadgeProps } from './AlertBadge';
@@ -85,12 +76,6 @@ export type { SpinnerProps } from './Spinner';
 
 export { ProgressBar } from './ProgressBar';
 export type { ProgressBarProps, ProgressBarSize, ProgressBarVariant } from './ProgressBar';
-
-export { Callout } from './Callout';
-export type { CalloutProps } from './Callout';
-
-export { Banner } from './Banner';
-export type { BannerProps } from './Banner';
 
 // Overlay Components (Basic)
 export { Tooltip } from './Tooltip';

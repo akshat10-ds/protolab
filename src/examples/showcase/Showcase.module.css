@@ -110,8 +110,8 @@
 .componentHeader {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: var(--ink-spacing-125);
+  margin-bottom: var(--ink-spacing-200);
   animation: fadeInUp 0.4s ease-out;
 }
 
@@ -121,14 +121,14 @@
   justify-content: center;
   min-width: 28px;
   height: 20px;
-  padding: 0 6px;
+  padding: 0 var(--ink-spacing-1-5);
   font-family: 'SF Mono', 'Monaco', 'Menlo', monospace;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.02em;
   border-radius: 4px;
   flex-shrink: 0;
-  margin-top: 4px;
+  margin-top: var(--ink-spacing-50);
 }
 
 .layerBadge[data-layer='tokens'] {
@@ -183,8 +183,8 @@
 .breadcrumb {
   display: flex;
   align-items: center;
-  gap: 5px;
-  margin-bottom: 6px;
+  gap: var(--ink-spacing-50);
+  margin-bottom: var(--ink-spacing-1-5);
   animation: fadeIn 0.3s ease-out;
 }
 
@@ -259,7 +259,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-font-secondary);
-  margin-bottom: 12px;
+  margin-bottom: var(--ink-spacing-150);
 }
 
 /* ============================================
@@ -286,9 +286,9 @@
 .searchTrigger {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--ink-spacing-100);
   width: 100%;
-  padding: 8px 10px;
+  padding: var(--ink-spacing-100) var(--ink-spacing-125);
   background: var(--ink-neutral-5);
   border: 1px solid var(--ink-neutral-20);
   border-radius: 6px;
@@ -333,9 +333,9 @@
 .layerButton {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--ink-spacing-100);
   width: 100%;
-  padding: 6px 12px;
+  padding: var(--ink-spacing-1-5) var(--ink-spacing-150);
   border: none;
   background: transparent;
   cursor: pointer;
@@ -390,7 +390,7 @@
 
 .subpageList {
   border-left: 1px solid var(--ink-neutral-20);
-  margin-left: 21px;
+  margin-left: var(--ink-spacing-250);
 }
 
 .subpageButton {
@@ -450,8 +450,8 @@
 .commandPaletteHeader {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
+  gap: var(--ink-spacing-150);
+  padding: var(--ink-spacing-200);
   border-bottom: 1px solid var(--ink-neutral-20);
 }
 
@@ -485,18 +485,18 @@
 .commandPaletteResults {
   max-height: calc(60vh - 60px);
   overflow-y: auto;
-  padding: 8px;
+  padding: var(--ink-spacing-100);
 }
 
 .commandPaletteEmpty {
-  padding: 32px;
+  padding: var(--ink-spacing-400);
   text-align: center;
   color: var(--ink-font-secondary);
   font-size: 13px;
 }
 
 .commandPaletteGroup {
-  margin-bottom: 8px;
+  margin-bottom: var(--ink-spacing-100);
 }
 
 .commandPaletteGroupLabel {
@@ -523,7 +523,8 @@
 }
 
 .commandPaletteItem:hover,
-.commandPaletteItem[data-selected='true'] {
+.commandPaletteItem[data-selected='true'],
+.commandPaletteItemSelected {
   background: var(--ink-neutral-10);
 }
 
@@ -579,11 +580,11 @@
 .tokenPage {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--ink-spacing-200);
 }
 
 .tokenPageHeader {
-  margin-bottom: 4px;
+  margin-bottom: var(--ink-spacing-50);
 }
 
 .tokenPageTitle {
@@ -627,9 +628,9 @@
 .tokenRow {
   display: flex;
   align-items: center;
-  padding: 6px 12px;
+  padding: var(--ink-spacing-1-5) var(--ink-spacing-150);
   border-bottom: 1px solid var(--ink-neutral-10);
-  gap: 12px;
+  gap: var(--ink-spacing-150);
   transition: background 0.1s;
 }
 
@@ -681,15 +682,15 @@
 .tokenSwatchRow {
   display: flex;
   flex-wrap: wrap;
-  padding: 8px;
-  gap: 4px;
+  padding: var(--ink-spacing-100);
+  gap: var(--ink-spacing-50);
 }
 
 .swatchCell {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: var(--ink-spacing-50);
   min-width: 44px;
 }
 
@@ -710,9 +711,9 @@
 .typographyRow {
   display: flex;
   align-items: baseline;
-  padding: 8px 12px;
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
   border-bottom: 1px solid var(--ink-neutral-10);
-  gap: 16px;
+  gap: var(--ink-spacing-200);
 }
 
 .typographyRow:last-child {
@@ -730,7 +731,7 @@
 
 .typographyMeta {
   display: flex;
-  gap: 12px;
+  gap: var(--ink-spacing-150);
   flex-shrink: 0;
   align-items: center;
 }
@@ -752,9 +753,9 @@
 .spacingRow {
   display: flex;
   align-items: center;
-  padding: 6px 12px;
+  padding: var(--ink-spacing-1-5) var(--ink-spacing-150);
   border-bottom: 1px solid var(--ink-neutral-10);
-  gap: 12px;
+  gap: var(--ink-spacing-150);
 }
 
 .spacingRow:last-child {
@@ -771,7 +772,7 @@
 .spacingMeta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--ink-spacing-100);
   min-width: 140px;
 }
 
@@ -791,15 +792,15 @@
 .radiusRow {
   display: flex;
   flex-wrap: wrap;
-  padding: 12px;
-  gap: 16px;
+  padding: var(--ink-spacing-150);
+  gap: var(--ink-spacing-200);
 }
 
 .radiusCell {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: var(--ink-spacing-1-5);
 }
 
 .radiusPreview {
@@ -829,9 +830,9 @@
 .shadowRow {
   display: flex;
   align-items: center;
-  padding: 10px 12px;
+  padding: var(--ink-spacing-125) var(--ink-spacing-150);
   border-bottom: 1px solid var(--ink-neutral-10);
-  gap: 16px;
+  gap: var(--ink-spacing-200);
 }
 
 .shadowRow:last-child {
@@ -850,7 +851,7 @@
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--ink-spacing-150);
 }
 
 .shadowLabel {
@@ -870,9 +871,9 @@
 .componentTokenRow {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
   border-bottom: 1px solid var(--ink-neutral-10);
-  gap: 12px;
+  gap: var(--ink-spacing-150);
 }
 
 .componentTokenRow:last-child {
@@ -892,7 +893,7 @@
   font-size: 12px;
   font-weight: 500;
   color: var(--ink-font-primary);
-  margin-bottom: 2px;
+  margin-bottom: var(--ink-spacing-25);
 }
 
 .componentTokenDesc {
@@ -915,9 +916,9 @@
 .demoRow {
   display: flex;
   align-items: center;
-  padding: 10px 12px;
+  padding: var(--ink-spacing-125) var(--ink-spacing-150);
   border-bottom: 1px solid var(--ink-neutral-10);
-  gap: 16px;
+  gap: var(--ink-spacing-200);
   transition: background 0.1s;
 }
 
@@ -958,15 +959,15 @@
 .demoGrid {
   display: flex;
   flex-wrap: wrap;
-  padding: 12px;
-  gap: 12px;
+  padding: var(--ink-spacing-150);
+  gap: var(--ink-spacing-150);
 }
 
 .demoGridItem {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: var(--ink-spacing-1-5);
 }
 
 .demoGridLabel {
@@ -979,14 +980,14 @@
 .stateRow {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-  padding: 12px;
+  gap: var(--ink-spacing-150);
+  padding: var(--ink-spacing-150);
 }
 
 .stateCell {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--ink-spacing-1-5);
 }
 
 .stateLabel {
@@ -999,10 +1000,10 @@
 
 /* Interactive area for demos needing state */
 .interactiveArea {
-  padding: 16px;
+  padding: var(--ink-spacing-200);
   background: var(--ink-neutral-5);
   border-radius: 6px;
-  margin: 8px;
+  margin: var(--ink-spacing-100);
 }
 
 /* Utility demo boxes (for Stack, Grid, etc) */
@@ -1034,8 +1035,8 @@
 .inlineDemoRow {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-125) var(--ink-spacing-150);
   border-bottom: 1px solid var(--ink-neutral-10);
 }
 

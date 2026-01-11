@@ -1,9 +1,16 @@
 import React from 'react';
 import styles from './Banner.module.css';
-import { Icon, IconName } from '../Icon';
-import { Button } from '../Button';
+import { Icon, IconButton, Button } from '../../3-primitives';
+import type { IconName } from '../../3-primitives/Icon';
 
-export type BannerKind = 'information' | 'danger' | 'success' | 'warning' | 'promo' | 'subtle' | 'neutral';
+export type BannerKind =
+  | 'information'
+  | 'danger'
+  | 'success'
+  | 'warning'
+  | 'promo'
+  | 'subtle'
+  | 'neutral';
 export type BannerShape = 'square' | 'round';
 
 export interface BannerAction {
@@ -73,24 +80,21 @@ export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(
             <p className={styles.message}>{children}</p>
           </div>
           {action && (
-            <Button
-              kind="tertiary"
-              size="small"
-              onClick={action.onClick}
-            >
+            <Button kind="tertiary" size="small" onClick={action.onClick}>
               {action.label}
             </Button>
           )}
         </div>
         {closable && (
-          <button
-            type="button"
-            className={styles.closeButton}
-            onClick={onClose}
-            aria-label="Close"
-          >
-            <Icon name="close" size="small" />
-          </button>
+          <div className={styles.closeButtonWrapper}>
+            <IconButton
+              icon="close"
+              variant="tertiary"
+              size="small"
+              onClick={onClose}
+              aria-label="Close"
+            />
+          </div>
         )}
       </div>
     );

@@ -36,6 +36,12 @@ const prototypes: PrototypeInfo[] = [
     description: 'View and manage parties with tabbed filtering and search.',
     path: '/prototypes/parties-view',
   },
+  {
+    id: 'accordion-wizard',
+    title: 'Accordion Wizard',
+    description: 'Multi-step registration wizard using accordion-style navigation.',
+    path: '/prototypes/accordion-wizard',
+  },
   // Add more prototypes here as they are created
 ];
 

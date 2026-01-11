@@ -61,6 +61,37 @@ This is an **AI-powered prototype generator** built on the Ink Design System. Yo
 2. Run `grep -r "style={{" src/design-system/` to check for inline styles
 3. Verify all colors use `var(--ink-*)` token syntax
 
+### Form Components (Controlled/Uncontrolled Pattern)
+
+Form primitives (Checkbox, Radio, Switch) MUST support both controlled and uncontrolled usage:
+
+**✅ Required Pattern:**
+```tsx
+// 1. Track internal state for uncontrolled usage
+const isControlled = checked !== undefined;
+const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
+
+// 2. Use derived state for rendering
+const isChecked = isControlled ? checked : internalChecked;
+
+// 3. Handle changes for both modes
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (!isControlled) {
+    setInternalChecked(e.target.checked);
+  }
+  onChange?.(e);
+};
+
+// 4. Render based on derived state, NOT props
+{isChecked && <Icon name="check" />}  // ✅ Correct
+{checked && <Icon name="check" />}     // ❌ Wrong - breaks uncontrolled
+```
+
+**Why**: If a component renders visual elements based ONLY on props, uncontrolled usage fails to show those elements even when DOM state changes.
+
+**Before Committing Form Components:**
+- Run `npm run validate:forms` to verify controlled/uncontrolled patterns
+
 ---
 
 ## 🤖 Claude Commands (Your Specialized Tools)

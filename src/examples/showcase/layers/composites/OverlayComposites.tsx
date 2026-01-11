@@ -6,6 +6,7 @@ import {
   Button,
   Text,
   Alert,
+  Banner,
   Badge,
   Icon,
   ComboButton,
@@ -13,6 +14,11 @@ import {
   Dropdown,
   Table,
   List,
+  Callout,
+  AIBadge,
+  Chip,
+  Avatar,
+  Card,
 } from '@/design-system';
 import type { TableColumn } from '@/design-system';
 import styles from '../../Showcase.module.css';
@@ -125,6 +131,7 @@ export const OverlayComposites: React.FC<OverlayCompositesProps> = ({ activeSubp
                 <ComboButton
                   key={variant}
                   variant={variant}
+                  startIcon={variant === 'tertiary' ? 'overflow-horizontal' : undefined}
                   onClick={() => alert('Main action')}
                   onDropdownClick={() => alert('Dropdown')}
                 >
@@ -178,29 +185,73 @@ export const OverlayComposites: React.FC<OverlayCompositesProps> = ({ activeSubp
           </div>
         </div>
 
-        {/* Compact & Disabled */}
+        {/* Tertiary (Icon-only) */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Tertiary (Icon-only)</h3>
+          </div>
+          <div className={styles.stateRow}>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>overflow-horizontal</span>
+              <ComboButton
+                variant="tertiary"
+                startIcon="overflow-horizontal"
+                onClick={() => alert('Action')}
+                onDropdownClick={() => alert('Menu')}
+              />
+            </div>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>settings</span>
+              <ComboButton
+                variant="tertiary"
+                startIcon="settings"
+                onClick={() => alert('Settings')}
+                onDropdownClick={() => alert('Options')}
+              />
+            </div>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>download</span>
+              <ComboButton
+                variant="tertiary"
+                startIcon="download"
+                onClick={() => alert('Download')}
+                onDropdownClick={() => alert('Download options')}
+              />
+            </div>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>small</span>
+              <ComboButton
+                variant="tertiary"
+                size="small"
+                startIcon="overflow-horizontal"
+                onClick={() => alert('Action')}
+                onDropdownClick={() => alert('Menu')}
+              />
+            </div>
+          </div>
+          <Text size="sm" color="secondary" style={{ marginTop: 'var(--ink-spacing-100)' }}>
+            Tertiary variant is always icon-only (compact) per Figma spec
+          </Text>
+        </div>
+
+        {/* States */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
             <h3 className={styles.tokenSectionTitle}>States</h3>
           </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>compact</span>
-            <ComboButton
-              variant="tertiary"
-              compact
-              startIcon="more-horizontal"
-              onClick={() => alert('Action')}
-              onDropdownClick={() => alert('Menu')}
-            >
-              Compact
-            </ComboButton>
-            <span className={styles.propsCode}>compact</span>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>disabled</span>
-            <ComboButton disabled onClick={() => {}} onDropdownClick={() => {}}>
-              Disabled
-            </ComboButton>
+          <div className={styles.stateRow}>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>Default</span>
+              <ComboButton onClick={() => {}} onDropdownClick={() => {}}>
+                Button
+              </ComboButton>
+            </div>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>Disabled</span>
+              <ComboButton disabled onClick={() => {}} onDropdownClick={() => {}}>
+                Disabled
+              </ComboButton>
+            </div>
           </div>
         </div>
       </div>
@@ -453,6 +504,83 @@ export const OverlayComposites: React.FC<OverlayCompositesProps> = ({ activeSubp
               </Alert>
             ))}
           </Stack>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeSubpage === 'banner') {
+    return (
+      <div className={styles.tokenPage}>
+        {/* Kinds */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Kinds</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <Stack gap="small">
+              <Banner kind="information" icon="info">
+                Information banner
+              </Banner>
+              <Banner kind="success" icon="status-check">
+                Success banner
+              </Banner>
+              <Banner kind="warning" icon="status-warn">
+                Warning banner
+              </Banner>
+              <Banner kind="danger" icon="status-error">
+                Danger banner
+              </Banner>
+              <Banner kind="promo" icon="star">
+                Promo banner
+              </Banner>
+              <Banner kind="subtle">Subtle banner</Banner>
+              <Banner kind="neutral">Neutral banner</Banner>
+            </Stack>
+          </div>
+        </div>
+
+        {/* Options */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Options</h3>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>with action</span>
+            <div style={{ flex: 1 }}>
+              <Banner
+                kind="information"
+                icon="info"
+                action={{ label: 'Learn More', onClick: () => {} }}
+              >
+                Banner with action button
+              </Banner>
+            </div>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>round shape</span>
+            <div style={{ flex: 1 }}>
+              <Banner kind="success" shape="round">
+                Rounded corners
+              </Banner>
+            </div>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>lineWrap</span>
+            <div style={{ flex: 1 }}>
+              <Banner kind="information" lineWrap action={{ label: 'Action', onClick: () => {} }}>
+                This is a longer banner message that wraps to multiple lines for detailed content.
+              </Banner>
+            </div>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>not closable</span>
+            <div style={{ flex: 1 }}>
+              <Banner kind="warning" icon="status-warn" closable={false}>
+                Cannot dismiss
+              </Banner>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -748,6 +876,369 @@ export const OverlayComposites: React.FC<OverlayCompositesProps> = ({ activeSubp
                   Another active
                 </List.Item>
               </List>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeSubpage === 'callout') {
+    return (
+      <div className={styles.tokenPage}>
+        {/* Arrow Location */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Arrow Location</h3>
+          </div>
+          <Grid columns={2} gap="medium">
+            <Stack gap="xsmall" align="center">
+              <Text size="sm" color="secondary">
+                above
+              </Text>
+              <Callout
+                heading="Above"
+                width="small"
+                location="above"
+                closeButton={false}
+                enableArrow
+              >
+                Arrow points up
+              </Callout>
+            </Stack>
+            <Stack gap="xsmall" align="center">
+              <Text size="sm" color="secondary">
+                below
+              </Text>
+              <Callout
+                heading="Below"
+                width="small"
+                location="below"
+                closeButton={false}
+                enableArrow
+              >
+                Arrow points down
+              </Callout>
+            </Stack>
+          </Grid>
+        </div>
+
+        {/* Arrow Alignment */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Arrow Alignment</h3>
+          </div>
+          <Stack gap="medium">
+            <Stack gap="xsmall">
+              <Text size="sm" color="secondary">
+                alignment="start"
+              </Text>
+              <Callout
+                heading="Start"
+                width="medium"
+                alignment="start"
+                closeButton={false}
+                enableArrow
+              >
+                Arrow at left edge
+              </Callout>
+            </Stack>
+            <Stack gap="xsmall">
+              <Text size="sm" color="secondary">
+                alignment="center" (default)
+              </Text>
+              <Callout
+                heading="Center"
+                width="medium"
+                alignment="center"
+                closeButton={false}
+                enableArrow
+              >
+                Arrow centered
+              </Callout>
+            </Stack>
+            <Stack gap="xsmall">
+              <Text size="sm" color="secondary">
+                alignment="end"
+              </Text>
+              <Callout heading="End" width="medium" alignment="end" closeButton={false} enableArrow>
+                Arrow at right edge
+              </Callout>
+            </Stack>
+          </Stack>
+        </div>
+
+        {/* Width & Close Button */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Widths</h3>
+          </div>
+          <Stack gap="small">
+            <Inline gap="small" align="start">
+              <Badge variant="neutral">small</Badge>
+              <Badge variant="neutral">medium</Badge>
+              <Badge variant="neutral">large</Badge>
+              <Badge variant="neutral">xlarge</Badge>
+            </Inline>
+            <Callout heading="With Close Button" width="small" closeButton enableArrow={false}>
+              320px width
+            </Callout>
+          </Stack>
+        </div>
+
+        {/* With Actions */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>With Actions</h3>
+          </div>
+          <Callout
+            heading="Confirm Action"
+            width="medium"
+            actions
+            primaryAction={{ label: 'Confirm', onClick: () => {} }}
+            secondaryAction={{ label: 'Cancel', onClick: () => {} }}
+            closeButton={false}
+            enableArrow={false}
+          >
+            Are you sure you want to proceed?
+          </Callout>
+        </div>
+
+        {/* Glass Effects */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Glass Effects</h3>
+          </div>
+          <Stack gap="medium">
+            <Grid columns={2} gap="medium">
+              <Stack gap="xsmall" align="center">
+                <Text size="sm" color="secondary">
+                  glassFrost + closeButton
+                </Text>
+                <Callout heading="Frost" width="small" glass="glassFrost" closeButton enableArrow>
+                  White close icon
+                </Callout>
+              </Stack>
+              <Stack gap="xsmall" align="center">
+                <Text size="sm" color="secondary">
+                  glassTint + actions
+                </Text>
+                <Callout
+                  heading="Tint"
+                  width="small"
+                  glass="glassTint"
+                  closeButton={false}
+                  enableArrow
+                  actions
+                  primaryAction={{ label: 'Confirm', onClick: () => {} }}
+                  secondaryAction={{ label: 'Cancel', onClick: () => {} }}
+                >
+                  With action buttons
+                </Callout>
+              </Stack>
+            </Grid>
+          </Stack>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeSubpage === 'ai-badge') {
+    return (
+      <div className={styles.tokenPage}>
+        {/* Default */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Default Usage</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <AIBadge />
+          </div>
+          <div className={styles.demoDesc}>
+            Click to open the default info callout. Includes Docusign Iris information and link.
+          </div>
+        </div>
+
+        {/* Custom Text */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Custom Text</h3>
+          </div>
+          <div className={styles.demoGrid}>
+            <div className={styles.demoGridItem}>
+              <AIBadge>AI-Generated</AIBadge>
+              <span className={styles.demoGridLabel}>AI-Generated</span>
+            </div>
+            <div className={styles.demoGridItem}>
+              <AIBadge>Powered by AI</AIBadge>
+              <span className={styles.demoGridLabel}>Powered by AI</span>
+            </div>
+            <div className={styles.demoGridItem}>
+              <AIBadge>Smart Suggest</AIBadge>
+              <span className={styles.demoGridLabel}>Smart Suggest</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Custom Callout Content */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Custom Callout Content</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <Stack gap="large">
+              <AIBadge
+                infoTitle="AI Summary"
+                infoContent="Our AI has analyzed this document and extracted key information to help you understand the content quickly."
+              >
+                AI Summary
+              </AIBadge>
+              <AIBadge
+                infoTitle="Smart Suggestions"
+                infoContent="These suggestions are powered by machine learning algorithms trained on millions of similar documents."
+                calloutPosition="top"
+              >
+                Smart Suggest
+              </AIBadge>
+            </Stack>
+          </div>
+          <div className={styles.demoDesc}>
+            Pass custom infoTitle and infoContent to override the default callout.
+          </div>
+        </div>
+
+        {/* Without Callout */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Without Callout</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <AIBadge infoContent={false}>Static Badge</AIBadge>
+          </div>
+          <div className={styles.demoDesc}>
+            Set infoContent=&#123;false&#125; to disable the callout and make it non-interactive.
+          </div>
+        </div>
+
+        {/* In Context */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>In Context</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <Card>
+              <Card.Body>
+                <Stack gap="medium">
+                  <Inline gap="small" align="center">
+                    <AIBadge />
+                    <Text weight="semibold">Document Summary</Text>
+                  </Inline>
+                  <Text color="secondary">
+                    This document contains 12 pages covering contract terms, legal obligations, and
+                    signature requirements.
+                  </Text>
+                </Stack>
+              </Card.Body>
+            </Card>
+          </div>
+        </div>
+
+        {/* States */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>States</h3>
+          </div>
+          <div className={styles.stateRow}>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>Default</span>
+              <AIBadge />
+            </div>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>Static</span>
+              <AIBadge infoContent={false} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeSubpage === 'chip') {
+    return (
+      <div className={styles.tokenPage}>
+        {/* Basic */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Basic Chips</h3>
+          </div>
+          <div className={styles.demoGrid}>
+            <Chip>React</Chip>
+            <Chip>TypeScript</Chip>
+            <Chip>JavaScript</Chip>
+            <Chip>CSS</Chip>
+          </div>
+        </div>
+
+        {/* With Elements */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>With Start Element</h3>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>Avatar</span>
+            <div className={styles.demoPreviewWide}>
+              <Inline gap="small">
+                <Chip startElement={<Avatar size="xsmall" initials="JD" />}>John Doe</Chip>
+                <Chip startElement={<Avatar size="xsmall" initials="AB" />}>Alice Brown</Chip>
+              </Inline>
+            </div>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>Icon</span>
+            <div className={styles.demoPreview}>
+              <Chip startElement={<Icon name="star" size="small" />}>Favorite</Chip>
+            </div>
+          </div>
+        </div>
+
+        {/* Interactive */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Interactive</h3>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>Removable</span>
+            <div className={styles.demoPreviewWide}>
+              <Inline gap="small">
+                <Chip onRemove={() => {}}>React</Chip>
+                <Chip onRemove={() => {}}>TypeScript</Chip>
+              </Inline>
+            </div>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>Clickable</span>
+            <div className={styles.demoPreviewWide}>
+              <Inline gap="small">
+                <Chip onClick={() => {}}>All</Chip>
+                <Chip onClick={() => {}}>Active</Chip>
+              </Inline>
+            </div>
+          </div>
+        </div>
+
+        {/* States */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>States</h3>
+          </div>
+          <div className={styles.stateRow}>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>Default</span>
+              <Chip>Default</Chip>
+            </div>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>Disabled</span>
+              <Chip disabled>Disabled</Chip>
             </div>
           </div>
         </div>

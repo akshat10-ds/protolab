@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Stack, Icon } from '@/design-system';
 import { SidebarNav, LayerView, layerSubpages } from './showcase/components/SidebarNav';
 import { InspectorPanel } from './showcase/components/InspectorPanel';
@@ -27,6 +27,7 @@ const subpageToComponent: Record<string, string> = {
   slider: 'Slider',
   stepper: 'Stepper',
   badge: 'Badge',
+  'ai-badge': 'AIBadge',
   avatar: 'Avatar',
   chip: 'Chip',
   divider: 'Divider',
@@ -56,6 +57,7 @@ const subpageToComponent: Record<string, string> = {
   // Patterns
   globalnav: 'GlobalNav',
   localnav: 'LocalNav',
+  aichat: 'AIChat',
   // Layouts
   'docusign-shell': 'DocuSignShell',
   // Utilities
@@ -97,6 +99,7 @@ const componentDescriptions: Record<string, string> = {
   slider: 'Range selection control',
   stepper: 'Numeric increment/decrement control',
   badge: 'Status and count indicators',
+  'ai-badge': 'AI denotation badge with Iris icon for AI-assisted features',
   avatar: 'User representation component',
   chip: 'Compact interactive elements',
   'alert-badge': 'Notification count indicator',
@@ -131,6 +134,7 @@ const componentDescriptions: Record<string, string> = {
   // Patterns
   globalnav: 'Application header navigation',
   localnav: 'Section-level navigation',
+  aichat: 'AI chat interface pattern for conversational UI',
   // Layouts
   'docusign-shell': 'Application shell layout',
   // Tokens
@@ -156,12 +160,14 @@ export default function ComponentShowcase() {
   const [activeSubpage, setActiveSubpage] = useState<string>('button');
   const [showCommandPalette, setShowCommandPalette] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedResultIndex, setSelectedResultIndex] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [inspectorOpen, setInspectorOpen] = useState(true);
   const [liveProps, setLiveProps] = useState<Record<string, unknown>>({});
   const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const commandInputRef = useRef<HTMLInputElement>(null);
+  const resultItemsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
   // Reset live props and selection when component changes
   useEffect(() => {
@@ -259,8 +265,14 @@ export default function ComponentShowcase() {
   useEffect(() => {
     if (showCommandPalette) {
       setTimeout(() => commandInputRef.current?.focus(), 50);
+      setSelectedResultIndex(0);
     }
   }, [showCommandPalette]);
+
+  // Reset selected index when search query changes
+  useEffect(() => {
+    setSelectedResultIndex(0);
+  }, [searchQuery]);
 
   // Get current subpage label
   const getCurrentSubpageLabel = () => {
@@ -277,8 +289,8 @@ export default function ComponentShowcase() {
     setShowCommandPalette(false);
   }, []);
 
-  // Get search results grouped by layer
-  const getSearchResults = () => {
+  // Get search results grouped by layer (memoized)
+  const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return null;
     const query = searchQuery.toLowerCase();
     const results: Record<LayerView, { id: string; label: string }[]> = {
@@ -299,10 +311,51 @@ export default function ComponentShowcase() {
     }
 
     return results;
-  };
+  }, [searchQuery]);
 
-  const searchResults = getSearchResults();
   const hasResults = searchResults && Object.values(searchResults).some((arr) => arr.length > 0);
+
+  // Get flat list of results for keyboard navigation (memoized)
+  const flatResults = useMemo(() => {
+    if (!searchResults) return [];
+    const flat: { layer: LayerView; id: string; label: string }[] = [];
+    for (const [layerId, items] of Object.entries(searchResults)) {
+      for (const item of items) {
+        flat.push({ layer: layerId as LayerView, ...item });
+      }
+    }
+    return flat;
+  }, [searchResults]);
+
+  // Handle keyboard navigation in command palette
+  const handleCommandPaletteKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (!hasResults) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSelectedResultIndex((prev) => (prev + 1) % flatResults.length);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSelectedResultIndex((prev) => (prev - 1 + flatResults.length) % flatResults.length);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const selected = flatResults[selectedResultIndex];
+        if (selected) {
+          handleSearchSelect(selected.layer, selected.id);
+        }
+      }
+    },
+    [hasResults, flatResults, selectedResultIndex, handleSearchSelect]
+  );
+
+  // Scroll selected item into view
+  useEffect(() => {
+    const selectedItem = resultItemsRef.current[selectedResultIndex];
+    if (selectedItem) {
+      selectedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }, [selectedResultIndex]);
 
   const renderContent = () => {
     switch (activeLayer) {
@@ -443,6 +496,7 @@ export default function ComponentShowcase() {
                 placeholder="Search components..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleCommandPaletteKeyDown}
               />
               <kbd className={styles.commandPaletteKbd}>esc</kbd>
             </div>
@@ -454,33 +508,43 @@ export default function ComponentShowcase() {
               ) : !hasResults ? (
                 <div className={styles.commandPaletteEmpty}>No results for "{searchQuery}"</div>
               ) : (
-                Object.entries(searchResults!).map(([layerId, items]) => {
-                  if (items.length === 0) return null;
-                  const layer = layerId as LayerView;
-                  return (
-                    <div key={layerId} className={styles.commandPaletteGroup}>
-                      <div className={styles.commandPaletteGroupLabel}>{layerLabels[layer]}</div>
-                      {items.map((item) => (
-                        <button
-                          key={item.id}
-                          className={styles.commandPaletteItem}
-                          onClick={() => handleSearchSelect(layer, item.id)}
-                        >
-                          <span className={styles.commandPaletteItemName}>{item.label}</span>
-                          <span
-                            className={styles.commandPaletteItemBadge}
-                            style={{
-                              background: layerColors[layer].bg,
-                              color: layerColors[layer].text,
-                            }}
-                          >
-                            {layerNumbers[layer]}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  );
-                })
+                (() => {
+                  let globalIndex = 0;
+                  resultItemsRef.current = [];
+                  return Object.entries(searchResults!).map(([layerId, items]) => {
+                    if (items.length === 0) return null;
+                    const layer = layerId as LayerView;
+                    return (
+                      <div key={layerId} className={styles.commandPaletteGroup}>
+                        <div className={styles.commandPaletteGroupLabel}>{layerLabels[layer]}</div>
+                        {items.map((item) => {
+                          const currentIndex = globalIndex++;
+                          const isSelected = currentIndex === selectedResultIndex;
+                          return (
+                            <button
+                              key={item.id}
+                              ref={(el) => (resultItemsRef.current[currentIndex] = el)}
+                              className={`${styles.commandPaletteItem} ${isSelected ? styles.commandPaletteItemSelected : ''}`}
+                              onClick={() => handleSearchSelect(layer, item.id)}
+                              onMouseEnter={() => setSelectedResultIndex(currentIndex)}
+                            >
+                              <span className={styles.commandPaletteItemName}>{item.label}</span>
+                              <span
+                                className={styles.commandPaletteItemBadge}
+                                style={{
+                                  background: layerColors[layer].bg,
+                                  color: layerColors[layer].text,
+                                }}
+                              >
+                                {layerNumbers[layer]}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    );
+                  });
+                })()
               )}
             </div>
           </div>

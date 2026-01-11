@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '../Icon';
+import { Icon } from '../../3-primitives';
 import { cn } from '@/lib/utils';
 import styles from './Chip.module.css';
 
@@ -19,17 +19,7 @@ export interface ChipProps {
 }
 
 export const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
-  (
-    {
-      children,
-      startElement,
-      onRemove,
-      onClick,
-      className,
-      disabled = false,
-    },
-    ref
-  ) => {
+  ({ children, startElement, onRemove, onClick, className, disabled = false }, ref) => {
     const isClickable = !disabled && (onClick || onRemove);
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -62,9 +52,7 @@ export const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
           }
         }}
       >
-        {startElement && (
-          <span className={styles.startElement}>{startElement}</span>
-        )}
+        {startElement && <span className={styles.startElement}>{startElement}</span>}
 
         <span className={styles.text}>{children}</span>
 

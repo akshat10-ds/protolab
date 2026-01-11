@@ -151,11 +151,14 @@ Search for components in this EXACT order:
 
 **Layer 4: Composites**
 - Check: Can I use composites like `Modal`, `Table`, `SearchInput`, `Accordion`, `Tabs`, etc.?
+- **ComboButton**: Only use `size="small"` or `size="medium"`. Variants: brand, primary, secondary, tertiary. **Tertiary is always icon-only** (no text).
 - If yes: Identify all needed composites
 - Read: `src/design-system/4-composites/README.md` for APIs
 
 **Layer 3: Primitives**
 - Check: What primitives do I need? (`Button`, `Input`, `Card`, `Badge`, etc.)
+- **Button**: Only use `size="small"` or `size="medium"` (no large/xlarge). Do NOT use `rounded` prop.
+- **IconButton**: Only use `size="small"` or `size="medium"`. Use `variant` prop (not `kind`). Danger variant has transparent bg with red icon by default.
 - Always available: Use as needed
 - Read: `src/design-system/3-primitives/README.md` for APIs
 

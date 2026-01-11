@@ -6,7 +6,6 @@ import {
   Badge,
   Avatar,
   AvatarGroup,
-  Chip,
   AlertBadge,
   StatusLight,
   Spinner,
@@ -14,7 +13,6 @@ import {
   IconButton,
   Card,
   Text,
-  Icon,
 } from '@/design-system';
 import { SelectableComponent } from '../../components/SelectableComponent';
 import styles from '../../Showcase.module.css';
@@ -49,8 +47,22 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
           </div>
           <div className={styles.interactiveArea}>
             <Stack gap="medium">
-              <Slider label="Volume" defaultValue={50} />
-              <Slider label="Brightness" defaultValue={75} showValue />
+              <SelectableComponent
+                componentId="slider-volume"
+                componentProps={{ label: 'Volume', defaultValue: 50 }}
+                isSelected={selectedComponentId === 'slider-volume'}
+                onSelect={onComponentSelect}
+              >
+                <Slider label="Volume" defaultValue={50} />
+              </SelectableComponent>
+              <SelectableComponent
+                componentId="slider-brightness"
+                componentProps={{ label: 'Brightness', defaultValue: 75, showValue: true }}
+                isSelected={selectedComponentId === 'slider-brightness'}
+                onSelect={onComponentSelect}
+              >
+                <Slider label="Brightness" defaultValue={75} showValue />
+              </SelectableComponent>
             </Stack>
           </div>
         </div>
@@ -223,7 +235,14 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
           <div className={styles.demoGrid}>
             {avatarSizes.map((size) => (
               <div className={styles.demoGridItem} key={size}>
-                <Avatar size={size} initials={size.substring(0, 2).toUpperCase()} />
+                <SelectableComponent
+                  componentId={`avatar-size-${size}`}
+                  componentProps={{ size, initials: size.substring(0, 2).toUpperCase() }}
+                  isSelected={selectedComponentId === `avatar-size-${size}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Avatar size={size} initials={size.substring(0, 2).toUpperCase()} />
+                </SelectableComponent>
                 <span className={styles.demoGridLabel}>{size}</span>
               </div>
             ))}
@@ -288,89 +307,6 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
               <Avatar initials="TW" />
               <Avatar initials="LM" />
             </AvatarGroup>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (activeSubpage === 'chip') {
-    return (
-      <div className={styles.tokenPage}>
-        {/* Basic */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Basic Chips</h3>
-          </div>
-          <div className={styles.demoGrid}>
-            <Chip>React</Chip>
-            <Chip>TypeScript</Chip>
-            <Chip>JavaScript</Chip>
-            <Chip>CSS</Chip>
-          </div>
-        </div>
-
-        {/* With Elements */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>With Start Element</h3>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>Avatar</span>
-            <div className={styles.demoPreviewWide}>
-              <Inline gap="small">
-                <Chip startElement={<Avatar size="xsmall" initials="JD" />}>John Doe</Chip>
-                <Chip startElement={<Avatar size="xsmall" initials="AB" />}>Alice Brown</Chip>
-              </Inline>
-            </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>Icon</span>
-            <div className={styles.demoPreview}>
-              <Chip startElement={<Icon name="star" size="small" />}>Favorite</Chip>
-            </div>
-          </div>
-        </div>
-
-        {/* Interactive */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Interactive</h3>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>Removable</span>
-            <div className={styles.demoPreviewWide}>
-              <Inline gap="small">
-                <Chip onRemove={() => {}}>React</Chip>
-                <Chip onRemove={() => {}}>TypeScript</Chip>
-              </Inline>
-            </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>Clickable</span>
-            <div className={styles.demoPreviewWide}>
-              <Inline gap="small">
-                <Chip onClick={() => {}}>All</Chip>
-                <Chip onClick={() => {}}>Active</Chip>
-              </Inline>
-            </div>
-          </div>
-        </div>
-
-        {/* States */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>States</h3>
-          </div>
-          <div className={styles.stateRow}>
-            <div className={styles.stateCell}>
-              <span className={styles.stateLabel}>Default</span>
-              <Chip>Default</Chip>
-            </div>
-            <div className={styles.stateCell}>
-              <span className={styles.stateLabel}>Disabled</span>
-              <Chip disabled>Disabled</Chip>
-            </div>
           </div>
         </div>
       </div>
@@ -478,9 +414,16 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
             <div className={styles.demoRow} key={kind}>
               <span className={styles.demoLabel}>{kind}</span>
               <div className={styles.demoPreview}>
-                <StatusLight kind={kind}>
-                  {kind.charAt(0).toUpperCase() + kind.slice(1)}
-                </StatusLight>
+                <SelectableComponent
+                  componentId={`statuslight-kind-${kind}`}
+                  componentProps={{ kind, children: kind.charAt(0).toUpperCase() + kind.slice(1) }}
+                  isSelected={selectedComponentId === `statuslight-kind-${kind}`}
+                  onSelect={onComponentSelect}
+                >
+                  <StatusLight kind={kind}>
+                    {kind.charAt(0).toUpperCase() + kind.slice(1)}
+                  </StatusLight>
+                </SelectableComponent>
               </div>
               <span className={styles.propsCode}>kind="{kind}"</span>
             </div>
@@ -566,7 +509,14 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
           <div className={styles.demoGrid}>
             {spinnerSizes.map((size) => (
               <div className={styles.demoGridItem} key={size}>
-                <Spinner size={size} />
+                <SelectableComponent
+                  componentId={`spinner-size-${size}`}
+                  componentProps={{ size }}
+                  isSelected={selectedComponentId === `spinner-size-${size}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Spinner size={size} />
+                </SelectableComponent>
                 <span className={styles.demoGridLabel}>{size}</span>
               </div>
             ))}
@@ -625,7 +575,14 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
             <div className={styles.demoRow} key={size}>
               <span className={styles.demoLabel}>{size}</span>
               <div style={{ flex: 1, maxWidth: '300px' }}>
-                <ProgressBar value={60} size={size} />
+                <SelectableComponent
+                  componentId={`progressbar-size-${size}`}
+                  componentProps={{ value: 60, size }}
+                  isSelected={selectedComponentId === `progressbar-size-${size}`}
+                  onSelect={onComponentSelect}
+                >
+                  <ProgressBar value={60} size={size} />
+                </SelectableComponent>
               </div>
               <span className={styles.propsCode}>size="{size}"</span>
             </div>

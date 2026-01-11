@@ -29,8 +29,42 @@ URL: https://figma.com/design/pqrs/ExampleFile?node-id=1-2
 
 ### Step 2: Fetch Figma Design Data
 
-**Use MCP Tool**: `mcp__figma__get_design_context`
+**CRITICAL: Node Specificity Matters**
 
+Figma MCP tools work best with **atomic, specific nodes** (individual text layers, single buttons, specific cards) rather than large parent frames containing many children.
+
+| Node Type | MCP Behavior |
+|-----------|--------------|
+| Large parent frame | Often fails or returns incomplete data |
+| Specific element | Returns exact values (colors, spacing, fonts) |
+
+**Best Practice**: Ask the user for **Dev Mode URLs** (`&m=dev` in URL) which target specific elements.
+
+#### MCP Tool Priority
+
+Use tools in this order for best results:
+
+```
+1. get_variable_defs  → Extract design tokens (colors, spacing, typography)
+2. get_screenshot     → Visual verification of what you're targeting
+3. get_design_context → Code structure (works best on small/atomic nodes)
+4. get_metadata       → Node structure overview (for large sections)
+```
+
+#### Tool Usage
+
+**Primary: `mcp__figma__get_variable_defs`** (for extracting styles)
+```typescript
+mcp__figma__get_variable_defs({
+  fileKey: "extracted-file-key",
+  nodeId: "1:2",  // Target specific elements, not parent frames
+  clientLanguages: "typescript",
+  clientFrameworks: "react"
+})
+```
+Returns: Exact design tokens (hex colors, font sizes, spacing values)
+
+**Secondary: `mcp__figma__get_design_context`**
 ```typescript
 mcp__figma__get_design_context({
   fileKey: "extracted-file-key",
@@ -39,13 +73,91 @@ mcp__figma__get_design_context({
   clientFrameworks: "react"
 })
 ```
+Returns: Code structure, component mapping. **Note**: May return "nothing selected" error on complex parent nodes.
 
-**Returns**: Design structure, tokens, component mapping, Code Connect info
+**Visual: `mcp__figma__get_screenshot`**
+```typescript
+mcp__figma__get_screenshot({
+  fileKey: "extracted-file-key",
+  nodeId: "1:2"
+})
+```
+Returns: Visual reference (always works, but no extractable values)
 
-**Alternative Tools** (if needed):
-- `mcp__figma__get_screenshot` - Visual representation
-- `mcp__figma__get_metadata` - Node structure overview
-- `mcp__figma__get_variable_defs` - Variable definitions
+**Structure: `mcp__figma__get_metadata`**
+```typescript
+mcp__figma__get_metadata({
+  fileKey: "extracted-file-key",
+  nodeId: "1:2"
+})
+```
+Returns: XML structure with child node IDs (useful for finding specific nodes within a section)
+
+#### Handling Complex Sections
+
+When a Figma URL points to a large section with many elements:
+
+```
+❌ Don't: Try to extract everything from the parent node
+✅ Do: Break into specific child nodes and extract each individually
+```
+
+**Workflow for complex sections**:
+1. Use `get_metadata` on parent to see child node structure
+2. Use `get_screenshot` to visually identify key elements
+3. Ask user for specific node IDs of individual elements (or use metadata to find them)
+4. Extract styles from each atomic element with `get_variable_defs`
+5. Build up the full picture from multiple targeted extractions
+
+#### Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| "Nothing selected" error | Node too complex; target a smaller child node |
+| No style values returned | Use `get_variable_defs` instead of `get_design_context` |
+| Colors not extracting | Target the specific text/shape layer, not its parent |
+| Missing spacing values | Check padding/gap on the immediate container, not grandparent |
+
+#### Extraction Checklist
+
+**CRITICAL**: For EVERY Figma node, systematically extract ALL properties. Don't focus only on what seems immediately relevant.
+
+```
+□ Colors
+  - Fill color (background)
+  - Stroke color (border)
+  - Text color
+
+□ Typography
+  - Font family
+  - Font size
+  - Font weight
+  - Letter spacing
+  - Line height
+  - Text alignment
+
+□ Spacing
+  - Padding (top, right, bottom, left)
+  - Gap (for auto-layout)
+  - Margin
+
+□ Borders
+  - Border width
+  - Border radius
+  - Border style
+
+□ Effects
+  - Shadow
+  - Blur
+  - Opacity
+
+□ Layout
+  - Width/height constraints
+  - Auto-layout direction
+  - Alignment
+```
+
+After extraction, **document all values** before implementing. This prevents missing properties.
 
 ### Step 3: Analyze Design Structure
 
@@ -289,7 +401,59 @@ npm run build       # Ensure it compiles
 npm run typecheck   # Verify TypeScript types
 ```
 
-### Step 11: Present Result
+### Step 11: Verify CSS is Applied
+
+**IMPORTANT**: Don't assume CSS is working. Verify computed styles in the browser.
+
+Use browser evaluate to check:
+```javascript
+// Check computed styles match expected values
+const element = document.querySelector('[class*="yourClassName"]');
+const styles = window.getComputedStyle(element);
+console.log({
+  fontSize: styles.fontSize,      // Should match Figma
+  fontWeight: styles.fontWeight,  // Should match Figma
+  color: styles.color,            // Should match Figma
+  // ... other properties
+});
+```
+
+#### CSS Specificity with Design System Components
+
+When adding `className` to design system components (Text, Button, etc.), **their internal styles may override yours** due to CSS specificity.
+
+**Problem**:
+```tsx
+// Your className may not apply because Text has its own classes
+<Text variant="heading" className={styles.customHeading}>
+```
+
+**Solution**: Use `!important` for pattern-level overrides.
+
+```css
+/*
+ * Pattern-level overrides for Primitive components
+ * Using !important is acceptable here because:
+ * - Layer 5 patterns may need to customize Layer 3 primitives
+ * - Text/Button/etc. components apply their own classes
+ * - This is a known architectural pattern, not a hack
+ */
+.customHeading {
+  font-size: var(--ink-font-size-2xl) !important;
+  font-weight: var(--ink-font-weight-bold) !important;
+  color: var(--ink-font-accent) !important;
+}
+```
+
+**When `!important` is OK**:
+| Scenario | OK? |
+|----------|-----|
+| Pattern (L5) overriding Primitive (L3) | ✅ |
+| Composite (L4) overriding Primitive (L3) | ✅ |
+| Utility classes designed to always win | ✅ |
+| Lazy fix without understanding why | ❌ |
+
+### Step 12: Present Result
 
 Show the user:
 - File location (e.g., `src/prototypes/figma-dashboard.tsx`)

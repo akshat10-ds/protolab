@@ -7,16 +7,17 @@ import {
   Divider,
   Card,
   Skeleton,
-  Callout,
-  Banner,
   Tooltip,
   Text,
   Link,
 } from '@/design-system';
+import { SelectableComponent } from '../../components/SelectableComponent';
 import styles from '../../Showcase.module.css';
 
 export interface ContainerPrimitivesProps {
   activeSubpage: string;
+  selectedComponentId?: string | null;
+  onComponentSelect?: (componentId: string, props: Record<string, unknown>) => void;
 }
 
 // Data definitions for compact rendering
@@ -24,11 +25,13 @@ const dividerSpacings = ['none', 'small', 'medium', 'large'] as const;
 const cardVariants = ['light', 'secondary', 'dark'] as const;
 const skeletonVariants = ['text', 'circular', 'rectangular', 'rounded'] as const;
 const circularSizes = ['xs', 'small', 'md', 'lg', 'xl'] as const;
-const calloutWidths = ['small', 'medium', 'large', 'xlarge'] as const;
-const bannerKinds = ['information', 'success', 'warning', 'danger', 'promo', 'subtle', 'neutral'] as const;
 const tooltipPositions = ['top', 'bottom', 'left', 'right'] as const;
 
-export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({ activeSubpage }) => {
+export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({
+  activeSubpage,
+  selectedComponentId,
+  onComponentSelect,
+}) => {
   if (activeSubpage === 'divider') {
     return (
       <div className={styles.tokenPage}>
@@ -40,13 +43,23 @@ export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({ active
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>horizontal</span>
             <div style={{ flex: 1 }}>
-              <Divider />
+              <SelectableComponent
+                componentId="divider-horizontal"
+                componentProps={{}}
+                isSelected={selectedComponentId === 'divider-horizontal'}
+                onSelect={onComponentSelect}
+              >
+                <Divider />
+              </SelectableComponent>
             </div>
             <span className={styles.propsCode}>default</span>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>vertical</span>
-            <div className={styles.demoPreview} style={{ height: '40px', display: 'flex', alignItems: 'center' }}>
+            <div
+              className={styles.demoPreview}
+              style={{ height: '40px', display: 'flex', alignItems: 'center' }}
+            >
               <Text>A</Text>
               <Divider orientation="vertical" />
               <Text>B</Text>
@@ -88,11 +101,18 @@ export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({ active
             {cardVariants.map((variant) => (
               <div className={styles.stateCell} key={variant}>
                 <span className={styles.stateLabel}>{variant}</span>
-                <Card variant={variant}>
-                  <Card.Body>
-                    <Text>{variant} card</Text>
-                  </Card.Body>
-                </Card>
+                <SelectableComponent
+                  componentId={`card-variant-${variant}`}
+                  componentProps={{ variant }}
+                  isSelected={selectedComponentId === `card-variant-${variant}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Card variant={variant}>
+                    <Card.Body>
+                      <Text>{variant} card</Text>
+                    </Card.Body>
+                  </Card>
+                </SelectableComponent>
               </div>
             ))}
           </div>
@@ -113,8 +133,12 @@ export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({ active
               </Card.Body>
               <Card.Footer>
                 <Inline gap="small">
-                  <Button kind="primary" size="small">Action</Button>
-                  <Button kind="tertiary" size="small">Cancel</Button>
+                  <Button kind="primary" size="small">
+                    Action
+                  </Button>
+                  <Button kind="tertiary" size="small">
+                    Cancel
+                  </Button>
                 </Inline>
               </Card.Footer>
             </Card>
@@ -130,7 +154,9 @@ export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({ active
             <div className={styles.stateCell}>
               <span className={styles.stateLabel}>Disabled</span>
               <Card disabled>
-                <Card.Body><Text>Disabled</Text></Card.Body>
+                <Card.Body>
+                  <Text>Disabled</Text>
+                </Card.Body>
               </Card>
             </div>
             <div className={styles.stateCell}>
@@ -158,14 +184,28 @@ export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({ active
           <div className={styles.stateRow}>
             <div className={styles.stateCell}>
               <span className={styles.stateLabel}>Text</span>
-              <Stack gap="small">
-                <Skeleton variant="text" width="100%" />
-                <Skeleton variant="text" width="80%" />
-              </Stack>
+              <SelectableComponent
+                componentId="skeleton-text"
+                componentProps={{ variant: 'text', width: '100%' }}
+                isSelected={selectedComponentId === 'skeleton-text'}
+                onSelect={onComponentSelect}
+              >
+                <Stack gap="small">
+                  <Skeleton variant="text" width="100%" />
+                  <Skeleton variant="text" width="80%" />
+                </Stack>
+              </SelectableComponent>
             </div>
             <div className={styles.stateCell}>
               <span className={styles.stateLabel}>Circular</span>
-              <Skeleton variant="circular" size="md" />
+              <SelectableComponent
+                componentId="skeleton-circular"
+                componentProps={{ variant: 'circular', size: 'md' }}
+                isSelected={selectedComponentId === 'skeleton-circular'}
+                onSelect={onComponentSelect}
+              >
+                <Skeleton variant="circular" size="md" />
+              </SelectableComponent>
             </div>
             <div className={styles.stateCell}>
               <span className={styles.stateLabel}>Rectangular</span>
@@ -240,156 +280,6 @@ export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({ active
     );
   }
 
-  if (activeSubpage === 'callout') {
-    return (
-      <div className={styles.tokenPage}>
-        {/* Locations */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Caret Location</h3>
-          </div>
-          <div className={styles.stateRow}>
-            <div className={styles.stateCell}>
-              <span className={styles.stateLabel}>Above</span>
-              <Callout heading="Above" location="above" closable={false}>Points up</Callout>
-            </div>
-            <div className={styles.stateCell}>
-              <span className={styles.stateLabel}>Below</span>
-              <Callout heading="Below" location="below" closable={false}>Points down</Callout>
-            </div>
-          </div>
-        </div>
-
-        {/* Widths */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Widths</h3>
-          </div>
-          {calloutWidths.map((width) => (
-            <div className={styles.demoRow} key={width}>
-              <span className={styles.demoLabel}>{width}</span>
-              <div style={{ flex: 1 }}>
-                <Callout heading={width} width={width} closable={false}>Content</Callout>
-              </div>
-              <span className={styles.propsCode}>width="{width}"</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Alignment */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Text Alignment</h3>
-          </div>
-          <div className={styles.stateRow}>
-            <div className={styles.stateCell}>
-              <span className={styles.stateLabel}>Start</span>
-              <Callout heading="Start" alignment="start" closable={false}>Left-aligned</Callout>
-            </div>
-            <div className={styles.stateCell}>
-              <span className={styles.stateLabel}>Center</span>
-              <Callout heading="Center" alignment="center" closable={false}>Center-aligned</Callout>
-            </div>
-            <div className={styles.stateCell}>
-              <span className={styles.stateLabel}>End</span>
-              <Callout heading="End" alignment="end" closable={false}>Right-aligned</Callout>
-            </div>
-          </div>
-        </div>
-
-        {/* With Actions */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>With Actions</h3>
-          </div>
-          <div className={styles.interactiveArea}>
-            <Callout
-              heading="Confirm Action"
-              primaryAction={{ label: 'Confirm', onClick: () => {} }}
-              secondaryAction={{ label: 'Cancel', onClick: () => {} }}
-              closable={false}
-            >
-              Are you sure you want to proceed?
-            </Callout>
-          </div>
-        </div>
-
-        {/* Glass Effects */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Glass Effects</h3>
-          </div>
-          <div className={styles.interactiveArea} style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-            <Stack gap="small">
-              <Callout heading="None" glass="none" closable={false}>Solid</Callout>
-              <Callout heading="Frost" glass="frost" closable={false}>Frosted</Callout>
-              <Callout heading="Tint" glass="tint" closable={false}>Tinted</Callout>
-            </Stack>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (activeSubpage === 'banner') {
-    return (
-      <div className={styles.tokenPage}>
-        {/* Kinds */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Kinds</h3>
-          </div>
-          <div className={styles.interactiveArea}>
-            <Stack gap="small">
-              <Banner kind="information" icon="info">Information banner</Banner>
-              <Banner kind="success" icon="status-check">Success banner</Banner>
-              <Banner kind="warning" icon="status-warn">Warning banner</Banner>
-              <Banner kind="danger" icon="status-error">Danger banner</Banner>
-              <Banner kind="promo" icon="star">Promo banner</Banner>
-              <Banner kind="subtle">Subtle banner</Banner>
-              <Banner kind="neutral">Neutral banner</Banner>
-            </Stack>
-          </div>
-        </div>
-
-        {/* Options */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Options</h3>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>with action</span>
-            <div style={{ flex: 1 }}>
-              <Banner kind="information" icon="info" action={{ label: 'Learn More', onClick: () => {} }}>
-                Banner with action button
-              </Banner>
-            </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>round shape</span>
-            <div style={{ flex: 1 }}>
-              <Banner kind="success" shape="round">Rounded corners</Banner>
-            </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>lineWrap</span>
-            <div style={{ flex: 1 }}>
-              <Banner kind="information" lineWrap>
-                This is a longer banner message that wraps to multiple lines for detailed content.
-              </Banner>
-            </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>not closable</span>
-            <div style={{ flex: 1 }}>
-              <Banner kind="warning" icon="status-warn" closable={false}>Cannot dismiss</Banner>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (activeSubpage === 'tooltip') {
     return (
       <div className={styles.tokenPage}>
@@ -401,9 +291,16 @@ export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({ active
           <div className={styles.demoGrid}>
             {tooltipPositions.map((position) => (
               <div className={styles.demoGridItem} key={position}>
-                <Tooltip content={`Tooltip on ${position}`} position={position}>
-                  <Button size="small">{position}</Button>
-                </Tooltip>
+                <SelectableComponent
+                  componentId={`tooltip-position-${position}`}
+                  componentProps={{ content: `Tooltip on ${position}`, position }}
+                  isSelected={selectedComponentId === `tooltip-position-${position}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Tooltip content={`Tooltip on ${position}`} position={position}>
+                    <Button size="small">{position}</Button>
+                  </Tooltip>
+                </SelectableComponent>
               </div>
             ))}
           </div>

@@ -61,6 +61,23 @@ export type { DrawerProps } from './Drawer';
 export { Alert } from './Alert';
 export type { AlertProps } from './Alert';
 
+export { Banner } from './Banner';
+export type { BannerProps, BannerKind, BannerShape, BannerAction } from './Banner';
+
+export { Callout } from './Callout';
+export type { CalloutProps } from './Callout';
+
+export { AIBadge } from './AIBadge';
+export type { AIBadgeProps } from './AIBadge';
+
+// Navigation Components (Composite)
+export { Stepper } from './Stepper';
+export type { StepperProps } from './Stepper';
+
+// Display Components (Composite)
+export { Chip } from './Chip';
+export type { ChipProps } from './Chip';
+
 // Data Components
 export { Table } from './Table';
 export type { TableProps } from './Table';

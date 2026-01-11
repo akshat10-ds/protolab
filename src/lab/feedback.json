@@ -1,0 +1,21 @@
+{
+  "submittedAt": "2026-01-09T23:59:40.247Z",
+  "component": "AIChat",
+  "totalPins": 1,
+  "feedback": [
+    {
+      "pin": 1,
+      "category": "visual",
+      "position": {
+        "x": 89,
+        "y": 12
+      },
+      "content": "Use a gray bg and remove names from chat messages and remove the avatar as well",
+      "element": {
+        "tagName": "div",
+        "selector": "div._content_1rlc6_23 > main._preview_1rlc6_30 > div._previewArea_1rlc6_45",
+        "textContent": "AkshatSend an envelopeDocusignI received: \"Send an"
+      }
+    }
+  ]
+}

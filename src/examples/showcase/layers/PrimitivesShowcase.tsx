@@ -19,14 +19,13 @@ const dataPrimitives = [
   'slider',
   'badge',
   'avatar',
-  'chip',
   'alert-badge',
   'status-light',
   'spinner',
   'progressbar',
 ];
-const containerPrimitives = ['divider', 'card', 'skeleton', 'callout', 'banner', 'tooltip'];
-const typographyPrimitives = ['link', 'stepper', 'typography', 'icon'];
+const containerPrimitives = ['divider', 'card', 'skeleton', 'tooltip'];
+const typographyPrimitives = ['link', 'typography', 'icon'];
 
 export interface PrimitivesShowcaseProps {
   activeSubpage: string;

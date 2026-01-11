@@ -248,9 +248,15 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 640px) {
-  .drawer.left,
-  .drawer.right {
-    width: calc(100vw - 20px) !important;
+  .drawer.left.small,
+  .drawer.left.medium,
+  .drawer.left.large,
+  .drawer.left.full,
+  .drawer.right.small,
+  .drawer.right.medium,
+  .drawer.right.large,
+  .drawer.right.full {
+    width: calc(100vw - 20px);
   }
 
   .drawer.top,

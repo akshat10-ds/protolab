@@ -22,33 +22,33 @@
 .xsmall {
   width: var(--ink-spacing-300);
   height: var(--ink-spacing-300);
-  font-size: var(--ink-font-detail-xs-size) !important; /* 10px */
-  line-height: var(--ink-font-detail-xs-line-height) !important; /* 1.4 */
-  letter-spacing: 0.32px !important; /* open tracking from Figma */
+  font-size: var(--ink-font-detail-xs-size); /* 10px */
+  line-height: var(--ink-font-detail-xs-line-height); /* 1.4 */
+  letter-spacing: 0.32px; /* open tracking from Figma */
 }
 
 .small {
   width: var(--ink-spacing-400);
   height: var(--ink-spacing-400);
-  font-size: var(--ink-font-detail-s-size) !important; /* 12px */
-  line-height: var(--ink-font-detail-s-line-height) !important; /* 1.5 */
-  letter-spacing: 0.16px !important; /* wide tracking from Figma */
+  font-size: var(--ink-font-detail-s-size); /* 12px */
+  line-height: var(--ink-font-detail-s-line-height); /* 1.5 */
+  letter-spacing: 0.16px; /* wide tracking from Figma */
 }
 
 .medium {
   width: var(--ink-spacing-500);
   height: var(--ink-spacing-500);
-  font-size: var(--ink-font-size-md) !important; /* 16px - DocuSign standard */
-  line-height: 1.4 !important;
-  letter-spacing: 0 !important;
+  font-size: var(--ink-font-size-md); /* 16px - DocuSign standard */
+  line-height: 1.4;
+  letter-spacing: 0;
 }
 
 .large {
   width: var(--ink-spacing-600);
   height: var(--ink-spacing-600);
-  font-size: var(--ink-font-size-xl) !important; /* 20px from Figma */
-  line-height: var(--ink-line-height-tight) !important; /* 1.25 - exact Figma spec */
-  letter-spacing: -0.16px !important; /* cozy from Figma */
+  font-size: var(--ink-font-size-xl); /* 20px from Figma */
+  line-height: var(--ink-line-height-tight); /* 1.25 - exact Figma spec */
+  letter-spacing: -0.16px; /* cozy from Figma */
 }
 
 .image {
@@ -59,11 +59,11 @@
 
 .initials {
   user-select: none;
-  font-size: inherit !important;
-  line-height: inherit !important;
-  letter-spacing: inherit !important;
-  font-weight: inherit !important;
-  font-family: inherit !important;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  font-weight: inherit;
+  font-family: inherit;
 }
 
 .placeholder {

@@ -25,7 +25,7 @@
 
 .avatarWrapper:hover {
   transform: translateY(-2px);
-  z-index: 100 !important; /* Ensure hovered avatar is always on top */
+  z-index: 11; /* Higher than max nth-child z-index (10) */
 }
 
 /* Stacking order - later items appear behind earlier ones */

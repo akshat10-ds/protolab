@@ -103,7 +103,6 @@
 .dropdownButton.brand {
   background-color: var(--ink-button-brand-bg);
   color: var(--ink-button-brand-text);
-  box-shadow: var(--ink-shadow-sm);
 }
 
 .dropdownButton.brand {
@@ -113,13 +112,11 @@
 .mainButton.brand:hover:not(:disabled),
 .dropdownButton.brand:hover:not(:disabled) {
   background-color: var(--ink-button-brand-bg-hover);
-  box-shadow: var(--ink-shadow-md);
 }
 
 .mainButton.brand:active:not(:disabled),
 .dropdownButton.brand:active:not(:disabled) {
   background-color: var(--ink-button-brand-bg-active);
-  box-shadow: var(--ink-shadow-sm);
 }
 
 /* Primary Variant */
@@ -127,7 +124,6 @@
 .dropdownButton.primary {
   background-color: var(--ink-cta-bg-color-primary-default);
   color: var(--ink-button-primary-text);
-  box-shadow: var(--ink-shadow-sm);
 }
 
 .dropdownButton.primary {
@@ -137,13 +133,11 @@
 .mainButton.primary:hover:not(:disabled),
 .dropdownButton.primary:hover:not(:disabled) {
   background-color: var(--ink-cta-bg-color-primary-hover);
-  box-shadow: var(--ink-shadow-md);
 }
 
 .mainButton.primary:active:not(:disabled),
 .dropdownButton.primary:active:not(:disabled) {
   background-color: var(--ink-cta-bg-color-primary-active);
-  box-shadow: var(--ink-shadow-sm);
 }
 
 /* Secondary Variant */

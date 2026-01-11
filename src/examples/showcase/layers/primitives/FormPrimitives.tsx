@@ -23,7 +23,7 @@ export interface FormPrimitivesProps {
 
 // Data definitions for compact rendering
 const buttonKinds = ['brand', 'primary', 'secondary', 'tertiary', 'danger'] as const;
-const buttonSizes = ['small', 'medium', 'large', 'xlarge'] as const;
+const buttonSizes = ['small', 'medium'] as const;
 const iconButtonIcons = [
   { icon: 'edit', label: 'Edit' },
   { icon: 'duplicate', label: 'Copy' },
@@ -71,10 +71,12 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
           <div className={styles.tokenSectionHeader}>
             <h3 className={styles.tokenSectionTitle}>Sizes</h3>
           </div>
-          {buttonSizes.map((size) => (
-            <div className={styles.demoRow} key={size}>
-              <span className={styles.demoLabel}>{size}</span>
-              <div className={styles.demoPreview}>
+          <div className={styles.stateRow}>
+            {buttonSizes.map((size) => (
+              <div className={styles.stateCell} key={size}>
+                <span className={styles.stateLabel}>
+                  {size} ({size === 'small' ? '32px' : '40px'})
+                </span>
                 <SelectableComponent
                   componentId={`button-size-${size}`}
                   componentProps={{ kind: 'brand', size, children: size }}
@@ -82,13 +84,12 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
                   onSelect={onComponentSelect}
                 >
                   <Button kind="brand" size={size}>
-                    {size}
+                    {size.charAt(0).toUpperCase() + size.slice(1)}
                   </Button>
                 </SelectableComponent>
               </div>
-              <span className={styles.propsCode}>size="{size}"</span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Icons */}
@@ -103,6 +104,7 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
                 Add Item
               </Button>
             </div>
+            <span className={styles.propsCode}>startElement=&#123;...&#125;</span>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>endElement</span>
@@ -111,6 +113,7 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
                 Next
               </Button>
             </div>
+            <span className={styles.propsCode}>endElement=&#123;...&#125;</span>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>Both</span>
@@ -118,11 +121,12 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
               <Button
                 kind="secondary"
                 startElement={<Icon name="download" size="small" />}
-                endElement={<Icon name="external-link" size="small" />}
+                endElement={<Icon name="chevron-down" size="small" />}
               >
                 Download
               </Button>
             </div>
+            <span className={styles.propsCode}>startElement + endElement</span>
           </div>
         </div>
 
@@ -133,9 +137,13 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
           </div>
           <div className={styles.stateRow}>
             <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>Default</span>
+              <Button kind="brand">Default</Button>
+            </div>
+            <div className={styles.stateCell}>
               <span className={styles.stateLabel}>Loading</span>
               <Button kind="brand" loading>
-                Loading...
+                Saving...
               </Button>
             </div>
             <div className={styles.stateCell}>
@@ -165,19 +173,7 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
                 Full Width Button
               </Button>
             </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>rounded</span>
-            <div className={styles.demoPreviewWide}>
-              <Inline gap="small">
-                <Button kind="brand" rounded>
-                  Pill
-                </Button>
-                <Button kind="secondary" rounded>
-                  Rounded
-                </Button>
-              </Inline>
-            </div>
+            <span className={styles.propsCode}>fullWidth</span>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>menuTrigger</span>
@@ -186,14 +182,20 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
                 Options
               </Button>
             </div>
+            <span className={styles.propsCode}>menuTrigger</span>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>href (link)</span>
             <div className={styles.demoPreview}>
-              <Button kind="brand" href="#" endElement={<Icon name="external-link" size="small" />}>
-                Link
+              <Button
+                kind="tertiary"
+                href="#"
+                endElement={<Icon name="external-link" size="small" />}
+              >
+                Open Link
               </Button>
             </div>
+            <span className={styles.propsCode}>href="..."</span>
           </div>
         </div>
 
@@ -204,19 +206,42 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
           </div>
           <div
             className={styles.interactiveArea}
-            style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+            style={{
+              background: 'var(--ink-neutral-140)',
+              borderRadius: '8px',
+              padding: 'var(--ink-spacing-300)',
+            }}
           >
-            <Inline gap="medium">
-              <Button inverted kind="primary">
-                Primary
-              </Button>
-              <Button inverted kind="secondary">
-                Secondary
-              </Button>
-              <Button inverted kind="tertiary">
-                Tertiary
-              </Button>
-            </Inline>
+            <Stack gap="medium">
+              <Inline gap="small" wrap>
+                <Button inverted kind="brand">
+                  Brand
+                </Button>
+                <Button inverted kind="primary">
+                  Primary
+                </Button>
+                <Button inverted kind="secondary">
+                  Secondary
+                </Button>
+                <Button inverted kind="tertiary">
+                  Tertiary
+                </Button>
+                <Button inverted kind="danger">
+                  Danger
+                </Button>
+              </Inline>
+              <Inline gap="small">
+                <Button inverted kind="brand" startElement={<Icon name="plus" size="small" />}>
+                  Add
+                </Button>
+                <Button inverted kind="secondary" loading>
+                  Loading
+                </Button>
+                <Button inverted kind="tertiary" disabled>
+                  Disabled
+                </Button>
+              </Inline>
+            </Stack>
           </div>
         </div>
       </div>
@@ -235,7 +260,14 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
             <div className={styles.demoRow} key={variant}>
               <span className={styles.demoLabel}>{variant}</span>
               <div className={styles.demoPreview}>
-                <IconButton icon="star" variant={variant} aria-label={variant} />
+                <SelectableComponent
+                  componentId={`iconbutton-variant-${variant}`}
+                  componentProps={{ icon: 'star', variant, 'aria-label': variant }}
+                  isSelected={selectedComponentId === `iconbutton-variant-${variant}`}
+                  onSelect={onComponentSelect}
+                >
+                  <IconButton icon="star" variant={variant} aria-label={variant} />
+                </SelectableComponent>
               </div>
               <span className={styles.propsCode}>variant="{variant}"</span>
             </div>
@@ -247,32 +279,20 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
           <div className={styles.tokenSectionHeader}>
             <h3 className={styles.tokenSectionTitle}>Sizes</h3>
           </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>small</span>
-            <div className={styles.demoPreview}>
-              <IconButton icon="plus" variant="brand" size="small" aria-label="Add" />
-            </div>
-            <span className={styles.propsCode}>size="small"</span>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>medium</span>
-            <div className={styles.demoPreview}>
-              <IconButton icon="plus" variant="brand" size="medium" aria-label="Add" />
-            </div>
-            <span className={styles.propsCode}>size="medium"</span>
-          </div>
-        </div>
-
-        {/* Common Icons */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Common Icons</h3>
-          </div>
-          <div className={styles.demoGrid}>
-            {iconButtonIcons.map(({ icon, label }) => (
-              <div className={styles.demoGridItem} key={icon}>
-                <IconButton icon={icon} variant="secondary" aria-label={label} />
-                <span className={styles.demoGridLabel}>{icon}</span>
+          <div className={styles.stateRow}>
+            {(['small', 'medium'] as const).map((size) => (
+              <div className={styles.stateCell} key={size}>
+                <span className={styles.stateLabel}>
+                  {size} ({size === 'small' ? '32px' : '40px'})
+                </span>
+                <SelectableComponent
+                  componentId={`iconbutton-size-${size}`}
+                  componentProps={{ icon: 'plus', variant: 'brand', size, 'aria-label': 'Add' }}
+                  isSelected={selectedComponentId === `iconbutton-size-${size}`}
+                  onSelect={onComponentSelect}
+                >
+                  <IconButton icon="plus" variant="brand" size={size} aria-label="Add" />
+                </SelectableComponent>
               </div>
             ))}
           </div>
@@ -292,6 +312,43 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
               <span className={styles.stateLabel}>Disabled</span>
               <IconButton icon="star" variant="brand" disabled aria-label="Disabled" />
             </div>
+          </div>
+        </div>
+
+        {/* Common Icons */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Common Icons</h3>
+          </div>
+          <div className={styles.demoGrid}>
+            {iconButtonIcons.map(({ icon, label }) => (
+              <div className={styles.demoGridItem} key={icon}>
+                <IconButton icon={icon} variant="secondary" aria-label={label} />
+                <span className={styles.demoGridLabel}>{icon}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Danger Variant Note */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Danger Variant</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <Stack gap="small">
+              <Inline gap="medium" align="center">
+                <IconButton icon="trash" variant="danger" aria-label="Delete" />
+                <span
+                  style={{
+                    fontSize: 'var(--ink-font-size-sm)',
+                    color: 'var(--ink-font-secondary)',
+                  }}
+                >
+                  Transparent bg with red icon; red bg on hover
+                </span>
+              </Inline>
+            </Stack>
           </div>
         </div>
       </div>
@@ -329,7 +386,14 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
             <div className={styles.demoRow} key={type}>
               <span className={styles.demoLabel}>{type}</span>
               <div style={{ flex: 1, maxWidth: '300px' }}>
-                <Input label={type} type={type} placeholder={`${type}...`} hideLabel />
+                <SelectableComponent
+                  componentId={`input-type-${type}`}
+                  componentProps={{ label: type, type, placeholder: `${type}...`, hideLabel: true }}
+                  isSelected={selectedComponentId === `input-type-${type}`}
+                  onSelect={onComponentSelect}
+                >
+                  <Input label={type} type={type} placeholder={`${type}...`} hideLabel />
+                </SelectableComponent>
               </div>
               <span className={styles.propsCode}>type="{type}"</span>
             </div>
@@ -393,19 +457,40 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>unchecked</span>
             <div className={styles.demoPreview}>
-              <Checkbox label="Unchecked" />
+              <SelectableComponent
+                componentId="checkbox-unchecked"
+                componentProps={{ label: 'Unchecked' }}
+                isSelected={selectedComponentId === 'checkbox-unchecked'}
+                onSelect={onComponentSelect}
+              >
+                <Checkbox label="Unchecked" />
+              </SelectableComponent>
             </div>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>checked</span>
             <div className={styles.demoPreview}>
-              <Checkbox label="Checked" defaultChecked />
+              <SelectableComponent
+                componentId="checkbox-checked"
+                componentProps={{ label: 'Checked', checked: true }}
+                isSelected={selectedComponentId === 'checkbox-checked'}
+                onSelect={onComponentSelect}
+              >
+                <Checkbox label="Checked" checked />
+              </SelectableComponent>
             </div>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>indeterminate</span>
             <div className={styles.demoPreview}>
-              <Checkbox label="Indeterminate" indeterminate />
+              <SelectableComponent
+                componentId="checkbox-indeterminate"
+                componentProps={{ label: 'Indeterminate', indeterminate: true, checked: true }}
+                isSelected={selectedComponentId === 'checkbox-indeterminate'}
+                onSelect={onComponentSelect}
+              >
+                <Checkbox label="Indeterminate" indeterminate checked />
+              </SelectableComponent>
             </div>
           </div>
           <div className={styles.demoRow}>
@@ -417,7 +502,7 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>disabled checked</span>
             <div className={styles.demoPreview}>
-              <Checkbox label="Disabled Checked" disabled defaultChecked />
+              <Checkbox label="Disabled Checked" disabled checked />
             </div>
           </div>
           <div className={styles.demoRow}>
@@ -437,7 +522,7 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
             <Checkbox
               label="Email notifications"
               description="Receive updates about your account activity"
-              defaultChecked
+              checked
             />
           </div>
         </div>
@@ -470,7 +555,19 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
           </div>
           <div className={styles.interactiveArea}>
             <Stack gap="small">
-              <Radio label="Option 1" name="demo-group" value="1" defaultChecked />
+              <SelectableComponent
+                componentId="radio-option1"
+                componentProps={{
+                  label: 'Option 1',
+                  name: 'demo-group',
+                  value: '1',
+                  defaultChecked: true,
+                }}
+                isSelected={selectedComponentId === 'radio-option1'}
+                onSelect={onComponentSelect}
+              >
+                <Radio label="Option 1" name="demo-group" value="1" defaultChecked />
+              </SelectableComponent>
               <Radio label="Option 2" name="demo-group" value="2" />
               <Radio label="Option 3" name="demo-group" value="3" />
             </Stack>
@@ -545,13 +642,27 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>off</span>
             <div className={styles.demoPreview}>
-              <Switch checked={false} onChange={() => {}} />
+              <SelectableComponent
+                componentId="switch-off"
+                componentProps={{ checked: false }}
+                isSelected={selectedComponentId === 'switch-off'}
+                onSelect={onComponentSelect}
+              >
+                <Switch checked={false} onChange={() => {}} />
+              </SelectableComponent>
             </div>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>on</span>
             <div className={styles.demoPreview}>
-              <Switch checked={true} onChange={() => {}} />
+              <SelectableComponent
+                componentId="switch-on"
+                componentProps={{ checked: true }}
+                isSelected={selectedComponentId === 'switch-on'}
+                onSelect={onComponentSelect}
+              >
+                <Switch checked={true} onChange={() => {}} />
+              </SelectableComponent>
             </div>
           </div>
           <div className={styles.demoRow}>
@@ -574,15 +685,9 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
             <h3 className={styles.tokenSectionTitle}>With Label</h3>
           </div>
           <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>label right</span>
+            <span className={styles.demoLabel}>with label</span>
             <div className={styles.demoPreviewWide}>
-              <Switch label="Enable notifications" labelPosition="right" defaultChecked />
-            </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>label left</span>
-            <div className={styles.demoPreviewWide}>
-              <Switch label="Dark mode" labelPosition="left" />
+              <Switch label="Enable notifications" defaultChecked />
             </div>
           </div>
         </div>
@@ -613,7 +718,14 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
             <h3 className={styles.tokenSectionTitle}>Basic</h3>
           </div>
           <div className={styles.interactiveArea}>
-            <TextArea label="Comments" placeholder="Enter your comments..." />
+            <SelectableComponent
+              componentId="textarea-basic"
+              componentProps={{ label: 'Comments', placeholder: 'Enter your comments...' }}
+              isSelected={selectedComponentId === 'textarea-basic'}
+              onSelect={onComponentSelect}
+            >
+              <TextArea label="Comments" placeholder="Enter your comments..." />
+            </SelectableComponent>
           </div>
         </div>
 
@@ -703,20 +815,34 @@ export const FormPrimitives: React.FC<FormPrimitivesProps> = ({
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>small</span>
             <div style={{ minWidth: '200px' }}>
-              <Select label="Small" size="small" hideLabel>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-              </Select>
+              <SelectableComponent
+                componentId="select-size-small"
+                componentProps={{ label: 'Small', size: 'small', hideLabel: true }}
+                isSelected={selectedComponentId === 'select-size-small'}
+                onSelect={onComponentSelect}
+              >
+                <Select label="Small" size="small" hideLabel>
+                  <option value="1">Option 1</option>
+                  <option value="2">Option 2</option>
+                </Select>
+              </SelectableComponent>
             </div>
             <span className={styles.propsCode}>size="small"</span>
           </div>
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>medium</span>
             <div style={{ minWidth: '200px' }}>
-              <Select label="Medium" size="medium" hideLabel>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-              </Select>
+              <SelectableComponent
+                componentId="select-size-medium"
+                componentProps={{ label: 'Medium', size: 'medium', hideLabel: true }}
+                isSelected={selectedComponentId === 'select-size-medium'}
+                onSelect={onComponentSelect}
+              >
+                <Select label="Medium" size="medium" hideLabel>
+                  <option value="1">Option 1</option>
+                  <option value="2">Option 2</option>
+                </Select>
+              </SelectableComponent>
             </div>
             <span className={styles.propsCode}>size="medium"</span>
           </div>

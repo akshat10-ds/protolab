@@ -1,6 +1,6 @@
 # Component Catalog
 
-**Complete index of all 52 components in the Ink Design System.**
+**Complete index of all 53 components in the Ink Design System.**
 
 Use this document to quickly discover what components exist and where to find detailed documentation.
 
@@ -15,6 +15,7 @@ Use this document to quickly discover what components exist and where to find de
 | **Patterns** |||||
 | GlobalNav | Pattern (5) | Top navigation bar | `<GlobalNav items={items} />` |
 | LocalNav | Pattern (5) | Context-specific nav | `<LocalNav items={contextItems} />` |
+| AIChat | Pattern (5) | AI chat interface | `<AIChat messages={msgs} onSendMessage={fn} />` |
 | **Composites** |||||
 | SearchInput | Composite (4) | Search with icon | `<SearchInput placeholder="Search..." />` |
 | FileInput | Composite (4) | File upload | `<FileInput accept=".pdf" />` |
@@ -26,16 +27,21 @@ Use this document to quickly discover what components exist and where to find de
 | Pagination | Composite (4) | Page navigation | `<Pagination currentPage={1} totalPages={10} />` |
 | Tabs | Composite (4) | Tab switching | `<Tabs value={active} tabs={tabList} />` |
 | Accordion | Composite (4) | Collapsible sections | `<Accordion items={sections} />` |
+| Stepper | Composite (4) | Step navigation | `<Stepper steps={steps} activeStep={1} />` |
 | ComboButton | Composite (4) | Button with dropdown | `<ComboButton label="Actions" items={actions} />` |
 | Modal | Composite (4) | Dialog overlays | `<Modal open={isOpen} title="..." />` |
 | Popover | Composite (4) | Floating content | `<Popover trigger={<Button />} content={...} />` |
 | Dropdown | Composite (4) | Context menus | `<Dropdown items={menuItems} />` |
 | Drawer | Composite (4) | Side panels | `<Drawer open={isOpen} position="right" />` |
+| Callout | Composite (4) | Info messages | `<Callout heading="Note">...</Callout>` |
 | Alert | Composite (4) | Prominent messages | `<Alert kind="warning" title="..." />` |
+| Banner | Composite (4) | Alert banners | `<Banner kind="warning">Alert</Banner>` |
+| AIBadge | Composite (4) | AI feature indicator | `<AIBadge>AI-Assisted</AIBadge>` |
+| Chip | Composite (4) | Compact tags | `<Chip>React</Chip>` |
 | Table | Composite (4) | Data grids | `<Table columns={cols} data={rows} />` |
 | List | Composite (4) | Vertical lists | `<List items={listItems} />` |
 | **Primitives** |||||
-| Button | Primitive (3) | Actions | `<Button kind="primary">Click</Button>` |
+| Button | Primitive (3) | Actions (sizes: small, medium) | `<Button kind="primary" size="medium">Click</Button>` |
 | IconButton | Primitive (3) | Icon-only actions | `<IconButton icon="close" />` |
 | Link | Primitive (3) | Hyperlinks | `<Link href="/page">Go</Link>` |
 | Input | Primitive (3) | Text input | `<Input label="Name" />` |
@@ -45,10 +51,8 @@ Use this document to quickly discover what components exist and where to find de
 | Switch | Primitive (3) | Toggle | `<Switch label="Enable" />` |
 | TextArea | Primitive (3) | Multi-line text | `<TextArea label="Comments" />` |
 | Slider | Primitive (3) | Range input | `<Slider min={0} max={100} />` |
-| Stepper | Primitive (3) | Number increment | `<Stepper value={count} />` |
 | Badge | Primitive (3) | Status labels | `<Badge variant="success">Active</Badge>` |
 | Avatar | Primitive (3) | User images | `<Avatar src="/user.jpg" />` |
-| Chip | Primitive (3) | Compact tags | `<Chip label="React" />` |
 | AlertBadge | Primitive (3) | Notification badges | `<AlertBadge count={5} />` |
 | StatusLight | Primitive (3) | Status indicators | `<StatusLight status="online" />` |
 | Divider | Primitive (3) | Visual separators | `<Divider />` |
@@ -58,8 +62,6 @@ Use this document to quickly discover what components exist and where to find de
 | Text | Primitive (3) | Body text | `<Text variant="body">Text</Text>` |
 | Spinner | Primitive (3) | Loading indicators | `<Spinner size="medium" />` |
 | ProgressBar | Primitive (3) | Progress indicators | `<ProgressBar value={75} />` |
-| Callout | Primitive (3) | Info messages | `<Callout variant="info">Note</Callout>` |
-| Banner | Primitive (3) | Alert banners | `<Banner variant="warning">Alert</Banner>` |
 | Tooltip | Primitive (3) | Hover info | `<Tooltip content="Info">Hover</Tooltip>` |
 | Icon | Primitive (3) | SVG icons (50+) | `<Icon name="search" size="medium" />` |
 | **Utilities** |||||
@@ -69,7 +71,7 @@ Use this document to quickly discover what components exist and where to find de
 | Container | Utility (2) | Max-width centering | `<Container size="large">` |
 | Spacer | Utility (2) | Fixed/flexible spacing | `<Spacer size="large" />` |
 
-**Total: 52 components** (1 Layout + 2 Patterns + 18 Composites + 26 Primitives + 5 Utilities)
+**Total: 54 components** (1 Layout + 3 Patterns + 23 Composites + 22 Primitives + 5 Utilities)
 
 ---
 
@@ -85,7 +87,6 @@ Use this document to quickly discover what components exist and where to find de
 - **Radio** - Single choice from options
 - **Switch** - Toggle on/off
 - **Slider** - Range selection
-- **Stepper** - Number with increment/decrement
 
 **Advanced Inputs (Composites)**:
 - **SearchInput** - Input with search icon and suggestions
@@ -110,6 +111,7 @@ Use this document to quickly discover what components exist and where to find de
 - **Tabs** - Tab switching
 - **Breadcrumb** - Hierarchical navigation trail
 - **Pagination** - Page navigation controls
+- **Stepper** - Step-by-step navigation
 
 **Basic Links (Primitives)**:
 - **Link** - Styled hyperlinks
@@ -125,11 +127,12 @@ Use this document to quickly discover what components exist and where to find de
 **Cards & Containers (Primitives)**:
 - **Card** - Content container with optional elevation
 
-**Status & Labels (Primitives)**:
-- **Badge** - Status and categorical labels
-- **Chip** - Compact removable tags
-- **AlertBadge** - Notification count badges
-- **StatusLight** - Small status indicator dots
+**Status & Labels (Primitives/Composites)**:
+- **Badge** (Primitive) - Status and categorical labels
+- **Chip** (Composite) - Compact removable tags
+- **AlertBadge** (Primitive) - Notification count badges
+- **StatusLight** (Primitive) - Small status indicator dots
+- **AIBadge** (Composite) - AI feature indicator
 
 **Media (Primitives)**:
 - **Avatar** - User profile images or initials
@@ -171,7 +174,7 @@ Use this document to quickly discover what components exist and where to find de
 **Alerts & Messages (Composites)**:
 - **Alert** - Prominent status messages with actions
 
-**Banners & Callouts (Primitives)**:
+**Banners & Callouts (Composites)**:
 - **Banner** - Full-width announcements
 - **Callout** - Inline informational messages
 
@@ -179,6 +182,13 @@ Use this document to quickly discover what components exist and where to find de
 - **Spinner** - Loading indicators
 - **ProgressBar** - Progress visualization
 - **Skeleton** - Content loading placeholders
+
+---
+
+### AI & Conversational
+
+**Chat Interfaces (Patterns)**:
+- **AIChat** - Complete AI chat interface with message bubbles, typing indicator, and input area
 
 ---
 
@@ -237,7 +247,7 @@ Combine multiple primitives.
 
 ### Level 5: Patterns
 Complex UI patterns.
-- GlobalNav, LocalNav
+- GlobalNav, LocalNav, AIChat
 
 ### Level 6: Layouts
 Full page templates.
@@ -311,9 +321,9 @@ For complete component APIs, props, and examples, see the Layer READMEs:
 
 - **[Layer 1: Tokens](./src/design-system/1-tokens/README.md)** - Design tokens (colors, spacing, typography)
 - **[Layer 2: Utilities](./src/design-system/2-utilities/README.md)** - Layout helpers
-- **[Layer 3: Primitives](./src/design-system/3-primitives/README.md)** - Atomic components (26 components)
-- **[Layer 4: Composites](./src/design-system/4-composites/README.md)** - Composed components (18 components)
-- **[Layer 5: Patterns](./src/design-system/5-patterns/README.md)** - UI patterns (2 patterns)
+- **[Layer 3: Primitives](./src/design-system/3-primitives/README.md)** - Atomic components (22 components)
+- **[Layer 4: Composites](./src/design-system/4-composites/README.md)** - Composed components (23 components)
+- **[Layer 5: Patterns](./src/design-system/5-patterns/README.md)** - UI patterns (3 patterns)
 - **[Layer 6: Layouts](./src/design-system/6-layouts/README.md)** - Application templates (1 layout)
 
 ---

@@ -14,14 +14,15 @@ import path from 'path';
 
 // Token categories for organization
 const TOKEN_CATEGORIES = {
-  'color-primitives': /^--ink-(black|white|cobalt|neutral|red|green|orange|ecru|cyan|purple|fuchsia)-/,
+  'color-primitives':
+    /^--ink-(black|white|cobalt|neutral|red|green|orange|ecru|cyan|purple|fuchsia)-/,
   'semantic-colors': /^--ink-(bg|font|border|icon|status|message|bar)-/,
   'component-colors': /^--ink-(button|form|item|recipient|focus)-/,
-  'spacing': /^--ink-spacing-/,
-  'typography': /^--ink-(font-family|font-weight|font-size|line-height)/,
-  'radius': /^--ink-radius-/,
-  'shadow': /^--ink-(shadow|elevation)-/,
-  'animation': /^--ink-transition-/,
+  spacing: /^--ink-spacing-/,
+  typography: /^--ink-(font-family|font-weight|font-size|line-height)/,
+  radius: /^--ink-radius-/,
+  shadow: /^--ink-(shadow|elevation)-/,
+  animation: /^--ink-transition-/,
   'z-index': /^--ink-z-/,
 };
 
@@ -47,10 +48,7 @@ function parseTokensCSS(css: string): Record<string, string> {
 }
 
 // Serialize tokens back to CSS (preserving structure)
-function serializeTokensToCSS(
-  tokens: Record<string, string>,
-  originalCSS: string
-): string {
+function serializeTokensToCSS(tokens: Record<string, string>, originalCSS: string): string {
   let result = originalCSS;
 
   // Replace each token value in the original CSS
@@ -68,9 +66,7 @@ function escapeRegex(str: string): string {
 }
 
 // Categorize tokens
-function categorizeTokens(
-  tokens: Record<string, string>
-): Record<string, Record<string, string>> {
+function categorizeTokens(tokens: Record<string, string>): Record<string, Record<string, string>> {
   const categorized: Record<string, Record<string, string>> = {};
 
   for (const [name, value] of Object.entries(tokens)) {
@@ -119,6 +115,7 @@ export function editorApiPlugin(): Plugin {
   let tokensPath: string;
   let projectsDir: string;
   let examplesDir: string;
+  let feedbackPath: string;
   let originalTokensCSS: string = '';
 
   return {
@@ -129,9 +126,39 @@ export function editorApiPlugin(): Plugin {
       tokensPath = path.resolve(root, 'src/design-system/1-tokens/tokens.css');
       projectsDir = path.resolve(root, 'src/editor-projects');
       examplesDir = path.resolve(root, 'src/examples');
+      feedbackPath = path.resolve(root, 'src/lab/feedback.json');
     },
 
     configureServer(server: ViteDevServer) {
+      // ========================================
+      // POST /__submit-feedback - Submit iteration feedback
+      // ========================================
+      server.middlewares.use('/__submit-feedback', async (req, res, next) => {
+        if (req.method !== 'POST') {
+          return next();
+        }
+
+        try {
+          const body = await readBody(req);
+          const feedback = JSON.parse(body);
+
+          // Write feedback to file for Claude to read
+          await fs.writeFile(feedbackPath, JSON.stringify(feedback, null, 2));
+
+          console.log('\n📌 Feedback submitted for review:');
+          console.log(`   Component: ${feedback.component}`);
+          console.log(`   Pins: ${feedback.totalPins}`);
+          feedback.feedback.forEach((f: { pin: number; category: string; content: string }) => {
+            console.log(`   [${f.pin}] ${f.category}: ${f.content}`);
+          });
+          console.log('');
+
+          sendJSON(res, { success: true });
+        } catch (error) {
+          console.error('Error saving feedback:', error);
+          sendError(res, 'Failed to save feedback');
+        }
+      });
       // ========================================
       // GET /api/tokens - Read tokens
       // ========================================

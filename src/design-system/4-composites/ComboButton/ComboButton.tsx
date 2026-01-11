@@ -11,19 +11,19 @@ export interface ComboButtonProps {
   variant?: ComboButtonVariant;
   /** Size of the combo button */
   size?: ComboButtonSize;
-  /** Main button text */
-  children: React.ReactNode;
+  /** Main button text (ignored for tertiary which is icon-only) */
+  children?: React.ReactNode;
   /** Disabled state */
   disabled?: boolean;
   /** Click handler for main button */
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   /** Click handler for dropdown trigger */
   onDropdownClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  /** Icon to display in main button (optional) */
+  /** Icon to display in main button (required for tertiary variant) */
   startIcon?: string;
   /** Custom className */
   className?: string;
-  /** Compact mode (icon-only, for tertiary variant) */
+  /** Compact mode (icon-only). Note: tertiary variant is always compact per Figma spec */
   compact?: boolean;
   /** Inverts colors for dark backgrounds */
   inverted?: boolean;
@@ -40,11 +40,14 @@ export const ComboButton = React.forwardRef<HTMLDivElement, ComboButtonProps>(
       onDropdownClick,
       startIcon,
       className,
-      compact = false,
+      compact: compactProp = false,
       inverted = false,
     },
     ref
   ) => {
+    // Tertiary variant is always compact (icon-only) per Figma spec
+    const compact = variant === 'tertiary' ? true : compactProp;
+
     const wrapperClasses = cn(
       styles.comboButton,
       styles[variant],

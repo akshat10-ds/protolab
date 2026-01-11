@@ -4,10 +4,22 @@ import styles from '../Showcase.module.css';
 
 // Color palette data
 const colorPalettes = [
-  { name: 'Cobalt', semantic: 'Brand', shades: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140] },
+  {
+    name: 'Cobalt',
+    semantic: 'Brand',
+    shades: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140],
+  },
   { name: 'Neutral', semantic: 'Grays', shades: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] },
-  { name: 'Green', semantic: 'Success', shades: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120] },
-  { name: 'Red', semantic: 'Error', shades: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130] },
+  {
+    name: 'Green',
+    semantic: 'Success',
+    shades: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
+  },
+  {
+    name: 'Red',
+    semantic: 'Error',
+    shades: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130],
+  },
   { name: 'Orange', semantic: 'Warning', shades: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100] },
 ];
 
@@ -23,7 +35,9 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
         {colorPalettes.map(({ name, semantic, shades }) => (
           <div className={styles.tokenSection} key={name}>
             <div className={styles.tokenSectionHeader}>
-              <h3 className={styles.tokenSectionTitle}>{name} ({semantic})</h3>
+              <h3 className={styles.tokenSectionTitle}>
+                {name} ({semantic})
+              </h3>
             </div>
             <div className={styles.tokenSwatchRow}>
               {shades.map((shade) => (
@@ -46,14 +60,26 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
   if (activeSubpage === 'semantic-colors') {
     const bgTokens = [
       { token: '--ink-bg-default', label: 'Default' },
-      { token: '--ink-bg-canvas-page', label: 'Canvas Page' },
-      { token: '--ink-bg-canvas-document', label: 'Canvas Document' },
       { token: '--ink-bg-accent', label: 'Accent' },
+      { token: '--ink-bg-accent-emphasis', label: 'Accent Emphasis' },
       { token: '--ink-bg-accent-subtle', label: 'Accent Subtle' },
-      { token: '--ink-bg-success', label: 'Success' },
+      { token: '--ink-bg-canvas-document', label: 'Canvas Document' },
+      { token: '--ink-bg-canvas-page', label: 'Canvas Page' },
       { token: '--ink-bg-error', label: 'Error' },
-      { token: '--ink-bg-warning', label: 'Warning' },
+      { token: '--ink-bg-error-emphasis', label: 'Error Emphasis' },
+      { token: '--ink-bg-error-subtle', label: 'Error Subtle' },
+      { token: '--ink-bg-glass-frost', label: 'Glass Frost' },
+      { token: '--ink-bg-glass-tint', label: 'Glass Tint' },
       { token: '--ink-bg-inverse', label: 'Inverse' },
+      { token: '--ink-bg-popover-close', label: 'Popover Close' },
+      { token: '--ink-bg-popover-close-inverse', label: 'Popover Close Inverse' },
+      { token: '--ink-bg-scrim', label: 'Scrim' },
+      { token: '--ink-bg-success', label: 'Success' },
+      { token: '--ink-bg-success-emphasis', label: 'Success Emphasis' },
+      { token: '--ink-bg-success-subtle', label: 'Success Subtle' },
+      { token: '--ink-bg-warning', label: 'Warning' },
+      { token: '--ink-bg-warning-emphasis', label: 'Warning Emphasis' },
+      { token: '--ink-bg-warning-subtle', label: 'Warning Subtle' },
     ];
 
     const fontTokens = [
@@ -71,10 +97,27 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
     const borderTokens = [
       { token: '--ink-border-default', label: 'Default' },
       { token: '--ink-border-accent', label: 'Accent' },
-      { token: '--ink-border-focus', label: 'Focus' },
-      { token: '--ink-border-success', label: 'Success' },
+      { token: '--ink-border-accent-emphasis', label: 'Accent Emphasis' },
+      { token: '--ink-border-accent-subtle', label: 'Accent Subtle' },
+      { token: '--ink-border-emphasis', label: 'Emphasis' },
+      { token: '--ink-border-emphasis-inverse', label: 'Emphasis Inverse' },
+      { token: '--ink-border-subtle', label: 'Subtle' },
+      { token: '--ink-border-subtle-inverse', label: 'Subtle Inverse' },
       { token: '--ink-border-error', label: 'Error' },
+      { token: '--ink-border-error-emphasis', label: 'Error Emphasis' },
+      { token: '--ink-border-error-subtle', label: 'Error Subtle' },
+      { token: '--ink-border-success', label: 'Success' },
+      { token: '--ink-border-success-emphasis', label: 'Success Emphasis' },
+      { token: '--ink-border-success-subtle', label: 'Success Subtle' },
       { token: '--ink-border-warning', label: 'Warning' },
+      { token: '--ink-border-warning-emphasis', label: 'Warning Emphasis' },
+      { token: '--ink-border-warning-subtle', label: 'Warning Subtle' },
+      { token: '--ink-border-focus', label: 'Focus' },
+    ];
+
+    const borderWidthTokens = [
+      { token: '--ink-border-width-xs', value: '1px', label: 'XS' },
+      { token: '--ink-border-width-s', value: '2px', label: 'S' },
     ];
 
     return (
@@ -98,7 +141,9 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {fontTokens.map(({ token, label }) => (
             <div className={styles.tokenRow} key={token}>
-              <div className={styles.tokenPreviewText} style={{ color: `var(${token})` }}>Aa</div>
+              <div className={styles.tokenPreviewText} style={{ color: `var(${token})` }}>
+                Aa
+              </div>
               <span className={styles.tokenName}>{token}</span>
               <span className={styles.tokenValue}>{label}</span>
             </div>
@@ -111,9 +156,36 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {borderTokens.map(({ token, label }) => (
             <div className={styles.tokenRow} key={token}>
-              <div className={styles.tokenPreview} style={{ border: `2px solid var(${token})`, background: 'var(--ink-white-100)' }} />
+              <div
+                className={styles.tokenPreview}
+                style={{ border: `2px solid var(${token})`, background: 'var(--ink-white-100)' }}
+              />
               <span className={styles.tokenName}>{token}</span>
               <span className={styles.tokenValue}>{label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Border Widths</h3>
+          </div>
+          {borderWidthTokens.map(({ token, value, label }) => (
+            <div className={styles.spacingRow} key={token}>
+              <div
+                style={{
+                  width: '60px',
+                  height: value,
+                  background: 'var(--ink-neutral-140)',
+                  borderRadius: '1px',
+                }}
+              />
+              <div className={styles.spacingMeta}>
+                <span className={styles.spacingToken}>{token}</span>
+                <span className={styles.spacingValue}>
+                  {label} ({value})
+                </span>
+              </div>
             </div>
           ))}
         </div>
@@ -166,7 +238,9 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {fontSizes.map(({ token, label, value }) => (
             <div className={styles.typographyRow} key={token}>
-              <span className={styles.typographyPreview} style={{ fontSize: `var(${token})` }}>{label}</span>
+              <span className={styles.typographyPreview} style={{ fontSize: `var(${token})` }}>
+                {label}
+              </span>
               <div className={styles.typographyMeta}>
                 <span className={styles.typographyToken}>{token}</span>
                 <span className={styles.typographyValue}>{value}</span>
@@ -181,7 +255,9 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {fontWeights.map(({ token, label, value }) => (
             <div className={styles.typographyRow} key={token}>
-              <span className={styles.typographyPreview} style={{ fontWeight: `var(${token})` }}>{label}</span>
+              <span className={styles.typographyPreview} style={{ fontWeight: `var(${token})` }}>
+                {label}
+              </span>
               <div className={styles.typographyMeta}>
                 <span className={styles.typographyToken}>{token}</span>
                 <span className={styles.typographyValue}>{value}</span>
@@ -196,7 +272,9 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {lineHeights.map(({ token, label, value }) => (
             <div className={styles.typographyRow} key={token}>
-              <span className={styles.typographyPreview} style={{ lineHeight: `var(${token})` }}>{label}</span>
+              <span className={styles.typographyPreview} style={{ lineHeight: `var(${token})` }}>
+                {label}
+              </span>
               <div className={styles.typographyMeta}>
                 <span className={styles.typographyToken}>{token}</span>
                 <span className={styles.typographyValue}>{value}</span>
@@ -245,10 +323,20 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {detailStyles.map(({ name, size, px, lh }) => (
             <div className={styles.typographyRow} key={size}>
-              <span className={styles.typographyPreview} style={{ fontSize: `var(--ink-font-detail-${size}-size)`, lineHeight: `var(--ink-font-detail-${size}-line-height)` }}>{name}</span>
+              <span
+                className={styles.typographyPreview}
+                style={{
+                  fontSize: `var(--ink-font-detail-${size}-size)`,
+                  lineHeight: `var(--ink-font-detail-${size}-line-height)`,
+                }}
+              >
+                {name}
+              </span>
               <div className={styles.typographyMeta}>
                 <span className={styles.typographyToken}>--ink-font-detail-{size}-*</span>
-                <span className={styles.typographyValue}>{px} / {lh}</span>
+                <span className={styles.typographyValue}>
+                  {px} / {lh}
+                </span>
               </div>
             </div>
           ))}
@@ -260,10 +348,20 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {bodyStyles.map(({ name, size, px, lh }) => (
             <div className={styles.typographyRow} key={size}>
-              <span className={styles.typographyPreview} style={{ fontSize: `var(--ink-font-body-${size}-size)`, lineHeight: `var(--ink-font-body-${size}-line-height)` }}>{name}</span>
+              <span
+                className={styles.typographyPreview}
+                style={{
+                  fontSize: `var(--ink-font-body-${size}-size)`,
+                  lineHeight: `var(--ink-font-body-${size}-line-height)`,
+                }}
+              >
+                {name}
+              </span>
               <div className={styles.typographyMeta}>
                 <span className={styles.typographyToken}>--ink-font-body-{size}-*</span>
-                <span className={styles.typographyValue}>{px} / {lh}</span>
+                <span className={styles.typographyValue}>
+                  {px} / {lh}
+                </span>
               </div>
             </div>
           ))}
@@ -275,10 +373,21 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {headingStyles.map(({ name, size, px, lh }) => (
             <div className={styles.typographyRow} key={size}>
-              <span className={styles.typographyPreview} style={{ fontSize: `var(--ink-font-heading-${size}-size)`, lineHeight: `var(--ink-font-heading-${size}-line-height)`, fontWeight: 600 }}>{name}</span>
+              <span
+                className={styles.typographyPreview}
+                style={{
+                  fontSize: `var(--ink-font-heading-${size}-size)`,
+                  lineHeight: `var(--ink-font-heading-${size}-line-height)`,
+                  fontWeight: 600,
+                }}
+              >
+                {name}
+              </span>
               <div className={styles.typographyMeta}>
                 <span className={styles.typographyToken}>--ink-font-heading-{size}-*</span>
-                <span className={styles.typographyValue}>{px} / {lh}</span>
+                <span className={styles.typographyValue}>
+                  {px} / {lh}
+                </span>
               </div>
             </div>
           ))}
@@ -290,10 +399,21 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {displayStyles.map(({ name, size, px, lh }) => (
             <div className={styles.typographyRow} key={size}>
-              <span className={styles.typographyPreview} style={{ fontSize: `var(--ink-font-display-${size}-size)`, lineHeight: `var(--ink-font-display-${size}-line-height)`, fontWeight: 700 }}>{name}</span>
+              <span
+                className={styles.typographyPreview}
+                style={{
+                  fontSize: `var(--ink-font-display-${size}-size)`,
+                  lineHeight: `var(--ink-font-display-${size}-line-height)`,
+                  fontWeight: 700,
+                }}
+              >
+                {name}
+              </span>
               <div className={styles.typographyMeta}>
                 <span className={styles.typographyToken}>--ink-font-display-{size}-*</span>
-                <span className={styles.typographyValue}>{px} / {lh}</span>
+                <span className={styles.typographyValue}>
+                  {px} / {lh}
+                </span>
               </div>
             </div>
           ))}
@@ -441,7 +561,9 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           {buttonVariants.map(({ variant, label, desc }) => (
             <div className={styles.componentTokenRow} key={variant}>
               <div className={styles.componentTokenPreview}>
-                <Button variant={variant as any} size="small">{label}</Button>
+                <Button kind={variant as any} size="small">
+                  {label}
+                </Button>
               </div>
               <div className={styles.componentTokenInfo}>
                 <div className={styles.componentTokenLabel}>{label}</div>
@@ -473,7 +595,10 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {formBorderTokens.map(({ token, label }) => (
             <div className={styles.tokenRow} key={token}>
-              <div className={styles.tokenPreview} style={{ border: `2px solid var(${token})`, background: 'var(--ink-white-100)' }} />
+              <div
+                className={styles.tokenPreview}
+                style={{ border: `2px solid var(${token})`, background: 'var(--ink-white-100)' }}
+              />
               <span className={styles.tokenName}>{token}</span>
               <span className={styles.tokenValue}>{label}</span>
             </div>
@@ -502,8 +627,11 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
   if (activeSubpage === 'state-tokens') {
     const itemBgTokens = [
       { token: '--ink-item-bg-hover', label: 'Hover' },
+      { token: '--ink-item-bg-hover-subtle', label: 'Hover Subtle' },
       { token: '--ink-item-bg-active', label: 'Active' },
+      { token: '--ink-item-bg-active-subtle', label: 'Active Subtle' },
       { token: '--ink-item-bg-selected', label: 'Selected' },
+      { token: '--ink-item-bg-selected-subtle', label: 'Selected Subtle' },
     ];
 
     const itemBorderTokens = [
@@ -513,23 +641,34 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
 
     const statusTokens = [
       { token: '--ink-status-bg-accent', label: 'Accent' },
-      { token: '--ink-status-bg-success', label: 'Success' },
+      { token: '--ink-status-bg-accent-subtle', label: 'Accent Subtle' },
       { token: '--ink-status-bg-alert', label: 'Alert' },
-      { token: '--ink-status-bg-warning', label: 'Warning' },
       { token: '--ink-status-bg-current', label: 'Current' },
+      { token: '--ink-status-bg-emphasis', label: 'Emphasis' },
       { token: '--ink-status-bg-future', label: 'Future' },
-      { token: '--ink-status-bg-past', label: 'Past' },
       { token: '--ink-status-bg-neutral', label: 'Neutral' },
+      { token: '--ink-status-bg-past', label: 'Past' },
       { token: '--ink-status-bg-subtle', label: 'Subtle' },
+      { token: '--ink-status-bg-subtle-inverse', label: 'Subtle Inverse' },
+      { token: '--ink-status-bg-success', label: 'Success' },
+      { token: '--ink-status-bg-warning', label: 'Warning' },
     ];
 
     const messageTokens = [
       { token: '--ink-message-bg-default', label: 'Default' },
       { token: '--ink-message-bg-alert', label: 'Alert' },
+      { token: '--ink-message-bg-alert-alternate', label: 'Alert Alternate' },
+      { token: '--ink-message-bg-emphasis', label: 'Emphasis' },
       { token: '--ink-message-bg-error', label: 'Error' },
+      { token: '--ink-message-bg-promo', label: 'Promo' },
+      { token: '--ink-message-bg-subtle', label: 'Subtle' },
       { token: '--ink-message-bg-success', label: 'Success' },
       { token: '--ink-message-bg-warning', label: 'Warning' },
-      { token: '--ink-message-bg-promo', label: 'Promo' },
+    ];
+
+    const messageBorderTokens = [
+      { token: '--ink-message-border-default', label: 'Default' },
+      { token: '--ink-message-border-promo', label: 'Promo' },
     ];
 
     const barFillTokens = [
@@ -574,7 +713,10 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {itemBorderTokens.map(({ token, label }) => (
             <div className={styles.tokenRow} key={token}>
-              <div className={styles.tokenPreview} style={{ border: `2px solid var(${token})`, background: 'var(--ink-white-100)' }} />
+              <div
+                className={styles.tokenPreview}
+                style={{ border: `2px solid var(${token})`, background: 'var(--ink-white-100)' }}
+              />
               <span className={styles.tokenName}>{token}</span>
               <span className={styles.tokenValue}>{label}</span>
             </div>
@@ -609,11 +751,34 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
 
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Message Borders</h3>
+          </div>
+          {messageBorderTokens.map(({ token, label }) => (
+            <div className={styles.tokenRow} key={token}>
+              <div
+                className={styles.tokenPreview}
+                style={{ border: `2px solid var(${token})`, background: 'var(--ink-white-100)' }}
+              />
+              <span className={styles.tokenName}>{token}</span>
+              <span className={styles.tokenValue}>{label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
             <h3 className={styles.tokenSectionTitle}>Bar Fill Colors</h3>
           </div>
           {barFillTokens.map(({ token, label }) => (
             <div className={styles.spacingRow} key={token}>
-              <div style={{ width: '60px', height: '8px', background: `var(${token})`, borderRadius: '4px' }} />
+              <div
+                style={{
+                  width: '60px',
+                  height: '8px',
+                  background: `var(${token})`,
+                  borderRadius: '4px',
+                }}
+              />
               <div className={styles.spacingMeta}>
                 <span className={styles.spacingToken}>{token}</span>
                 <span className={styles.spacingValue}>{label}</span>
@@ -628,7 +793,14 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {barTrackTokens.map(({ token, label }) => (
             <div className={styles.spacingRow} key={token}>
-              <div style={{ width: '60px', height: '8px', background: `var(${token})`, borderRadius: '4px' }} />
+              <div
+                style={{
+                  width: '60px',
+                  height: '8px',
+                  background: `var(${token})`,
+                  borderRadius: '4px',
+                }}
+              />
               <div className={styles.spacingMeta}>
                 <span className={styles.spacingToken}>{token}</span>
                 <span className={styles.spacingValue}>{label}</span>
@@ -643,13 +815,480 @@ export const TokensShowcase: React.FC<TokensShowcaseProps> = ({ activeSubpage })
           </div>
           {barWidthTokens.map(({ token, value, label }) => (
             <div className={styles.spacingRow} key={token}>
-              <div style={{ width: '60px', height: value, background: 'var(--ink-cobalt-100)', borderRadius: '2px' }} />
+              <div
+                style={{
+                  width: '60px',
+                  height: value,
+                  background: 'var(--ink-cobalt-100)',
+                  borderRadius: '2px',
+                }}
+              />
               <div className={styles.spacingMeta}>
                 <span className={styles.spacingToken}>{token}</span>
-                <span className={styles.spacingValue}>{label} ({value})</span>
+                <span className={styles.spacingValue}>
+                  {label} ({value})
+                </span>
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Motion Tokens
+  if (activeSubpage === 'motion') {
+    const motionCurves = [
+      {
+        token: '--ink-motion-curve-default',
+        label: 'Default',
+        value: 'cubic-bezier(0.35, 0, 0.2, 1)',
+      },
+      {
+        token: '--ink-motion-curve-opacity',
+        label: 'Opacity',
+        value: 'cubic-bezier(0.33, 0, 0.67, 1)',
+      },
+      { token: '--ink-motion-curve-snap', label: 'Snap', value: 'cubic-bezier(0.8, 0, 0.65, 1)' },
+      {
+        token: '--ink-motion-curve-spring',
+        label: 'Spring',
+        value: 'cubic-bezier(0.3, 1.7, 0.5, 1)',
+      },
+    ];
+
+    const motionDurations = [
+      { token: '--ink-motion-duration-100', value: '100ms' },
+      { token: '--ink-motion-duration-200', value: '200ms' },
+      { token: '--ink-motion-duration-300', value: '300ms' },
+      { token: '--ink-motion-duration-400', value: '400ms' },
+      { token: '--ink-motion-duration-500', value: '500ms' },
+      { token: '--ink-motion-duration-600', value: '600ms' },
+      { token: '--ink-motion-duration-800', value: '800ms' },
+      { token: '--ink-motion-duration-1000', value: '1000ms' },
+      { token: '--ink-motion-duration-1500', value: '1500ms' },
+      { token: '--ink-motion-duration-2000', value: '2000ms' },
+      { token: '--ink-motion-duration-3000', value: '3000ms' },
+    ];
+
+    return (
+      <div className={styles.tokenPage}>
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Motion Curves (Easing)</h3>
+          </div>
+          {motionCurves.map(({ token, label, value }) => (
+            <div className={styles.tokenRow} key={token}>
+              <div
+                className={styles.motionPreview}
+                style={{
+                  width: '60px',
+                  height: '24px',
+                  background: 'var(--ink-cobalt-100)',
+                  borderRadius: 'var(--ink-radius-size-xs)',
+                  transition: `transform 500ms var(${token})`,
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateX(40px)')}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateX(0)')}
+              />
+              <span className={styles.tokenName}>{token}</span>
+              <span className={styles.tokenValue}>{label}</span>
+            </div>
+          ))}
+          <p
+            style={{
+              fontSize: 'var(--ink-font-size-sm)',
+              color: 'var(--ink-font-neutral)',
+              marginTop: 'var(--ink-spacing-200)',
+            }}
+          >
+            Hover over the bars to see the easing curves in action
+          </p>
+        </div>
+
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Motion Durations</h3>
+          </div>
+          {motionDurations.map(({ token, value }) => (
+            <div className={styles.spacingRow} key={token}>
+              <div
+                style={{
+                  width: `${parseInt(value) / 25}px`,
+                  maxWidth: '120px',
+                  height: '8px',
+                  background: 'var(--ink-cobalt-100)',
+                  borderRadius: '4px',
+                }}
+              />
+              <div className={styles.spacingMeta}>
+                <span className={styles.spacingToken}>{token}</span>
+                <span className={styles.spacingValue}>{value}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Link Tokens
+  if (activeSubpage === 'link-tokens') {
+    const linkColorTokens = [
+      { token: '--ink-font-link', label: 'Link (default)' },
+      { token: '--ink-font-link-hover', label: 'Link Hover' },
+      { token: '--ink-font-link-active', label: 'Link Active' },
+      { token: '--ink-font-link-visited', label: 'Link Visited' },
+      { token: '--ink-font-link-subtle', label: 'Link Subtle' },
+      { token: '--ink-font-link-subtle-hover', label: 'Link Subtle Hover' },
+    ];
+
+    const linkInverseTokens = [
+      { token: '--ink-font-link-inverse', label: 'Link Inverse' },
+      { token: '--ink-font-link-inverse-hover', label: 'Link Inverse Hover' },
+      { token: '--ink-font-link-inverse-active', label: 'Link Inverse Active' },
+      { token: '--ink-font-link-inverse-visited', label: 'Link Inverse Visited' },
+    ];
+
+    const linkStyleTokens = [
+      { token: '--ink-font-link-text-decoration', value: 'underline', label: 'Text Decoration' },
+      { token: '--ink-font-link-underline-offset', value: '3px', label: 'Underline Offset' },
+      { token: '--ink-font-link-underline-thickness', value: '1px', label: 'Underline Thickness' },
+    ];
+
+    return (
+      <div className={styles.tokenPage}>
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Link Colors</h3>
+          </div>
+          {linkColorTokens.map(({ token, label }) => (
+            <div className={styles.tokenRow} key={token}>
+              <div
+                className={styles.tokenPreviewText}
+                style={{ color: `var(${token})`, textDecoration: 'underline' }}
+              >
+                Link
+              </div>
+              <span className={styles.tokenName}>{token}</span>
+              <span className={styles.tokenValue}>{label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Link Inverse Colors</h3>
+          </div>
+          <div
+            style={{
+              background: 'var(--ink-bg-inverse)',
+              padding: 'var(--ink-spacing-200)',
+              borderRadius: 'var(--ink-radius-size-s)',
+            }}
+          >
+            {linkInverseTokens.map(({ token, label }) => (
+              <div className={styles.tokenRow} key={token} style={{ background: 'transparent' }}>
+                <div
+                  className={styles.tokenPreviewText}
+                  style={{ color: `var(${token})`, textDecoration: 'underline' }}
+                >
+                  Link
+                </div>
+                <span className={styles.tokenName} style={{ color: 'var(--ink-font-inverse)' }}>
+                  {token}
+                </span>
+                <span className={styles.tokenValue} style={{ color: 'var(--ink-font-inverse)' }}>
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Link Style Tokens</h3>
+          </div>
+          {linkStyleTokens.map(({ token, value, label }) => (
+            <div className={styles.tokenRow} key={token}>
+              <span className={styles.tokenName}>{token}</span>
+              <span className={styles.tokenValue}>
+                {value} ({label})
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // FAB Tokens
+  if (activeSubpage === 'fab-tokens') {
+    const fabBgTokens = [
+      { token: '--ink-fab-bg-primary', label: 'Primary' },
+      { token: '--ink-fab-bg-primary-hover', label: 'Primary Hover' },
+      { token: '--ink-fab-bg-primary-active', label: 'Primary Active' },
+      { token: '--ink-fab-bg-brand', label: 'Brand' },
+      { token: '--ink-fab-bg-brand-hover', label: 'Brand Hover' },
+      { token: '--ink-fab-bg-brand-active', label: 'Brand Active' },
+    ];
+
+    const fabInverseTokens = [
+      { token: '--ink-fab-bg-inverse', label: 'Inverse' },
+      { token: '--ink-fab-bg-inverse-hover', label: 'Inverse Hover' },
+      { token: '--ink-fab-bg-inverse-active', label: 'Inverse Active' },
+    ];
+
+    const fabElevationTokens = [
+      { token: '--ink-fab-elevation-default', label: 'Default Elevation' },
+      { token: '--ink-fab-elevation-hover', label: 'Hover Elevation' },
+    ];
+
+    const comboButtonTokens = [
+      { token: '--ink-combo-button-border-default', label: 'Default' },
+      { token: '--ink-combo-button-border-hover', label: 'Hover' },
+      { token: '--ink-combo-button-border-focus', label: 'Focus' },
+    ];
+
+    const toggleButtonTokens = [
+      { token: '--ink-toggle-button-bg-default', label: 'Background Default' },
+      { token: '--ink-toggle-button-bg-selected', label: 'Background Selected' },
+      { token: '--ink-toggle-button-bg-hover', label: 'Background Hover' },
+      { token: '--ink-toggle-button-border-default', label: 'Border Default' },
+      { token: '--ink-toggle-button-text-default', label: 'Text Default' },
+      { token: '--ink-toggle-button-text-selected', label: 'Text Selected' },
+    ];
+
+    return (
+      <div className={styles.tokenPage}>
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>FAB Background Colors</h3>
+          </div>
+          {fabBgTokens.map(({ token, label }) => (
+            <div className={styles.tokenRow} key={token}>
+              <div
+                className={styles.tokenPreview}
+                style={{
+                  background: `var(${token})`,
+                  borderRadius: 'var(--ink-radius-full)',
+                  width: '48px',
+                  height: '48px',
+                }}
+              />
+              <span className={styles.tokenName}>{token}</span>
+              <span className={styles.tokenValue}>{label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>FAB Inverse Colors</h3>
+          </div>
+          <div
+            style={{
+              background: 'var(--ink-bg-inverse)',
+              padding: 'var(--ink-spacing-200)',
+              borderRadius: 'var(--ink-radius-size-s)',
+            }}
+          >
+            {fabInverseTokens.map(({ token, label }) => (
+              <div className={styles.tokenRow} key={token} style={{ background: 'transparent' }}>
+                <div
+                  className={styles.tokenPreview}
+                  style={{
+                    background: `var(${token})`,
+                    borderRadius: 'var(--ink-radius-full)',
+                    width: '48px',
+                    height: '48px',
+                  }}
+                />
+                <span className={styles.tokenName} style={{ color: 'var(--ink-font-inverse)' }}>
+                  {token}
+                </span>
+                <span className={styles.tokenValue} style={{ color: 'var(--ink-font-inverse)' }}>
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>FAB Elevation</h3>
+          </div>
+          {fabElevationTokens.map(({ token, label }) => (
+            <div className={styles.shadowRow} key={token}>
+              <div
+                className={styles.shadowPreview}
+                style={{
+                  boxShadow: `var(${token})`,
+                  borderRadius: 'var(--ink-radius-full)',
+                  width: '48px',
+                  height: '48px',
+                }}
+              />
+              <div className={styles.shadowMeta}>
+                <span className={styles.shadowLabel}>{label}</span>
+                <span className={styles.shadowToken}>{token}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Combo Button Borders</h3>
+          </div>
+          {comboButtonTokens.map(({ token, label }) => (
+            <div className={styles.tokenRow} key={token}>
+              <div
+                className={styles.tokenPreview}
+                style={{ border: `2px solid var(${token})`, background: 'var(--ink-white-100)' }}
+              />
+              <span className={styles.tokenName}>{token}</span>
+              <span className={styles.tokenValue}>{label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Toggle Button Tokens</h3>
+          </div>
+          {toggleButtonTokens.map(({ token, label }) => (
+            <div className={styles.tokenRow} key={token}>
+              <div
+                className={styles.tokenPreview}
+                style={{
+                  background: token.includes('bg') ? `var(${token})` : 'var(--ink-bg-default)',
+                  border: token.includes('border')
+                    ? `2px solid var(${token})`
+                    : '1px solid var(--ink-border-default)',
+                }}
+              />
+              <span className={styles.tokenName}>{token}</span>
+              <span className={styles.tokenValue}>{label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Gradients
+  if (activeSubpage === 'gradients') {
+    const gradientTokens = [
+      { token: '--ink-gradient-pearl', label: 'Pearl', desc: 'Ecru to White' },
+      { token: '--ink-gradient-atmosphere', label: 'Atmosphere', desc: 'Cobalt 40 to Cobalt 100' },
+      { token: '--ink-gradient-blue-haze', label: 'Blue Haze', desc: 'Cobalt 100 to Cobalt 140' },
+      { token: '--ink-gradient-nightglow', label: 'Nightglow', desc: 'Red 70 to Cobalt 100' },
+    ];
+
+    return (
+      <div className={styles.tokenPage}>
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Gradient Tokens</h3>
+          </div>
+          {gradientTokens.map(({ token, label, desc }) => (
+            <div className={styles.shadowRow} key={token}>
+              <div
+                className={styles.shadowPreview}
+                style={{
+                  background: `var(${token})`,
+                  width: '120px',
+                  height: '60px',
+                  borderRadius: 'var(--ink-radius-size-s)',
+                }}
+              />
+              <div className={styles.shadowMeta}>
+                <span className={styles.shadowLabel}>{label}</span>
+                <span className={styles.shadowToken}>{token}</span>
+                <span
+                  style={{ fontSize: 'var(--ink-font-size-xs)', color: 'var(--ink-font-neutral)' }}
+                >
+                  {desc}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Tag Tokens
+  if (activeSubpage === 'tag-tokens') {
+    const tagTokens = [
+      { token: '--ink-tag-bg-active', label: 'Active' },
+      { token: '--ink-tag-bg-selected', label: 'Selected' },
+      { token: '--ink-tag-bg-selected-active', label: 'Selected Active' },
+      { token: '--ink-tag-bg-selected-hover', label: 'Selected Hover' },
+    ];
+
+    const tagInverseTokens = [
+      { token: '--ink-tag-bg-active-inverse', label: 'Active Inverse' },
+      { token: '--ink-tag-bg-selected-inverse', label: 'Selected Inverse' },
+      { token: '--ink-tag-bg-selected-active-inverse', label: 'Selected Active Inverse' },
+      { token: '--ink-tag-bg-selected-hover-inverse', label: 'Selected Hover Inverse' },
+    ];
+
+    return (
+      <div className={styles.tokenPage}>
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Tag Background Colors</h3>
+          </div>
+          {tagTokens.map(({ token, label }) => (
+            <div className={styles.tokenRow} key={token}>
+              <div
+                className={styles.tokenPreview}
+                style={{
+                  background: `var(${token})`,
+                  borderRadius: 'var(--ink-radius-full)',
+                  padding: '4px 12px',
+                }}
+              />
+              <span className={styles.tokenName}>{token}</span>
+              <span className={styles.tokenValue}>{label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Tag Inverse Colors</h3>
+          </div>
+          <div
+            style={{
+              background: 'var(--ink-bg-inverse)',
+              padding: 'var(--ink-spacing-200)',
+              borderRadius: 'var(--ink-radius-size-s)',
+            }}
+          >
+            {tagInverseTokens.map(({ token, label }) => (
+              <div className={styles.tokenRow} key={token} style={{ background: 'transparent' }}>
+                <div
+                  className={styles.tokenPreview}
+                  style={{
+                    background: `var(${token})`,
+                    borderRadius: 'var(--ink-radius-full)',
+                    padding: '4px 12px',
+                  }}
+                />
+                <span className={styles.tokenName} style={{ color: 'var(--ink-font-inverse)' }}>
+                  {token}
+                </span>
+                <span className={styles.tokenValue} style={{ color: 'var(--ink-font-inverse)' }}>
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );

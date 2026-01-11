@@ -39,11 +39,62 @@
 /* Glass Effects */
 .glass-frost {
   backdrop-filter: blur(20px);
-  background: var(--ink-white-fade-80);
+  background: var(--ink-purple-130);
+  border-color: var(--ink-purple-110);
+}
+
+.glass-frost .heading,
+.glass-frost .text {
+  color: var(--ink-white-100);
 }
 
 .glass-tint {
-  background: var(--ink-bg-glass-frost);
+  backdrop-filter: blur(12px);
+  background: var(--ink-purple-120);
+  border-color: var(--ink-purple-100);
+}
+
+.glass-tint .heading,
+.glass-tint .text {
+  color: var(--ink-white-100);
+}
+
+/* Glass Mode - Close Button Icon (white) */
+.closeButtonGlass {
+  color: var(--ink-white-100);
+}
+
+.closeButtonGlass:hover {
+  background: var(--ink-white-fade-10);
+}
+
+/* Glass Mode - Footer */
+.footerGlass {
+  border-top-color: var(--ink-white-fade-20);
+}
+
+/* Glass Mode - Secondary Button */
+.buttonGlassSecondary {
+  background: transparent;
+  border-color: var(--ink-white-fade-50);
+  color: var(--ink-white-100);
+}
+
+.buttonGlassSecondary:hover {
+  background: var(--ink-white-fade-10);
+  border-color: var(--ink-white-fade-70);
+}
+
+/* Glass Mode - Primary Button */
+.buttonGlassPrimary {
+  background: var(--ink-neutral-20);
+  border-color: var(--ink-neutral-20);
+  color: var(--ink-font-color-default);
+}
+
+.buttonGlassPrimary:hover {
+  background: var(--ink-neutral-30);
+  border-color: var(--ink-neutral-30);
 }
 
 /* Content Wrapper */
@@ -105,31 +156,11 @@
   padding-top: var(--ink-spacing-200); /* 16px */
 }
 
-/* Close Button */
-.closeButton {
+/* Close Button Wrapper - positions IconButton in top-right */
+.closeButtonWrapper {
   position: absolute;
   top: var(--ink-spacing-100); /* 8px */
   right: var(--ink-spacing-100); /* 8px */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: var(--ink-spacing-100); /* 8px */
-  background: transparent;
-  border: none;
-  border-radius: var(--ink-radius-size-xs); /* 4px */
-  color: var(--ink-font-color-default);
-  cursor: pointer;
-  transition: background-color var(--ink-transition-fast);
-}
-
-.closeButton:hover {
-  background-color: var(--ink-neutral-fade-5);
-}
-
-.closeButton:active {
-  background-color: var(--ink-neutral-fade-10);
 }
 
 /* Image */
@@ -137,27 +168,36 @@
   flex-shrink: 0;
 }
 
-/* Alignment Variants */
-.align-start .header {
-  justify-content: flex-start;
+/* Arrow Alignment - controls arrow position along edge */
+/* Default: center alignment */
+.caret,
+.caretBefore,
+.caretAfter {
+  align-self: center;
 }
 
-.align-center .header {
-  justify-content: center;
-  text-align: center;
+/* Start alignment */
+.align-start .caret {
+  align-self: flex-start;
+  margin-left: var(--ink-spacing-300); /* 24px offset from edge */
 }
 
-.align-center .text {
-  text-align: center;
+.align-start .caretBefore,
+.align-start .caretAfter {
+  align-self: flex-start;
+  margin-top: var(--ink-spacing-300);
 }
 
-.align-end .header {
-  justify-content: flex-end;
-  text-align: right;
+/* End alignment */
+.align-end .caret {
+  align-self: flex-end;
+  margin-right: var(--ink-spacing-300);
 }
 
-.align-end .text {
-  text-align: right;
+.align-end .caretBefore,
+.align-end .caretAfter {
+  align-self: flex-end;
+  margin-bottom: var(--ink-spacing-300);
 }
 
 /* Caret/Arrow */
@@ -273,4 +313,58 @@
   transform: translateY(-50%);
   border-width: 7.5px 0 7.5px 9px;
   border-color: transparent transparent transparent var(--ink-bg-color-default);
+}
+
+/* Glass Container Variants - for caret colors */
+.container-glassfrost .caret::before,
+.container-glassfrost .caretBefore::before,
+.container-glassfrost .caretAfter::before {
+  border-color: var(--ink-purple-110) transparent transparent transparent;
+}
+
+.container-glassfrost .caret::after {
+  border-color: var(--ink-purple-130) transparent transparent transparent;
+}
+
+.container-glassfrost .caretBefore::after {
+  border-color: transparent var(--ink-purple-130) transparent transparent;
+}
+
+.container-glassfrost .caretAfter::after {
+  border-color: transparent transparent transparent var(--ink-purple-130);
+}
+
+/* Below location needs different border positions */
+.container-glassfrost.location-below .caret::before {
+  border-color: transparent transparent var(--ink-purple-110) transparent;
+}
+
+.container-glassfrost.location-below .caret::after {
+  border-color: transparent transparent var(--ink-purple-130) transparent;
+}
+
+.container-glasstint .caret::before,
+.container-glasstint .caretBefore::before,
+.container-glasstint .caretAfter::before {
+  border-color: var(--ink-purple-100) transparent transparent transparent;
+}
+
+.container-glasstint .caret::after {
+  border-color: var(--ink-purple-120) transparent transparent transparent;
+}
+
+.container-glasstint .caretBefore::after {
+  border-color: transparent var(--ink-purple-120) transparent transparent;
+}
+
+.container-glasstint .caretAfter::after {
+  border-color: transparent transparent transparent var(--ink-purple-120);
+}
+
+.container-glasstint.location-below .caret::before {
+  border-color: transparent transparent var(--ink-purple-100) transparent;
+}
+
+.container-glasstint.location-below .caret::after {
+  border-color: transparent transparent var(--ink-purple-120) transparent;
 }

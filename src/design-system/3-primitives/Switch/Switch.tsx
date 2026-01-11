@@ -9,8 +9,6 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
   defaultChecked?: boolean;
   /** Label text */
   label?: string;
-  /** Label position */
-  labelPosition?: 'left' | 'right';
   /** Description text below label */
   description?: string;
   /** Disabled state */
@@ -31,7 +29,6 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
       checked,
       defaultChecked,
       label,
-      labelPosition = 'right',
       description,
       disabled = false,
       onChange,
@@ -60,11 +57,7 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
 
     const switchElement = (
       <label
-        className={cn(
-          styles.container,
-          disabled && styles.disabled,
-          className
-        )}
+        className={cn(styles.container, disabled && styles.disabled, className)}
         htmlFor={switchId}
       >
         <input
@@ -91,20 +84,9 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
     }
 
     return (
-      <div
-        className={cn(
-          styles.wrapper,
-          labelPosition === 'left' && styles.labelLeft
-        )}
-      >
-        {labelPosition === 'left' && label && (
-          <div className={styles.labelContainer}>
-            <span className={styles.label}>{label}</span>
-            {description && <span className={styles.description}>{description}</span>}
-          </div>
-        )}
+      <div className={styles.wrapper}>
         {switchElement}
-        {labelPosition === 'right' && label && (
+        {label && (
           <div className={styles.labelContainer}>
             <span className={styles.label}>{label}</span>
             {description && <span className={styles.description}>{description}</span>}

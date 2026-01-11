@@ -76,7 +76,7 @@
 
 /* Indeterminate state */
 .indeterminate {
-  width: 100% !important;
+  width: 100%;
   animation: indeterminate 1.5s ease-in-out infinite;
   transform-origin: left;
 }

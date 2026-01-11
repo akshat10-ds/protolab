@@ -49,6 +49,8 @@ const INLINE_STYLE_ALLOWLIST = [
   '4-composites/FileUpload/FileUpload.tsx', // progress width
   '4-composites/Popover/Popover.tsx', // dynamic position
   '4-composites/Table/Table.tsx', // column widths
+  // Patterns with dynamic CSS custom properties
+  '5-patterns/AIChat/AIChat.tsx', // maxHeight via CSS variable
   // Demo files
   '3-primitives/Icon/IconDemo.tsx',
 ];

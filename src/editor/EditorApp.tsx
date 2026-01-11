@@ -317,7 +317,7 @@ const Canvas: React.FC = () => {
           />
           <span className={styles.zoomLabel}>{Math.round(zoom * 100)}%</span>
           <IconButton
-            icon="add"
+            icon="plus"
             label="Zoom in"
             size="small"
             kind="tertiary"

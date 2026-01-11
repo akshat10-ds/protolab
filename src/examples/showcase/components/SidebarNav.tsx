@@ -21,6 +21,11 @@ export const layerSubpages: Record<LayerView, { id: string; label: string }[]> =
     { id: 'spacing', label: 'Spacing' },
     { id: 'border-radius', label: 'Border & Radius' },
     { id: 'shadows', label: 'Shadows' },
+    { id: 'motion', label: 'Motion' },
+    { id: 'link-tokens', label: 'Link Tokens' },
+    { id: 'fab-tokens', label: 'FAB Tokens' },
+    { id: 'gradients', label: 'Gradients' },
+    { id: 'tag-tokens', label: 'Tag Tokens' },
   ],
   utilities: [
     { id: 'stack', label: 'Stack' },
@@ -40,10 +45,8 @@ export const layerSubpages: Record<LayerView, { id: string; label: string }[]> =
     { id: 'switch', label: 'Switch' },
     { id: 'textarea', label: 'TextArea' },
     { id: 'slider', label: 'Slider' },
-    { id: 'stepper', label: 'Stepper' },
     { id: 'badge', label: 'Badge' },
     { id: 'avatar', label: 'Avatar' },
-    { id: 'chip', label: 'Chip' },
     { id: 'alert-badge', label: 'AlertBadge' },
     { id: 'status-light', label: 'StatusLight' },
     { id: 'divider', label: 'Divider' },
@@ -52,8 +55,6 @@ export const layerSubpages: Record<LayerView, { id: string; label: string }[]> =
     { id: 'typography', label: 'Typography' },
     { id: 'spinner', label: 'Spinner' },
     { id: 'progressbar', label: 'ProgressBar' },
-    { id: 'callout', label: 'Callout' },
-    { id: 'banner', label: 'Banner' },
     { id: 'tooltip', label: 'Tooltip' },
     { id: 'icon', label: 'Icon' },
   ],
@@ -68,28 +69,32 @@ export const layerSubpages: Record<LayerView, { id: string; label: string }[]> =
     { id: 'pagination', label: 'Pagination' },
     { id: 'tabs', label: 'Tabs' },
     { id: 'accordion', label: 'Accordion' },
+    { id: 'stepper', label: 'Stepper' },
     { id: 'combobutton', label: 'ComboButton' },
     { id: 'modal', label: 'Modal' },
     { id: 'dropdown', label: 'Dropdown' },
+    { id: 'callout', label: 'Callout' },
     { id: 'alert', label: 'Alert' },
+    { id: 'banner', label: 'Banner' },
+    { id: 'ai-badge', label: 'AIBadge' },
+    { id: 'chip', label: 'Chip' },
     { id: 'table', label: 'Table' },
     { id: 'list', label: 'List' },
   ],
   patterns: [
     { id: 'globalnav', label: 'GlobalNav' },
     { id: 'localnav', label: 'LocalNav' },
+    { id: 'aichat', label: 'AIChat' },
   ],
-  layouts: [
-    { id: 'docusign-shell', label: 'DocuSignShell' },
-  ],
+  layouts: [{ id: 'docusign-shell', label: 'DocuSignShell' }],
 };
 
 const layers: { id: LayerView; label: string; number: string; count: number }[] = [
-  { id: 'tokens', label: 'Tokens', number: '01', count: 9 },
+  { id: 'tokens', label: 'Tokens', number: '01', count: 14 },
   { id: 'utilities', label: 'Utilities', number: '02', count: 5 },
-  { id: 'primitives', label: 'Primitives', number: '03', count: 26 },
-  { id: 'composites', label: 'Composites', number: '04', count: 16 },
-  { id: 'patterns', label: 'Patterns', number: '05', count: 2 },
+  { id: 'primitives', label: 'Primitives', number: '03', count: 22 },
+  { id: 'composites', label: 'Composites', number: '04', count: 21 },
+  { id: 'patterns', label: 'Patterns', number: '05', count: 3 },
   { id: 'layouts', label: 'Layouts', number: '06', count: 1 },
 ];
 
@@ -153,10 +158,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
     <div className={styles.sidebar}>
       {/* Search Trigger */}
       <div className={styles.sidebarSearch}>
-        <button
-          onClick={onOpenSearch}
-          className={styles.searchTrigger}
-        >
+        <button onClick={onOpenSearch} className={styles.searchTrigger}>
           <Icon name="search" size={14} />
           <span>Search...</span>
           <kbd>⌘K</kbd>

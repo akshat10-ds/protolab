@@ -26,7 +26,7 @@ import { Button } from '../../3-primitives/Button';
 import { Spinner } from '../../3-primitives/Spinner';
 import { Icon } from '../../3-primitives/Icon';
 import { Tooltip } from '../../3-primitives/Tooltip';
-import { AIBadge } from '../../3-primitives/AIBadge';
+import { AIBadge } from '../../4-composites/AIBadge';
 import styles from './AIChat.module.css';
 
 // ============================================================================

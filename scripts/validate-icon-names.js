@@ -105,6 +105,13 @@ function validateIconNames(validNames) {
     /<Icon[^>]*\bname\s*=\s*'([^']+)'/g,
   ];
 
+  // Patterns to match icon props on other components
+  // startIcon="value", endIcon="value", icon="value", headerIcon="value"
+  const iconPropPatterns = [
+    /\b(?:start[Ii]con|end[Ii]con|icon|header[Ii]con)\s*=\s*"([a-z0-9-]+)"/g,
+    /\b(?:start[Ii]con|end[Ii]con|icon|header[Ii]con)\s*=\s*'([a-z0-9-]+)'/g,
+  ];
+
   for (const filePath of tsxFiles) {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
@@ -113,6 +120,7 @@ function validateIconNames(validNames) {
       const line = lines[i];
       const lineNum = i + 1;
 
+      // Check <Icon name="..." /> patterns
       for (const pattern of iconNamePatterns) {
         // Reset regex lastIndex
         pattern.lastIndex = 0;
@@ -126,6 +134,29 @@ function validateIconNames(validNames) {
             violations++;
             const relPath = relativePath(filePath);
             errors.push(`${RED}Icon: Invalid name "${iconName}"${RESET} in ${relPath}:${lineNum}`);
+
+            // Suggest similar icons
+            const suggestions = findSimilarIcons(iconName, validNames);
+            if (suggestions.length > 0) {
+              errors.push(`${YELLOW}  → Did you mean: ${suggestions.join(', ')}?${RESET}`);
+            }
+          }
+        }
+      }
+
+      // Check icon prop patterns (startIcon, endIcon, icon, headerIcon)
+      for (const pattern of iconPropPatterns) {
+        pattern.lastIndex = 0;
+
+        let match;
+        while ((match = pattern.exec(line)) !== null) {
+          const iconName = match[1];
+          checked++;
+
+          if (!validNames.has(iconName)) {
+            violations++;
+            const relPath = relativePath(filePath);
+            errors.push(`${RED}Icon prop: Invalid name "${iconName}"${RESET} in ${relPath}:${lineNum}`);
 
             // Suggest similar icons
             const suggestions = findSimilarIcons(iconName, validNames);

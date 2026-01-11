@@ -7,7 +7,7 @@
  * - Copy generated code
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Icon, Switch, Input, Select } from '@/design-system';
 import { componentRegistry, AVAILABLE_ICONS } from '@/editor/registry/componentRegistry';
 import type { LayerView } from './SidebarNav';
@@ -28,6 +28,7 @@ const subpageToComponent: Record<string, string> = {
   slider: 'Slider',
   stepper: 'Stepper',
   badge: 'Badge',
+  'alert-badge': 'AlertBadge',
   avatar: 'Avatar',
   chip: 'Chip',
   divider: 'Divider',
@@ -43,6 +44,7 @@ const subpageToComponent: Record<string, string> = {
   // Composites
   searchinput: 'SearchInput',
   combobox: 'ComboBox',
+  combobutton: 'ComboButton',
   datepicker: 'DatePicker',
   fileupload: 'FileUpload',
   tabs: 'Tabs',
@@ -67,39 +69,316 @@ const subpageToComponent: Record<string, string> = {
   spacer: 'Spacer',
 };
 
-// Tokens related to each component type
-const componentTokens: Record<string, { name: string; token: string }[]> = {
-  Button: [
-    { name: 'Primary BG', token: '--ink-button-primary-bg' },
-    { name: 'Primary Hover', token: '--ink-button-primary-bg-hover' },
-    { name: 'Primary Text', token: '--ink-button-primary-text' },
-    { name: 'Brand BG', token: '--ink-button-brand-bg' },
-    { name: 'Secondary BG', token: '--ink-button-secondary-bg' },
-    { name: 'Secondary Border', token: '--ink-button-secondary-border' },
-  ],
-  Input: [
-    { name: 'Background', token: '--ink-form-bg-default' },
-    { name: 'Border', token: '--ink-form-border-default' },
-    { name: 'Border Hover', token: '--ink-form-border-hover' },
-    { name: 'Border Active', token: '--ink-form-border-active' },
-    { name: 'Error Border', token: '--ink-form-border-error' },
-  ],
-  Card: [
-    { name: 'Background', token: '--ink-bg-default' },
-    { name: 'Border', token: '--ink-border-default' },
-    { name: 'Shadow SM', token: '--ink-shadow-sm' },
-  ],
-  Badge: [
-    { name: 'Default BG', token: '--ink-status-bg-default' },
-    { name: 'Success BG', token: '--ink-status-bg-success' },
-    { name: 'Warning BG', token: '--ink-status-bg-warning' },
-    { name: 'Error BG', token: '--ink-status-bg-error' },
-  ],
-  Avatar: [
-    { name: 'Recipient BG', token: '--ink-recipient-bg-100' },
-    { name: 'Border', token: '--ink-border-default' },
-  ],
+// Token categories for organizing display
+type TokenCategory =
+  | 'colors'
+  | 'spacing'
+  | 'typography'
+  | 'radius'
+  | 'shadows'
+  | 'animation'
+  | 'zIndex';
+
+const TOKEN_CATEGORY_LABELS: Record<TokenCategory, string> = {
+  colors: 'Colors',
+  spacing: 'Spacing',
+  typography: 'Typography',
+  radius: 'Border Radius',
+  shadows: 'Shadows',
+  animation: 'Animation',
+  zIndex: 'Z-Index',
 };
+
+// Detect token category from token name
+const getTokenCategory = (tokenName: string): TokenCategory => {
+  if (tokenName.includes('spacing')) return 'spacing';
+  if (
+    tokenName.includes('font-size') ||
+    tokenName.includes('font-weight') ||
+    tokenName.includes('font-family') ||
+    tokenName.includes('line-height')
+  )
+    return 'typography';
+  if (tokenName.includes('radius')) return 'radius';
+  if (tokenName.includes('shadow') || tokenName.includes('elevation')) return 'shadows';
+  if (tokenName.includes('transition') || tokenName.includes('animation')) return 'animation';
+  if (tokenName.includes('z-')) return 'zIndex';
+  return 'colors';
+};
+
+// Detect value type from resolved value
+const getValueType = (
+  value: string
+):
+  | 'color'
+  | 'spacing'
+  | 'typography'
+  | 'radius'
+  | 'shadow'
+  | 'animation'
+  | 'zIndex'
+  | 'unknown' => {
+  if (value.startsWith('#') || value.startsWith('rgb') || value.startsWith('hsl')) return 'color';
+  if (value.match(/^\d+(\.\d+)?(px|rem|em)$/)) return 'spacing';
+  if (value.match(/^\d+(\.\d+)?$/)) return 'zIndex';
+  if (value.match(/^(normal|bold|\d{3})$/)) return 'typography';
+  if (value.includes('box-shadow') || value.match(/^\d+px\s+\d+px/)) return 'shadow';
+  if (value.includes('ms') || value.includes('ease') || value.includes('linear'))
+    return 'animation';
+  return 'unknown';
+};
+
+// Improved color detection that handles more formats
+const isColorValue = (value: string): boolean => {
+  if (!value) return false;
+  const lower = value.toLowerCase().trim();
+  return (
+    lower.startsWith('#') ||
+    lower.startsWith('rgb') ||
+    lower.startsWith('hsl') ||
+    ['white', 'black', 'transparent', 'inherit', 'currentcolor'].includes(lower)
+  );
+};
+
+// Convert color value to hex format for HTML color input
+const toHexColor = (value: string): string => {
+  if (!value) return '#cccccc';
+  const trimmed = value.trim();
+
+  // Already a valid 6-digit hex
+  if (trimmed.match(/^#[0-9a-fA-F]{6}$/)) return trimmed;
+
+  // 3-digit hex - expand to 6 digits
+  if (trimmed.match(/^#[0-9a-fA-F]{3}$/)) {
+    return `#${trimmed[1]}${trimmed[1]}${trimmed[2]}${trimmed[2]}${trimmed[3]}${trimmed[3]}`;
+  }
+
+  // RGB format
+  const rgbMatch = trimmed.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  if (rgbMatch) {
+    const [, r, g, b] = rgbMatch;
+    return `#${Number(r).toString(16).padStart(2, '0')}${Number(g).toString(16).padStart(2, '0')}${Number(b).toString(16).padStart(2, '0')}`;
+  }
+
+  // Named colors
+  const namedColors: Record<string, string> = {
+    white: '#ffffff',
+    black: '#000000',
+    transparent: '#000000',
+  };
+  if (namedColors[trimmed.toLowerCase()]) {
+    return namedColors[trimmed.toLowerCase()];
+  }
+
+  return '#cccccc'; // fallback
+};
+
+// Tokens related to each component type - expanded for all primitives
+const componentTokens: Record<string, { name: string; token: string; category: TokenCategory }[]> =
+  {
+    // Form Primitives
+    Button: [
+      { name: 'Brand BG', token: '--ink-button-brand-bg', category: 'colors' },
+      { name: 'Brand Hover', token: '--ink-button-brand-bg-hover', category: 'colors' },
+      { name: 'Primary BG', token: '--ink-button-primary-bg', category: 'colors' },
+      { name: 'Primary Hover', token: '--ink-button-primary-bg-hover', category: 'colors' },
+      { name: 'Primary Text', token: '--ink-button-primary-text', category: 'colors' },
+      { name: 'Secondary BG', token: '--ink-button-secondary-bg', category: 'colors' },
+      { name: 'Secondary Border', token: '--ink-button-secondary-border', category: 'colors' },
+      { name: 'Font Size', token: '--ink-font-button-size', category: 'typography' },
+      { name: 'Border Radius', token: '--ink-radius-size-s', category: 'radius' },
+      { name: 'Spacing', token: '--ink-spacing-200', category: 'spacing' },
+    ],
+    IconButton: [
+      { name: 'Primary BG', token: '--ink-button-primary-bg', category: 'colors' },
+      { name: 'Icon Color', token: '--ink-icon-color-default', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-s', category: 'radius' },
+    ],
+    ComboButton: [
+      { name: 'Brand BG', token: '--ink-button-brand-bg', category: 'colors' },
+      { name: 'Brand Hover', token: '--ink-button-brand-bg-hover', category: 'colors' },
+      { name: 'Primary BG', token: '--ink-cta-bg-color-primary-default', category: 'colors' },
+      { name: 'Primary Text', token: '--ink-button-primary-text', category: 'colors' },
+      { name: 'Secondary BG', token: '--ink-cta-bg-color-secondary-default', category: 'colors' },
+      {
+        name: 'Secondary Border',
+        token: '--ink-cta-border-color-secondary-default',
+        category: 'colors',
+      },
+      { name: 'Tertiary BG', token: '--ink-cta-bg-color-tertiary-default', category: 'colors' },
+      { name: 'Tertiary Hover', token: '--ink-cta-bg-color-tertiary-hover', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-xs', category: 'radius' },
+      { name: 'Transition', token: '--ink-transition-fast', category: 'animation' },
+    ],
+    Input: [
+      { name: 'Background', token: '--ink-form-bg-default', category: 'colors' },
+      { name: 'Border', token: '--ink-form-border-default', category: 'colors' },
+      { name: 'Border Hover', token: '--ink-form-border-hover', category: 'colors' },
+      { name: 'Border Active', token: '--ink-form-border-active', category: 'colors' },
+      { name: 'Error Border', token: '--ink-form-border-error', category: 'colors' },
+      { name: 'Font Size', token: '--ink-font-size-md', category: 'typography' },
+      { name: 'Border Radius', token: '--ink-radius-size-xs', category: 'radius' },
+      { name: 'Padding', token: '--ink-spacing-200', category: 'spacing' },
+    ],
+    Select: [
+      { name: 'Background', token: '--ink-form-bg-default', category: 'colors' },
+      { name: 'Border', token: '--ink-form-border-default', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-xs', category: 'radius' },
+    ],
+    Checkbox: [
+      { name: 'Checked BG', token: '--ink-form-checked-bg', category: 'colors' },
+      { name: 'Border', token: '--ink-form-border-default', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-xs', category: 'radius' },
+    ],
+    Radio: [
+      { name: 'Checked BG', token: '--ink-form-checked-bg', category: 'colors' },
+      { name: 'Border', token: '--ink-form-border-default', category: 'colors' },
+    ],
+    Switch: [
+      { name: 'Track BG', token: '--ink-form-bg-default', category: 'colors' },
+      { name: 'Checked BG', token: '--ink-form-checked-bg', category: 'colors' },
+      { name: 'Transition', token: '--ink-transition-fast', category: 'animation' },
+    ],
+    TextArea: [
+      { name: 'Background', token: '--ink-form-bg-default', category: 'colors' },
+      { name: 'Border', token: '--ink-form-border-default', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-xs', category: 'radius' },
+    ],
+    Slider: [
+      { name: 'Track BG', token: '--ink-neutral-30', category: 'colors' },
+      { name: 'Fill BG', token: '--ink-cobalt-100', category: 'colors' },
+      { name: 'Thumb BG', token: '--ink-white-100', category: 'colors' },
+    ],
+    // Data Primitives
+    Badge: [
+      { name: 'Default BG', token: '--ink-status-bg-default', category: 'colors' },
+      { name: 'Success BG', token: '--ink-status-bg-success', category: 'colors' },
+      { name: 'Warning BG', token: '--ink-status-bg-warning', category: 'colors' },
+      { name: 'Error BG', token: '--ink-status-bg-error', category: 'colors' },
+      { name: 'Font Size', token: '--ink-font-badge-size', category: 'typography' },
+      { name: 'Border Radius', token: '--ink-radius-size-full', category: 'radius' },
+      { name: 'Padding', token: '--ink-spacing-100', category: 'spacing' },
+    ],
+    AlertBadge: [
+      { name: 'Emphasis BG', token: '--ink-message-bg-alert', category: 'colors' },
+      { name: 'Subtle BG', token: '--ink-status-bg-subtle-inverse', category: 'colors' },
+      { name: 'Text Color', token: '--ink-font-color-inverse', category: 'colors' },
+      { name: 'Border Color', token: '--ink-border-emphasis-inverse', category: 'colors' },
+      { name: 'Font Size', token: '--ink-font-badge-size', category: 'typography' },
+      { name: 'Border Radius', token: '--ink-radius-full', category: 'radius' },
+    ],
+    Avatar: [
+      { name: 'Background 1', token: '--ink-recipient-bg-100', category: 'colors' },
+      { name: 'Background 2', token: '--ink-recipient-bg-200', category: 'colors' },
+      { name: 'Background 3', token: '--ink-recipient-bg-300', category: 'colors' },
+      { name: 'Border', token: '--ink-border-default', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-full', category: 'radius' },
+    ],
+    Chip: [
+      { name: 'Background', token: '--ink-item-bg-default', category: 'colors' },
+      { name: 'Background Hover', token: '--ink-item-bg-hover', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-full', category: 'radius' },
+      { name: 'Padding', token: '--ink-spacing-100', category: 'spacing' },
+    ],
+    StatusLight: [
+      { name: 'Success', token: '--ink-status-bg-success', category: 'colors' },
+      { name: 'Warning', token: '--ink-status-bg-warning', category: 'colors' },
+      { name: 'Error', token: '--ink-status-bg-error', category: 'colors' },
+      { name: 'Info', token: '--ink-status-bg-information', category: 'colors' },
+    ],
+    ProgressBar: [
+      { name: 'Track BG', token: '--ink-bar-bg-default', category: 'colors' },
+      { name: 'Fill BG', token: '--ink-bar-fill-default', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-full', category: 'radius' },
+    ],
+    Spinner: [
+      { name: 'Color', token: '--ink-cobalt-100', category: 'colors' },
+      { name: 'Animation', token: '--ink-transition-normal', category: 'animation' },
+    ],
+    // Container Primitives
+    Card: [
+      { name: 'Background', token: '--ink-bg-default', category: 'colors' },
+      { name: 'Border', token: '--ink-border-default', category: 'colors' },
+      { name: 'Shadow', token: '--ink-shadow-sm', category: 'shadows' },
+      { name: 'Border Radius', token: '--ink-radius-size-m', category: 'radius' },
+      { name: 'Padding', token: '--ink-spacing-300', category: 'spacing' },
+    ],
+    Divider: [
+      { name: 'Color', token: '--ink-border-default', category: 'colors' },
+      { name: 'Spacing', token: '--ink-spacing-200', category: 'spacing' },
+    ],
+    Callout: [
+      { name: 'Info BG', token: '--ink-message-bg-information', category: 'colors' },
+      { name: 'Success BG', token: '--ink-message-bg-success', category: 'colors' },
+      { name: 'Warning BG', token: '--ink-message-bg-warning', category: 'colors' },
+      { name: 'Error BG', token: '--ink-message-bg-error', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-s', category: 'radius' },
+      { name: 'Padding', token: '--ink-spacing-300', category: 'spacing' },
+    ],
+    Banner: [
+      { name: 'Information BG', token: '--ink-cobalt-10', category: 'colors' },
+      { name: 'Danger BG', token: '--ink-bg-color-error', category: 'colors' },
+      { name: 'Success BG', token: '--ink-bg-color-success', category: 'colors' },
+      { name: 'Warning BG', token: '--ink-bg-color-warning', category: 'colors' },
+      { name: 'Promo BG', token: '--ink-purple-10', category: 'colors' },
+      { name: 'Subtle BG', token: '--ink-neutral-fade-5', category: 'colors' },
+      { name: 'Neutral BG', token: '--ink-neutral-110', category: 'colors' },
+      { name: 'Border Radius (round)', token: '--ink-radius-size-s', category: 'radius' },
+      { name: 'Padding', token: '--ink-spacing-200', category: 'spacing' },
+    ],
+    Tooltip: [
+      { name: 'Background', token: '--ink-neutral-140', category: 'colors' },
+      { name: 'Text', token: '--ink-white-100', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-xs', category: 'radius' },
+      { name: 'Shadow', token: '--ink-shadow-md', category: 'shadows' },
+      { name: 'Z-Index', token: '--ink-z-tooltip', category: 'zIndex' },
+    ],
+    Skeleton: [
+      { name: 'Background', token: '--ink-neutral-20', category: 'colors' },
+      { name: 'Animation BG', token: '--ink-neutral-30', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-xs', category: 'radius' },
+    ],
+    // Typography Primitives
+    Text: [
+      { name: 'Primary', token: '--ink-font-primary', category: 'colors' },
+      { name: 'Secondary', token: '--ink-font-secondary', category: 'colors' },
+      { name: 'Tertiary', token: '--ink-font-tertiary', category: 'colors' },
+      { name: 'Font Size XS', token: '--ink-font-size-xs', category: 'typography' },
+      { name: 'Font Size SM', token: '--ink-font-size-sm', category: 'typography' },
+      { name: 'Font Size MD', token: '--ink-font-size-md', category: 'typography' },
+      { name: 'Font Size LG', token: '--ink-font-size-lg', category: 'typography' },
+    ],
+    Heading: [
+      { name: 'Color', token: '--ink-font-primary', category: 'colors' },
+      { name: 'H1 Size', token: '--ink-font-heading-h1-size', category: 'typography' },
+      { name: 'H2 Size', token: '--ink-font-heading-h2-size', category: 'typography' },
+      { name: 'H3 Size', token: '--ink-font-heading-h3-size', category: 'typography' },
+      { name: 'Font Weight', token: '--ink-font-weight-semibold', category: 'typography' },
+    ],
+    Link: [
+      { name: 'Default', token: '--ink-font-link', category: 'colors' },
+      { name: 'Hover', token: '--ink-font-link-hover', category: 'colors' },
+      { name: 'Visited', token: '--ink-font-link-visited', category: 'colors' },
+    ],
+    Icon: [
+      { name: 'Default', token: '--ink-icon-color-default', category: 'colors' },
+      { name: 'Secondary', token: '--ink-icon-color-secondary', category: 'colors' },
+      { name: 'Disabled', token: '--ink-icon-color-disabled', category: 'colors' },
+    ],
+    // Composites
+    Accordion: [
+      { name: 'Header Hover BG', token: '--ink-item-bg-color-hover', category: 'colors' },
+      { name: 'Selected BG', token: '--ink-item-bg-color-selected-subtle', category: 'colors' },
+      { name: 'Border Color', token: '--ink-border-color-subtle', category: 'colors' },
+      { name: 'Title Color', token: '--ink-font-color-default', category: 'colors' },
+      { name: 'Subtitle Color', token: '--ink-font-color-subtle', category: 'colors' },
+      { name: 'Icon Color', token: '--ink-icon-color-secondary', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-s', category: 'radius' },
+      { name: 'Header Padding', token: '--ink-spacing-3', category: 'spacing' },
+      { name: 'Content Padding', token: '--ink-spacing-4', category: 'spacing' },
+      { name: 'Transition', token: '--ink-transition-normal', category: 'animation' },
+    ],
+  };
 
 interface InspectorPanelProps {
   activeLayer: LayerView;
@@ -122,9 +401,13 @@ export function InspectorPanel({
 }: InspectorPanelProps) {
   const [activeTab, setActiveTab] = useState<ActiveTab>('props');
   const [tokens, setTokens] = useState<Record<string, string>>({});
+  const [categorizedTokens, setCategorizedTokens] = useState<
+    Record<string, Record<string, string>>
+  >({});
   const [modifiedTokens, setModifiedTokens] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState(false);
   const [tokensLoading, setTokensLoading] = useState(false);
+  const [previewKey, setPreviewKey] = useState(0); // Force re-render on token change
 
   // Get component type from subpage
   const componentType = subpageToComponent[activeSubpage];
@@ -139,6 +422,7 @@ export function InspectorPanel({
         const data = await res.json();
         if (data.success) {
           setTokens(data.data.tokens);
+          setCategorizedTokens(data.data.categorized);
         }
       } catch (error) {
         console.error('Failed to load tokens:', error);
@@ -169,12 +453,91 @@ export function InspectorPanel({
     [liveProps, onPropsChange]
   );
 
-  // Handle token change (live preview via CSS variable)
-  const handleTokenChange = useCallback((tokenName: string, value: string) => {
-    setModifiedTokens((prev) => ({ ...prev, [tokenName]: value }));
-    // Apply live preview
-    document.documentElement.style.setProperty(tokenName, value);
-  }, []);
+  // Handle token change (live preview via CSS variable - scoped to preview only)
+  const handleTokenChange = useCallback(
+    (tokenName: string, value: string) => {
+      setModifiedTokens((prev) => ({ ...prev, [tokenName]: value }));
+
+      // Resolve the value if it's a token reference
+      let resolvedValue = value;
+      if (value.startsWith('var(') && Object.keys(tokens).length > 0) {
+        const varMatch = value.match(/var\((--[^)]+)\)/);
+        if (varMatch && tokens[varMatch[1]]) {
+          resolvedValue = tokens[varMatch[1]];
+        }
+      }
+
+      // Apply live preview ONLY to the preview container (not globally)
+      const previewContainer = document.querySelector('[data-inspector-preview="true"]');
+      if (previewContainer) {
+        (previewContainer as HTMLElement).style.setProperty(tokenName, resolvedValue);
+      }
+
+      // Force re-render of preview components
+      setPreviewKey((k) => k + 1);
+    },
+    [tokens]
+  );
+
+  // Get available tokens for dropdown based on category and token type
+  const getAvailableTokensForCategory = useCallback(
+    (category: TokenCategory, currentToken?: string): { name: string; value: string }[] => {
+      const result: { name: string; value: string }[] = [];
+
+      // Map our internal categories to API categories
+      const categoryMapping: Record<TokenCategory, string[]> = {
+        colors: ['color-primitives', 'semantic-colors', 'component-colors'],
+        spacing: ['spacing'],
+        typography: ['typography'],
+        radius: ['radius'],
+        shadows: ['shadow'],
+        animation: ['animation'],
+        zIndex: ['z-index'],
+      };
+
+      const apiCategories = categoryMapping[category] || [];
+
+      // Determine token type for more specific filtering
+      const tokenType = currentToken ? getTokenType(currentToken) : null;
+
+      apiCategories.forEach((apiCat) => {
+        const catTokens = categorizedTokens[apiCat];
+        if (catTokens) {
+          Object.entries(catTokens).forEach(([name, value]) => {
+            // For typography, filter by specific type (size, weight, family, line-height)
+            if (category === 'typography' && tokenType) {
+              if (tokenType === 'size' && !name.includes('size')) return;
+              if (tokenType === 'weight' && !name.includes('weight')) return;
+              if (tokenType === 'family' && !name.includes('family')) return;
+              if (tokenType === 'line-height' && !name.includes('line-height')) return;
+            }
+
+            // For colors, prefer semantic/component tokens over primitives
+            if (category === 'colors') {
+              // Prioritize component and semantic colors, skip raw color primitives unless needed
+              if (apiCat === 'color-primitives' && result.length > 20) return;
+            }
+
+            result.push({ name, value });
+          });
+        }
+      });
+
+      // Limit results to prevent overwhelming dropdowns
+      return result.slice(0, 30);
+    },
+    [categorizedTokens]
+  );
+
+  // Helper to determine token type for filtering
+  const getTokenType = (token: string): string | null => {
+    const lower = token.toLowerCase();
+    if (lower.includes('size')) return 'size';
+    if (lower.includes('weight')) return 'weight';
+    if (lower.includes('family')) return 'family';
+    if (lower.includes('line-height')) return 'line-height';
+    return null;
+  };
 
   // Save tokens to file
   const handleSaveTokens = async () => {
@@ -235,7 +598,55 @@ export function InspectorPanel({
   }, [generateCode]);
 
   // Get relevant tokens for current component
-  const relevantTokens = componentType ? componentTokens[componentType] || [] : [];
+  // Get tokens and filter by current variant/kind
+  const relevantTokens = useMemo(() => {
+    if (!componentType) return [];
+
+    const allTokens = componentTokens[componentType] || [];
+
+    // For components with variants (like Button), filter to show only relevant tokens
+    const currentKind = liveProps.kind as string | undefined;
+    const currentVariant = liveProps.variant as string | undefined;
+    const variantKey = currentKind || currentVariant;
+
+    if (!variantKey) return allTokens;
+
+    // Filter tokens based on variant - keep tokens that:
+    // 1. Match the current variant (case-insensitive)
+    // 2. Are common tokens (not variant-specific) like spacing, radius, typography
+    return allTokens.filter((tokenDef) => {
+      const tokenLower = tokenDef.token.toLowerCase();
+      const nameLower = tokenDef.name.toLowerCase();
+      const variantLower = variantKey.toLowerCase();
+
+      // Always include non-color tokens (spacing, typography, radius, etc.)
+      if (tokenDef.category !== 'colors') return true;
+
+      // For color tokens, check if it matches the current variant
+      // e.g., "primary" matches "--ink-button-primary-bg"
+      if (tokenLower.includes(variantLower) || nameLower.includes(variantLower)) {
+        return true;
+      }
+
+      // Exclude other variant-specific tokens
+      const otherVariants = [
+        'brand',
+        'primary',
+        'secondary',
+        'tertiary',
+        'danger',
+        'success',
+        'warning',
+        'error',
+        'info',
+      ];
+      const isOtherVariant = otherVariants.some(
+        (v) => v !== variantLower && (tokenLower.includes(v) || nameLower.toLowerCase().includes(v))
+      );
+
+      return !isOtherVariant;
+    });
+  }, [componentType, liveProps.kind, liveProps.variant]);
 
   // Resolve token value (handle var() references)
   const resolveTokenValue = (value: string): string => {
@@ -359,8 +770,7 @@ export function InspectorPanel({
                       <div className={styles.propSwitch}>
                         <Switch
                           checked={Boolean(liveProps[propDef.name])}
-                          onChange={(e) => handlePropChange(propDef.name, e.target.checked)}
-                          size="small"
+                          onChange={(checked) => handlePropChange(propDef.name, checked)}
                         />
                       </div>
                     )}
@@ -402,48 +812,169 @@ export function InspectorPanel({
         {/* Tokens Tab */}
         {activeTab === 'tokens' && (
           <div className={styles.section}>
-            <div className={styles.sectionTitle}>Related Tokens</div>
-            {relevantTokens.length === 0 ? (
+            {tokensLoading ? (
+              <div className={styles.emptyText}>Loading tokens...</div>
+            ) : relevantTokens.length === 0 ? (
               <div className={styles.emptyText}>
                 No specific tokens mapped for this component yet.
               </div>
             ) : (
-              relevantTokens.map(({ name, token }) => {
-                const currentValue = modifiedTokens[token] || tokens[token] || '';
-                const resolvedValue = resolveTokenValue(currentValue);
-                const isColor = resolvedValue.startsWith('#') || resolvedValue.startsWith('rgb');
-
-                return (
-                  <div key={token} className={styles.tokenRow}>
-                    {isColor && (
-                      <input
-                        type="color"
-                        className={styles.tokenSwatch}
-                        value={resolvedValue}
-                        onChange={(e) => handleTokenChange(token, e.target.value)}
-                        style={{ backgroundColor: resolvedValue }}
-                      />
-                    )}
-                    {!isColor && (
-                      <div
-                        className={styles.tokenSwatch}
-                        style={{ background: 'var(--ink-neutral-20)' }}
-                      />
-                    )}
-                    <div className={styles.tokenInfo}>
-                      <div className={styles.tokenName}>{name}</div>
-                      <div className={styles.tokenValue}>{token}</div>
-                    </div>
-                    <input
-                      type="text"
-                      className={styles.tokenInput}
-                      value={modifiedTokens[token] || ''}
-                      placeholder={resolvedValue.slice(0, 10)}
-                      onChange={(e) => handleTokenChange(token, e.target.value)}
-                    />
-                  </div>
+              // Group tokens by category
+              (() => {
+                const grouped = relevantTokens.reduce(
+                  (acc, tokenDef) => {
+                    const cat = tokenDef.category;
+                    if (!acc[cat]) acc[cat] = [];
+                    acc[cat].push(tokenDef);
+                    return acc;
+                  },
+                  {} as Record<TokenCategory, typeof relevantTokens>
                 );
-              })
+
+                const categoryOrder: TokenCategory[] = [
+                  'colors',
+                  'spacing',
+                  'typography',
+                  'radius',
+                  'shadows',
+                  'animation',
+                  'zIndex',
+                ];
+
+                return categoryOrder.map((category) => {
+                  const categoryTokens = grouped[category];
+                  if (!categoryTokens || categoryTokens.length === 0) return null;
+
+                  return (
+                    <div key={category} className={styles.tokenCategory}>
+                      <div className={styles.tokenCategoryHeader}>
+                        <span className={styles.tokenCategoryLabel}>
+                          {TOKEN_CATEGORY_LABELS[category]}
+                        </span>
+                        <span className={styles.tokenCategoryCount}>{categoryTokens.length}</span>
+                      </div>
+                      {categoryTokens.map(({ name, token }) => {
+                        const currentValue = modifiedTokens[token] || tokens[token] || '';
+                        const resolvedValue = resolveTokenValue(currentValue);
+                        const isColor = isColorValue(resolvedValue);
+
+                        return (
+                          <div key={token} className={styles.tokenRow}>
+                            {/* Color Preview */}
+                            {category === 'colors' && (
+                              <input
+                                type="color"
+                                className={styles.tokenSwatch}
+                                value={toHexColor(resolvedValue)}
+                                onChange={(e) => handleTokenChange(token, e.target.value)}
+                                style={{
+                                  backgroundColor: isColor
+                                    ? resolvedValue
+                                    : 'var(--ink-neutral-30)',
+                                }}
+                              />
+                            )}
+
+                            {/* Spacing Preview */}
+                            {category === 'spacing' && (
+                              <div className={styles.tokenPreviewSpacing}>
+                                <div
+                                  className={styles.spacingBar}
+                                  style={{ width: resolvedValue || '16px' }}
+                                />
+                              </div>
+                            )}
+
+                            {/* Typography Preview */}
+                            {category === 'typography' && (
+                              <div className={styles.tokenPreviewTypography}>
+                                <span
+                                  className={styles.typographySample}
+                                  style={{
+                                    fontSize: token.includes('size') ? resolvedValue : undefined,
+                                    fontWeight: token.includes('weight')
+                                      ? resolvedValue
+                                      : undefined,
+                                  }}
+                                >
+                                  Aa
+                                </span>
+                              </div>
+                            )}
+
+                            {/* Radius Preview */}
+                            {category === 'radius' && (
+                              <div className={styles.tokenPreviewRadius}>
+                                <div
+                                  className={styles.radiusBox}
+                                  style={{ borderRadius: resolvedValue || '4px' }}
+                                />
+                              </div>
+                            )}
+
+                            {/* Shadow Preview */}
+                            {category === 'shadows' && (
+                              <div className={styles.tokenPreviewShadow}>
+                                <div
+                                  className={styles.shadowBox}
+                                  style={{
+                                    boxShadow: resolvedValue || '0 2px 4px rgba(0,0,0,0.1)',
+                                  }}
+                                />
+                              </div>
+                            )}
+
+                            {/* Animation Preview */}
+                            {category === 'animation' && (
+                              <div className={styles.tokenPreviewAnimation}>
+                                <div className={styles.animationIcon}>⏱</div>
+                              </div>
+                            )}
+
+                            {/* Z-Index Preview */}
+                            {category === 'zIndex' && (
+                              <div className={styles.tokenPreviewZIndex}>
+                                <div className={styles.zIndexLayers}>
+                                  <div className={styles.zIndexLayer} />
+                                  <div className={styles.zIndexLayer} />
+                                  <div className={styles.zIndexLayer} />
+                                </div>
+                              </div>
+                            )}
+
+                            <div className={styles.tokenInfo}>
+                              <div className={styles.tokenName}>{name}</div>
+                              <div className={styles.tokenValue}>{token}</div>
+                            </div>
+                            <select
+                              className={styles.tokenSelect}
+                              value={modifiedTokens[token] || '__current__'}
+                              onChange={(e) => {
+                                const newValue = e.target.value;
+                                if (newValue !== '__current__') {
+                                  handleTokenChange(token, newValue);
+                                }
+                              }}
+                            >
+                              <option value="__current__">
+                                Current: {resolvedValue.slice(0, 12)}
+                                {resolvedValue.length > 12 ? '...' : ''}
+                              </option>
+                              {getAvailableTokensForCategory(category, token).map(
+                                ({ name: tokenName }) => (
+                                  <option key={tokenName} value={`var(${tokenName})`}>
+                                    {tokenName.replace('--ink-', '')}
+                                  </option>
+                                )
+                              )}
+                            </select>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                });
+              })()
             )}
           </div>
         )}

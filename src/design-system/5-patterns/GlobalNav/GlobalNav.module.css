@@ -145,7 +145,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: var(--ink-font-size-xxs); /* 10px - small badge counter */
   font-weight: var(--ink-font-weight-semibold);
   background: var(--ink-red-100);
   color: white;

@@ -38,6 +38,8 @@ const componentMap: Record<string, React.ComponentType<Record<string, unknown>>>
   Text: DesignSystem.Text,
   Spinner: DesignSystem.Spinner,
   ProgressBar: DesignSystem.ProgressBar,
+  StatusLight: DesignSystem.StatusLight,
+  AlertBadge: DesignSystem.AlertBadge,
   Callout: DesignSystem.Callout,
   Banner: DesignSystem.Banner,
   Tooltip: DesignSystem.Tooltip,
@@ -46,6 +48,7 @@ const componentMap: Record<string, React.ComponentType<Record<string, unknown>>>
   // Layer 4: Composites
   SearchInput: DesignSystem.SearchInput,
   ComboBox: DesignSystem.ComboBox,
+  ComboButton: DesignSystem.ComboButton,
   DatePicker: DesignSystem.DatePicker,
   FileUpload: DesignSystem.FileUpload,
   Tabs: DesignSystem.Tabs,
@@ -86,6 +89,8 @@ const subpageToComponent: Record<string, string> = {
   typography: 'Text',
   spinner: 'Spinner',
   progressbar: 'ProgressBar',
+  'status-light': 'StatusLight',
+  'alert-badge': 'AlertBadge',
   callout: 'Callout',
   banner: 'Banner',
   tooltip: 'Tooltip',
@@ -93,6 +98,7 @@ const subpageToComponent: Record<string, string> = {
   // Composites
   searchinput: 'SearchInput',
   combobox: 'ComboBox',
+  combobutton: 'ComboButton',
   datepicker: 'DatePicker',
   fileupload: 'FileUpload',
   tabs: 'Tabs',
@@ -115,22 +121,82 @@ const subpageToComponent: Record<string, string> = {
   localnav: 'LocalNav',
 };
 
+// Components that should NOT receive children (void-like components)
+const voidComponents = new Set([
+  'Input',
+  'Checkbox',
+  'Radio',
+  'Switch',
+  'Slider',
+  'Divider',
+  'Spinner',
+  'ProgressBar',
+  'Icon',
+  'Skeleton',
+  'SearchInput',
+  'DatePicker',
+  'FileUpload',
+  'ComboBox',
+  'ComboButton',
+  'IconButton',
+  'Avatar',
+  'AlertBadge',
+  'Spacer',
+]);
+
 // Default props for components that need them
 const defaultComponentProps: Record<string, Record<string, unknown>> = {
-  Button: { children: 'Button' },
-  Input: { placeholder: 'Enter text...' },
-  TextArea: { placeholder: 'Enter text...' },
-  Select: { children: <option>Select an option</option> },
-  Badge: { children: 'Badge' },
+  // Form Primitives
+  Button: { children: 'Button', kind: 'brand' },
+  IconButton: { icon: 'star', variant: 'brand', 'aria-label': 'Star' },
+  ComboButton: { children: 'Action', variant: 'brand', startIcon: 'download' },
+  Input: { label: 'Input', placeholder: 'Enter text...' },
+  TextArea: { label: 'TextArea', placeholder: 'Enter text...' },
+  Select: { label: 'Select', children: <option>Select an option</option> },
+  Checkbox: { label: 'Checkbox option', showLabel: true, showErrorMessage: true },
+  Radio: { label: 'Radio option', name: 'preview-radio' },
+  Switch: { label: 'Toggle option' },
+  Slider: { label: 'Slider', defaultValue: 50 },
+
+  // Data Primitives
+  Badge: { children: 'Badge', variant: 'subtle' },
+  Avatar: { initials: 'JD', size: 'medium' },
   Chip: { children: 'Chip' },
+  StatusLight: { children: 'Status', kind: 'success' },
+  AlertBadge: { value: 5, kind: 'emphasis' },
+  Spinner: { size: 'medium' },
+  ProgressBar: { value: 65, size: 'medium' },
+
+  // Container Primitives
+  Divider: {},
   Card: { children: 'Card content' },
-  Text: { children: 'Sample text' },
-  Heading: { children: 'Heading' },
-  Callout: { children: 'Callout message' },
-  Banner: { children: 'Banner message' },
-  Link: { children: 'Link text', href: '#' },
-  Avatar: { name: 'John Doe' },
+  Skeleton: { variant: 'text', width: '100%' },
+  Callout: {
+    heading: 'Callout heading',
+    children: 'Callout body text with contextual information.',
+    closeButton: true,
+    actions: false,
+    primaryAction: { label: 'Confirm', onClick: () => {} },
+    secondaryAction: { label: 'Cancel', onClick: () => {} },
+  },
+  Banner: { kind: 'information', children: 'Banner message' },
   Tooltip: { content: 'Tooltip text', children: <span>Hover me</span> },
+
+  // Typography Primitives
+  Text: { children: 'Sample text', size: 'md' },
+  Heading: { children: 'Heading', level: 2 },
+  Link: { children: 'Link text', href: '#' },
+  Icon: { name: 'star', size: 'medium' },
+  Stepper: {
+    steps: [
+      { id: '1', title: 'Step 1' },
+      { id: '2', title: 'Step 2' },
+      { id: '3', title: 'Step 3' },
+    ],
+    activeStep: 0,
+  },
+
+  // Composites
   Table: {
     columns: [
       { key: 'name', header: 'Name' },
@@ -152,8 +218,55 @@ const defaultComponentProps: Record<string, Record<string, unknown>> = {
   },
   Accordion: {
     items: [
-      { id: 'acc1', title: 'Section 1', content: 'Content for section 1' },
-      { id: 'acc2', title: 'Section 2', content: 'Content for section 2' },
+      {
+        id: 'acc1',
+        title: 'Section 1',
+        subtitle: 'Description for section 1',
+        content: 'Content for section 1',
+      },
+      {
+        id: 'acc2',
+        title: 'Section 2',
+        subtitle: 'Description for section 2',
+        content: 'Content for section 2',
+      },
+    ],
+    bordered: true,
+    itemHeight: 'default',
+  },
+  Breadcrumb: {
+    items: [
+      { label: 'Home', href: '/' },
+      { label: 'Products', href: '/products' },
+      { label: 'Details' },
+    ],
+  },
+  Pagination: {
+    currentPage: 1,
+    totalPages: 10,
+    onPageChange: () => {},
+  },
+
+  // Patterns
+  LocalNav: {
+    headerLabel: 'Start',
+    headerIcon: 'plus',
+    sections: [
+      {
+        id: 'main',
+        items: [
+          { id: 'item1', label: 'All Items', icon: 'envelope', active: true },
+          { id: 'item2', label: 'Drafts', nested: true },
+          { id: 'item3', label: 'Completed', nested: true },
+        ],
+      },
+    ],
+  },
+  GlobalNav: {
+    logo: 'DocuSign',
+    navItems: [
+      { id: 'home', label: 'Home', active: true },
+      { id: 'docs', label: 'Documents' },
     ],
   },
 };
@@ -177,18 +290,41 @@ export function InteractivePreview({ activeSubpage, liveProps }: InteractivePrev
     return null;
   }
 
+  // Check if this component should not receive children
+  const isVoidComponent = voidComponents.has(componentType);
+
   // Merge default props with live props
   const defaultProps = defaultComponentProps[componentType] || {};
   const mergedProps: Record<string, unknown> = { ...defaultProps };
 
-  // Apply liveProps, filtering out empty values
+  // Apply liveProps, filtering out empty values and incompatible props
   Object.entries(liveProps).forEach(([key, value]) => {
+    // Skip children for void components to prevent crashes
+    if (isVoidComponent && key === 'children') {
+      return;
+    }
     if (value !== '' && value !== undefined) {
-      mergedProps[key] = value;
+      // Convert icon props (startElement, endElement) from string to Icon component
+      if ((key === 'startElement' || key === 'endElement') && typeof value === 'string') {
+        // Skip if value is 'none' - don't pass the prop
+        if (value === 'none') {
+          delete mergedProps[key];
+        } else {
+          mergedProps[key] = <DesignSystem.Icon name={value as string} size="small" />;
+        }
+      } else if (key === 'dismissible' && componentType === 'Chip') {
+        // Convert dismissible boolean to onRemove callback for Chip
+        if (value === true) {
+          mergedProps['onRemove'] = () => {};
+        }
+        // Don't pass dismissible to the component
+      } else {
+        mergedProps[key] = value;
+      }
     }
   });
 
-  // Extract children if present
+  // Extract children if present (only for non-void components)
   const { children, ...restProps } = mergedProps;
 
   return (
@@ -197,8 +333,12 @@ export function InteractivePreview({ activeSubpage, liveProps }: InteractivePrev
         <span className={styles.previewTitle}>Interactive Preview</span>
         <span className={styles.previewHint}>Edit props in the inspector panel →</span>
       </div>
-      <div className={styles.previewContent}>
-        <Component {...restProps}>{children as React.ReactNode}</Component>
+      <div className={styles.previewContent} data-inspector-preview="true">
+        {!isVoidComponent && children !== undefined ? (
+          <Component {...restProps}>{children as React.ReactNode}</Component>
+        ) : (
+          <Component {...restProps} />
+        )}
       </div>
     </div>
   );

@@ -33,6 +33,7 @@ import {
 interface Party {
   id: string;
   name: string;
+  email: string;
   role: 'Vendor' | 'Customer' | 'Partner' | 'Contractor';
   activeAgreements: number;
   expiringAgreements: number;
@@ -45,6 +46,7 @@ const mockParties: Party[] = [
   {
     id: '1',
     name: 'Acme Corporation',
+    email: 'contact@acmecorp.com',
     role: 'Vendor',
     activeAgreements: 12,
     expiringAgreements: 2,
@@ -54,6 +56,7 @@ const mockParties: Party[] = [
   {
     id: '2',
     name: 'TechStart Inc',
+    email: 'hello@techstart.io',
     role: 'Customer',
     activeAgreements: 8,
     expiringAgreements: 0,
@@ -63,6 +66,7 @@ const mockParties: Party[] = [
   {
     id: '3',
     name: 'Global Partners Ltd',
+    email: 'partners@globalpartners.com',
     role: 'Partner',
     activeAgreements: 24,
     expiringAgreements: 5,
@@ -72,6 +76,7 @@ const mockParties: Party[] = [
   {
     id: '4',
     name: 'DataFlow Solutions',
+    email: 'info@dataflow.dev',
     role: 'Vendor',
     activeAgreements: 3,
     expiringAgreements: 1,
@@ -81,6 +86,7 @@ const mockParties: Party[] = [
   {
     id: '5',
     name: 'CloudBase Systems',
+    email: 'support@cloudbase.io',
     role: 'Customer',
     activeAgreements: 15,
     expiringAgreements: 3,
@@ -90,6 +96,7 @@ const mockParties: Party[] = [
   {
     id: '6',
     name: 'Innovation Labs',
+    email: 'team@innovationlabs.co',
     role: 'Partner',
     activeAgreements: 7,
     expiringAgreements: 0,
@@ -99,6 +106,7 @@ const mockParties: Party[] = [
   {
     id: '7',
     name: 'SecureNet Corp',
+    email: 'security@securenet.com',
     role: 'Contractor',
     activeAgreements: 4,
     expiringAgreements: 1,
@@ -108,6 +116,7 @@ const mockParties: Party[] = [
   {
     id: '8',
     name: 'Nexus Technologies',
+    email: 'hello@nexustech.com',
     role: 'Vendor',
     activeAgreements: 19,
     expiringAgreements: 4,
@@ -117,6 +126,7 @@ const mockParties: Party[] = [
   {
     id: '9',
     name: 'Summit Enterprises',
+    email: 'contact@summit-ent.com',
     role: 'Customer',
     activeAgreements: 6,
     expiringAgreements: 2,
@@ -126,6 +136,7 @@ const mockParties: Party[] = [
   {
     id: '10',
     name: 'Bridge Consulting',
+    email: 'inquiries@bridgeconsulting.com',
     role: 'Contractor',
     activeAgreements: 2,
     expiringAgreements: 0,
@@ -176,7 +187,10 @@ export function PartiesView() {
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(
-        (p) => p.name.toLowerCase().includes(query) || p.role.toLowerCase().includes(query)
+        (p) =>
+          p.name.toLowerCase().includes(query) ||
+          p.email.toLowerCase().includes(query) ||
+          p.role.toLowerCase().includes(query)
       );
     }
 
@@ -221,6 +235,16 @@ export function PartiesView() {
       key: 'name',
       header: 'Party Name',
       sortable: true,
+    },
+    {
+      key: 'email',
+      header: 'Email',
+      sortable: true,
+      cell: (row: Party) => (
+        <Text variant="body" color="secondary">
+          {row.email}
+        </Text>
+      ),
     },
     {
       key: 'role',

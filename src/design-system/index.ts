@@ -48,13 +48,10 @@ export {
   Switch,
   TextArea,
   Slider,
-  Stepper,
   // Display Components
   Badge,
-  AIBadge,
   Avatar,
   AvatarGroup,
-  Chip,
   AlertBadge,
   StatusLight,
   Divider,
@@ -66,8 +63,6 @@ export {
   // Feedback Components
   Spinner,
   ProgressBar,
-  Callout,
-  Banner,
   // Overlay Components (Basic)
   Tooltip,
 } from './3-primitives';
@@ -90,13 +85,10 @@ export type {
   SwitchSize,
   TextAreaProps,
   SliderProps,
-  StepperProps,
   // Display Components
   BadgeProps,
-  AIBadgeProps,
   AvatarProps,
   AvatarGroupProps,
-  ChipProps,
   AlertBadgeProps,
   StatusLightProps,
   DividerProps,
@@ -113,8 +105,6 @@ export type {
   ProgressBarProps,
   ProgressBarSize,
   ProgressBarVariant,
-  CalloutProps,
-  BannerProps,
   // Overlay Components (Basic)
   TooltipProps,
   TooltipPosition,
@@ -145,6 +135,11 @@ export {
   Drawer,
   // Feedback Components (Composite)
   Alert,
+  Banner,
+  Callout,
+  AIBadge,
+  Stepper,
+  Chip,
   // Data Components
   Table,
   List,
@@ -184,6 +179,14 @@ export type {
   DrawerProps,
   // Feedback Components (Composite)
   AlertProps,
+  BannerProps,
+  BannerKind,
+  BannerShape,
+  BannerAction,
+  CalloutProps,
+  AIBadgeProps,
+  StepperProps,
+  ChipProps,
   // Data Components
   TableProps,
   ListProps,

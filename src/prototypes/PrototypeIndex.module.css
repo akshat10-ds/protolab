@@ -49,7 +49,7 @@
    ============================================ */
 
 .header {
-  margin-bottom: 32px;
+  margin-bottom: var(--ink-spacing-400);
   animation: fadeInUp 0.4s ease-out;
 }
 
@@ -75,8 +75,8 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: var(--ink-spacing-200);
+  margin-bottom: var(--ink-spacing-400);
 }
 
 @media (max-width: 560px) {
@@ -92,7 +92,7 @@
 .card {
   display: block;
   width: 100%;
-  padding: 16px;
+  padding: var(--ink-spacing-200);
   background: var(--ink-white-100);
   border-radius: 8px;
   box-shadow:
@@ -146,7 +146,7 @@
 .cardContent {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: var(--ink-spacing-150);
 }
 
 .cardText {
@@ -159,7 +159,7 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--ink-font-primary);
-  margin-bottom: 4px;
+  margin-bottom: var(--ink-spacing-50);
 }
 
 .cardDescription {
@@ -175,7 +175,7 @@
   transition:
     transform 0.2s ease,
     color 0.2s ease;
-  margin-top: 2px;
+  margin-top: var(--ink-spacing-25);
 }
 
 .card:hover .cardArrow {
@@ -192,7 +192,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: var(--ink-spacing-150);
   padding: 48px 24px;
   background: var(--ink-white-100);
   border-radius: 8px;
@@ -206,6 +206,6 @@
    ============================================ */
 
 .footer {
-  padding-top: 16px;
+  padding-top: var(--ink-spacing-200);
   animation: fadeInUp 0.4s ease-out 0.2s backwards;
 }

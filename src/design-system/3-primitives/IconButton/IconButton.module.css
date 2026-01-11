@@ -33,34 +33,28 @@
 .primary {
   background-color: var(--ink-cta-bg-color-primary-default);
   color: var(--ink-cta-font-color-primary);
-  box-shadow: var(--ink-shadow-sm);
 }
 
 .primary:hover:not(:disabled) {
   background-color: var(--ink-cta-bg-color-primary-hover);
-  box-shadow: var(--ink-shadow-md);
 }
 
 .primary:active:not(:disabled) {
   background-color: var(--ink-cta-bg-color-primary-active);
-  box-shadow: var(--ink-shadow-sm);
 }
 
 /* Brand variant */
 .brand {
   background-color: var(--ink-cta-bg-color-brand-default);
   color: var(--ink-cta-font-color-brand);
-  box-shadow: var(--ink-shadow-sm);
 }
 
 .brand:hover:not(:disabled) {
   background-color: var(--ink-cta-bg-color-brand-hover);
-  box-shadow: var(--ink-shadow-md);
 }
 
 .brand:active:not(:disabled) {
   background-color: var(--ink-cta-bg-color-brand-active);
-  box-shadow: var(--ink-shadow-sm);
 }
 
 /* Secondary variant */
@@ -94,21 +88,20 @@
   background-color: var(--ink-cta-bg-color-tertiary-active);
 }
 
-/* Danger variant */
+/* Danger variant - Figma spec: transparent bg with red icon by default */
 .danger {
-  background-color: var(--ink-cta-bg-color-danger-default);
-  color: var(--ink-cta-font-color-danger);
-  box-shadow: var(--ink-shadow-sm);
+  background-color: transparent;
+  color: var(--ink-cta-bg-color-danger-default); /* Red icon color */
 }
 
 .danger:hover:not(:disabled) {
   background-color: var(--ink-cta-bg-color-danger-hover);
-  box-shadow: var(--ink-shadow-md);
+  color: var(--ink-cta-font-color-danger); /* White icon on hover */
 }
 
 .danger:active:not(:disabled) {
   background-color: var(--ink-cta-bg-color-danger-active);
-  box-shadow: var(--ink-shadow-sm);
+  color: var(--ink-cta-font-color-danger); /* White icon on active */
 }
 
 /* Disabled state */

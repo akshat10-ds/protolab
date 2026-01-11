@@ -60,7 +60,9 @@
     "validate:vars": "node scripts/validate-css-var-overrides.js",
     "validate:semantic": "node scripts/validate-semantic-tokens.js",
     "validate:calc": "node scripts/validate-calc-patterns.js",
-    "validate:all": "npm run validate && npm run validate:icons && npm run validate:shadows && npm run validate:root && npm run validate:vars && npm run validate:semantic && npm run validate:calc",
+    "validate:forms": "node scripts/validate-form-patterns.js",
+    "validate:typography": "node scripts/validate-typography-tokens.js",
+    "validate:all": "npm run validate && npm run validate:icons && npm run validate:shadows && npm run validate:root && npm run validate:vars && npm run validate:semantic && npm run validate:calc && npm run validate:forms && npm run validate:typography",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,md}\"",
     "prepare": "husky"

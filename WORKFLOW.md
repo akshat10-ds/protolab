@@ -595,6 +595,51 @@ Result: Fix usage, don't modify component
 
 ---
 
+## 🎛️ Form Component Requirements
+
+### Controlled vs Uncontrolled Pattern (MANDATORY)
+
+**Form primitives (Checkbox, Radio, Switch) MUST support both patterns:**
+
+1. **Controlled Mode**: Parent provides `checked` prop and manages state
+2. **Uncontrolled Mode**: No `checked` prop, component manages internal state
+
+**Why this matters:**
+- Showcase demos often use uncontrolled components (no state management)
+- If component only renders visuals based on props, uncontrolled usage shows no visual feedback
+- Users clicking checkboxes see DOM change but no icon renders
+
+**Required Implementation Pattern:**
+```tsx
+// Track internal state for uncontrolled usage
+const isControlled = checked !== undefined;
+const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
+
+// Use controlled value if provided, otherwise use internal state
+const isChecked = isControlled ? checked : internalChecked;
+
+// Handle change for both modes
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (!isControlled) {
+    setInternalChecked(e.target.checked);
+  }
+  onChange?.(e);
+};
+
+// Render based on derived state, NOT props
+{isChecked && <Icon name="check" />}  // ✅ Correct
+{checked && <Icon name="check" />}     // ❌ Wrong - won't work uncontrolled
+```
+
+**Validation:**
+Run `npm run validate:forms` to check form components follow this pattern.
+
+**Exceptions:**
+- **Slider**: Controlled-only by design (requires value to display)
+- **Radio with CSS indicators**: If using `:checked` pseudo-class for visuals, no internal state needed
+
+---
+
 ## 📝 Documentation Updates
 
 ### When to Update Docs

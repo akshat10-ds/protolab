@@ -5,12 +5,12 @@
  * Supports hover state and optional info callout on click.
  * Based on Figma design: node-id=19467-181071
  *
- * @layer 3-primitives
+ * @layer 4-composites
  */
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Callout } from '../Callout';
-import { Link } from '../Link';
+import { Link } from '../../3-primitives';
 import styles from './AIBadge.module.css';
 
 // Iris Icon SVG Component - exact paths from Figma
