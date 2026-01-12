@@ -37,19 +37,22 @@
 }
 
 .description {
-  font-size: var(--ink-font-size-sm);
-  color: var(--ink-neutral-70);
+  font-size: var(--ink-font-size-xs);
+  font-weight: var(--ink-font-weight-medium);
+  letter-spacing: 0.16px;
+  color: var(--ink-font-color-subtle);
   line-height: var(--ink-line-height-normal);
 }
 
 .textarea {
   width: 100%;
-  padding: var(--ink-spacing-100) var(--ink-spacing-200);
+  min-height: 64px;
+  padding: var(--ink-spacing-100) var(--ink-spacing-100);
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-md);
   line-height: 1.5;
-  color: var(--ink-neutral-100);
-  background-color: var(--ink-white-100);
+  color: var(--ink-font-color-default);
+  background-color: var(--ink-form-bg-default);
   border: 1px solid var(--ink-form-control-border-color-default);
   border-radius: var(--ink-radius-size-xs);
   transition:
@@ -64,7 +67,7 @@
 
 .textarea:focus {
   border: 2px solid var(--ink-form-control-border-color-active);
-  padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-200) - 1px);
+  padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-100) - 1px);
   box-shadow: var(--ink-focus-ring-accent-subtle);
 }
 
@@ -74,7 +77,7 @@
 
 .textarea.error:focus {
   border: 2px solid var(--ink-form-control-border-color-error);
-  padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-200) - 1px);
+  padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-100) - 1px);
   box-shadow: var(--ink-focus-ring-error);
 }
 
@@ -91,7 +94,7 @@
 }
 
 .textarea::placeholder {
-  color: var(--ink-neutral-50);
+  color: var(--ink-font-color-subtle);
 }
 
 /* Resize options */
@@ -119,8 +122,8 @@
 
 /* Character count */
 .count {
-  font-size: var(--ink-font-size-sm);
-  color: var(--ink-neutral-70);
+  font-size: var(--ink-font-size-xs);
+  color: var(--ink-font-color-subtle);
   line-height: var(--ink-line-height-normal);
   text-align: right;
 }
@@ -139,6 +142,7 @@
   align-items: flex-start;
   gap: var(--ink-spacing-1);
   font-size: var(--ink-font-size-sm);
+  font-weight: var(--ink-font-weight-medium);
   color: var(--ink-red-60);
   line-height: var(--ink-line-height-normal);
 }

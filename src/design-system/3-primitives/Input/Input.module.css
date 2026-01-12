@@ -4,7 +4,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--ink-spacing-100);
+  gap: var(--ink-spacing-50);
   width: 100%;
 }
 
@@ -43,7 +43,9 @@
 /* Description */
 .description {
   font-family: var(--ink-font-family);
-  font-size: var(--ink-font-size-sm);
+  font-size: var(--ink-font-size-xs);
+  font-weight: var(--ink-font-weight-medium);
+  letter-spacing: 0.16px;
   color: var(--ink-font-color-neutral);
   line-height: var(--ink-line-height-normal);
 }
@@ -86,12 +88,12 @@
   border-color: var(--ink-form-control-border-color-hover);
 }
 
-/* Focus/Active state - DocuSign uses outline, not thicker border */
+/* Focus/Active state - 2px border per Figma spec */
 .input:focus:not(.error) {
-  border-color: var(--ink-neutral-fade-70); /* Darker border on focus */
-  outline: 2px solid var(--ink-cobalt-100);
-  outline-offset: -2px;
-  /* NO padding adjustment needed - border stays 1px */
+  border: 2px solid var(--ink-cobalt-120);
+  /* Adjust padding to compensate for thicker border */
+  padding: calc(var(--ink-spacing-100) - 1px) calc(var(--ink-spacing-200) - 1px);
+  padding-left: calc(var(--ink-spacing-200) - 1px);
 }
 
 /* Error state */

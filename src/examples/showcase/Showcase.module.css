@@ -1053,3 +1053,120 @@
   padding: 2px 6px;
   border-radius: 3px;
 }
+
+/* ============================================
+   FULL-WIDTH MODE (L5/L6 Preview Optimization)
+   ============================================ */
+
+/* CSS variables for viewport-relative preview heights - scoped to showcase */
+.showcaseContainer {
+  --showcase-preview-height-full: calc(100vh - 180px);
+  --showcase-preview-height-large: calc(100vh - 250px);
+  --showcase-preview-height-medium: min(600px, calc(100vh - 300px));
+  --showcase-preview-height-small: min(250px, calc(100vh - 450px));
+}
+
+/* Full-width toggle button */
+.fullWidthToggle {
+  position: fixed;
+  top: 16px;
+  left: 252px;
+  z-index: 55;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink-white-100);
+  border: 1px solid var(--ink-neutral-30);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--ink-font-secondary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease-out;
+}
+
+.fullWidthToggle:hover {
+  background: var(--ink-neutral-10);
+  border-color: var(--ink-neutral-40);
+  color: var(--ink-font-primary);
+  transform: scale(1.05);
+}
+
+/* Full-width mode: hide sidebar */
+.showcaseContainer[data-fullwidth='true'] .sidebar {
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    width 0.3s ease-out,
+    opacity 0.2s ease-out;
+}
+
+.showcaseContainer[data-fullwidth='true'] .mainContent {
+  max-width: 100%;
+  padding: 20px 48px;
+  transition:
+    max-width 0.3s ease-out,
+    padding 0.3s ease-out;
+}
+
+.showcaseContainer[data-fullwidth='true'] .mainContent[data-inspector-open='true'] {
+  max-width: 100%;
+}
+
+.showcaseContainer[data-fullwidth='true'] .fullWidthToggle {
+  left: 16px;
+}
+
+/* L5 Pattern preview containers */
+.patternPreviewContainer {
+  border: 1px solid var(--ink-border-default);
+  border-radius: var(--ink-radius-size-xs);
+  overflow: hidden;
+  height: var(--showcase-preview-height-large);
+  min-height: 500px;
+  max-height: 85vh;
+  transition: height 0.3s ease-out;
+}
+
+/* L6 Layout preview containers */
+.layoutPreviewContainer {
+  border: 2px solid var(--ink-border-default);
+  border-radius: var(--ink-radius-size-sm);
+  overflow: hidden;
+  height: var(--showcase-preview-height-full);
+  min-height: 600px;
+  max-height: 90vh;
+  transition: height 0.3s ease-out;
+}
+
+/* AIChat preview containers */
+.chatPreviewContainer {
+  border: 1px solid var(--ink-border-default);
+  border-radius: var(--ink-radius-size-s);
+  overflow: hidden;
+  height: var(--showcase-preview-height-medium);
+  min-height: 400px;
+  max-height: 70vh;
+}
+
+.chatPreviewSmall {
+  border: 1px solid var(--ink-border-default);
+  border-radius: var(--ink-radius-size-s);
+  overflow: hidden;
+  height: var(--showcase-preview-height-small);
+  min-height: 180px;
+  max-height: 250px;
+}
+
+/* GlobalNav full-width container */
+.globalNavPreviewContainer {
+  border: 1px solid var(--ink-border-default);
+  border-radius: var(--ink-radius-size-xs);
+  overflow: hidden;
+  margin: 0 -1px;
+}
