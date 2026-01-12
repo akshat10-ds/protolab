@@ -19,6 +19,13 @@
   box-sizing: border-box;
 }
 
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .text {
   /* Figma: text.padding has pl-[4px] */
   padding-left: var(--ink-spacing-50); /* 4px from Figma */
@@ -56,6 +63,12 @@
 
 /* Variant: promo (purple accent) */
 .badge.promo {
-  background-color: var(--ink-cobalt-110); /* statusBgColorAccent */
+  background-color: var(--ink-cobalt-110); /* statusBgColorAccent #4200ca */
   color: var(--ink-white-100); /* fontColorInverse #ffffff */
+}
+
+/* Variant: promoSubtle (light purple accent) */
+.badge.promoSubtle {
+  background-color: var(--ink-cobalt-20); /* statusBgColorAccent #e9e6fd */
+  color: var(--ink-cobalt-110); /* fontColorAccentEmphasis #4200ca */
 }

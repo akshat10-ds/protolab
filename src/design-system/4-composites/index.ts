@@ -84,3 +84,12 @@ export type { TableProps } from './Table';
 
 export { List } from './List';
 export type { ListProps } from './List';
+
+// Card Components (Composite)
+export { TaskCard } from './TaskCard';
+export type {
+  TaskCardProps,
+  TaskCardHeaderProps,
+  TaskCardBodyProps,
+  TaskCardFooterProps,
+} from './TaskCard';

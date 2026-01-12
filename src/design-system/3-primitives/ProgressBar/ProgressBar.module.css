@@ -52,7 +52,7 @@
   height: 100%;
   min-width: 0;
   min-height: 1px;
-  transition: width var(--ink-transition-normal);
+  transition: width var(--ink-motion-duration-300) var(--ink-motion-curve-default);
 }
 
 /* Kind variants */
@@ -104,7 +104,7 @@
   align-items: center;
   gap: var(--ink-spacing-700);
   transform: translateY(-50%);
-  animation: indeterminate 1.5s ease-in-out infinite;
+  animation: indeterminate var(--ink-motion-duration-2000) var(--ink-motion-curve-default) infinite;
 }
 
 .fillIndeterminateBar {

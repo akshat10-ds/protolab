@@ -167,15 +167,7 @@ export const LayoutsShowcase: React.FC<LayoutsShowcaseProps> = ({ activeSubpage 
           <Text size="small" color="secondary" style={{ margin: '0 12px 8px' }}>
             Exact replica of the DocuSign Agreements page with GlobalNav and LocalNav.
           </Text>
-          <div
-            style={{
-              border: '2px solid var(--ink-border-default)',
-              borderRadius: 'var(--ink-radius-size-sm)',
-              overflow: 'hidden',
-              height: '700px',
-              margin: '0 8px',
-            }}
-          >
+          <div className={styles.layoutPreviewContainer}>
             <DocuSignShell
               globalNav={{
                 logo: docuSignLogo,
@@ -220,13 +212,8 @@ export const LayoutsShowcase: React.FC<LayoutsShowcaseProps> = ({ activeSubpage 
             <h3 className={styles.tokenSectionTitle}>Without LocalNav</h3>
           </div>
           <div
-            style={{
-              border: '2px solid var(--ink-border-default)',
-              borderRadius: 'var(--ink-radius-size-sm)',
-              overflow: 'hidden',
-              height: '400px',
-              margin: '0 8px',
-            }}
+            className={styles.layoutPreviewContainer}
+            style={{ height: 'var(--showcase-preview-height-medium)' }}
           >
             <DocuSignShell
               globalNav={{

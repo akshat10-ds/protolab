@@ -24,6 +24,7 @@ const overlayComposites = [
   'chip',
   'table',
   'list',
+  'taskcard',
 ];
 
 export interface CompositesShowcaseProps {

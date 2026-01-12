@@ -230,15 +230,7 @@ export const PatternsShowcase: React.FC<PatternsShowcaseProps> = ({ activeSubpag
           <div className={styles.tokenSectionHeader}>
             <h3 className={styles.tokenSectionTitle}>Default LocalNav</h3>
           </div>
-          <div
-            style={{
-              height: '720px',
-              border: '1px solid var(--ink-border-default)',
-              borderRadius: 'var(--ink-radius-size-xs)',
-              overflow: 'hidden',
-              margin: '0 8px',
-            }}
-          >
+          <div className={styles.patternPreviewContainer}>
             <LocalNav
               headerLabel="Start"
               headerIcon="plus"
@@ -385,14 +377,7 @@ const AIChatDemo: React.FC = () => {
             {showEmpty ? 'Show Conversation' : 'Show Empty State'}
           </button>
         </div>
-        <div
-          style={{
-            height: '500px',
-            border: '1px solid var(--ink-border-default)',
-            borderRadius: 'var(--ink-radius-size-s)',
-            overflow: 'hidden',
-          }}
-        >
+        <div className={styles.chatPreviewContainer}>
           <AIChat
             messages={showEmpty ? [] : messages}
             onSendMessage={handleSendMessage}
@@ -406,7 +391,7 @@ const AIChatDemo: React.FC = () => {
             showTimestamps
             showActions
             onMessageAction={handleMessageAction}
-            maxHeight="500px"
+            maxHeight="100%"
             placeholder="Type a message..."
             showHeader
             onShowHistory={() => console.log('Show history')}
@@ -422,14 +407,7 @@ const AIChatDemo: React.FC = () => {
         <div className={styles.tokenSectionHeader}>
           <h3 className={styles.tokenSectionTitle}>Loading State</h3>
         </div>
-        <div
-          style={{
-            height: '200px',
-            border: '1px solid var(--ink-border-default)',
-            borderRadius: 'var(--ink-radius-size-s)',
-            overflow: 'hidden',
-          }}
-        >
+        <div className={styles.chatPreviewSmall}>
           <AIChat
             messages={[
               {
@@ -442,7 +420,7 @@ const AIChatDemo: React.FC = () => {
             onSendMessage={() => {}}
             isLoading={true}
             assistantName="Assistant"
-            maxHeight="200px"
+            maxHeight="100%"
             disabled
           />
         </div>

@@ -1,4 +1,5 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
+import { IconButton } from '../IconButton';
 import styles from './Slider.module.css';
 
 export interface SliderProps {
@@ -24,10 +25,14 @@ export interface SliderProps {
   showValue?: boolean;
   /** Show tooltip on hover/drag */
   showTooltip?: boolean;
-  /** Element to display at the start of the slider (e.g., icon) */
-  startElement?: React.ReactNode;
-  /** Element to display at the end of the slider (e.g., icon) */
-  endElement?: React.ReactNode;
+  /** Icon name to display as IconButton at the start of the slider (e.g., 'zoom-out') */
+  startElement?: string;
+  /** Icon name to display as IconButton at the end of the slider (e.g., 'zoom-in') */
+  endElement?: string;
+  /** Callback when start IconButton is clicked */
+  onStartClick?: () => void;
+  /** Callback when end IconButton is clicked */
+  onEndClick?: () => void;
   /** Custom formatter for tooltip value */
   formatTooltip?: (value: number) => string;
   /** ID for the slider input */
@@ -52,6 +57,8 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
       showTooltip: showTooltipProp = true,
       startElement,
       endElement,
+      onStartClick,
+      onEndClick,
       formatTooltip,
       id,
       width,
@@ -175,7 +182,17 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
         )}
 
         <div className={containerClasses}>
-          {startElement && <div className={styles.startElement}>{startElement}</div>}
+          {startElement && (
+            <IconButton
+              icon={startElement}
+              variant="tertiary"
+              size="medium"
+              aria-label={`Decrease ${label}`}
+              onClick={onStartClick}
+              disabled={disabled}
+              className={styles.sliderIconButton}
+            />
+          )}
 
           <div
             className={styles.sliderContainer}
@@ -216,7 +233,17 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
             )}
           </div>
 
-          {endElement && <div className={styles.endElement}>{endElement}</div>}
+          {endElement && (
+            <IconButton
+              icon={endElement}
+              variant="tertiary"
+              size="medium"
+              aria-label={`Increase ${label}`}
+              onClick={onEndClick}
+              disabled={disabled}
+              className={styles.sliderIconButton}
+            />
+          )}
 
           {showValue && <div className={styles.valueDisplay}>{value}</div>}
         </div>

@@ -59,15 +59,8 @@
   gap: var(--ink-spacing-200);
 }
 
-/* Start/End element containers */
-.startElement,
-.endElement {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--ink-radius-xs);
+/* IconButton styling for start/end elements */
+.sliderIconButton {
   flex-shrink: 0;
 }
 
@@ -87,8 +80,8 @@
   top: 50%;
   left: 0;
   right: 0;
-  height: 4px; /* var(--ink-bar-width-s) */
-  background: var(--ink-bar-track-default); /* rgba(19, 0, 50, 0.1) */
+  height: var(--ink-bar-width-s); /* 4px */
+  background: var(--ink-bar-track-default);
   border-radius: var(--ink-radius-full);
   transform: translateY(-50%);
   pointer-events: none;
@@ -100,9 +93,9 @@
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 4px;
-  height: 4px;
-  background: var(--ink-bar-stop-indicator); /* rgba(19, 0, 50, 0.5) */
+  width: var(--ink-bar-width-s); /* 4px */
+  height: var(--ink-bar-width-s); /* 4px */
+  background: var(--ink-bar-stop-indicator);
   border-radius: var(--ink-radius-full);
   pointer-events: none;
 }
@@ -112,21 +105,21 @@
   position: absolute;
   top: 50%;
   left: 0;
-  height: 4px;
-  background: var(--ink-bar-fill-subtle); /* rgba(19, 0, 50, 0.7) default */
+  height: var(--ink-bar-width-s); /* 4px */
+  background: var(--ink-bar-fill-subtle); /* neutral-fade-70 per Figma default state */
   border-radius: var(--ink-radius-full);
   transform: translateY(-50%);
   transition: background-color var(--ink-transition-fast);
   pointer-events: none;
 }
 
-/* Track fill color states */
+/* Track fill color states - emphasis on hover/active */
 .trackFilled.hover {
-  background: var(--ink-neutral-140); /* #130032 on hover */
+  background: var(--ink-bar-fill-emphasis); /* neutral-140 on hover */
 }
 
 .trackFilled.active {
-  background: var(--ink-cobalt-120); /* #37039e on active */
+  background: var(--ink-bar-fill-accent-emphasis); /* cobalt-120 on active */
 }
 
 /* Range Input */
@@ -160,7 +153,7 @@
   appearance: none;
   width: 16px;
   height: 16px;
-  background: var(--ink-neutral-80); /* rgba(61, 58, 78, 1) - default dark grayish-purple */
+  background: var(--ink-form-control-thumb-bg-default); /* neutral-100 */
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -170,25 +163,25 @@
 }
 
 .slider:hover:not(:disabled)::-webkit-slider-thumb {
-  background: var(--ink-neutral-140); /* rgba(19, 0, 50, 1) on hover */
+  background: var(--ink-form-control-thumb-bg-hover); /* neutral-140 on hover */
   box-shadow: 0 0 0 8px var(--ink-neutral-fade-10); /* hover ring effect */
   transform: scale(1.5); /* 24px total with ring */
 }
 
 .slider:focus-visible:not(:disabled)::-webkit-slider-thumb {
-  background: var(--ink-neutral-140);
+  background: var(--ink-form-control-thumb-bg-hover);
   box-shadow: 0 0 0 8px var(--ink-neutral-fade-10);
   outline: none;
 }
 
 .slider:active:not(:disabled)::-webkit-slider-thumb {
-  background: var(--ink-cobalt-120); /* rgba(55, 3, 158, 1) on active */
+  background: var(--ink-form-control-thumb-bg-active); /* cobalt-120 on active */
   box-shadow: none;
   transform: scale(1);
 }
 
 .slider:disabled::-webkit-slider-thumb {
-  background: var(--ink-neutral-80);
+  background: var(--ink-form-control-thumb-bg-default);
   cursor: not-allowed;
 }
 
@@ -196,7 +189,7 @@
 .slider::-moz-range-thumb {
   width: 16px;
   height: 16px;
-  background: var(--ink-neutral-80);
+  background: var(--ink-form-control-thumb-bg-default);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -204,25 +197,25 @@
 }
 
 .slider:hover:not(:disabled)::-moz-range-thumb {
-  background: var(--ink-neutral-140);
+  background: var(--ink-form-control-thumb-bg-hover);
   box-shadow: 0 0 0 8px var(--ink-neutral-fade-10);
   transform: scale(1.5);
 }
 
 .slider:focus-visible:not(:disabled)::-moz-range-thumb {
-  background: var(--ink-neutral-140);
+  background: var(--ink-form-control-thumb-bg-hover);
   box-shadow: 0 0 0 8px var(--ink-neutral-fade-10);
   outline: none;
 }
 
 .slider:active:not(:disabled)::-moz-range-thumb {
-  background: var(--ink-cobalt-120);
+  background: var(--ink-form-control-thumb-bg-active);
   box-shadow: none;
   transform: scale(1);
 }
 
 .slider:disabled::-moz-range-thumb {
-  background: var(--ink-neutral-80);
+  background: var(--ink-form-control-thumb-bg-default);
   cursor: not-allowed;
 }
 
@@ -289,7 +282,7 @@
   flex-shrink: 0;
 }
 
-/* Disabled track */
+/* Disabled track - uses subtle variant */
 .wrapper.disabled .trackFilled {
   background: var(--ink-bar-fill-subtle);
 }

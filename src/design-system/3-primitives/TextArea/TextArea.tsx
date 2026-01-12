@@ -4,7 +4,10 @@ import { Icon } from '../Icon';
 
 export type ResizeValue = 'both' | 'horizontal' | 'vertical' | 'none';
 
-export interface TextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
+export interface TextAreaProps extends Omit<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  'size'
+> {
   /** The text label for the TextArea */
   label: string;
   /** Hide the TextArea label while allowing assistive devices to identify the control */
@@ -116,10 +119,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       .filter(Boolean)
       .join(' ');
 
-    const wrapperClasses = [
-      styles.wrapper,
-      disabled && styles.wrapperDisabled,
-    ]
+    const wrapperClasses = [styles.wrapper, disabled && styles.wrapperDisabled]
       .filter(Boolean)
       .join(' ');
 
@@ -166,7 +166,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
         {characterCount && maxLength && (
           <div id={countId} className={`${styles.count} ${isOverLimit ? styles.countError : ''}`}>
-            {charCount} / {maxLength}
+            {charCount}/{maxLength}
             {isOverLimit && allowOverLimit && (
               <span className={styles.countOverMessage}> (Over character limit)</span>
             )}

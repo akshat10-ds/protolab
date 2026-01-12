@@ -143,6 +143,8 @@ export {
   // Data Components
   Table,
   List,
+  // Card Components (Composite)
+  TaskCard,
 } from './4-composites';
 
 export type {
@@ -190,6 +192,11 @@ export type {
   // Data Components
   TableProps,
   ListProps,
+  // Card Components (Composite)
+  TaskCardProps,
+  TaskCardHeaderProps,
+  TaskCardBodyProps,
+  TaskCardFooterProps,
 } from './4-composites';
 
 // ============================================================================

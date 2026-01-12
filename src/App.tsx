@@ -18,6 +18,7 @@ export default function App() {
 
         {/* Component Showcase - Comprehensive architecture-based view */}
         <Route path="/showcase" element={<ComponentShowcase />} />
+        <Route path="/showcase/:layer/:subpage" element={<ComponentShowcase />} />
 
         {/* Visual Editor - Build prototypes with drag-and-drop */}
         <Route path="/editor" element={<EditorApp />} />

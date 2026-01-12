@@ -11,6 +11,15 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   noPadding?: boolean;
   /** Border radius size */
   radius?: 'small' | 'medium' | 'large';
+  /** Image position when Card.Image is used - start (left side) or top (above content) */
+  imagePosition?: 'start' | 'top';
+}
+
+export interface CardImageProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Image source URL */
+  src: string;
+  /** Alt text for accessibility */
+  alt: string;
 }
 
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -49,29 +58,63 @@ export const CardFooter: React.FC<CardFooterProps> = ({ children, className, ...
   );
 };
 
+export const CardImage: React.FC<CardImageProps> = ({ src, alt, className, ...props }) => {
+  return (
+    <div className={`${styles.image} ${className || ''}`} {...props}>
+      <img src={src} alt={alt} />
+    </div>
+  );
+};
+
 export const Card: React.FC<CardProps> & {
   Header: typeof CardHeader;
   Body: typeof CardBody;
   Footer: typeof CardFooter;
+  Image: typeof CardImage;
 } = ({
   children,
   variant = 'light',
   disabled = false,
   noPadding = false,
   radius,
+  imagePosition = 'top',
   className,
   ...props
 }) => {
+  // Check if Card.Image is used to apply imagePosition class
+  const hasImage = React.Children.toArray(children).some(
+    (child) => React.isValidElement(child) && child.type === CardImage
+  );
+
   const cardClasses = [
     styles.card,
     styles[variant],
     disabled && styles.disabled,
     noPadding && styles.noPadding,
     radius && styles[`radius-${radius}`],
+    hasImage && (imagePosition === 'start' ? styles.imageStart : styles.imageTop),
     className,
   ]
     .filter(Boolean)
     .join(' ');
+
+  // Separate Card.Image from other children and wrap non-image children in content div
+  if (hasImage) {
+    const imageChild = React.Children.toArray(children).find(
+      (child) => React.isValidElement(child) && child.type === CardImage
+    );
+    const otherChildren = React.Children.toArray(children).filter(
+      (child) => !(React.isValidElement(child) && child.type === CardImage)
+    );
+
+    return (
+      <div className={cardClasses} {...props}>
+        {imagePosition === 'top' && imageChild}
+        <div className={styles.content}>{otherChildren}</div>
+        {imagePosition === 'start' && imageChild}
+      </div>
+    );
+  }
 
   return (
     <div className={cardClasses} {...props}>
@@ -83,4 +126,5 @@ export const Card: React.FC<CardProps> & {
 Card.Header = CardHeader;
 Card.Body = CardBody;
 Card.Footer = CardFooter;
+Card.Image = CardImage;
 Card.displayName = 'Card';
