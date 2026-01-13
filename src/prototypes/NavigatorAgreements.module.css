@@ -1,0 +1,74 @@
+/**
+ * NavigatorAgreements Prototype Styles
+ *
+ * Layout-only styles matching DocuSign Navigator production spacing.
+ * Component styles come from design system.
+ */
+
+@import '../design-system/1-tokens/tokens.css';
+
+/* Logo sizing */
+.logo {
+  height: 24px;
+  width: auto;
+}
+
+/* Main content area - pure white per DocuSign production */
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--ink-white-100);
+}
+
+/* Page header section - 32px top spacing from GlobalNav */
+.pageHeader {
+  padding: var(--ink-spacing-400) var(--ink-spacing-400) var(--ink-spacing-200);
+}
+
+/* Banner section - 16px gap from page header */
+.banner {
+  padding: 0 var(--ink-spacing-400);
+  margin-bottom: 0;
+}
+
+/* Action bar - 0px from banner (adjacent), contains filters */
+.actionBar {
+  padding: var(--ink-spacing-200) var(--ink-spacing-400);
+  background: var(--ink-white-100);
+  /* No border-bottom per DocuSign production */
+}
+
+/* Search wrapper with indicator dot */
+.searchWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIndicator {
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-cobalt-50);
+}
+
+.searchInput {
+  width: 320px;
+}
+
+/* Table wrapper - 24px gap from action bar */
+.tableWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  margin: var(--ink-spacing-300) var(--ink-spacing-400);
+  margin-top: 0;
+  background: var(--ink-white-100);
+  border-radius: var(--ink-radius-size-xs);
+}

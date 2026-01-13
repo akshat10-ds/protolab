@@ -24,6 +24,15 @@
   opacity: var(--ink-opacity-disabled);
 }
 
+/* Size variants */
+.inputWrapper.small {
+  height: 32px; /* Match button small height */
+}
+
+.inputWrapper.medium {
+  height: 40px; /* Match button medium height */
+}
+
 .searchIcon {
   position: absolute;
   left: var(--ink-spacing-150);

@@ -82,6 +82,24 @@ const dropdownWithShortcuts = [
 
 const dropdownPositions = ['bottom', 'top', 'left', 'right'] as const;
 
+// View selector style dropdown (with header, boxed icons, selected state)
+const viewSelectorItems = [
+  {
+    label: 'Documents',
+    description: 'Analyze agreement data with AI',
+    icon: <Icon name="document" size="medium" />,
+    selected: true,
+    onClick: () => alert('Documents'),
+  },
+  {
+    label: 'Envelopes',
+    description: 'View signatures and activity',
+    icon: <Icon name="envelope" size="medium" />,
+    selected: false,
+    onClick: () => alert('Envelopes'),
+  },
+];
+
 const sampleData = [
   { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'active' },
   { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'Editor', status: 'active' },
@@ -330,6 +348,23 @@ export const OverlayComposites: React.FC<OverlayCompositesProps> = ({ activeSubp
   if (activeSubpage === 'dropdown') {
     return (
       <div className={styles.tokenPage}>
+        {/* View Selector Style (Header + Boxed Icons + Selected) */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>View Selector Style</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <Dropdown items={viewSelectorItems} header="Select a view" iconStyle="boxed">
+              <Button kind="secondary" endElement={<Icon name="chevron-down" size="small" />}>
+                Documents
+              </Button>
+            </Dropdown>
+          </div>
+          <Text size="sm" color="secondary" style={{ marginTop: 'var(--ink-spacing-100)' }}>
+            Uses header, iconStyle="boxed", and selected prop for checkmark
+          </Text>
+        </div>
+
         {/* Default */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
@@ -520,23 +555,43 @@ export const OverlayComposites: React.FC<OverlayCompositesProps> = ({ activeSubp
           </div>
           <div className={styles.interactiveArea}>
             <Stack gap="small">
-              <Banner kind="information" icon="info">
-                Information banner
+              <Banner
+                kind="information"
+                icon="info"
+                action={{ label: 'Button', onClick: () => {} }}
+              >
+                This child node renders as a string
               </Banner>
-              <Banner kind="success" icon="status-check">
-                Success banner
+              <Banner
+                kind="danger"
+                icon="status-error"
+                action={{ label: 'Button', onClick: () => {} }}
+              >
+                This child node renders as a string
               </Banner>
-              <Banner kind="warning" icon="status-warn">
-                Warning banner
+              <Banner
+                kind="success"
+                icon="status-check"
+                action={{ label: 'Button', onClick: () => {} }}
+              >
+                This child node renders as a string
               </Banner>
-              <Banner kind="danger" icon="status-error">
-                Danger banner
+              <Banner
+                kind="warning"
+                icon="status-warn"
+                action={{ label: 'Button', onClick: () => {} }}
+              >
+                This child node renders as a string
               </Banner>
-              <Banner kind="promo" icon="star">
-                Promo banner
+              <Banner kind="promo" icon="megaphone" action={{ label: 'Button', onClick: () => {} }}>
+                This child node renders as a string
               </Banner>
-              <Banner kind="subtle">Subtle banner</Banner>
-              <Banner kind="neutral">Neutral banner</Banner>
+              <Banner kind="subtle" icon="clock" action={{ label: 'Button', onClick: () => {} }}>
+                This child node renders as a string
+              </Banner>
+              <Banner kind="neutral" icon="clock" action={{ label: 'Button', onClick: () => {} }}>
+                This child node renders as a string
+              </Banner>
             </Stack>
           </div>
         </div>

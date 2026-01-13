@@ -12,9 +12,19 @@
   z-index: var(--ink-z-dropdown);
   animation: dropdownFadeIn var(--ink-transition-fast);
   min-width: 200px;
-  max-width: 320px;
+  max-width: 380px; /* Increased for boxed icons with descriptions */
   max-height: 400px;
   overflow-y: auto;
+}
+
+/* Section header */
+.header {
+  font-family: var(--ink-font-family);
+  font-size: var(--ink-font-size-sm);
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-font-color-neutral);
+  padding: var(--ink-spacing-100) var(--ink-spacing-200);
+  margin-bottom: var(--ink-spacing-50);
 }
 
 @keyframes dropdownFadeIn {
@@ -70,7 +80,23 @@
   flex-shrink: 0;
   width: var(--ink-icon-size-s);
   height: var(--ink-icon-size-s);
-  color: var(--ink-neutral-60);
+  color: var(--ink-icon-color-default);
+}
+
+/* Boxed icon style - icons in a background box */
+.iconBoxed {
+  width: 40px;
+  height: 40px;
+  background-color: var(--ink-neutral-fade-5);
+  border-radius: var(--ink-radius-size-xs);
+  color: var(--ink-icon-color-default);
+}
+
+/* Items with boxed icons need different alignment */
+.item:has(.iconBoxed) {
+  align-items: center;
+  padding: var(--ink-spacing-100);
+  gap: var(--ink-spacing-150);
 }
 
 .content {
@@ -86,6 +112,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Make label bold when there's a description */
+.content:has(.description) .label {
+  font-weight: var(--ink-font-weight-medium);
 }
 
 .description {
@@ -109,6 +140,24 @@
   align-items: center;
   color: var(--ink-neutral-60);
   margin-left: auto;
+}
+
+/* Checkmark for selected items */
+.checkmark {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--ink-font-color-default);
+  margin-left: auto;
+}
+
+/* Selected item state */
+.item.selected {
+  background-color: transparent;
+}
+
+.item.selected .label {
+  font-weight: var(--ink-font-weight-medium);
 }
 
 .divider {

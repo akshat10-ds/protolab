@@ -22,6 +22,8 @@ export interface DropdownItemProps {
   shortcut?: string;
   /** Sub-menu items */
   children?: DropdownItemProps[];
+  /** Whether this item is selected (shows checkmark) */
+  selected?: boolean;
 }
 
 export interface DropdownProps {
@@ -41,6 +43,10 @@ export interface DropdownProps {
   onOpenChange?: (open: boolean) => void;
   /** Close on item click */
   closeOnItemClick?: boolean;
+  /** Section header text (e.g., "Select a view") */
+  header?: string;
+  /** Show icons with background box styling */
+  iconStyle?: 'default' | 'boxed';
   /** Data QA attribute for testing */
   'data-qa'?: string;
 }
@@ -54,6 +60,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
   defaultOpen = false,
   onOpenChange,
   closeOnItemClick = true,
+  header,
+  iconStyle = 'default',
   'data-qa': dataQa,
 }) => {
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
@@ -246,6 +254,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
     const hasSubmenu = item.children && item.children.length > 0;
     const isSubmenuOpen = submenuOpenIndex === index;
+    const iconClassName =
+      iconStyle === 'boxed' ? `${styles.icon} ${styles.iconBoxed}` : styles.icon;
 
     return (
       <button
@@ -255,13 +265,14 @@ export const Dropdown: React.FC<DropdownProps> = ({
         }}
         className={`${styles.item} ${item.disabled ? styles.disabled : ''} ${
           activeIndex === index ? styles.active : ''
-        }`}
+        } ${item.selected ? styles.selected : ''}`}
         onClick={() => handleItemClick(item, index)}
         disabled={item.disabled}
         type="button"
         role="menuitem"
+        aria-selected={item.selected}
       >
-        {item.icon && <span className={styles.icon}>{item.icon}</span>}
+        {item.icon && <span className={iconClassName}>{item.icon}</span>}
         <div className={styles.content}>
           <span className={styles.label}>{item.label}</span>
           {item.description && <span className={styles.description}>{item.description}</span>}
@@ -270,6 +281,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
         {hasSubmenu && (
           <span className={styles.arrow}>
             <Icon name="chevron-right" size="small" />
+          </span>
+        )}
+        {item.selected && (
+          <span className={styles.checkmark}>
+            <Icon name="check" size="small" />
           </span>
         )}
       </button>
@@ -298,6 +314,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
           onKeyDown={handleKeyDown}
           data-qa={dataQa}
         >
+          {header && <div className={styles.header}>{header}</div>}
           {items.map((item, index) => renderItem(item, index))}
         </div>
       )}
