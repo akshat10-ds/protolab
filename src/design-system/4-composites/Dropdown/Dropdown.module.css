@@ -19,7 +19,7 @@
   overflow-y: auto;
 }
 
-/* Section header - matches Figma "Text/Caption/Semibold" specs */
+/* Section header - matches Figma "fontSectionHeadline" specs */
 .header {
   font-family: var(--ink-font-family);
   font-size: var(--ink-font-size-xs); /* 12px from Figma */
@@ -134,7 +134,7 @@
 
 .shortcut {
   flex-shrink: 0;
-  font-size: var(--ink-font-size-xs);
+  font-size: var(--ink-font-size-sm); /* 14px from Figma */
   color: var(--ink-font-color-neutral-subtle); /* fontColorSubtle from Figma */
   margin-left: auto;
   padding-left: var(--ink-spacing-3);
