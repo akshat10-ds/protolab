@@ -1608,6 +1608,19 @@ const DropdownMeta: ComponentMeta = {
       defaultValue: 'bottom-start',
       description: 'Menu position',
     },
+    {
+      name: 'header',
+      type: 'string',
+      defaultValue: '',
+      description: 'Section header text (e.g., "Select a view")',
+    },
+    {
+      name: 'iconStyle',
+      type: 'select',
+      options: ['default', 'boxed'],
+      defaultValue: 'default',
+      description: 'Icon display style (boxed for view selectors)',
+    },
   ],
 };
 

@@ -44,7 +44,7 @@ Tracking component updates from Figma source of truth.
 | Tabs | ✅ Completed | `875-21503` | Gap 0, 2px border, subtle/emphasis colors, semibold selected, min-width 80px |
 | Table | ⏳ Pending | | |
 | Accordion | ⏳ Pending | | |
-| Menu | ⏳ Pending | | |
+| Menu/Dropdown | ✅ Completed | `31271-47714` | Added shadow (elevated), header 12px/600/0.16px, description 12px/500/0.16px |
 | Popover | ⏳ Pending | | |
 | SearchInput | ⏳ Pending | | |
 | Pagination | ⏳ Pending | | |
@@ -66,6 +66,7 @@ Components should only show production-proven options:
 - **Button**: small, medium only (no large/xlarge), no rounded prop
 - **IconButton**: small, medium only, variant prop (not kind), danger shows unique behavior
 - **ComboButton**: small, medium only, tertiary is always icon-only (compact)
+- **Dropdown**: header prop for section titles, iconStyle='boxed' for view selectors, selected prop for checkmark
 
 ---
 
@@ -80,3 +81,4 @@ Components should only show production-proven options:
 | TextArea | 2026-01-12 | Description typography aligned, min-height 64px, padding 8px, character count |
 | Select | 2026-01-12 | Border token updated, description typography aligned |
 | Tabs | 2026-01-12 | No gap, 2px border, subtle/emphasis colors, semibold selected |
+| Dropdown | 2026-01-12 | Added shadow (elevated), header/description typography, registry updated |
