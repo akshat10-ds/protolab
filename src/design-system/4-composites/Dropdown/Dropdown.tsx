@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Dropdown.module.css';
 import { Icon } from '../../3-primitives/Icon';
+import { Portal } from '../../2-utilities/Portal';
 
 export type DropdownPosition = 'top' | 'bottom' | 'left' | 'right';
 export type DropdownAlign = 'start' | 'center' | 'end';
@@ -230,7 +231,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
   useEffect(() => {
     if (open) {
-      calculatePosition();
+      // Use requestAnimationFrame to ensure Portal has mounted and ref is available
+      const frameId = requestAnimationFrame(() => {
+        calculatePosition();
+      });
+      return () => cancelAnimationFrame(frameId);
     }
   }, [open]);
 
@@ -303,20 +308,22 @@ export const Dropdown: React.FC<DropdownProps> = ({
     <>
       {trigger}
       {open && (
-        <div
-          ref={dropdownRef}
-          className={styles.dropdown}
-          style={{
-            top: `${coords.top}px`,
-            left: `${coords.left}px`,
-          }}
-          role="menu"
-          onKeyDown={handleKeyDown}
-          data-qa={dataQa}
-        >
-          {header && <div className={styles.header}>{header}</div>}
-          {items.map((item, index) => renderItem(item, index))}
-        </div>
+        <Portal>
+          <div
+            ref={dropdownRef}
+            className={styles.dropdown}
+            style={{
+              top: `${coords.top}px`,
+              left: `${coords.left}px`,
+            }}
+            role="menu"
+            onKeyDown={handleKeyDown}
+            data-qa={dataQa}
+          >
+            {header && <div className={styles.header}>{header}</div>}
+            {items.map((item, index) => renderItem(item, index))}
+          </div>
+        </Portal>
       )}
     </>
   );
