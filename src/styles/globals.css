@@ -307,6 +307,16 @@ html {
   font-family: var(--font-family-primary);
 }
 
+/* Hide scrollbars globally while preserving scroll functionality */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 /* Webkit line clamp utility */
 .css-bc38nt {
   display: -webkit-box;
