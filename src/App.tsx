@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import ComponentShowcase from './examples/ComponentShowcase';
 import DocuSignShellDemo from './examples/DocuSignShellDemo';
 import EditorApp from './editor/EditorApp';
@@ -64,6 +65,7 @@ export default function App() {
         {/* Redirect any other path to showcase */}
         <Route path="*" element={<Navigate to="/showcase" replace />} />
       </Routes>
+      <Analytics />
     </BrowserRouter>
   );
 }
