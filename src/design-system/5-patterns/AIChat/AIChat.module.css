@@ -216,17 +216,18 @@
   width: 28px;
   height: 28px;
   padding: 0;
-  background: transparent;
-  border: none;
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
   border-radius: var(--ink-radius-size-xs);
-  color: var(--ink-font-color-neutral-subtle);
+  color: var(--ink-font-color-neutral);
   cursor: pointer;
-  transition: background-color 150ms ease, color 150ms ease;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
   z-index: 1;
 }
 
 .expandButton:hover {
   background: var(--ink-bg-color-neutral-subtle);
+  border-color: var(--ink-border-color-default);
   color: var(--ink-font-color-default);
 }
 
@@ -326,6 +327,11 @@
 /* Expanded state for textarea */
 .textInputExpanded.textInputExpanded {
   max-height: 500px !important;
+}
+
+/* When expand button is visible, add right padding to prevent text overlap */
+.textInputWithExpandButton.textInputWithExpandButton {
+  padding-right: 40px !important;
 }
 
 .inputActions {

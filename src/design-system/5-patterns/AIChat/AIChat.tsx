@@ -374,7 +374,7 @@ const InputArea: React.FC<InputAreaProps> = ({
             placeholder={placeholder}
             disabled={disabled}
             rows={1}
-            className={`${styles.textInput}${isExpanded ? ` ${styles.textInputExpanded}` : ''}`}
+            className={`${styles.textInput}${isExpanded ? ` ${styles.textInputExpanded}` : ''}${isLongContent ? ` ${styles.textInputWithExpandButton}` : ''}`}
             label="Chat message input"
             hideLabel
           />
