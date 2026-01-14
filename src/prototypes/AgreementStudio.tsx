@@ -1196,6 +1196,15 @@ const AIPanel: React.FC<AIPanelProps> = ({
     const conflictKey = Object.keys(CONFLICT_RESPONSES).find(
       key => content === key || content.startsWith(`${key}:`) || content.includes(`[Action: ${key}]`)
     );
+
+    // Debug logging - remove after testing
+    console.log('=== Message Matching Debug ===');
+    console.log('Content includes [Action: Summarize Prevailing Terms]:', content.includes('[Action: Summarize Prevailing Terms]'));
+    console.log('Content includes [Action: Check for Conflicts]:', content.includes('[Action: Check for Conflicts]'));
+    console.log('scriptedKey:', scriptedKey);
+    console.log('conflictKey:', conflictKey);
+    console.log('Content last 100 chars:', content.slice(-100));
+
     const scriptedResponse = scriptedKey ? SCRIPTED_RESPONSES[scriptedKey] : undefined;
     const conflictResponse = conflictKey ? CONFLICT_RESPONSES[conflictKey] : undefined;
 

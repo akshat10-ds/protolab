@@ -654,11 +654,24 @@ export const AIChat: React.FC<AIChatProps> = ({
   onInputChange,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const prevMessagesLengthRef = useRef(messages.length);
 
-  // Auto-scroll to bottom when new messages arrive
+  // Only auto-scroll when user sends a message (message count increases by 1 from user action)
+  // Don't scroll when AI response loads - let user read from where they are
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
+    const prevLength = prevMessagesLengthRef.current;
+    const currentLength = messages.length;
+
+    // Only scroll if a user message was just added (not AI response)
+    if (currentLength > prevLength) {
+      const lastMessage = messages[currentLength - 1];
+      if (lastMessage?.role === 'user') {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    prevMessagesLengthRef.current = currentLength;
+  }, [messages]);
 
   const isEmpty = messages.length === 0;
 
