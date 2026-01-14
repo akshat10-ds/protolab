@@ -92,7 +92,7 @@ interface FloatingCTAProps {
 const FloatingCTA: React.FC<FloatingCTAProps> = ({
   onClick,
   agreementCount = 15,
-  searchTerm = 'Acme'
+  searchTerm = 'Acme',
 }) => (
   <button type="button" className={styles.floatingCTA} onClick={onClick}>
     <span className={styles.floatingCTAIcon}>
@@ -237,7 +237,12 @@ interface DocumentCanvasProps {
   isNarrowMode: boolean;
 }
 
-const DocumentCanvas: React.FC<DocumentCanvasProps> = ({ isOpen, citation, onClose, isNarrowMode }) => {
+const DocumentCanvas: React.FC<DocumentCanvasProps> = ({
+  isOpen,
+  citation,
+  onClose,
+  isNarrowMode,
+}) => {
   const pageData = citation ? DOCUMENT_PAGES[citation.id] : null;
   const [selectedPage, setSelectedPage] = useState(1);
 
@@ -258,152 +263,172 @@ const DocumentCanvas: React.FC<DocumentCanvasProps> = ({ isOpen, citation, onClo
     styles.documentCanvasWrapper,
     isOpen ? styles.documentCanvasWrapperOpen : '',
     isNarrowMode && isOpen ? styles.documentCanvasWrapperFullWidth : '',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   const canvasClasses = styles.documentCanvas;
 
   return (
     <div className={wrapperClasses}>
       <div className={canvasClasses}>
-      {/* Canvas Header/Toolbar */}
-      <div className={styles.canvasHeader}>
-        <div className={styles.canvasHeaderLeft}>
-          {/* Back button in narrow mode */}
-          {isNarrowMode && (
+        {/* Canvas Header/Toolbar */}
+        <div className={styles.canvasHeader}>
+          <div className={styles.canvasHeaderLeft}>
+            {/* Back button in narrow mode */}
+            {isNarrowMode && (
+              <button
+                className={styles.canvasBackButton}
+                onClick={onClose}
+                aria-label="Back to chat"
+              >
+                <Icon name="arrow-left" size={18} />
+              </button>
+            )}
+            <Icon name="document" size={18} />
+            <span className={styles.canvasTitle}>{citation?.documentTitle || 'Document'}</span>
+          </div>
+          <div className={styles.canvasHeaderCenter}>
+            {/* Page navigation in header */}
             <button
-              className={styles.canvasBackButton}
+              className={styles.canvasNavButton}
+              disabled={selectedPage <= 1}
+              onClick={() => setSelectedPage((p) => p - 1)}
+            >
+              <Icon name="chevron-left" size={16} />
+            </button>
+            <span className={styles.canvasPageIndicator}>
+              {selectedPage} / {pageData?.totalPages || 1}
+            </span>
+            <button
+              className={styles.canvasNavButton}
+              disabled={selectedPage >= (pageData?.totalPages || 1)}
+              onClick={() => setSelectedPage((p) => p + 1)}
+            >
+              <Icon name="chevron-right" size={16} />
+            </button>
+          </div>
+          <div className={styles.canvasHeaderRight}>
+            <Tooltip content="Open in Navigator">
+              <IconButton
+                icon="external-link"
+                size="small"
+                kind="tertiary"
+                aria-label="Open in Navigator"
+              />
+            </Tooltip>
+            <IconButton
+              icon="close"
+              size="small"
+              kind="tertiary"
               onClick={onClose}
-              aria-label="Back to chat"
-            >
-              <Icon name="arrow-left" size={18} />
-            </button>
-          )}
-          <Icon name="document" size={18} />
-          <span className={styles.canvasTitle}>{citation?.documentTitle || 'Document'}</span>
-        </div>
-        <div className={styles.canvasHeaderCenter}>
-          {/* Page navigation in header */}
-          <button
-            className={styles.canvasNavButton}
-            disabled={selectedPage <= 1}
-            onClick={() => setSelectedPage(p => p - 1)}
-          >
-            <Icon name="chevron-left" size={16} />
-          </button>
-          <span className={styles.canvasPageIndicator}>
-            {selectedPage} / {pageData?.totalPages || 1}
-          </span>
-          <button
-            className={styles.canvasNavButton}
-            disabled={selectedPage >= (pageData?.totalPages || 1)}
-            onClick={() => setSelectedPage(p => p + 1)}
-          >
-            <Icon name="chevron-right" size={16} />
-          </button>
-        </div>
-        <div className={styles.canvasHeaderRight}>
-          <Tooltip content="Open in Navigator">
-            <IconButton icon="external-link" size="small" kind="tertiary" aria-label="Open in Navigator" />
-          </Tooltip>
-          <IconButton icon="close" size="small" kind="tertiary" onClick={onClose} aria-label="Close" />
-        </div>
-      </div>
-
-      {/* Canvas Body */}
-      <div className={styles.canvasBody}>
-        {/* Thumbnails sidebar */}
-        <div className={styles.canvasThumbnails}>
-          {pageThumbnails.map((pageNum) => (
-            <button
-              key={pageNum}
-              className={`${styles.canvasThumb} ${pageNum === selectedPage ? styles.canvasThumbActive : ''}`}
-              onClick={() => setSelectedPage(pageNum)}
-            >
-              <div className={styles.canvasThumbPage}>
-                {pageNum === pageData?.pageNumber && (
-                  <div className={styles.canvasThumbHighlight} />
-                )}
-              </div>
-              <span className={styles.canvasThumbNum}>{pageNum}</span>
-            </button>
-          ))}
+              aria-label="Close"
+            />
+          </div>
         </div>
 
-        {/* Document content area */}
-        <div className={styles.canvasContent}>
-          <div className={styles.canvasDocument}>
-            {/* Document letterhead */}
-            <div className={styles.canvasLetterhead}>
-              <div className={styles.canvasCompanyLogo}>
-                <div className={styles.canvasLogoIcon}>A</div>
-                <div className={styles.canvasCompanyInfo}>
-                  <span className={styles.canvasCompanyName}>ACME CORPORATION</span>
-                  <span className={styles.canvasCompanyAddress}>123 Business Park Drive, Suite 400</span>
-                  <span className={styles.canvasCompanyAddress}>San Francisco, CA 94102</span>
+        {/* Canvas Body */}
+        <div className={styles.canvasBody}>
+          {/* Thumbnails sidebar */}
+          <div className={styles.canvasThumbnails}>
+            {pageThumbnails.map((pageNum) => (
+              <button
+                key={pageNum}
+                className={`${styles.canvasThumb} ${pageNum === selectedPage ? styles.canvasThumbActive : ''}`}
+                onClick={() => setSelectedPage(pageNum)}
+              >
+                <div className={styles.canvasThumbPage}>
+                  {pageNum === pageData?.pageNumber && (
+                    <div className={styles.canvasThumbHighlight} />
+                  )}
                 </div>
-              </div>
-              <div className={styles.canvasDocType}>
-                {citation?.documentTitle?.includes('MSA') ? 'MASTER SERVICES AGREEMENT' :
-                 citation?.documentTitle?.includes('Order Form') ? 'ORDER FORM' :
-                 citation?.documentTitle?.includes('SOW') ? 'STATEMENT OF WORK' :
-                 citation?.documentTitle?.includes('Amendment') ? 'AMENDMENT' : 'AGREEMENT'}
-              </div>
-            </div>
+                <span className={styles.canvasThumbNum}>{pageNum}</span>
+              </button>
+            ))}
+          </div>
 
-            <div className={styles.canvasDivider} />
-
-            {/* Section header */}
-            {pageData && (
-              <h3 className={styles.canvasSectionTitle}>{pageData.sectionTitle}</h3>
-            )}
-
-            {/* Document text */}
-            {pageData && selectedPage === pageData.pageNumber ? (
-              <div className={styles.canvasTextContent}>
-                <div className={styles.canvasText}>
-                  {pageData.beforeText.split('\n').map((line, i) => (
-                    <p key={`before-${i}`}>{line || '\u00A0'}</p>
-                  ))}
-                </div>
-
-                {/* Highlighted citation */}
-                <div className={styles.canvasCitation}>
-                  <div className={styles.canvasCitationBadge}>
-                    <Icon name="ai-spark" size={14} />
-                    <span>Citation {citation?.id?.replace('cit-', '')}</span>
+          {/* Document content area */}
+          <div className={styles.canvasContent}>
+            <div className={styles.canvasDocument}>
+              {/* Document letterhead */}
+              <div className={styles.canvasLetterhead}>
+                <div className={styles.canvasCompanyLogo}>
+                  <div className={styles.canvasLogoIcon}>A</div>
+                  <div className={styles.canvasCompanyInfo}>
+                    <span className={styles.canvasCompanyName}>ACME CORPORATION</span>
+                    <span className={styles.canvasCompanyAddress}>
+                      123 Business Park Drive, Suite 400
+                    </span>
+                    <span className={styles.canvasCompanyAddress}>San Francisco, CA 94102</span>
                   </div>
-                  <p className={styles.canvasCitationText}>
-                    <mark className={styles.canvasCitationHighlight}>{pageData.highlightedText}</mark>
-                  </p>
                 </div>
-
-                <div className={styles.canvasText}>
-                  {pageData.afterText.split('\n').map((line, i) => (
-                    <p key={`after-${i}`}>{line || '\u00A0'}</p>
-                  ))}
+                <div className={styles.canvasDocType}>
+                  {citation?.documentTitle?.includes('MSA')
+                    ? 'MASTER SERVICES AGREEMENT'
+                    : citation?.documentTitle?.includes('Order Form')
+                      ? 'ORDER FORM'
+                      : citation?.documentTitle?.includes('SOW')
+                        ? 'STATEMENT OF WORK'
+                        : citation?.documentTitle?.includes('Amendment')
+                          ? 'AMENDMENT'
+                          : 'AGREEMENT'}
                 </div>
               </div>
-            ) : (
-              <div className={styles.canvasPlaceholder}>
-                <Icon name="document" size={40} />
-                <p>Page {selectedPage}</p>
-                <button
-                  className={styles.canvasJumpButton}
-                  onClick={() => setSelectedPage(pageData?.pageNumber || 1)}
-                >
-                  Jump to citation (page {pageData?.pageNumber})
-                </button>
-              </div>
-            )}
 
-            {/* Page footer */}
-            <div className={styles.canvasPageFooter}>
-              <span>Page {selectedPage}</span>
-              <span>{citation?.documentTitle}</span>
+              <div className={styles.canvasDivider} />
+
+              {/* Section header */}
+              {pageData && <h3 className={styles.canvasSectionTitle}>{pageData.sectionTitle}</h3>}
+
+              {/* Document text */}
+              {pageData && selectedPage === pageData.pageNumber ? (
+                <div className={styles.canvasTextContent}>
+                  <div className={styles.canvasText}>
+                    {pageData.beforeText.split('\n').map((line, i) => (
+                      <p key={`before-${i}`}>{line || '\u00A0'}</p>
+                    ))}
+                  </div>
+
+                  {/* Highlighted citation */}
+                  <div className={styles.canvasCitation}>
+                    <div className={styles.canvasCitationBadge}>
+                      <Icon name="ai-spark" size={14} />
+                      <span>Citation {citation?.id?.replace('cit-', '')}</span>
+                    </div>
+                    <p className={styles.canvasCitationText}>
+                      <mark className={styles.canvasCitationHighlight}>
+                        {pageData.highlightedText}
+                      </mark>
+                    </p>
+                  </div>
+
+                  <div className={styles.canvasText}>
+                    {pageData.afterText.split('\n').map((line, i) => (
+                      <p key={`after-${i}`}>{line || '\u00A0'}</p>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.canvasPlaceholder}>
+                  <Icon name="document" size={40} />
+                  <p>Page {selectedPage}</p>
+                  <button
+                    className={styles.canvasJumpButton}
+                    onClick={() => setSelectedPage(pageData?.pageNumber || 1)}
+                  >
+                    Jump to citation (page {pageData?.pageNumber})
+                  </button>
+                </div>
+              )}
+
+              {/* Page footer */}
+              <div className={styles.canvasPageFooter}>
+                <span>Page {selectedPage}</span>
+                <span>{citation?.documentTitle}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   );
@@ -449,38 +474,49 @@ const AgreementsSidebar: React.FC<AgreementsSidebarProps> = ({
     if (allSelected) {
       onSelectionChange(new Set());
     } else {
-      onSelectionChange(new Set(agreements.map(a => a.id)));
+      onSelectionChange(new Set(agreements.map((a) => a.id)));
     }
   }, [allSelected, agreements, onSelectionChange, triggerRipple]);
 
   // Simple toggle function for checkbox onChange
-  const toggleItem = useCallback((id: string) => {
-    triggerRipple(id);
-    const next = new Set(selectedIds);
-    if (next.has(id)) {
-      next.delete(id);
-    } else {
-      next.add(id);
-    }
-    onSelectionChange(next);
-  }, [selectedIds, onSelectionChange, triggerRipple]);
+  const toggleItem = useCallback(
+    (id: string) => {
+      triggerRipple(id);
+      const next = new Set(selectedIds);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      onSelectionChange(next);
+    },
+    [selectedIds, onSelectionChange, triggerRipple]
+  );
 
   // Click handler that also stops propagation
-  const handleToggleItem = useCallback((id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    toggleItem(id);
-  }, [toggleItem]);
+  const handleToggleItem = useCallback(
+    (id: string, e: React.MouseEvent) => {
+      e.stopPropagation();
+      toggleItem(id);
+    },
+    [toggleItem]
+  );
 
-  const handleItemClick = useCallback((agreement: Agreement) => {
-    const itemEl = itemRefs.current.get(agreement.id);
-    const rect = itemEl?.getBoundingClientRect() || null;
-    onAgreementClick(agreement, rect);
-  }, [onAgreementClick]);
+  const handleItemClick = useCallback(
+    (agreement: Agreement) => {
+      const itemEl = itemRefs.current.get(agreement.id);
+      const rect = itemEl?.getBoundingClientRect() || null;
+      onAgreementClick(agreement, rect);
+    },
+    [onAgreementClick]
+  );
 
   const wrapperClasses = [
     styles.agreementsSidebarWrapper,
     isOpen ? styles.agreementsSidebarWrapperOpen : '',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div className={wrapperClasses}>
@@ -515,12 +551,7 @@ const AgreementsSidebar: React.FC<AgreementsSidebarProps> = ({
               }
             }}
           >
-            <Checkbox
-              checked={allSelected}
-              onChange={handleSelectAll}
-              label=""
-              showLabel={false}
-            />
+            <Checkbox checked={allSelected} onChange={handleSelectAll} label="" showLabel={false} />
           </div>
         </button>
 
@@ -545,9 +576,7 @@ const AgreementsSidebar: React.FC<AgreementsSidebarProps> = ({
                 <div className={styles.agreementsSidebarItemIcon}>
                   <Icon name="document" size={18} />
                 </div>
-                <span className={styles.agreementsSidebarItemTitle}>
-                  {agreement.fileName}
-                </span>
+                <span className={styles.agreementsSidebarItemTitle}>{agreement.fileName}</span>
                 {/* Checkbox wrapper - only onChange handles toggle, wrapper just stops propagation */}
                 <div
                   role="presentation"
@@ -618,9 +647,7 @@ const ConflictView: React.FC<ConflictViewProps> = ({ conflicts, onCitationClick 
                     <span className={styles.conflictClauseTitle}>{clause.documentTitle}</span>
                     <span className={styles.conflictClauseSection}>{clause.section}</span>
                   </div>
-                  <div className={styles.conflictClauseText}>
-                    {clause.text}
-                  </div>
+                  <div className={styles.conflictClauseText}>{clause.text}</div>
                 </div>
               ))}
             </div>
@@ -647,12 +674,7 @@ const ConflictView: React.FC<ConflictViewProps> = ({ conflicts, onCitationClick 
 
       {/* Tool Call Footer */}
       <div className={styles.conflictViewFooter}>
-        <Button
-          kind="primary"
-          size="small"
-          fullWidth
-          startElement={<Icon name="plus" size={16} />}
-        >
+        <Button kind="primary" size="small" fullWidth startElement={<Icon name="plus" size={16} />}>
           Create obligation
         </Button>
       </div>
@@ -672,7 +694,13 @@ interface ShareModalProps {
   shareLink: string;
 }
 
-const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, onShare, onCopyLink, shareLink }) => {
+const ShareModal: React.FC<ShareModalProps> = ({
+  isOpen,
+  onClose,
+  onShare,
+  onCopyLink,
+  shareLink,
+}) => {
   const [email, setEmail] = useState('');
   const [emailPermission, setEmailPermission] = useState<'view' | 'edit'>('view');
   const [linkPermission, setLinkPermission] = useState<'anyone' | 'restricted'>('restricted');
@@ -705,19 +733,15 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, onShare, onCop
   );
 
   return (
-    <Modal
-      open={isOpen}
-      onClose={onClose}
-      size="medium"
-      title="Share"
-      footer={footerContent}
-    >
+    <Modal open={isOpen} onClose={onClose} size="medium" title="Share" footer={footerContent}>
       <div className={styles.shareModalContent}>
         {/* Link Sharing Section */}
         <div className={styles.shareModalSection}>
           <div className={styles.shareModalSectionHeader}>
             <Icon name="link" size="small" />
-            <Text variant="label" weight="medium">Get link</Text>
+            <Text variant="label" weight="medium">
+              Get link
+            </Text>
           </div>
 
           <div className={styles.shareLinkRow}>
@@ -733,16 +757,20 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, onShare, onCop
                 {
                   label: 'Anyone with the link',
                   onClick: () => setLinkPermission('anyone'),
-                  selected: linkPermission === 'anyone'
+                  selected: linkPermission === 'anyone',
                 },
                 {
                   label: 'Restricted',
                   onClick: () => setLinkPermission('restricted'),
-                  selected: linkPermission === 'restricted'
+                  selected: linkPermission === 'restricted',
                 },
               ]}
             >
-              <Button kind="secondary" size="medium" endElement={<Icon name="chevron-down" size="small" />}>
+              <Button
+                kind="secondary"
+                size="medium"
+                endElement={<Icon name="chevron-down" size="small" />}
+              >
                 {linkPermission === 'anyone' ? 'Anyone with link' : 'Restricted'}
               </Button>
             </Dropdown>
@@ -765,7 +793,9 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, onShare, onCop
         <div className={styles.shareModalSection}>
           <div className={styles.shareModalSectionHeader}>
             <Icon name="envelope" size="small" />
-            <Text variant="label" weight="medium">Invite people</Text>
+            <Text variant="label" weight="medium">
+              Invite people
+            </Text>
           </div>
 
           <div className={styles.shareEmailRow}>
@@ -783,16 +813,20 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, onShare, onCop
                 {
                   label: 'Can view',
                   onClick: () => setEmailPermission('view'),
-                  selected: emailPermission === 'view'
+                  selected: emailPermission === 'view',
                 },
                 {
                   label: 'Can edit',
                   onClick: () => setEmailPermission('edit'),
-                  selected: emailPermission === 'edit'
+                  selected: emailPermission === 'edit',
                 },
               ]}
             >
-              <Button kind="secondary" size="medium" endElement={<Icon name="chevron-down" size="small" />}>
+              <Button
+                kind="secondary"
+                size="medium"
+                endElement={<Icon name="chevron-down" size="small" />}
+              >
                 {emailPermission === 'view' ? 'Can view' : 'Can edit'}
               </Button>
             </Dropdown>
@@ -855,7 +889,7 @@ const ExpandedPrompt: React.FC<ExpandedPromptProps> = ({ action, onRun, onClose 
     <div className={styles.expandedPrompt}>
       <div className={styles.expandedPromptHeader}>
         <div className={styles.expandedPromptTitle}>
-          <Icon name={action.icon as any || 'bolt'} size={20} />
+          <Icon name={(action.icon as any) || 'bolt'} size={20} />
           <span>{action.label}</span>
         </div>
         <IconButton
@@ -971,12 +1005,19 @@ const AIPanel: React.FC<AIPanelProps> = ({
   const [isDocumentCanvasOpen, setIsDocumentCanvasOpen] = useState(false);
   const [activeCitation, setActiveCitation] = useState<CitationData | null>(null);
 
+  // Track which long user messages are expanded (collapsed by default)
+  const [expandedUserMessages, setExpandedUserMessages] = useState<Set<string>>(new Set());
+
   // Controlled input state for expanded prompts
   const [chatInputValue, setChatInputValue] = useState('');
 
   // Share modal and toast state
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [toastState, setToastState] = useState<{ visible: boolean; message: string; status: 'loading' | 'success' | 'error' }>({
+  const [toastState, setToastState] = useState<{
+    visible: boolean;
+    message: string;
+    status: 'loading' | 'success' | 'error';
+  }>({
     visible: false,
     message: '',
     status: 'loading',
@@ -991,12 +1032,12 @@ const AIPanel: React.FC<AIPanelProps> = ({
 
   // Selected agreements state (lifted from AgreementsSidebar for count display)
   const [selectedAgreementIds, setSelectedAgreementIds] = useState<Set<string>>(
-    () => new Set(agreements.map(a => a.id))
+    () => new Set(agreements.map((a) => a.id))
   );
 
   // Keep selected IDs in sync when agreements list changes
   useEffect(() => {
-    setSelectedAgreementIds(new Set(agreements.map(a => a.id)));
+    setSelectedAgreementIds(new Set(agreements.map((a) => a.id)));
   }, [agreements]);
 
   const useInlineHistory = panelWidth >= INLINE_HISTORY_THRESHOLD;
@@ -1050,7 +1091,11 @@ const AIPanel: React.FC<AIPanelProps> = ({
 
     // Simulate verification delay
     setTimeout(() => {
-      setToastState({ visible: true, message: 'User verified. Invitation sent.', status: 'success' });
+      setToastState({
+        visible: true,
+        message: 'User verified. Invitation sent.',
+        status: 'success',
+      });
 
       // Auto-dismiss after 3 seconds
       setTimeout(() => {
@@ -1107,61 +1152,67 @@ const AIPanel: React.FC<AIPanelProps> = ({
     agreement: Agreement | null;
   }>({ isAnimating: false, sourceRect: null, agreement: null });
 
-  const handleAgreementClick = useCallback((agreement: Agreement, itemRect: DOMRect | null) => {
-    // Create citation for the document
-    const citation: CitationData = {
-      id: `cit-${agreement.id}`,
-      documentId: agreement.id,
-      documentTitle: agreement.fileName,
-      section: 'Section 1.1',
-      excerpt: 'Agreement document preview',
-    };
+  const handleAgreementClick = useCallback(
+    (agreement: Agreement, itemRect: DOMRect | null) => {
+      // Create citation for the document
+      const citation: CitationData = {
+        id: `cit-${agreement.id}`,
+        documentId: agreement.id,
+        documentTitle: agreement.fileName,
+        section: 'Section 1.1',
+        excerpt: 'Agreement document preview',
+      };
 
-    // Mark that doc preview was opened from sidebar
-    setDocPreviewSource('sidebar');
+      // Mark that doc preview was opened from sidebar
+      setDocPreviewSource('sidebar');
 
-    // Set the citation for the document canvas
-    setActiveCitation(citation);
+      // Set the citation for the document canvas
+      setActiveCitation(citation);
 
-    // If we have the source rect, play a subtle departure animation
-    if (itemRect) {
-      // Start the ghost departure animation
-      setTransitionState({
-        isAnimating: true,
-        sourceRect: itemRect,
-        agreement,
-      });
+      // If we have the source rect, play a subtle departure animation
+      if (itemRect) {
+        // Start the ghost departure animation
+        setTransitionState({
+          isAnimating: true,
+          sourceRect: itemRect,
+          agreement,
+        });
 
-      // End transition state after animation completes (250ms)
-      setTimeout(() => {
-        setTransitionState({ isAnimating: false, sourceRect: null, agreement: null });
-      }, 250);
-    }
+        // End transition state after animation completes (250ms)
+        setTimeout(() => {
+          setTransitionState({ isAnimating: false, sourceRect: null, agreement: null });
+        }, 250);
+      }
 
-    // Close sidebar and open doc canvas immediately - let CSS handle the animations
-    setIsAgreementsSidebarOpen(false);
-    setIsDocumentCanvasOpen(true);
-
-    // Expand panel for smooth transition
-    if (panelWidth < window.innerWidth - 50) {
-      onWidthChange(window.innerWidth);
-    }
-  }, [panelWidth, onWidthChange]);
-
-  const handleCitationClick = useCallback((citation: CitationData) => {
-    // Close agreements sidebar if open (mutual exclusivity)
-    if (isAgreementsSidebarOpen) {
+      // Close sidebar and open doc canvas immediately - let CSS handle the animations
       setIsAgreementsSidebarOpen(false);
-    }
-    // Mark that doc preview was opened from citation (not sidebar)
-    setDocPreviewSource('citation');
-    setActiveCitation(citation);
-    setIsDocumentCanvasOpen(true);
-    // Auto-expand to fullscreen if not already expanded (to show document canvas properly)
-    if (panelWidth < window.innerWidth - 50) {
-      onWidthChange(window.innerWidth);
-    }
-  }, [panelWidth, onWidthChange, isAgreementsSidebarOpen]);
+      setIsDocumentCanvasOpen(true);
+
+      // Expand panel for smooth transition
+      if (panelWidth < window.innerWidth - 50) {
+        onWidthChange(window.innerWidth);
+      }
+    },
+    [panelWidth, onWidthChange]
+  );
+
+  const handleCitationClick = useCallback(
+    (citation: CitationData) => {
+      // Close agreements sidebar if open (mutual exclusivity)
+      if (isAgreementsSidebarOpen) {
+        setIsAgreementsSidebarOpen(false);
+      }
+      // Mark that doc preview was opened from citation (not sidebar)
+      setDocPreviewSource('citation');
+      setActiveCitation(citation);
+      setIsDocumentCanvasOpen(true);
+      // Auto-expand to fullscreen if not already expanded (to show document canvas properly)
+      if (panelWidth < window.innerWidth - 50) {
+        onWidthChange(window.innerWidth);
+      }
+    },
+    [panelWidth, onWidthChange, isAgreementsSidebarOpen]
+  );
 
   const handleCloseDocumentCanvas = useCallback(() => {
     setIsDocumentCanvasOpen(false);
@@ -1174,7 +1225,6 @@ const AIPanel: React.FC<AIPanelProps> = ({
     // Reset source tracker
     setDocPreviewSource(null);
   }, [docPreviewSource]);
-
 
   const handleSendMessage = useCallback((content: string, fromSuggestion = false) => {
     const userMessage: ChatMessage = {
@@ -1191,19 +1241,13 @@ const AIPanel: React.FC<AIPanelProps> = ({
     // Check if this is a scripted prompt (rich message or conflict)
     // Match by exact key, content starting with key, OR action marker in expanded prompts
     const scriptedKey = Object.keys(SCRIPTED_RESPONSES).find(
-      key => content === key || content.startsWith(`${key}:`) || content.includes(`[Action: ${key}]`)
+      (key) =>
+        content === key || content.startsWith(`${key}:`) || content.includes(`[Action: ${key}]`)
     );
     const conflictKey = Object.keys(CONFLICT_RESPONSES).find(
-      key => content === key || content.startsWith(`${key}:`) || content.includes(`[Action: ${key}]`)
+      (key) =>
+        content === key || content.startsWith(`${key}:`) || content.includes(`[Action: ${key}]`)
     );
-
-    // Debug logging - remove after testing
-    console.log('=== Message Matching Debug ===');
-    console.log('Content includes [Action: Summarize Prevailing Terms]:', content.includes('[Action: Summarize Prevailing Terms]'));
-    console.log('Content includes [Action: Check for Conflicts]:', content.includes('[Action: Check for Conflicts]'));
-    console.log('scriptedKey:', scriptedKey);
-    console.log('conflictKey:', conflictKey);
-    console.log('Content last 100 chars:', content.slice(-100));
 
     const scriptedResponse = scriptedKey ? SCRIPTED_RESPONSES[scriptedKey] : undefined;
     const conflictResponse = conflictKey ? CONFLICT_RESPONSES[conflictKey] : undefined;
@@ -1237,9 +1281,7 @@ const AIPanel: React.FC<AIPanelProps> = ({
         if (currentIndex < words.length) {
           const partialText = words.slice(0, currentIndex + 1).join(' ');
           setMessages((prev) =>
-            prev.map((msg) =>
-              msg.id === aiMessageId ? { ...msg, content: partialText } : msg
-            )
+            prev.map((msg) => (msg.id === aiMessageId ? { ...msg, content: partialText } : msg))
           );
           currentIndex++;
         } else {
@@ -1257,124 +1299,167 @@ const AIPanel: React.FC<AIPanelProps> = ({
     }, 800); // Reduced initial delay since streaming adds perceived time
   }, []);
 
-  const handleSuggestionClick = useCallback((suggestion: string) => {
-    // Find if this is an action with expansion details
-    const action = QUICK_ACTIONS.find(a => a.label === suggestion);
-    if (action?.expansion) {
-      // Populate input field with expanded prompt for user to edit before submitting
-      const expandedText = generateExpandedPromptText(action);
-      setChatInputValue(expandedText);
-      // Trigger ripple animation on input to draw attention
-      setShowInputAttention(true);
-      setTimeout(() => setShowInputAttention(false), 700);
-    } else {
-      // Send message directly for questions without expansion (mark as from suggestion)
-      handleSendMessage(suggestion, true);
-    }
-  }, [handleSendMessage, generateExpandedPromptText]);
-
+  const handleSuggestionClick = useCallback(
+    (suggestion: string) => {
+      // Find if this is an action with expansion details
+      const action = QUICK_ACTIONS.find((a) => a.label === suggestion);
+      if (action?.expansion) {
+        // Populate input field with expanded prompt for user to edit before submitting
+        const expandedText = generateExpandedPromptText(action);
+        setChatInputValue(expandedText);
+        // Trigger ripple animation on input to draw attention
+        setShowInputAttention(true);
+        setTimeout(() => setShowInputAttention(false), 700);
+      } else {
+        // Send message directly for questions without expansion (mark as from suggestion)
+        handleSendMessage(suggestion, true);
+      }
+    },
+    [handleSendMessage, generateExpandedPromptText]
+  );
 
   // Custom message renderer for rich messages and conflicts
-  const renderMessage = useCallback((message: ChatMessage) => {
-    const richData = richMessages.get(message.id);
-    const conflictData = conflictMessages.get(message.id);
+  const renderMessage = useCallback(
+    (message: ChatMessage) => {
+      const richData = richMessages.get(message.id);
+      const conflictData = conflictMessages.get(message.id);
 
-    if (message.role === 'assistant') {
-      // Feedback buttons component for AI responses
-      const feedbackButtons = (
-        <div className={styles.messageFeedback}>
-          <Tooltip content="Good response">
-            <IconButton
-              icon="thumbs-up"
-              size="small"
-              variant="tertiary"
-              aria-label="Good response"
-            />
-          </Tooltip>
-          <Tooltip content="Bad response">
-            <IconButton
-              icon="thumbs-down"
-              size="small"
-              variant="tertiary"
-              aria-label="Bad response"
-            />
-          </Tooltip>
-          <Tooltip content="Copy">
-            <IconButton
-              icon="duplicate"
-              size="small"
-              variant="tertiary"
-              aria-label="Copy response"
-            />
-          </Tooltip>
-        </div>
-      );
+      if (message.role === 'assistant') {
+        // Feedback buttons component for AI responses
+        const feedbackButtons = (
+          <div className={styles.messageFeedback}>
+            <Tooltip content="Good response">
+              <IconButton
+                icon="thumbs-up"
+                size="small"
+                variant="tertiary"
+                aria-label="Good response"
+              />
+            </Tooltip>
+            <Tooltip content="Bad response">
+              <IconButton
+                icon="thumbs-down"
+                size="small"
+                variant="tertiary"
+                aria-label="Bad response"
+              />
+            </Tooltip>
+            <Tooltip content="Copy">
+              <IconButton
+                icon="duplicate"
+                size="small"
+                variant="tertiary"
+                aria-label="Copy response"
+              />
+            </Tooltip>
+          </div>
+        );
 
-      // Render rich message (e.g., Prevailing Terms Analysis)
-      if (richData) {
+        // Render rich message (e.g., Prevailing Terms Analysis)
+        if (richData) {
+          return (
+            <div className={styles.richMessageWrapper}>
+              <p className={styles.richMessageIntro}>{message.content}</p>
+              <RichMessage data={richData} onCitationClick={handleCitationClick} />
+              {feedbackButtons}
+            </div>
+          );
+        }
+
+        // Render conflict view (side-by-side comparison)
+        if (conflictData) {
+          return (
+            <div className={styles.richMessageWrapper}>
+              <p className={styles.richMessageIntro}>{message.content}</p>
+              <ConflictView conflicts={conflictData} onCitationClick={handleCitationClick} />
+              {feedbackButtons}
+            </div>
+          );
+        }
+      }
+
+      // Render user message from suggestion with special "Selected" styling
+      if (message.role === 'user' && message.metadata?.fromSuggestion) {
         return (
-          <div className={styles.richMessageWrapper}>
-            <p className={styles.richMessageIntro}>{message.content}</p>
-            <RichMessage data={richData} onCitationClick={handleCitationClick} />
-            {feedbackButtons}
+          <div className={styles.selectedMessage}>
+            <span className={styles.selectedLabel}>Selected</span>
+            <div className={styles.selectedBubble}>
+              <Icon name="status-check" size={16} />
+              <span>{message.content}</span>
+            </div>
           </div>
         );
       }
 
-      // Render conflict view (side-by-side comparison)
-      if (conflictData) {
-        return (
-          <div className={styles.richMessageWrapper}>
-            <p className={styles.richMessageIntro}>{message.content}</p>
-            <ConflictView conflicts={conflictData} onCitationClick={handleCitationClick} />
-            {feedbackButtons}
-          </div>
-        );
+      // Render long user messages as collapsible (collapsed by default)
+      if (message.role === 'user') {
+        const isLongMessage =
+          message.content.length > 300 || (message.content.match(/\n/g) || []).length > 5;
+        const isExpanded = expandedUserMessages.has(message.id);
+
+        if (isLongMessage) {
+          const toggleExpand = () => {
+            setExpandedUserMessages((prev) => {
+              const next = new Set(prev);
+              if (next.has(message.id)) {
+                next.delete(message.id);
+              } else {
+                next.add(message.id);
+              }
+              return next;
+            });
+          };
+
+          return (
+            <div className={styles.collapsibleUserMessage}>
+              <div
+                className={`${styles.collapsibleContent} ${isExpanded ? styles.expanded : styles.collapsed}`}
+              >
+                {message.content}
+              </div>
+              <button type="button" className={styles.expandCollapseButton} onClick={toggleExpand}>
+                <Icon name={isExpanded ? 'chevron-up' : 'chevron-down'} size="small" />
+                <span>{isExpanded ? 'Show less' : 'Show full prompt'}</span>
+              </button>
+            </div>
+          );
+        }
       }
-    }
 
-    // Render user message from suggestion with special "Selected" styling
-    if (message.role === 'user' && message.metadata?.fromSuggestion) {
-      return (
-        <div className={styles.selectedMessage}>
-          <span className={styles.selectedLabel}>Selected</span>
-          <div className={styles.selectedBubble}>
-            <Icon name="status-check" size={16} />
-            <span>{message.content}</span>
-          </div>
-        </div>
-      );
-    }
-
-    return null; // Return null to use default rendering
-  }, [richMessages, conflictMessages, handleCitationClick]);
+      return null; // Return null to use default rendering
+    },
+    [richMessages, conflictMessages, handleCitationClick, expandedUserMessages]
+  );
 
   // Handle drag resize
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    onStartResize();
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      onStartResize();
 
-    // Dismiss the "Go wide!" tooltip when user starts dragging
-    setShowResizeTooltip(false);
+      // Dismiss the "Go wide!" tooltip when user starts dragging
+      setShowResizeTooltip(false);
 
-    const startX = e.clientX;
-    const startWidth = panelWidth;
+      const startX = e.clientX;
+      const startWidth = panelWidth;
 
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      const deltaX = startX - moveEvent.clientX;
-      const newWidth = Math.min(MAX_PANEL_WIDTH, Math.max(MIN_PANEL_WIDTH, startWidth + deltaX));
-      onWidthChange(newWidth);
-    };
+      const handleMouseMove = (moveEvent: MouseEvent) => {
+        const deltaX = startX - moveEvent.clientX;
+        const newWidth = Math.min(MAX_PANEL_WIDTH, Math.max(MIN_PANEL_WIDTH, startWidth + deltaX));
+        onWidthChange(newWidth);
+      };
 
-    const handleMouseUp = () => {
-      onEndResize();
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
+      const handleMouseUp = () => {
+        onEndResize();
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  }, [panelWidth, onWidthChange, onStartResize, onEndResize]);
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    },
+    [panelWidth, onWidthChange, onStartResize, onEndResize]
+  );
 
   const handleToggleExpand = useCallback(() => {
     if (panelWidth >= window.innerWidth - 50) {
@@ -1399,22 +1484,25 @@ const AIPanel: React.FC<AIPanelProps> = ({
     setExpandedAction(null);
   }, []);
 
-  const handleHistoryItemClick = useCallback((id: string) => {
-    setActiveHistoryId(id);
+  const handleHistoryItemClick = useCallback(
+    (id: string) => {
+      setActiveHistoryId(id);
 
-    // Load stored conversation for this history item
-    const storedMessages = STORED_CONVERSATIONS[id];
-    if (storedMessages) {
-      setMessages(storedMessages);
-      // Clear rich messages and conflicts when switching conversations
-      setRichMessages(new Map());
-      setConflictMessages(new Map());
-    }
+      // Load stored conversation for this history item
+      const storedMessages = STORED_CONVERSATIONS[id];
+      if (storedMessages) {
+        setMessages(storedMessages);
+        // Clear rich messages and conflicts when switching conversations
+        setRichMessages(new Map());
+        setConflictMessages(new Map());
+      }
 
-    if (!useInlineHistory) {
-      setIsHistoryOpen(false);
-    }
-  }, [useInlineHistory]);
+      if (!useInlineHistory) {
+        setIsHistoryOpen(false);
+      }
+    },
+    [useInlineHistory]
+  );
 
   const isExpanded = panelWidth > 600;
 
@@ -1423,28 +1511,33 @@ const AIPanel: React.FC<AIPanelProps> = ({
     isOpen ? styles.aiPanelOpen : '',
     isResizing ? styles.aiPanelResizing : '',
     isExpanded ? styles.aiPanelExpanded : '',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   const contentWrapperClasses = [
     styles.aiChatContentWrapper,
     !isExpanded ? styles.aiChatContentWrapperNarrow : '',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   const historyPanelClasses = useInlineHistory
     ? [
         styles.historyPanel,
         styles.historyPanelInline,
         !isHistoryOpen ? styles.historyPanelInlineHidden : '',
-      ].filter(Boolean).join(' ')
-    : [
-        styles.historyPanel,
-        isHistoryOpen ? styles.historyPanelOpen : '',
-      ].filter(Boolean).join(' ');
+      ]
+        .filter(Boolean)
+        .join(' ')
+    : [styles.historyPanel, isHistoryOpen ? styles.historyPanelOpen : ''].filter(Boolean).join(' ');
 
   const historyOverlayClasses = [
     styles.historyOverlay,
     !useInlineHistory && isHistoryOpen ? styles.historyOverlayVisible : '',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   const renderHistoryContent = () => (
     <>
@@ -1529,16 +1622,9 @@ const AIPanel: React.FC<AIPanelProps> = ({
   );
 
   return (
-    <div
-      ref={panelRef}
-      className={panelClasses}
-      style={{ width: isOpen ? panelWidth : 0 }}
-    >
+    <div ref={panelRef} className={panelClasses} style={{ width: isOpen ? panelWidth : 0 }}>
       {isOpen && (
-        <div
-          className={styles.dragHandle}
-          onMouseDown={handleMouseDown}
-        >
+        <div className={styles.dragHandle} onMouseDown={handleMouseDown}>
           <div className={styles.dragHandleBar} />
 
           {/* "Go wide!" discoverability tooltip */}
@@ -1623,22 +1709,15 @@ const AIPanel: React.FC<AIPanelProps> = ({
       </div>
 
       <div className={styles.aiPanelLayout}>
-        {useInlineHistory && (
-          <div className={historyPanelClasses}>
-            {renderHistoryContent()}
-          </div>
-        )}
+        {useInlineHistory && <div className={historyPanelClasses}>{renderHistoryContent()}</div>}
 
-        <div className={`${styles.aiPanelContent} ${isNarrowMode && isDocumentCanvasOpen ? styles.aiPanelContentHidden : ''}`}>
+        <div
+          className={`${styles.aiPanelContent} ${isNarrowMode && isDocumentCanvasOpen ? styles.aiPanelContentHidden : ''}`}
+        >
           {!useInlineHistory && (
             <>
-              <div
-                className={historyOverlayClasses}
-                onClick={() => setIsHistoryOpen(false)}
-              />
-              <div className={historyPanelClasses}>
-                {renderHistoryContent()}
-              </div>
+              <div className={historyOverlayClasses} onClick={() => setIsHistoryOpen(false)} />
+              <div className={historyPanelClasses}>{renderHistoryContent()}</div>
             </>
           )}
 
@@ -1662,17 +1741,20 @@ const AIPanel: React.FC<AIPanelProps> = ({
               maxHeight="100%"
               className={styles.aiChatContainer}
               renderMessage={renderMessage}
-              contextSource={agreements.length > 0 ? {
-                count: selectedAgreementIds.size,
-                label: 'agreements',
-                onClick: handleOpenAgreementsSidebar,
-              } : undefined}
+              contextSource={
+                agreements.length > 0
+                  ? {
+                      count: selectedAgreementIds.size,
+                      label: 'agreements',
+                      onClick: handleOpenAgreementsSidebar,
+                    }
+                  : undefined
+              }
               showContextAttention={showContextAttention}
               showInputAttention={showInputAttention}
               inputValue={chatInputValue}
               onInputChange={setChatInputValue}
             />
-
           </div>
         </div>
 
@@ -1715,12 +1797,14 @@ const AIPanel: React.FC<AIPanelProps> = ({
       {transitionState.isAnimating && transitionState.sourceRect && transitionState.agreement && (
         <div
           className={styles.transitionGhost}
-          style={{
-            '--source-top': `${transitionState.sourceRect.top}px`,
-            '--source-left': `${transitionState.sourceRect.left}px`,
-            '--source-width': `${transitionState.sourceRect.width}px`,
-            '--source-height': `${transitionState.sourceRect.height}px`,
-          } as React.CSSProperties}
+          style={
+            {
+              '--source-top': `${transitionState.sourceRect.top}px`,
+              '--source-left': `${transitionState.sourceRect.left}px`,
+              '--source-width': `${transitionState.sourceRect.width}px`,
+              '--source-height': `${transitionState.sourceRect.height}px`,
+            } as React.CSSProperties
+          }
         >
           <div className={styles.transitionGhostContent}>
             <Icon name="document" size={18} />
@@ -1782,9 +1866,7 @@ export function AgreementStudio() {
     },
     {
       id: 'folders',
-      items: [
-        { id: 'folders', label: 'Folders', icon: 'folder' as const, hasMenu: true },
-      ],
+      items: [{ id: 'folders', label: 'Folders', icon: 'folder' as const, hasMenu: true }],
     },
     {
       id: 'features',
@@ -1792,7 +1874,12 @@ export function AgreementStudio() {
       items: [
         { id: 'parties', label: 'Parties', icon: 'building-person' as const, badge: 'New' },
         { id: 'requests', label: 'Requests', icon: 'ticket' as const, badge: 'New' },
-        { id: 'maestro-workflows', label: 'Maestro Workflows', icon: 'workflow' as const, badge: 'New' },
+        {
+          id: 'maestro-workflows',
+          label: 'Maestro Workflows',
+          icon: 'workflow' as const,
+          badge: 'New',
+        },
         { id: 'workspaces', label: 'Workspaces', icon: 'transaction' as const },
         { id: 'powerforms', label: 'PowerForms', icon: 'flash' as const },
         { id: 'bulk-send', label: 'Bulk Send', icon: 'document-stack' as const },
@@ -1836,8 +1923,11 @@ export function AgreementStudio() {
   }, [submittedSearch]);
 
   // Check if we're showing Acme search results
-  const isAcmeSearch = submittedSearch.toLowerCase().includes('acme') && filteredAgreements.length > 0;
-  const acmeAgreementCount = filteredAgreements.filter(a => a.fileName.toLowerCase().includes('acme')).length;
+  const isAcmeSearch =
+    submittedSearch.toLowerCase().includes('acme') && filteredAgreements.length > 0;
+  const acmeAgreementCount = filteredAgreements.filter((a) =>
+    a.fileName.toLowerCase().includes('acme')
+  ).length;
 
   const columns: DataTableColumn<Agreement>[] = useMemo(
     () => [
@@ -1866,8 +1956,7 @@ export function AgreementStudio() {
               {row.fileName}
             </Link>
             <span className={dataTableStyles.cellSecondary}>
-              {row.fileStatus === 'uploaded' ? '↑' : '✓'}{' '}
-              {row.fileStatusDetail}
+              {row.fileStatus === 'uploaded' ? '↑' : '✓'} {row.fileStatusDetail}
             </span>
           </div>
         ),
@@ -1901,9 +1990,7 @@ export function AgreementStudio() {
           <div className={dataTableStyles.statusCell}>
             <span className={dataTableStyles.statusDot} data-status={row.status} />
             <div className={dataTableStyles.statusText}>
-              <span className={dataTableStyles.statusLabel}>
-                {capitalize(row.status)}
-              </span>
+              <span className={dataTableStyles.statusLabel}>{capitalize(row.status)}</span>
               {row.statusDate && (
                 <span className={dataTableStyles.statusDate}>{row.statusDate}</span>
               )}
@@ -2071,7 +2158,10 @@ export function AgreementStudio() {
   ];
 
   const mainContentStyle = isAIChatOpen
-    ? { width: `calc(100% - ${panelWidth}px)`, transition: isResizing ? 'none' : 'width 250ms cubic-bezier(0.4, 0, 0.2, 1)' }
+    ? {
+        width: `calc(100% - ${panelWidth}px)`,
+        transition: isResizing ? 'none' : 'width 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+      }
     : {};
 
   return (
@@ -2097,109 +2187,116 @@ export function AgreementStudio() {
             onLockChange: setIsNavLocked,
           }}
         >
-          <div className={`${styles.pageContent} ${isSearchTransitioning ? styles.pageContentTransitioning : ''}`}>
-          <AgreementTableView
-            pageHeader={
-              <PageHeader
-                title={submittedSearch ? 'Search Results' : 'Completed'}
-                showAIBadge
-                aiBadgeText="AI-Assisted"
-                actions={pageHeaderActions}
-              />
-            }
-            banner={
-              showBanner ? (
-                isAcmeSearch ? (
-                  // Banner for Acme search results - CTA to chat
-                  <Banner
-                    kind="promo"
-                    customIcon={<IrisIcon />}
-                    closable
-                    onClose={() => setShowBanner(false)}
-                    action={{
-                      label: `Chat with ${acmeAgreementCount} agreements`,
-                      onClick: handleOpenAIChat,
-                    }}
-                  >
-                    <strong>{acmeAgreementCount} Acme agreements</strong> found. Use AI to analyze terms, find conflicts, and summarize key provisions.
-                  </Banner>
-                ) : !submittedSearch ? (
-                  // Default banner - renewal notice
-                  <Banner
-                    kind="promo"
-                    customIcon={<IrisIcon />}
-                    closable
-                    onClose={() => setShowBanner(false)}
-                    action={{
-                      label: 'View renewing contracts',
-                      href: '#',
-                      onClick: () => console.log('View renewing'),
-                    }}
-                  >
-                    <strong>10 agreements</strong> with renewal notice dates in the next 30 days.
-                  </Banner>
+          <div
+            className={`${styles.pageContent} ${isSearchTransitioning ? styles.pageContentTransitioning : ''}`}
+          >
+            <AgreementTableView
+              pageHeader={
+                <PageHeader
+                  title={submittedSearch ? 'Search Results' : 'Completed'}
+                  showAIBadge
+                  aiBadgeText="AI-Assisted"
+                  actions={pageHeaderActions}
+                />
+              }
+              banner={
+                showBanner ? (
+                  isAcmeSearch ? (
+                    // Banner for Acme search results - CTA to chat
+                    <Banner
+                      kind="promo"
+                      customIcon={<IrisIcon />}
+                      closable
+                      onClose={() => setShowBanner(false)}
+                      action={{
+                        label: `Chat with ${acmeAgreementCount} agreements`,
+                        onClick: handleOpenAIChat,
+                      }}
+                    >
+                      <strong>{acmeAgreementCount} Acme agreements</strong> found. Use AI to analyze
+                      terms, find conflicts, and summarize key provisions.
+                    </Banner>
+                  ) : !submittedSearch ? (
+                    // Default banner - renewal notice
+                    <Banner
+                      kind="promo"
+                      customIcon={<IrisIcon />}
+                      closable
+                      onClose={() => setShowBanner(false)}
+                      action={{
+                        label: 'View renewing contracts',
+                        href: '#',
+                        onClick: () => console.log('View renewing'),
+                      }}
+                    >
+                      <strong>10 agreements</strong> with renewal notice dates in the next 30 days.
+                    </Banner>
+                  ) : undefined
                 ) : undefined
-              ) : undefined
-            }
-            filterBar={
-              <FilterBar
-                viewSelector={
-                  <Dropdown items={viewSelectorItems} header="Select a view" iconStyle="boxed">
+              }
+              filterBar={
+                <FilterBar
+                  viewSelector={
+                    <Dropdown items={viewSelectorItems} header="Select a view" iconStyle="boxed">
+                      <Button
+                        kind="secondary"
+                        size="small"
+                        endElement={<Icon name="chevron-down" size="small" />}
+                      >
+                        {selectedView === 'documents' ? 'Documents' : 'Envelopes'}
+                      </Button>
+                    </Dropdown>
+                  }
+                  search={{
+                    value: searchValue,
+                    onChange: setSearchValue,
+                    onSubmit: handleSearchSubmit,
+                    placeholder: 'Search agreements...',
+                  }}
+                  showSearchIndicator
+                  quickActions={[
+                    <IconButton key="bookmark" icon="bookmark" variant="secondary" size="small" />,
+                  ]}
+                  filters={
                     <Button
                       kind="secondary"
                       size="small"
-                      endElement={<Icon name="chevron-down" size="small" />}
+                      startElement={<Icon name="filter" size="small" />}
                     >
-                      {selectedView === 'documents' ? 'Documents' : 'Envelopes'}
+                      Filters
                     </Button>
-                  </Dropdown>
-                }
-                search={{
-                  value: searchValue,
-                  onChange: setSearchValue,
-                  onSubmit: handleSearchSubmit,
-                  placeholder: 'Search agreements...',
-                }}
-                showSearchIndicator
-                quickActions={[
-                  <IconButton key="bookmark" icon="bookmark" variant="secondary" size="small" />,
-                ]}
-                filters={
-                  <Button
-                    kind="secondary"
-                    size="small"
-                    startElement={<Icon name="filter" size="small" />}
-                  >
-                    Filters
-                  </Button>
-                }
+                  }
+                />
+              }
+            >
+              <DataTable
+                columns={columns}
+                data={filteredAgreements}
+                getRowKey={(row) => row.id}
+                selectable
+                selectedRows={selectedRows}
+                onSelectionChange={setSelectedRows}
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                onSortChange={handleSortChange}
+                selectionActions={selectionActions}
+                pagination={pagination}
+                showColumnControl
+                renderRowActions={renderRowActions}
+                rowHeight="tall"
+                stickyHeader
+                stickyFooter
               />
-            }
-          >
-            <DataTable
-              columns={columns}
-              data={filteredAgreements}
-              getRowKey={(row) => row.id}
-              selectable
-              selectedRows={selectedRows}
-              onSelectionChange={setSelectedRows}
-              sortColumn={sortColumn}
-              sortDirection={sortDirection}
-              onSortChange={handleSortChange}
-              selectionActions={selectionActions}
-              pagination={pagination}
-              showColumnControl
-              renderRowActions={renderRowActions}
-              rowHeight="tall"
-              stickyHeader
-              stickyFooter
-            />
-          </AgreementTableView>
+            </AgreementTableView>
           </div>
         </DocuSignShell>
 
         {!isAIChatOpen && isAcmeSearch && (
-          <FloatingCTA onClick={handleOpenAIChat} agreementCount={acmeAgreementCount} searchTerm="Acme" />
+          <FloatingCTA
+            onClick={handleOpenAIChat}
+            agreementCount={acmeAgreementCount}
+            searchTerm="Acme"
+          />
         )}
       </div>
 
@@ -2213,7 +2310,11 @@ export function AgreementStudio() {
         onEndResize={handleEndResize}
         isResizing={isResizing}
         agreementCount={isAcmeSearch ? acmeAgreementCount : undefined}
-        agreements={isAcmeSearch ? filteredAgreements.filter(a => a.fileName.toLowerCase().includes('acme')) : []}
+        agreements={
+          isAcmeSearch
+            ? filteredAgreements.filter((a) => a.fileName.toLowerCase().includes('acme'))
+            : []
+        }
       />
     </div>
   );

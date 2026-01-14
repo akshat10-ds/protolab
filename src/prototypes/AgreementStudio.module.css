@@ -48,7 +48,9 @@
 .pageContent {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 200ms ease-out, transform 200ms ease-out;
+  transition:
+    opacity 200ms ease-out,
+    transform 200ms ease-out;
 }
 
 .pageContentTransitioning {
@@ -68,7 +70,8 @@
   display: flex;
   align-items: center;
   gap: var(--ink-spacing-100);
-  padding: var(--ink-spacing-100) var(--ink-spacing-200) var(--ink-spacing-100) var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) var(--ink-spacing-200) var(--ink-spacing-100)
+    var(--ink-spacing-100);
   background: var(--ink-gradient-blue-haze);
   border: none;
   border-radius: 100px 0 0 100px;
@@ -159,7 +162,9 @@
   background: var(--ink-neutral-40);
   border-radius: var(--ink-radius-full);
   opacity: 0;
-  transition: opacity 150ms ease, background 150ms ease;
+  transition:
+    opacity 150ms ease,
+    background 150ms ease;
 }
 
 .aiPanel:hover .dragHandleBar {
@@ -175,13 +180,13 @@
 }
 
 /* Override AIChat message to use full width in this context */
-.aiChatContainer :global(div[class*="assistant"]) {
+.aiChatContainer :global(div[class*='assistant']) {
   max-width: 100% !important;
   width: 100%;
 }
 
 /* Ensure message content also expands to full width */
-.aiChatContainer :global(div[class*="messageContent"]) {
+.aiChatContainer :global(div[class*='messageContent']) {
   width: 100%;
   flex: 1;
 }
@@ -248,8 +253,9 @@
   display: flex;
   flex-direction: column;
   transform: translateX(-100%);
-  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
-              background 250ms ease;
+  transition:
+    transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 250ms ease;
   box-shadow: none;
 }
 
@@ -271,9 +277,10 @@
   border-right: 1px solid var(--ink-neutral-fade-10);
   border-left: none;
   width: 260px;
-  transition: width 250ms cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 200ms ease,
-              margin 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    width 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 200ms ease,
+    margin 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Remove any inset shadow on content when history is inline */
@@ -966,6 +973,70 @@
 }
 
 /* ============================================================================
+   Collapsible User Message - For long prompts
+   ============================================================================ */
+
+.collapsibleUserMessage {
+  position: relative;
+  max-width: 85%;
+  margin-left: auto;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  padding-bottom: var(--ink-spacing-400); /* Extra space at bottom for button */
+  background: var(--ink-bg-color-muted);
+  border-radius: var(--ink-radius-size-m);
+  color: var(--ink-font-color-default);
+  font-size: var(--ink-font-size-body-s);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.collapsibleContent {
+  /* Content wrapper */
+}
+
+.collapsibleContent.collapsed {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.collapsibleContent.expanded {
+  /* Full content shown */
+}
+
+/* Button positioned inside the bubble at bottom-right */
+.expandCollapseButton {
+  position: absolute;
+  bottom: var(--ink-spacing-100);
+  right: var(--ink-spacing-150);
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  padding: var(--ink-spacing-50) var(--ink-spacing-100);
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+  color: var(--ink-font-color-neutral);
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-xs);
+  font-weight: var(--ink-font-weight-medium);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.expandCollapseButton:hover {
+  background: var(--ink-bg-color-neutral-subtle);
+  border-color: var(--ink-border-color-default);
+  color: var(--ink-font-color-default);
+}
+
+/* ============================================================================
    Document Canvas - Gemini-style split view
    ============================================================================ */
 
@@ -976,9 +1047,10 @@
   flex: 0 0 0;
   max-width: 0;
   overflow: hidden;
-  transition: flex-basis 300ms cubic-bezier(0.4, 0, 0.2, 1),
-              max-width 300ms cubic-bezier(0.4, 0, 0.2, 1),
-              padding 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    flex-basis 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    max-width 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    padding 300ms cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0;
 }
 
@@ -986,7 +1058,8 @@
 .documentCanvasWrapperOpen {
   flex: 0 0 65%;
   max-width: 65%;
-  padding: var(--ink-spacing-150) var(--ink-spacing-200) var(--ink-spacing-150) var(--ink-spacing-200);
+  padding: var(--ink-spacing-150) var(--ink-spacing-200) var(--ink-spacing-150)
+    var(--ink-spacing-200);
 }
 
 /* Narrow mode: canvas takes full width */
@@ -1804,7 +1877,9 @@
   border-radius: var(--ink-radius-size-s);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   white-space: nowrap;
-  animation: resizeTooltipFadeIn 0.3s ease-out, resizeTooltipPulse 2s ease-in-out infinite;
+  animation:
+    resizeTooltipFadeIn 0.3s ease-out,
+    resizeTooltipPulse 2s ease-in-out infinite;
   z-index: 100;
 }
 
@@ -1861,7 +1936,8 @@
 }
 
 @keyframes resizeTooltipPulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   50% {
@@ -1870,7 +1946,8 @@
 }
 
 @keyframes resizeTooltipArrow {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
   50% {
@@ -1890,16 +1967,18 @@
   max-width: 0;
   overflow: hidden;
   /* Single smooth transition - no competing animations */
-  transition: flex-basis 300ms cubic-bezier(0.4, 0, 0.2, 1),
-              max-width 300ms cubic-bezier(0.4, 0, 0.2, 1),
-              padding 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    flex-basis 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    max-width 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    padding 300ms cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0;
 }
 
 .agreementsSidebarWrapperOpen {
   flex: 0 0 360px;
   max-width: 360px;
-  padding: var(--ink-spacing-150) var(--ink-spacing-200) var(--ink-spacing-150) var(--ink-spacing-200);
+  padding: var(--ink-spacing-150) var(--ink-spacing-200) var(--ink-spacing-150)
+    var(--ink-spacing-200);
 }
 
 .agreementsSidebar {
