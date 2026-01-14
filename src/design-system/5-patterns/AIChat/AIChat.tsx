@@ -356,14 +356,16 @@ const InputArea: React.FC<InputAreaProps> = ({
       <div className={`${styles.inputContainer}${showInputAttention ? ` ${styles.inputContainerAttention}` : ''}${isExpanded ? ` ${styles.inputContainerExpanded}` : ''}`}>
         {/* Expand/Collapse button - shows when content is long */}
         {isLongContent && (
-          <button
-            type="button"
-            className={styles.expandButton}
-            onClick={() => setIsExpanded(!isExpanded)}
-            aria-label={isExpanded ? 'Collapse input' : 'Expand input'}
-          >
-            <Icon name={isExpanded ? 'arrows-in' : 'arrows-out'} size="small" />
-          </button>
+          <Tooltip text={isExpanded ? 'Collapse' : 'Expand'} location="above" alignment="end">
+            <button
+              type="button"
+              className={styles.expandButton}
+              onClick={() => setIsExpanded(!isExpanded)}
+              aria-label={isExpanded ? 'Collapse input' : 'Expand input'}
+            >
+              <Icon name={isExpanded ? 'arrows-in' : 'arrows-out'} size="small" />
+            </button>
+          </Tooltip>
         )}
         <div className={styles.inputContent}>
           <TextArea

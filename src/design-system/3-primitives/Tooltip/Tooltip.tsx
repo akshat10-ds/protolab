@@ -59,6 +59,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
   const [visible, setVisible] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
+  const [actualLocation, setActualLocation] = useState<TooltipLocation>(tooltipLocation);
   const triggerRef = useRef<HTMLElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout>();
@@ -69,12 +70,44 @@ export const Tooltip: React.FC<TooltipProps> = ({
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const tooltipRect = tooltipRef.current.getBoundingClientRect();
     const gap = 0; // Figma spec: no spacing between tooltip and anchor
+    const padding = 8;
 
     let top = 0;
     let left = 0;
+    let finalLocation = tooltipLocation;
 
-    // Calculate position based on location
+    // Helper to check if tooltip fits in a location
+    const fitsAbove = () => triggerRect.top - tooltipRect.height - gap >= padding;
+    const fitsBelow = () => triggerRect.bottom + gap + tooltipRect.height <= window.innerHeight - padding;
+    const fitsBefore = () => triggerRect.left - tooltipRect.width - gap >= padding;
+    const fitsAfter = () => triggerRect.right + gap + tooltipRect.width <= window.innerWidth - padding;
+
+    // Smart positioning: flip if preferred location doesn't fit
     switch (tooltipLocation) {
+      case 'above':
+        if (!fitsAbove() && fitsBelow()) {
+          finalLocation = 'below';
+        }
+        break;
+      case 'below':
+        if (!fitsBelow() && fitsAbove()) {
+          finalLocation = 'above';
+        }
+        break;
+      case 'before':
+        if (!fitsBefore() && fitsAfter()) {
+          finalLocation = 'after';
+        }
+        break;
+      case 'after':
+        if (!fitsAfter() && fitsBefore()) {
+          finalLocation = 'before';
+        }
+        break;
+    }
+
+    // Calculate position based on final location
+    switch (finalLocation) {
       case 'above':
         top = triggerRect.top - tooltipRect.height - gap;
         break;
@@ -90,7 +123,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
     }
 
     // Calculate alignment
-    if (tooltipLocation === 'above' || tooltipLocation === 'below') {
+    if (finalLocation === 'above' || finalLocation === 'below') {
       switch (alignment) {
         case 'start':
           left = triggerRect.left;
@@ -117,14 +150,17 @@ export const Tooltip: React.FC<TooltipProps> = ({
       }
     }
 
-    // Boundary checks
-    const padding = 8;
+    // Final boundary checks (slide along edge if needed)
     if (left < padding) left = padding;
     if (left + tooltipRect.width > window.innerWidth - padding) {
       left = window.innerWidth - tooltipRect.width - padding;
     }
     if (top < padding) top = padding;
+    if (top + tooltipRect.height > window.innerHeight - padding) {
+      top = window.innerHeight - tooltipRect.height - padding;
+    }
 
+    setActualLocation(finalLocation);
     setCoords({ top, left });
   };
 
@@ -198,10 +234,10 @@ export const Tooltip: React.FC<TooltipProps> = ({
     },
   });
 
-  // Build CSS class based on location and alignment
+  // Build CSS class based on actual location (after smart positioning) and alignment
   const tooltipClasses = [
     styles.tooltip,
-    styles[tooltipLocation],
+    styles[actualLocation],
     styles[`align-${alignment}`],
   ].join(' ');
 
