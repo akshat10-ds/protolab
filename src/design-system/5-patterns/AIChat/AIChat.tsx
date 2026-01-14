@@ -654,19 +654,26 @@ export const AIChat: React.FC<AIChatProps> = ({
   onInputChange,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const lastAiMessageRef = useRef<HTMLDivElement>(null);
   const prevMessagesLengthRef = useRef(messages.length);
 
-  // Only auto-scroll when user sends a message (message count increases by 1 from user action)
-  // Don't scroll when AI response loads - let user read from where they are
+  // Smart auto-scroll:
+  // - User message: scroll to bottom (show their message)
+  // - AI message: scroll to start of AI response (so user sees the beginning)
   useEffect(() => {
     const prevLength = prevMessagesLengthRef.current;
     const currentLength = messages.length;
 
-    // Only scroll if a user message was just added (not AI response)
     if (currentLength > prevLength) {
       const lastMessage = messages[currentLength - 1];
       if (lastMessage?.role === 'user') {
+        // User sent a message - scroll to bottom
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      } else if (lastMessage?.role === 'assistant') {
+        // AI response - scroll to start of response with a small delay for DOM update
+        setTimeout(() => {
+          lastAiMessageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
       }
     }
 
@@ -704,13 +711,19 @@ export const AIChat: React.FC<AIChatProps> = ({
           </Welcome>
         ) : (
           <Stack gap="medium" className={styles.messages}>
-            {messages.map((message) => {
+            {messages.map((message, index) => {
+              // Check if this is the last assistant message (for scroll ref)
+              const isLastAiMessage = message.role === 'assistant' &&
+                index === messages.length - 1 ||
+                (index === messages.length - 2 && messages[messages.length - 1]?.role === 'user');
+
               // Check if custom renderer is provided and returns content
               const customContent = renderMessage?.(message);
               if (customContent !== null && customContent !== undefined) {
                 return (
                   <div
                     key={message.id}
+                    ref={isLastAiMessage ? lastAiMessageRef : undefined}
                     className={`${styles.message} ${message.role === 'user' ? styles.userMessage : styles.assistantMessage}`}
                   >
                     <div className={styles.messageContent}>
@@ -721,17 +734,21 @@ export const AIChat: React.FC<AIChatProps> = ({
               }
               // Default rendering
               return (
-                <Message
+                <div
                   key={message.id}
-                  message={message}
-                  userAvatar={userAvatar}
-                  assistantAvatar={assistantAvatar}
-                  userName={userName}
-                  assistantName={assistantName}
-                  showTimestamp={showTimestamps}
-                  showActions={showActions}
-                  onAction={onMessageAction}
-                />
+                  ref={isLastAiMessage ? lastAiMessageRef : undefined}
+                >
+                  <Message
+                    message={message}
+                    userAvatar={userAvatar}
+                    assistantAvatar={assistantAvatar}
+                    userName={userName}
+                    assistantName={assistantName}
+                    showTimestamp={showTimestamps}
+                    showActions={showActions}
+                    onAction={onMessageAction}
+                  />
+                </div>
               );
             })}
             {isLoading && (

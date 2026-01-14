@@ -1208,9 +1208,10 @@ const AIPanel: React.FC<AIPanelProps> = ({
     const scriptedResponse = scriptedKey ? SCRIPTED_RESPONSES[scriptedKey] : undefined;
     const conflictResponse = conflictKey ? CONFLICT_RESPONSES[conflictKey] : undefined;
 
+    // Simulate initial thinking delay
     setTimeout(() => {
       const aiMessageId = `ai-${Date.now()}`;
-      let responseText = `I understand you're asking about "${content}". Let me analyze the 15 Acme agreements to provide you with accurate information.`;
+      let responseText = `I understand you're asking about "${content.slice(0, 50)}${content.length > 50 ? '...' : ''}". Let me analyze the 15 Acme agreements to provide you with accurate information.`;
 
       if (scriptedResponse) {
         responseText = `I've analyzed all 15 Acme agreements to identify the prevailing terms. Here's what I found:`;
@@ -1218,26 +1219,42 @@ const AIPanel: React.FC<AIPanelProps> = ({
         responseText = `I've cross-referenced all 15 Acme agreements to identify conflicting provisions. Here's what I found:`;
       }
 
+      // Start with empty message for streaming effect
       const aiMessage: ChatMessage = {
         id: aiMessageId,
         role: 'assistant',
-        content: responseText,
+        content: '',
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, aiMessage]);
-
-      // If scripted response, add it to the rich messages map
-      if (scriptedResponse) {
-        setRichMessages((prev) => new Map(prev).set(aiMessageId, scriptedResponse));
-      }
-
-      // If conflict response, add it to the conflict messages map
-      if (conflictResponse) {
-        setConflictMessages((prev) => new Map(prev).set(aiMessageId, conflictResponse));
-      }
-
       setIsLoading(false);
-    }, 1500);
+
+      // Stream text word by word
+      const words = responseText.split(' ');
+      let currentIndex = 0;
+
+      const streamInterval = setInterval(() => {
+        if (currentIndex < words.length) {
+          const partialText = words.slice(0, currentIndex + 1).join(' ');
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === aiMessageId ? { ...msg, content: partialText } : msg
+            )
+          );
+          currentIndex++;
+        } else {
+          clearInterval(streamInterval);
+
+          // After streaming completes, add rich message data if applicable
+          if (scriptedResponse) {
+            setRichMessages((prev) => new Map(prev).set(aiMessageId, scriptedResponse));
+          }
+          if (conflictResponse) {
+            setConflictMessages((prev) => new Map(prev).set(aiMessageId, conflictResponse));
+          }
+        }
+      }, 30); // 30ms per word for smooth streaming
+    }, 800); // Reduced initial delay since streaming adds perceived time
   }, []);
 
   const handleSuggestionClick = useCallback((suggestion: string) => {
