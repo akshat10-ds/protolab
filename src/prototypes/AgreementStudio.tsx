@@ -1005,11 +1005,11 @@ const AIPanel: React.FC<AIPanelProps> = ({
   const generateExpandedPromptText = useCallback((action: ExtendedSuggestedAction): string => {
     if (!action.expansion) return action.label;
 
-    const numberedSteps = action.expansion.steps
-      .map((step, index) => `${index + 1}. ${step}`)
-      .join('\n\n');
+    // Join steps with double line breaks for readability
+    // The steps already contain formatted content (ROLE:, TASK:, etc.)
+    const formattedSteps = action.expansion.steps.join('\n\n');
 
-    return `${action.label}\n\n${numberedSteps}\n\n[Analyzing ${action.expansion.documentsToAnalyze} documents]`;
+    return `${formattedSteps}\n\n---\n[Analyzing ${action.expansion.documentsToAnalyze} documents]`;
   }, []);
 
   // Narrow mode: canvas takes full width with back button
