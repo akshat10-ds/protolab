@@ -285,12 +285,19 @@ const InputArea: React.FC<InputAreaProps> = ({
   const value = isControlled ? controlledValue : internalValue;
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Expand state for long content
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Determine if content is long enough to show expand button (more than 200 chars or 3 lines)
+  const lineCount = (value.match(/\n/g) || []).length + 1;
+  const isLongContent = value.length > 200 || lineCount > 3;
+
   // Auto-resize textarea based on content
   const adjustTextAreaHeight = useCallback(() => {
     const textarea = textAreaRef.current;
     if (textarea) {
       const minHeight = 40;
-      const maxHeight = 200;
+      const maxHeight = isExpanded ? 500 : 200;
 
       // If empty or very short, use min height directly
       if (!value || value.length < 50) {
@@ -304,7 +311,7 @@ const InputArea: React.FC<InputAreaProps> = ({
       const newHeight = Math.max(minHeight, Math.min(textarea.scrollHeight, maxHeight));
       textarea.style.height = `${newHeight}px`;
     }
-  }, [value]);
+  }, [value, isExpanded]);
 
   // Adjust height when value changes
   useEffect(() => {
@@ -346,7 +353,18 @@ const InputArea: React.FC<InputAreaProps> = ({
 
   return (
     <div className={styles.inputArea}>
-      <div className={`${styles.inputContainer}${showInputAttention ? ` ${styles.inputContainerAttention}` : ''}`}>
+      <div className={`${styles.inputContainer}${showInputAttention ? ` ${styles.inputContainerAttention}` : ''}${isExpanded ? ` ${styles.inputContainerExpanded}` : ''}`}>
+        {/* Expand/Collapse button - shows when content is long */}
+        {isLongContent && (
+          <button
+            type="button"
+            className={styles.expandButton}
+            onClick={() => setIsExpanded(!isExpanded)}
+            aria-label={isExpanded ? 'Collapse input' : 'Expand input'}
+          >
+            <Icon name={isExpanded ? 'arrows-in' : 'arrows-out'} size="small" />
+          </button>
+        )}
         <div className={styles.inputContent}>
           <TextArea
             ref={textAreaRef}
@@ -356,7 +374,7 @@ const InputArea: React.FC<InputAreaProps> = ({
             placeholder={placeholder}
             disabled={disabled}
             rows={1}
-            className={styles.textInput}
+            className={`${styles.textInput}${isExpanded ? ` ${styles.textInputExpanded}` : ''}`}
             label="Chat message input"
             hideLabel
           />

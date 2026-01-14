@@ -190,6 +190,7 @@
 }
 
 .inputContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--ink-spacing-100);
@@ -197,6 +198,40 @@
   background: var(--ink-form-control-bg-color-default);
   border: var(--ink-form-border-width) solid var(--ink-border-color-subtle);
   border-radius: var(--ink-radius-size-m);
+}
+
+/* Expanded state for the input container */
+.inputContainerExpanded {
+  padding-top: var(--ink-spacing-100);
+}
+
+/* Expand/Collapse button - positioned in top-right corner */
+.expandButton {
+  position: absolute;
+  top: var(--ink-spacing-100);
+  right: var(--ink-spacing-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: var(--ink-radius-size-xs);
+  color: var(--ink-font-color-neutral-subtle);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+  z-index: 1;
+}
+
+.expandButton:hover {
+  background: var(--ink-bg-color-neutral-subtle);
+  color: var(--ink-font-color-default);
+}
+
+.expandButton:active {
+  background: var(--ink-bg-color-neutral);
 }
 
 /* Focus state removed - no border change on focus */
@@ -286,6 +321,11 @@
 .textInput.textInput::placeholder {
   color: var(--ink-font-color-neutral-subtle) !important;
   opacity: 1 !important;
+}
+
+/* Expanded state for textarea */
+.textInputExpanded.textInputExpanded {
+  max-height: 500px !important;
 }
 
 .inputActions {
