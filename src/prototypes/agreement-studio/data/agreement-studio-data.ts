@@ -374,7 +374,7 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
         '1. Establish Hierarchy:\n   • Locate Order of Precedence clause (MSA §2.1)\n   • Document the ranking: Amendments (reverse chronological) > SOWs > Order Forms > MSA\n   • Note any document-specific precedence overrides',
         '2. Systematic Comparison - Check each area for conflicts:\n   • IP Ownership: MSA §7.1 (Provider) vs SOW §5.3 (Customer for custom work)\n   • Termination Notice: MSA §12.2 (90 days) vs Amendment #2 §4 (120 days)\n   • SLA Levels: Original MSA (99.5%) vs Amendment #3 (99.9%)\n   • Support Hours: Original (8x5) vs Amendment #3 (24x7)\n   • Liability Caps: MSA general cap vs any SOW-specific limitations',
         '3. Resolution Analysis:\n   • For each conflict, cite both provisions with exact section references\n   • Apply the Order of Precedence to determine the governing term\n   • Document the rationale for resolution',
-        '4. Ambiguity Identification:\n   • Flag provisions where precedence rules don\'t clearly resolve the conflict\n   • Note any silent amendments (terms not explicitly addressed in later documents)\n   • Identify terms that may require legal interpretation',
+        "4. Ambiguity Identification:\n   • Flag provisions where precedence rules don't clearly resolve the conflict\n   • Note any silent amendments (terms not explicitly addressed in later documents)\n   • Identify terms that may require legal interpretation",
         'OUTPUT FORMAT:',
         '• Conflict Register: Numbered list of all identified conflicts\n• Resolution Matrix: Table showing Conflict | Document A Term | Document B Term | Governing Term | Rationale\n• Ambiguity Log: Unresolved items requiring legal review\n• Recommended Amendment Language: Specific clarifications for renewal',
       ],
@@ -395,9 +395,7 @@ export const SUGGESTED_QUESTIONS = [
 // =============================================================================
 
 export const CHAT_HISTORY: ChatHistoryData = {
-  today: [
-    { id: '1', title: 'Acme Renewal Prep', time: '2:30 PM', messages: 8 },
-  ],
+  today: [{ id: '1', title: 'Acme Renewal Prep', time: '2:30 PM', messages: 8 }],
   yesterday: [
     { id: '2', title: 'Q4 Contract Review', time: '4:45 PM', messages: 12 },
     { id: '3', title: 'Vendor Compliance Check', time: '10:00 AM', messages: 6 },
@@ -412,20 +410,64 @@ export const CHAT_HISTORY: ChatHistoryData = {
 export const STORED_CONVERSATIONS: Record<string, ChatMessage[]> = {
   '1': [], // Current session - starts empty for demo
   '2': [
-    { id: 'stored-2-1', role: 'user', content: 'Review all Q4 contracts for renewal status', timestamp: new Date('2024-01-12T16:30:00') },
-    { id: 'stored-2-2', role: 'assistant', content: 'I found 23 contracts with Q4 renewal dates. 15 are auto-renewing, 5 require renegotiation, and 3 have termination notices pending.', timestamp: new Date('2024-01-12T16:31:00') },
+    {
+      id: 'stored-2-1',
+      role: 'user',
+      content: 'Review all Q4 contracts for renewal status',
+      timestamp: new Date('2024-01-12T16:30:00'),
+    },
+    {
+      id: 'stored-2-2',
+      role: 'assistant',
+      content:
+        'I found 23 contracts with Q4 renewal dates. 15 are auto-renewing, 5 require renegotiation, and 3 have termination notices pending.',
+      timestamp: new Date('2024-01-12T16:31:00'),
+    },
   ],
   '3': [
-    { id: 'stored-3-1', role: 'user', content: 'Check vendor compliance status', timestamp: new Date('2024-01-12T10:00:00') },
-    { id: 'stored-3-2', role: 'assistant', content: 'All 8 active vendors are currently compliant. 2 certifications are expiring within 30 days and will need renewal verification.', timestamp: new Date('2024-01-12T10:01:00') },
+    {
+      id: 'stored-3-1',
+      role: 'user',
+      content: 'Check vendor compliance status',
+      timestamp: new Date('2024-01-12T10:00:00'),
+    },
+    {
+      id: 'stored-3-2',
+      role: 'assistant',
+      content:
+        'All 8 active vendors are currently compliant. 2 certifications are expiring within 30 days and will need renewal verification.',
+      timestamp: new Date('2024-01-12T10:01:00'),
+    },
   ],
   '4': [
-    { id: 'stored-4-1', role: 'user', content: 'Analyze pricing changes across all agreements', timestamp: new Date('2024-01-08T14:00:00') },
-    { id: 'stored-4-2', role: 'assistant', content: 'Annual pricing analysis complete. Average price increase: 4.2%. 3 agreements have price protection clauses. Total annual spend: $4.2M.', timestamp: new Date('2024-01-08T14:02:00') },
+    {
+      id: 'stored-4-1',
+      role: 'user',
+      content: 'Analyze pricing changes across all agreements',
+      timestamp: new Date('2024-01-08T14:00:00'),
+    },
+    {
+      id: 'stored-4-2',
+      role: 'assistant',
+      content:
+        'Annual pricing analysis complete. Average price increase: 4.2%. 3 agreements have price protection clauses. Total annual spend: $4.2M.',
+      timestamp: new Date('2024-01-08T14:02:00'),
+    },
   ],
   '5': [
-    { id: 'stored-5-1', role: 'user', content: 'Compare SLA terms across cloud providers', timestamp: new Date('2024-01-05T11:00:00') },
-    { id: 'stored-5-2', role: 'assistant', content: 'SLA comparison across 4 cloud providers: Uptime guarantees range from 99.9% to 99.99%. Response times vary from 15 min to 4 hours for P1 issues.', timestamp: new Date('2024-01-05T11:03:00') },
+    {
+      id: 'stored-5-1',
+      role: 'user',
+      content: 'Compare SLA terms across cloud providers',
+      timestamp: new Date('2024-01-05T11:00:00'),
+    },
+    {
+      id: 'stored-5-2',
+      role: 'assistant',
+      content:
+        'SLA comparison across 4 cloud providers: Uptime guarantees range from 99.9% to 99.99%. Response times vary from 15 min to 4 hours for P1 issues.',
+      timestamp: new Date('2024-01-05T11:03:00'),
+    },
   ],
 };
 
@@ -458,7 +500,8 @@ export const SCRIPTED_RESPONSES: Record<string, RichMessageData> = {
                     documentId: '2',
                     documentTitle: 'Acme Corp - Order Form 2024',
                     section: '§3.1 Pricing',
-                    excerpt: 'Unit pricing shall be One Hundred Fifty Dollars ($150.00) per unit, inclusive of standard support and maintenance. Volume discounts apply for orders exceeding 10,000 units per quarter.',
+                    excerpt:
+                      'Unit pricing shall be One Hundred Fifty Dollars ($150.00) per unit, inclusive of standard support and maintenance. Volume discounts apply for orders exceeding 10,000 units per quarter.',
                   },
                 },
               ],
@@ -474,7 +517,8 @@ export const SCRIPTED_RESPONSES: Record<string, RichMessageData> = {
                     documentId: '1',
                     documentTitle: 'Acme Corp - Master Services Agreement',
                     section: '§4.2 Minimum Commitment',
-                    excerpt: 'Customer commits to a minimum annual spend of Five Hundred Thousand Dollars ($500,000.00 USD) during each Contract Year, calculated on a cumulative basis across all Order Forms.',
+                    excerpt:
+                      'Customer commits to a minimum annual spend of Five Hundred Thousand Dollars ($500,000.00 USD) during each Contract Year, calculated on a cumulative basis across all Order Forms.',
                   },
                 },
               ],
@@ -490,7 +534,8 @@ export const SCRIPTED_RESPONSES: Record<string, RichMessageData> = {
                     documentId: '2',
                     documentTitle: 'Acme Corp - Order Form 2024',
                     section: '§5.1 Payment',
-                    excerpt: 'All invoices are due and payable within thirty (30) days of the invoice date (Net 30). Late payments shall accrue interest at 1.5% per month or the maximum rate permitted by law.',
+                    excerpt:
+                      'All invoices are due and payable within thirty (30) days of the invoice date (Net 30). Late payments shall accrue interest at 1.5% per month or the maximum rate permitted by law.',
                   },
                 },
               ],
@@ -511,7 +556,8 @@ export const SCRIPTED_RESPONSES: Record<string, RichMessageData> = {
               documentId: '1',
               documentTitle: 'Acme Corp - Master Services Agreement',
               section: '§8.1 Limitation of Liability',
-              excerpt: 'IN NO EVENT SHALL EITHER PARTY\'S AGGREGATE LIABILITY EXCEED TWO MILLION DOLLARS ($2,000,000.00 USD), EXCEPT FOR BREACHES OF CONFIDENTIALITY OR INDEMNIFICATION OBLIGATIONS.',
+              excerpt:
+                "IN NO EVENT SHALL EITHER PARTY'S AGGREGATE LIABILITY EXCEED TWO MILLION DOLLARS ($2,000,000.00 USD), EXCEPT FOR BREACHES OF CONFIDENTIALITY OR INDEMNIFICATION OBLIGATIONS.",
             },
           },
           {
@@ -521,7 +567,8 @@ export const SCRIPTED_RESPONSES: Record<string, RichMessageData> = {
               documentId: '1',
               documentTitle: 'Acme Corp - Master Services Agreement',
               section: '§9 Indemnification',
-              excerpt: 'Each party shall indemnify, defend, and hold harmless the other party from any third-party claims arising from (a) breach of this Agreement, (b) violation of applicable law, or (c) gross negligence or willful misconduct.',
+              excerpt:
+                'Each party shall indemnify, defend, and hold harmless the other party from any third-party claims arising from (a) breach of this Agreement, (b) violation of applicable law, or (c) gross negligence or willful misconduct.',
             },
           },
           {
@@ -531,7 +578,8 @@ export const SCRIPTED_RESPONSES: Record<string, RichMessageData> = {
               documentId: '3',
               documentTitle: 'Acme Corp - SOW Implementation Services',
               section: '§5 Intellectual Property',
-              excerpt: 'All Customer Data and pre-existing Customer IP shall remain the sole property of Customer. Any custom developments created specifically for Customer under this SOW shall be assigned to Customer upon full payment.',
+              excerpt:
+                'All Customer Data and pre-existing Customer IP shall remain the sole property of Customer. Any custom developments created specifically for Customer under this SOW shall be assigned to Customer upon full payment.',
             },
           },
         ],
@@ -549,7 +597,8 @@ export const SCRIPTED_RESPONSES: Record<string, RichMessageData> = {
               documentId: '6',
               documentTitle: 'Acme Corp - Amendment #3 (SLA Update)',
               section: '§2 Service Level Modifications',
-              excerpt: 'Section 6.1 of the MSA is hereby amended to increase the guaranteed uptime from ninety-nine point five percent (99.5%) to ninety-nine point nine percent (99.9%), with corresponding service credits.',
+              excerpt:
+                'Section 6.1 of the MSA is hereby amended to increase the guaranteed uptime from ninety-nine point five percent (99.5%) to ninety-nine point nine percent (99.9%), with corresponding service credits.',
             },
           },
           {
@@ -559,7 +608,8 @@ export const SCRIPTED_RESPONSES: Record<string, RichMessageData> = {
               documentId: '6',
               documentTitle: 'Acme Corp - Amendment #3 (SLA Update)',
               section: '§3 Support Enhancement',
-              excerpt: 'Standard support coverage is upgraded from business hours (8am-5pm, Monday-Friday) to twenty-four hours per day, seven days per week (24x7) at no additional charge, effective February 1, 2024.',
+              excerpt:
+                'Standard support coverage is upgraded from business hours (8am-5pm, Monday-Friday) to twenty-four hours per day, seven days per week (24x7) at no additional charge, effective February 1, 2024.',
             },
           },
         ],
@@ -741,7 +791,8 @@ export const CONFLICT_RESPONSES: Record<string, ConflictData[]> = {
         documentId: '1',
         documentTitle: 'Acme Corp - Master Services Agreement',
         section: '§2.1 Order of Precedence',
-        excerpt: 'In the event of a conflict between documents, the following order of precedence shall apply: (1) Amendments, in reverse chronological order; (2) Statements of Work; (3) Order Forms; (4) this Master Services Agreement.',
+        excerpt:
+          'In the event of a conflict between documents, the following order of precedence shall apply: (1) Amendments, in reverse chronological order; (2) Statements of Work; (3) Order Forms; (4) this Master Services Agreement.',
       },
     },
     {
@@ -768,7 +819,8 @@ export const CONFLICT_RESPONSES: Record<string, ConflictData[]> = {
         documentId: '5',
         documentTitle: 'Acme Corp - Amendment #2',
         section: '§1 Effect of Amendment',
-        excerpt: 'This Amendment modifies and supplements the Master Services Agreement dated January 15, 2022. In case of conflict, this Amendment shall prevail.',
+        excerpt:
+          'This Amendment modifies and supplements the Master Services Agreement dated January 15, 2022. In case of conflict, this Amendment shall prevail.',
       },
     },
   ],

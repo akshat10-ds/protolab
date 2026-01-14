@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './Modal.module.css';
 import { IconButton } from '../../3-primitives/IconButton';
 
@@ -25,6 +26,8 @@ export interface ModalProps {
   className?: string;
   /** Data QA attribute for testing */
   'data-qa'?: string;
+  /** When true, modal is positioned within its parent container instead of viewport */
+  contained?: boolean;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -38,6 +41,7 @@ export const Modal: React.FC<ModalProps> = ({
   closeOnEscape = true,
   className,
   'data-qa': dataQa,
+  contained = false,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
@@ -85,8 +89,10 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (!open) return null;
 
-  return (
-    <div className={styles.overlay} onClick={handleBackdropClick} data-qa={dataQa}>
+  const overlayClasses = [styles.overlay, contained && styles.contained].filter(Boolean).join(' ');
+
+  const modalContent = (
+    <div className={overlayClasses} onClick={handleBackdropClick} data-qa={dataQa}>
       <div
         ref={modalRef}
         className={`${styles.modal} ${styles[size]} ${className || ''}`}
@@ -119,6 +125,13 @@ export const Modal: React.FC<ModalProps> = ({
       </div>
     </div>
   );
+
+  // When contained, render in place. Otherwise, use portal to escape stacking contexts.
+  if (contained) {
+    return modalContent;
+  }
+
+  return createPortal(modalContent, document.body);
 };
 
 Modal.displayName = 'Modal';

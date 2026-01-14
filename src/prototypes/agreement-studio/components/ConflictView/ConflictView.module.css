@@ -1,0 +1,184 @@
+/**
+ * ConflictView Component Styles
+ * Side-by-side clause comparison for conflict detection
+ */
+
+@import '../../../../design-system/1-tokens/tokens.css';
+
+/* Tool Call Card Pattern for Conflicts */
+.conflictView {
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-m);
+  overflow: hidden;
+  padding: var(--ink-spacing-100) var(--ink-spacing-200) var(--ink-spacing-200);
+}
+
+.conflictViewHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: 0;
+  min-height: 32px;
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.conflictViewTitle {
+  flex: 1;
+  font-family: var(--ink-font-family-display);
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+  letter-spacing: var(--ink-letter-spacing-open);
+  margin: 0;
+}
+
+.conflictViewCount {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+}
+
+.conflictViewHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+}
+
+/* Conflict Content Area - white background */
+.conflictViewContent {
+  background: var(--ink-bg-color-default);
+  border-radius: var(--ink-radius-size-s);
+  overflow: hidden;
+}
+
+/* Conflict Footer with Continue button */
+.conflictViewFooter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-150);
+  margin-top: var(--ink-spacing-150);
+  padding-top: var(--ink-spacing-150);
+  border-top: 1px solid var(--ink-border-color-subtle);
+}
+
+.conflictCard {
+  padding: var(--ink-spacing-200);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+}
+
+.conflictCard:last-child {
+  border-bottom: none;
+}
+
+.conflictCardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.conflictCardHeader svg {
+  color: var(--ink-font-color-subtle);
+}
+
+.conflictCardTitle {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+}
+
+.conflictDescription {
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-subtle);
+  margin: 0 0 var(--ink-spacing-150);
+}
+
+.conflictComparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ink-spacing-100);
+  margin-bottom: var(--ink-spacing-200);
+}
+
+/* Clause comparison boxes - neutral styling */
+.conflictClause {
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+  overflow: hidden;
+}
+
+.conflictClauseHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-25);
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+}
+
+.conflictClauseTitle {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+}
+
+.conflictClauseSection {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+}
+
+.conflictClauseText {
+  padding: var(--ink-spacing-150);
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-default);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* Recommendation - subtle neutral styling */
+.conflictRecommendation {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-150);
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+  margin-top: var(--ink-spacing-150);
+}
+
+.conflictRecommendation svg {
+  flex-shrink: 0;
+  color: var(--ink-font-color-subtle);
+  margin-top: 2px;
+}
+
+.conflictRecommendationLabel {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+  margin-right: var(--ink-spacing-50);
+}
+
+.conflictRecommendationText {
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-default);
+}
+
+/* Citation link within recommendation */
+.citation {
+  color: var(--ink-font-color-subtle);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  transition: color 150ms ease;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  margin-left: var(--ink-spacing-100);
+}
+
+.citation:hover {
+  color: var(--ink-font-color-default);
+}

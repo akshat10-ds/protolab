@@ -5,6 +5,7 @@
 
 .dropdown {
   /* Position handled by inline styles via Portal */
+  --dropdown-align-x: 0%; /* Default no horizontal offset, overridden by alignCenter/alignEnd */
   background-color: var(
     --ink-bg-glass-frost
   ); /* bgColorGlassFrost from Figma - semi-transparent white */
@@ -17,20 +18,21 @@
   ); /* shadowElevated from Figma: 0px 4px 8px rgba(19,0,50,0.15) */
   padding: var(--ink-spacing-100); /* 8px all around - gap100 from Figma */
   z-index: var(--ink-z-dropdown);
-  animation: dropdownFadeIn var(--ink-transition-fast);
+  animation: dropdownFadeIn var(--ink-transition-fast) forwards;
   min-width: 200px;
   max-width: 380px; /* Increased for boxed icons with descriptions */
   max-height: 400px;
   overflow-y: auto;
+  transform: translateX(var(--dropdown-align-x));
 }
 
 /* Alignment transforms (applied via JS-calculated left position) */
 .alignCenter {
-  transform: translateX(-50%);
+  --dropdown-align-x: -50%;
 }
 
 .alignEnd {
-  transform: translateX(-100%);
+  --dropdown-align-x: -100%;
 }
 
 /* Section header - matches Figma "fontSectionHeadline" specs */
@@ -48,11 +50,11 @@
 @keyframes dropdownFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-4px);
+    transform: translateX(var(--dropdown-align-x)) translateY(-4px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(var(--dropdown-align-x)) translateY(0);
   }
 }
 

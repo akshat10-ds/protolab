@@ -161,6 +161,7 @@ const Message: React.FC<MessageProps> = ({
 }) => {
   const isUser = message.role === 'user';
   const isSystem = message.role === 'system';
+  const isAssistant = message.role === 'assistant';
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(message.content);
@@ -177,6 +178,11 @@ const Message: React.FC<MessageProps> = ({
     );
   }
 
+  // Don't render assistant messages until they have content (prevents gray box during streaming start)
+  if (isAssistant && !message.content) {
+    return null;
+  }
+
   return (
     <div className={`${styles.message} ${isUser ? styles.userMessage : styles.assistantMessage}`}>
       <div className={styles.messageContent}>
@@ -186,9 +192,11 @@ const Message: React.FC<MessageProps> = ({
           </Text>
         )}
 
-        <div className={styles.messageBubble}>
-          <Text variant="body">{message.content}</Text>
-        </div>
+        {message.content && (
+          <div className={styles.messageBubble}>
+            <Text variant="body">{message.content}</Text>
+          </div>
+        )}
 
         {showActions && !isUser && (
           <div className={styles.messageActions}>
@@ -230,9 +238,11 @@ const TypingIndicator: React.FC<TypingIndicatorProps> = () => {
     <div className={`${styles.message} ${styles.assistantMessage}`}>
       <div className={styles.messageContent}>
         <div className={styles.typingIndicator}>
-          <span className={styles.typingDot} />
-          <span className={styles.typingDot} />
-          <span className={styles.typingDot} />
+          {/* Simple skeleton text lines */}
+          <div className={styles.typingContent}>
+            <div className={styles.typingLine} />
+            <div className={styles.typingLine} />
+          </div>
         </div>
       </div>
     </div>
@@ -318,13 +328,16 @@ const InputArea: React.FC<InputAreaProps> = ({
     adjustTextAreaHeight();
   }, [value, adjustTextAreaHeight]);
 
-  const handleValueChange = useCallback((newValue: string) => {
-    if (isControlled) {
-      onValueChange?.(newValue);
-    } else {
-      setInternalValue(newValue);
-    }
-  }, [isControlled, onValueChange]);
+  const handleValueChange = useCallback(
+    (newValue: string) => {
+      if (isControlled) {
+        onValueChange?.(newValue);
+      } else {
+        setInternalValue(newValue);
+      }
+    },
+    [isControlled, onValueChange]
+  );
 
   const handleSend = useCallback(() => {
     const trimmed = value.trim();
@@ -353,7 +366,9 @@ const InputArea: React.FC<InputAreaProps> = ({
 
   return (
     <div className={styles.inputArea}>
-      <div className={`${styles.inputContainer}${showInputAttention ? ` ${styles.inputContainerAttention}` : ''}${isExpanded ? ` ${styles.inputContainerExpanded}` : ''}`}>
+      <div
+        className={`${styles.inputContainer}${showInputAttention ? ` ${styles.inputContainerAttention}` : ''}${isExpanded ? ` ${styles.inputContainerExpanded}` : ''}`}
+      >
         {/* Expand/Collapse button - shows when content is long */}
         {isLongContent && (
           <Tooltip text={isExpanded ? 'Collapse' : 'Expand'} location="above" alignment="end">
@@ -390,7 +405,9 @@ const InputArea: React.FC<InputAreaProps> = ({
               disabled={disabled}
             >
               <Icon name="document-stack" size="small" />
-              <span>{contextSource.count} {contextSource.label}</span>
+              <span>
+                {contextSource.count} {contextSource.label}
+              </span>
               <Icon name="chevron-down" size="small" />
             </button>
           ) : showAddSource ? (
@@ -418,11 +435,7 @@ const InputArea: React.FC<InputAreaProps> = ({
           )}
         </div>
       </div>
-      {showDisclaimer && (
-        <p className={styles.disclaimer}>
-          {disclaimerText}
-        </p>
-      )}
+      {showDisclaimer && <p className={styles.disclaimer}>{disclaimerText}</p>}
     </div>
   );
 };
@@ -494,11 +507,7 @@ const Welcome: React.FC<WelcomeProps> = ({
                       <Text variant="body" weight="medium">
                         {action.label}
                       </Text>
-                      {action.description && (
-                        <Text variant="caption">
-                          {action.description}
-                        </Text>
-                      )}
+                      {action.description && <Text variant="caption">{action.description}</Text>}
                     </div>
                   </button>
                 ))}
@@ -713,8 +722,8 @@ export const AIChat: React.FC<AIChatProps> = ({
           <Stack gap="medium" className={styles.messages}>
             {messages.map((message, index) => {
               // Check if this is the last assistant message (for scroll ref)
-              const isLastAiMessage = message.role === 'assistant' &&
-                index === messages.length - 1 ||
+              const isLastAiMessage =
+                (message.role === 'assistant' && index === messages.length - 1) ||
                 (index === messages.length - 2 && messages[messages.length - 1]?.role === 'user');
 
               // Check if custom renderer is provided and returns content
@@ -726,18 +735,13 @@ export const AIChat: React.FC<AIChatProps> = ({
                     ref={isLastAiMessage ? lastAiMessageRef : undefined}
                     className={`${styles.message} ${message.role === 'user' ? styles.userMessage : styles.assistantMessage}`}
                   >
-                    <div className={styles.messageContent}>
-                      {customContent}
-                    </div>
+                    <div className={styles.messageContent}>{customContent}</div>
                   </div>
                 );
               }
               // Default rendering
               return (
-                <div
-                  key={message.id}
-                  ref={isLastAiMessage ? lastAiMessageRef : undefined}
-                >
+                <div key={message.id} ref={isLastAiMessage ? lastAiMessageRef : undefined}>
                   <Message
                     message={message}
                     userAvatar={userAvatar}

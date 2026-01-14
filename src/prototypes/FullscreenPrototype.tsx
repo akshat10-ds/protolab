@@ -6,6 +6,7 @@
  */
 
 import { useParams, Navigate } from 'react-router-dom';
+import styles from './FullscreenPrototype.module.css';
 import { SimpleForm } from './SimpleForm';
 import { PartiesView } from './PartiesView';
 import { DocuSignLanding } from './DocuSignLanding';
@@ -13,7 +14,7 @@ import { AccordionWizard } from './AccordionWizard';
 import { UserInfoForm } from './UserInfoForm';
 import { NavigatorAgreements } from './NavigatorAgreements';
 import { NavigatorAgreementsAIChat } from './NavigatorAgreementsAIChat';
-import { AgreementStudio } from './AgreementStudio';
+import { AgreementStudio } from './agreement-studio';
 import { AgreementStudioFR } from './AgreementStudioFR';
 
 // Map route names to prototype components
@@ -40,7 +41,7 @@ export function FullscreenPrototype() {
   const PrototypeComponent = PROTOTYPE_MAP[name];
 
   return (
-    <div style={{ width: '100vw', height: '100vh', overflow: 'hidden' }}>
+    <div className={styles.wrapper}>
       <PrototypeComponent />
     </div>
   );

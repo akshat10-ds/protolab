@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
-import { Stack, Button, Icon, Text, Divider } from '@/design-system';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Button, Icon, Text, Divider } from '@/design-system';
 import styles from './PrototypeWrapper.module.css';
 
 /**
@@ -18,6 +18,14 @@ interface PrototypeWrapperProps {
 
 export function PrototypeWrapper({ title, description, children }: PrototypeWrapperProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Extract prototype name from URL: /prototypes/agreement-studio -> agreement-studio
+  const prototypeName = location.pathname.split('/').pop() || '';
+
+  const handleFullscreen = () => {
+    navigate(`/fullscreen/${prototypeName}`);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -35,12 +43,18 @@ export function PrototypeWrapper({ title, description, children }: PrototypeWrap
           {description && (
             <>
               <span className={styles.separator}>—</span>
-              <Text variant="body" color="secondary">
-                {description}
-              </Text>
+              <span className={styles.description}>
+                <Text variant="body" color="secondary">
+                  {description}
+                </Text>
+              </span>
             </>
           )}
         </div>
+
+        <Button kind="tertiary" size="small" onClick={handleFullscreen} title="Fullscreen">
+          <Icon name="arrows-out" size="small" />
+        </Button>
       </header>
 
       <Divider />

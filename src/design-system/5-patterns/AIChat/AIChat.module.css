@@ -12,7 +12,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 1;
+  min-height: 0; /* Critical: allow flex item to shrink below content size */
   overflow: hidden;
 }
 
@@ -48,10 +49,20 @@
 
 .messageList {
   flex: 1;
+  min-height: 0; /* Allow flex item to shrink below content size */
   overflow-y: auto;
   padding: var(--ink-spacing-200);
   scroll-behavior: smooth;
-  max-height: var(--ai-chat-max-height, 600px);
+  animation: messageListFadeIn 400ms ease-out forwards;
+}
+
+@keyframes messageListFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .messages {
@@ -68,13 +79,27 @@
   max-width: 85%;
 }
 
+/* Message entrance animation - cascade up */
+@keyframes messageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .userMessage {
   margin-left: auto;
   flex-direction: row-reverse;
+  animation: messageFadeIn 300ms ease-out forwards;
 }
 
 .assistantMessage {
   margin-right: auto;
+  animation: messageFadeIn 300ms ease-out forwards;
 }
 
 .messageAvatar {
@@ -104,10 +129,11 @@
   color: var(--ink-font-color-default);
 }
 
-/* Assistant message bubble */
+/* Assistant message bubble - no background, just plain text */
 .assistantMessage .messageBubble {
-  background: var(--ink-bg-subtle);
+  background: transparent;
   border: none;
+  padding: 0;
 }
 
 /* System message (centered, subtle) */
@@ -130,38 +156,53 @@
 }
 
 /* ============================================================================
-   Typing Indicator
+   Typing Indicator / Response Skeleton
    ============================================================================ */
 
 .typingIndicator {
   display: flex;
-  align-items: center;
-  gap: var(--ink-spacing-50);
-  padding: var(--ink-spacing-150) var(--ink-spacing-200);
-  background: var(--ink-bg-color-canvas-page);
-  border: 1px solid var(--ink-border-color-subtle);
-  border-radius: var(--ink-radius-size-m);
-  width: fit-content;
+  flex-direction: column;
+  animation: messageFadeIn 300ms ease-out forwards;
+  min-width: 200px;
+  max-width: 320px;
 }
 
-.typingDot {
-  width: 8px;
-  height: 8px;
-  background: var(--ink-font-color-neutral);
-  border-radius: var(--ink-radius-full);
-  animation: typingBounce 1.4s ease-in-out infinite;
+.typingContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
 }
 
-.typingDot:nth-child(1) {
+.typingLine {
+  height: 16px;
+  border-radius: var(--ink-radius-size-xs);
+  background: linear-gradient(
+    90deg,
+    var(--ink-neutral-15) 25%,
+    var(--ink-neutral-10) 50%,
+    var(--ink-neutral-15) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.typingLine:nth-child(1) {
+  width: 100%;
   animation-delay: 0ms;
 }
 
-.typingDot:nth-child(2) {
-  animation-delay: 200ms;
+.typingLine:nth-child(2) {
+  width: 70%;
+  animation-delay: 75ms;
 }
 
-.typingDot:nth-child(3) {
-  animation-delay: 400ms;
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 @keyframes typingBounce {
@@ -172,7 +213,7 @@
     opacity: 0.4;
   }
   30% {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
     opacity: 1;
   }
 }
@@ -188,6 +229,7 @@
   padding: var(--ink-spacing-150) var(--ink-spacing-150) var(--ink-spacing-100);
   background: var(--ink-bg-color-default);
   border-radius: var(--ink-radius-size-s) var(--ink-radius-size-s) 0 0;
+  flex-shrink: 0; /* Prevent input area from being squeezed out */
 }
 
 .inputContainer {
@@ -222,7 +264,10 @@
   border-radius: var(--ink-radius-size-xs);
   color: var(--ink-font-color-neutral);
   cursor: pointer;
-  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
   z-index: 1;
 }
 
@@ -381,7 +426,9 @@
   font-size: var(--ink-font-size-xs);
   font-weight: var(--ink-font-weight-medium);
   color: var(--ink-font-color-default);
-  transition: background 150ms ease, box-shadow 300ms ease;
+  transition:
+    background 150ms ease,
+    box-shadow 300ms ease;
 }
 
 .contextSourcePill:hover:not(:disabled) {
@@ -477,8 +524,21 @@
 .welcomeZeroQuery {
   padding: var(--ink-spacing-300) var(--ink-spacing-300) var(--ink-spacing-300)
     var(--ink-spacing-150);
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
+}
+
+/* Entrance animation for welcome content */
+@keyframes welcomeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .welcomeGreeting {
@@ -487,6 +547,7 @@
   gap: var(--ink-spacing-50);
   padding-bottom: var(--ink-spacing-300);
   border-bottom: 1px solid var(--ink-border-color-subtle);
+  animation: welcomeFadeIn 400ms ease-out forwards;
 }
 
 /* Add spacing below AIBadge */
@@ -530,6 +591,17 @@
   display: flex;
   flex-direction: column;
   gap: var(--ink-spacing-150);
+  opacity: 0;
+  animation: welcomeFadeIn 400ms ease-out forwards;
+}
+
+/* Stagger the sections */
+.suggestionsSection:nth-of-type(1) {
+  animation-delay: 100ms;
+}
+
+.suggestionsSection:nth-of-type(2) {
+  animation-delay: 200ms;
 }
 
 .sectionHeader {
@@ -538,6 +610,9 @@
   align-items: center;
   width: 100%;
   cursor: pointer;
+  opacity: 0;
+  animation: welcomeFadeIn 300ms ease-out forwards;
+  animation-delay: 80ms;
 }
 
 .sectionHeader:hover {
@@ -556,6 +631,23 @@
   text-align: left;
   transition: background 150ms ease;
   width: 100%;
+  /* Staggered card animations */
+  opacity: 0;
+  animation: welcomeFadeIn 350ms ease-out forwards;
+}
+
+/* Stagger individual prompt cards */
+.suggestionCard:nth-child(1) {
+  animation-delay: 150ms;
+}
+.suggestionCard:nth-child(2) {
+  animation-delay: 200ms;
+}
+.suggestionCard:nth-child(3) {
+  animation-delay: 250ms;
+}
+.suggestionCard:nth-child(4) {
+  animation-delay: 300ms;
 }
 
 .suggestionCard:hover {
@@ -592,6 +684,23 @@
   transition: background 150ms ease;
   width: 100%;
   color: var(--ink-font-color-default);
+  /* Staggered card animations */
+  opacity: 0;
+  animation: welcomeFadeIn 350ms ease-out forwards;
+}
+
+/* Stagger individual question cards (offset from prompts section) */
+.questionCard:nth-child(1) {
+  animation-delay: 250ms;
+}
+.questionCard:nth-child(2) {
+  animation-delay: 300ms;
+}
+.questionCard:nth-child(3) {
+  animation-delay: 350ms;
+}
+.questionCard:nth-child(4) {
+  animation-delay: 400ms;
 }
 
 .questionCard:hover {

@@ -6,7 +6,7 @@
  * Based on the 10-step Acme renewal scenario.
  */
 
-@import '../design-system/1-tokens/tokens.css';
+@import '../../design-system/1-tokens/tokens.css';
 
 /* ============================================================================
    Logo
@@ -23,18 +23,19 @@
 
 .layoutContainer {
   display: flex;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   width: 100%;
   position: relative;
   overflow: hidden;
 }
 
 .mainContent {
-  width: 100%;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
   transition: width 250ms cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
-  flex-shrink: 0;
 }
 
 .mainContentShifted {
@@ -46,6 +47,10 @@
    ============================================================================ */
 
 .pageContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
   opacity: 1;
   transform: translateY(0);
   transition:
@@ -110,7 +115,8 @@
    ============================================================================ */
 
 .aiPanel {
-  height: 100%;
+  /* Fill available height in flex container */
+  align-self: stretch;
   background: var(--ink-bg-color-default);
   border-left: 1px solid var(--ink-border-color-subtle);
   display: flex;

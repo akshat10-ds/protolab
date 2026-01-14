@@ -45,7 +45,8 @@ const prototypes: PrototypeInfo[] = [
   {
     id: 'user-info-form',
     title: 'User Info Form',
-    description: 'Progressive disclosure form using accordions to organize user information collection.',
+    description:
+      'Progressive disclosure form using accordions to organize user information collection.',
     path: '/prototypes/user-info-form',
   },
   {
@@ -63,20 +64,30 @@ const prototypes: PrototypeInfo[] = [
   {
     id: 'agreement-studio',
     title: 'Agreement Studio',
-    description: 'Scripted demo: Acme Renewal Prep with AI-powered agreement analysis, citations, and conflict detection.',
+    description:
+      'Scripted demo: Acme Renewal Prep with AI-powered agreement analysis, citations, and conflict detection.',
     path: '/prototypes/agreement-studio',
   },
   {
     id: 'agreement-studio-fr',
     title: 'Agreement Studio (FR)',
-    description: 'Version française: Préparation Renouvellement Acme avec analyse contractuelle IA, citations et détection de conflits.',
+    description:
+      'Version française: Préparation Renouvellement Acme avec analyse contractuelle IA, citations et détection de conflits.',
     path: '/prototypes/agreement-studio-fr',
   },
   {
     id: 'hr-onboarding-wizard',
     title: 'HR Onboarding Wizard',
-    description: 'A workflow builder for creating customized employee onboarding experiences with data collection, ID verification, and policy acceptance.',
+    description:
+      'A workflow builder for creating customized employee onboarding experiences with data collection, ID verification, and policy acceptance.',
     path: '/prototypes/hr-onboarding-wizard',
+  },
+  {
+    id: 'prompt-expansion-demo',
+    title: 'Prompt Expansion Demo',
+    description:
+      'Tab-to-expand interaction with async loading: Inline Hint and Ghost Preview variations.',
+    path: '/prototypes/prompt-expansion-demo',
   },
   // Add more prototypes here as they are created
 ];

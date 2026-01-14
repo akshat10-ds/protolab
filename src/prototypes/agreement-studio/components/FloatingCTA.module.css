@@ -1,0 +1,48 @@
+/**
+ * FloatingCTA Component Styles
+ */
+
+@import '../../../design-system/1-tokens/tokens.css';
+
+.floatingCTA {
+  position: fixed;
+  right: 0;
+  bottom: 85px;
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) var(--ink-spacing-200) var(--ink-spacing-100)
+    var(--ink-spacing-100);
+  background: var(--ink-gradient-blue-haze);
+  border: none;
+  border-radius: 100px 0 0 100px;
+  cursor: pointer;
+  box-shadow: 0px 32px 64px 0px var(--ink-neutral-fade-15);
+  transition: all 200ms ease;
+  font-family: var(--ink-font-family-default);
+}
+
+.floatingCTA:hover {
+  opacity: 0.85;
+}
+
+.floatingCTA:active {
+  opacity: 0.75;
+}
+
+.floatingCTAIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--ink-icon-color-inverse-emphasis);
+}
+
+.floatingCTAText {
+  font-size: var(--ink-font-size-body-m);
+  font-weight: var(--ink-font-weight-medium);
+  color: white;
+  white-space: nowrap;
+}

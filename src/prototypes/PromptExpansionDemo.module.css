@@ -1,0 +1,444 @@
+/**
+ * Prompt Expansion Demo Styles
+ *
+ * 2 Tab-to-expand variations with async loading states.
+ */
+
+@import '../design-system/1-tokens/tokens.css';
+
+/* ============================================================================
+   Demo Page Layout
+   ============================================================================ */
+
+.demoPage {
+  min-height: 100vh;
+  background: var(--ink-bg-color-default);
+  padding: var(--ink-spacing-400);
+  font-family: var(--ink-font-family-default);
+}
+
+.demoHeader {
+  text-align: center;
+  margin-bottom: var(--ink-spacing-400);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.demoTitle {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--ink-font-color-default);
+  margin: 0 0 var(--ink-spacing-100);
+}
+
+.demoSubtitle {
+  font-size: 0.9375rem;
+  color: var(--ink-font-color-secondary);
+  margin: 0;
+}
+
+.demoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-300);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* ============================================================================
+   Variant Card
+   ============================================================================ */
+
+.variant {
+  background: var(--ink-bg-color-elevated);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-s);
+  padding: var(--ink-spacing-250);
+}
+
+.variantHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-150);
+  margin-bottom: var(--ink-spacing-200);
+}
+
+.variantNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--ink-cobalt-100);
+  color: var(--ink-white);
+  border-radius: 50%;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.variantTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-font-color-default);
+  margin: 0 0 2px;
+}
+
+.variantHint {
+  font-size: 0.8125rem;
+  color: var(--ink-font-color-secondary);
+  margin: 0;
+}
+
+.variantNote {
+  font-size: 0.75rem;
+  color: var(--ink-font-color-tertiary);
+  margin: var(--ink-spacing-100) 0 0;
+  text-align: center;
+}
+
+/* ============================================================================
+   Input Area (Agreement Studio style)
+   ============================================================================ */
+
+.inputArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-50) var(--ink-spacing-200) var(--ink-spacing-150);
+  background: var(--ink-form-control-bg-color-default);
+  border: var(--ink-form-border-width) solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-m);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.inputContainer:focus-within {
+  border-color: var(--ink-cobalt-100);
+}
+
+.inputContent {
+  flex: 1;
+}
+
+.textInput {
+  width: 100%;
+  border: none !important;
+  background: transparent !important;
+  resize: none;
+  padding: var(--ink-spacing-100) 0 0 0;
+  min-height: 40px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-s);
+  color: var(--ink-font-color-default);
+  line-height: 1.5;
+  outline: none;
+}
+
+.textInput::placeholder {
+  color: var(--ink-font-color-neutral-subtle);
+}
+
+.textInputTypewriting {
+  background: transparent;
+  animation: textFadeIn 0.4s ease-out;
+}
+
+@keyframes textFadeIn {
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.inputActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ink-spacing-100);
+}
+
+/* ============================================================================
+   Context Source Pill (Agreement Studio style)
+   ============================================================================ */
+
+.contextSourcePill {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  background: var(--ink-neutral-10);
+  border: none;
+  border-radius: var(--ink-radius-full);
+  cursor: pointer;
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-xs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  transition: background 150ms ease;
+}
+
+.contextSourcePill:hover {
+  background: var(--ink-neutral-20);
+}
+
+/* ============================================================================
+   Send Button (Agreement Studio style - purple)
+   ============================================================================ */
+
+.sendButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--ink-cobalt-100);
+  border: none;
+  border-radius: var(--ink-radius-size-xs);
+  color: var(--ink-white);
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    opacity 150ms ease;
+}
+
+.sendButton:hover:not(:disabled) {
+  background: var(--ink-cobalt-120);
+}
+
+.sendButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================================================
+   Disclaimer
+   ============================================================================ */
+
+.disclaimer {
+  margin: 0;
+  padding: 0 var(--ink-spacing-100);
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-xxs);
+  font-weight: var(--ink-font-weight-medium);
+  letter-spacing: var(--ink-letter-spacing-open);
+  line-height: 1.4;
+  color: var(--ink-font-color-secondary);
+  text-align: center;
+}
+
+/* ============================================================================
+   Tab Key Styles
+   ============================================================================ */
+
+.tabKey {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  background: var(--ink-bg-color-tertiary);
+  border: 1px solid var(--ink-border-color-default);
+  border-radius: 3px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--ink-font-color-secondary);
+}
+
+.tabKeySmall {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 4px;
+  background: var(--ink-bg-color-tertiary);
+  border: 1px solid var(--ink-border-color-default);
+  border-radius: 2px;
+  font-size: 0.6875rem;
+  color: var(--ink-font-color-tertiary);
+}
+
+/* ============================================================================
+   Animation: Shimmer Wave
+   ============================================================================ */
+
+.inputShimmer {
+  position: relative;
+}
+
+.inputShimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--ink-cobalt-20), transparent);
+  animation: shimmerWave 300ms ease-out forwards;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+@keyframes shimmerWave {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+   Loading States
+   ============================================================================ */
+
+/* Input border color during loading */
+.inputLoading {
+  border-color: var(--ink-cobalt-60);
+}
+
+.inputLoadingGhost {
+  border-color: var(--ink-cobalt-60);
+}
+
+.inputAnimating {
+  border-color: var(--ink-cobalt-100);
+}
+
+/* Skeleton loading (3 lines) */
+.skeletonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) 0;
+}
+
+.skeletonLine {
+  height: 12px;
+  border-radius: var(--ink-radius-size-xs);
+  background: linear-gradient(
+    90deg,
+    var(--ink-neutral-20) 25%,
+    var(--ink-neutral-10) 50%,
+    var(--ink-neutral-20) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonLine:nth-child(1) {
+  width: 100%;
+  animation-delay: 0ms;
+}
+
+.skeletonLine:nth-child(2) {
+  width: 85%;
+  animation-delay: 100ms;
+}
+
+.skeletonLine:nth-child(3) {
+  width: 60%;
+  animation-delay: 200ms;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ============================================================================
+   1. INLINE HINT - "[Tab] to expand" after text
+   ============================================================================ */
+
+.textareaWithHint {
+  position: relative;
+}
+
+.tabHintInline {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--ink-font-color-tertiary);
+  white-space: nowrap;
+  animation: fadeIn 0.2s ease;
+  padding: var(--ink-spacing-50) 0;
+}
+
+.loadingHint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  font-size: 0.75rem;
+  color: var(--ink-cobalt-100);
+  white-space: nowrap;
+  padding: var(--ink-spacing-100) 0;
+  animation: fadeIn 0.2s ease;
+}
+
+.loadingArea {
+  padding: var(--ink-spacing-100) 0;
+  animation: fadeIn 0.2s ease;
+}
+
+/* ============================================================================
+   2. GHOST PREVIEW - Faded expansion text
+   ============================================================================ */
+
+.ghostContainer {
+  position: relative;
+}
+
+.ghostText {
+  display: block;
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-s);
+  color: var(--ink-font-color-tertiary);
+  opacity: 0.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding: var(--ink-spacing-50) 0;
+  animation: fadeIn 0.3s ease;
+}
+
+.ghostTabHint {
+  margin-left: var(--ink-spacing-50);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}

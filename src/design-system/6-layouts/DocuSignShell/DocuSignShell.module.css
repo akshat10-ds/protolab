@@ -3,6 +3,7 @@
 .shell {
   display: flex;
   flex-direction: column;
+  flex: 1;
   height: 100%;
   min-height: 0;
   background: var(--ink-bg-canvas);
@@ -24,6 +25,9 @@
 
 .sidebar {
   flex-shrink: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   /* No border-right per DocuSign production - separation via background color difference */
   background: var(--ink-bg-color-default);
 }

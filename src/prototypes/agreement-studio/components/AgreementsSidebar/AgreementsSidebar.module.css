@@ -1,0 +1,247 @@
+/**
+ * AgreementsSidebar Component Styles
+ */
+
+@import '../../../../design-system/1-tokens/tokens.css';
+
+.agreementsSidebarWrapper {
+  position: relative;
+  height: 100%;
+  flex: 0 0 0;
+  max-width: 0;
+  overflow: hidden;
+  transition:
+    flex-basis 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    max-width 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    padding 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+}
+
+.agreementsSidebarWrapperOpen {
+  flex: 0 0 360px;
+  max-width: 360px;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200) var(--ink-spacing-150)
+    var(--ink-spacing-200);
+}
+
+.agreementsSidebar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-m);
+  overflow: hidden;
+  box-shadow: 0 4px 16px var(--ink-neutral-fade-10);
+  opacity: 0;
+  animation: sidebarFadeIn 200ms cubic-bezier(0.4, 0, 0.2, 1) 100ms forwards;
+}
+
+@keyframes sidebarFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.agreementsSidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: var(--ink-bg-color-default);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+  flex-shrink: 0;
+  animation: sidebarContentFadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 100ms both;
+}
+
+@keyframes sidebarContentFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.agreementsSidebarHeaderTitle {
+  font-size: var(--ink-font-size-body-m);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+}
+
+.agreementsSidebarSelectAll {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  animation: sidebarContentFadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 150ms both;
+}
+
+.agreementsSidebarSelectAll:hover {
+  background: var(--ink-neutral-20);
+}
+
+.agreementsSidebarSelectAllText {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-font-color-subtle);
+}
+
+.agreementsSidebarDivider {
+  height: 1px;
+  background: var(--ink-border-color-subtle);
+  margin: 0 var(--ink-spacing-200);
+  animation: sidebarContentFadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 180ms both;
+}
+
+.agreementsSidebarCheckbox {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  border-radius: var(--ink-radius-size-xs);
+}
+
+.checkboxRipple::before,
+.checkboxRipple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.checkboxRipple::before {
+  animation: checkboxRippleRing1 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.checkboxRipple::after {
+  animation: checkboxRippleRing2 400ms cubic-bezier(0.4, 0, 0.2, 1) 50ms forwards;
+}
+
+@keyframes checkboxRippleRing1 {
+  0% {
+    box-shadow: 0 0 0 0 var(--ink-cobalt-140);
+    opacity: 0.7;
+  }
+  100% {
+    box-shadow: 0 0 0 10px transparent;
+    opacity: 0;
+  }
+}
+
+@keyframes checkboxRippleRing2 {
+  0% {
+    box-shadow: 0 0 0 0 var(--ink-cobalt-120);
+    opacity: 0.5;
+  }
+  100% {
+    box-shadow: 0 0 0 16px transparent;
+    opacity: 0;
+  }
+}
+
+.agreementsSidebarList {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--ink-spacing-100) 0;
+  animation: sidebarContentFadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both;
+}
+
+.agreementsSidebarItem {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-150);
+  width: 100%;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease;
+}
+
+.agreementsSidebarItem:hover {
+  background: var(--ink-neutral-20);
+}
+
+.agreementsSidebarItemIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--ink-icon-color-default);
+  flex-shrink: 0;
+}
+
+.agreementsSidebarItemTitle {
+  flex: 1;
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-font-color-default);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Reset checkbox wrapper to remove extra space */
+.agreementsSidebarCheckbox > div {
+  min-height: unset;
+  min-width: unset;
+  width: 20px;
+  height: 20px;
+}
+
+.agreementsSidebarCheckbox > div > div {
+  width: 20px;
+  height: 20px;
+}
+
+.agreementsSidebarCheckbox label {
+  padding: 0 !important;
+  padding-inline-start: 0 !important;
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+}
+
+.agreementsSidebarCheckbox label::before {
+  left: 0 !important;
+  top: 0 !important;
+  transform: none !important;
+}
+
+.agreementsSidebarCheckbox label > span:first-child {
+  left: 0 !important;
+  top: 0 !important;
+  transform: none !important;
+}
+
+.agreementsSidebarCheckbox label > span:last-child {
+  display: none !important;
+}
+
+.agreementsSidebarCheckbox label:hover::before {
+  border-color: var(--ink-form-control-border-color-default) !important;
+}
+
+.agreementsSidebarCheckbox label:hover > span::before {
+  background-color: transparent !important;
+}
+
+.agreementsSidebarCheckbox label:active > span::before {
+  background-color: transparent !important;
+}

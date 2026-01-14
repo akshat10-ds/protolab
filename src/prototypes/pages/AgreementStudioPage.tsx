@@ -6,7 +6,7 @@
  */
 
 import { PrototypeWrapper } from '../PrototypeWrapper';
-import { AgreementStudio } from '../AgreementStudio';
+import { AgreementStudio } from '../agreement-studio';
 
 export function AgreementStudioPage() {
   return (

@@ -41,7 +41,7 @@ import {
   Spinner,
   Tooltip,
 } from '@/design-system';
-import styles from './AgreementStudio.module.css';
+import styles from './agreement-studio/AgreementStudio.module.css';
 
 // Types and Data - extracted to separate files for better organization
 import type {
@@ -52,7 +52,7 @@ import type {
   ConflictData,
   Agreement,
   ExtendedSuggestedAction,
-} from './agreement-studio-types';
+} from './agreement-studio/data/agreement-studio-types';
 import {
   ALL_AGREEMENTS,
   QUICK_ACTIONS,
@@ -62,7 +62,7 @@ import {
   SCRIPTED_RESPONSES,
   DOCUMENT_PAGES,
   CONFLICT_RESPONSES,
-} from './agreement-studio-data-fr';
+} from './agreement-studio/data/agreement-studio-data-fr';
 
 // =============================================================================
 // NOTE: Types extracted to ./agreement-studio-types.ts
@@ -90,7 +90,7 @@ interface FloatingCTAProps {
 const FloatingCTA: React.FC<FloatingCTAProps> = ({
   onClick,
   agreementCount = 15,
-  searchTerm = 'Acme'
+  searchTerm = 'Acme',
 }) => (
   <button type="button" className={styles.floatingCTA} onClick={onClick}>
     <span className={styles.floatingCTAIcon}>
@@ -235,7 +235,12 @@ interface DocumentCanvasProps {
   isNarrowMode: boolean;
 }
 
-const DocumentCanvas: React.FC<DocumentCanvasProps> = ({ isOpen, citation, onClose, isNarrowMode }) => {
+const DocumentCanvas: React.FC<DocumentCanvasProps> = ({
+  isOpen,
+  citation,
+  onClose,
+  isNarrowMode,
+}) => {
   const pageData = citation ? DOCUMENT_PAGES[citation.id] : null;
   const [selectedPage, setSelectedPage] = useState(1);
 
@@ -256,152 +261,172 @@ const DocumentCanvas: React.FC<DocumentCanvasProps> = ({ isOpen, citation, onClo
     styles.documentCanvasWrapper,
     isOpen ? styles.documentCanvasWrapperOpen : '',
     isNarrowMode && isOpen ? styles.documentCanvasWrapperFullWidth : '',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   const canvasClasses = styles.documentCanvas;
 
   return (
     <div className={wrapperClasses}>
       <div className={canvasClasses}>
-      {/* Canvas Header/Toolbar */}
-      <div className={styles.canvasHeader}>
-        <div className={styles.canvasHeaderLeft}>
-          {/* Back button in narrow mode */}
-          {isNarrowMode && (
+        {/* Canvas Header/Toolbar */}
+        <div className={styles.canvasHeader}>
+          <div className={styles.canvasHeaderLeft}>
+            {/* Back button in narrow mode */}
+            {isNarrowMode && (
+              <button
+                className={styles.canvasBackButton}
+                onClick={onClose}
+                aria-label="Retour au chat"
+              >
+                <Icon name="arrow-left" size={18} />
+              </button>
+            )}
+            <Icon name="document" size={18} />
+            <span className={styles.canvasTitle}>{citation?.documentTitle || 'Document'}</span>
+          </div>
+          <div className={styles.canvasHeaderCenter}>
+            {/* Page navigation in header */}
             <button
-              className={styles.canvasBackButton}
+              className={styles.canvasNavButton}
+              disabled={selectedPage <= 1}
+              onClick={() => setSelectedPage((p) => p - 1)}
+            >
+              <Icon name="chevron-left" size={16} />
+            </button>
+            <span className={styles.canvasPageIndicator}>
+              {selectedPage} / {pageData?.totalPages || 1}
+            </span>
+            <button
+              className={styles.canvasNavButton}
+              disabled={selectedPage >= (pageData?.totalPages || 1)}
+              onClick={() => setSelectedPage((p) => p + 1)}
+            >
+              <Icon name="chevron-right" size={16} />
+            </button>
+          </div>
+          <div className={styles.canvasHeaderRight}>
+            <Tooltip content="Ouvrir dans Navigator">
+              <IconButton
+                icon="external-link"
+                size="small"
+                kind="tertiary"
+                aria-label="Ouvrir dans Navigator"
+              />
+            </Tooltip>
+            <IconButton
+              icon="close"
+              size="small"
+              kind="tertiary"
               onClick={onClose}
-              aria-label="Retour au chat"
-            >
-              <Icon name="arrow-left" size={18} />
-            </button>
-          )}
-          <Icon name="document" size={18} />
-          <span className={styles.canvasTitle}>{citation?.documentTitle || 'Document'}</span>
-        </div>
-        <div className={styles.canvasHeaderCenter}>
-          {/* Page navigation in header */}
-          <button
-            className={styles.canvasNavButton}
-            disabled={selectedPage <= 1}
-            onClick={() => setSelectedPage(p => p - 1)}
-          >
-            <Icon name="chevron-left" size={16} />
-          </button>
-          <span className={styles.canvasPageIndicator}>
-            {selectedPage} / {pageData?.totalPages || 1}
-          </span>
-          <button
-            className={styles.canvasNavButton}
-            disabled={selectedPage >= (pageData?.totalPages || 1)}
-            onClick={() => setSelectedPage(p => p + 1)}
-          >
-            <Icon name="chevron-right" size={16} />
-          </button>
-        </div>
-        <div className={styles.canvasHeaderRight}>
-          <Tooltip content="Ouvrir dans Navigator">
-            <IconButton icon="external-link" size="small" kind="tertiary" aria-label="Ouvrir dans Navigator" />
-          </Tooltip>
-          <IconButton icon="close" size="small" kind="tertiary" onClick={onClose} aria-label="Fermer" />
-        </div>
-      </div>
-
-      {/* Canvas Body */}
-      <div className={styles.canvasBody}>
-        {/* Thumbnails sidebar */}
-        <div className={styles.canvasThumbnails}>
-          {pageThumbnails.map((pageNum) => (
-            <button
-              key={pageNum}
-              className={`${styles.canvasThumb} ${pageNum === selectedPage ? styles.canvasThumbActive : ''}`}
-              onClick={() => setSelectedPage(pageNum)}
-            >
-              <div className={styles.canvasThumbPage}>
-                {pageNum === pageData?.pageNumber && (
-                  <div className={styles.canvasThumbHighlight} />
-                )}
-              </div>
-              <span className={styles.canvasThumbNum}>{pageNum}</span>
-            </button>
-          ))}
+              aria-label="Fermer"
+            />
+          </div>
         </div>
 
-        {/* Document content area */}
-        <div className={styles.canvasContent}>
-          <div className={styles.canvasDocument}>
-            {/* Document letterhead */}
-            <div className={styles.canvasLetterhead}>
-              <div className={styles.canvasCompanyLogo}>
-                <div className={styles.canvasLogoIcon}>A</div>
-                <div className={styles.canvasCompanyInfo}>
-                  <span className={styles.canvasCompanyName}>ACME CORPORATION</span>
-                  <span className={styles.canvasCompanyAddress}>123 Parc d'Affaires, Bureau 400</span>
-                  <span className={styles.canvasCompanyAddress}>Paris, France 75008</span>
+        {/* Canvas Body */}
+        <div className={styles.canvasBody}>
+          {/* Thumbnails sidebar */}
+          <div className={styles.canvasThumbnails}>
+            {pageThumbnails.map((pageNum) => (
+              <button
+                key={pageNum}
+                className={`${styles.canvasThumb} ${pageNum === selectedPage ? styles.canvasThumbActive : ''}`}
+                onClick={() => setSelectedPage(pageNum)}
+              >
+                <div className={styles.canvasThumbPage}>
+                  {pageNum === pageData?.pageNumber && (
+                    <div className={styles.canvasThumbHighlight} />
+                  )}
                 </div>
-              </div>
-              <div className={styles.canvasDocType}>
-                {citation?.documentTitle?.includes('CSP') ? 'CONTRAT DE SERVICES PRINCIPAL' :
-                 citation?.documentTitle?.includes('Bon de Commande') ? 'BON DE COMMANDE' :
-                 citation?.documentTitle?.includes('EDT') ? 'ÉNONCÉ DE TRAVAIL' :
-                 citation?.documentTitle?.includes('Avenant') ? 'AVENANT' : 'CONTRAT'}
-              </div>
-            </div>
+                <span className={styles.canvasThumbNum}>{pageNum}</span>
+              </button>
+            ))}
+          </div>
 
-            <div className={styles.canvasDivider} />
-
-            {/* Section header */}
-            {pageData && (
-              <h3 className={styles.canvasSectionTitle}>{pageData.sectionTitle}</h3>
-            )}
-
-            {/* Document text */}
-            {pageData && selectedPage === pageData.pageNumber ? (
-              <div className={styles.canvasTextContent}>
-                <div className={styles.canvasText}>
-                  {pageData.beforeText.split('\n').map((line, i) => (
-                    <p key={`before-${i}`}>{line || '\u00A0'}</p>
-                  ))}
-                </div>
-
-                {/* Highlighted citation */}
-                <div className={styles.canvasCitation}>
-                  <div className={styles.canvasCitationBadge}>
-                    <Icon name="ai-spark" size={14} />
-                    <span>Citation {citation?.id?.replace('cit-', '')}</span>
+          {/* Document content area */}
+          <div className={styles.canvasContent}>
+            <div className={styles.canvasDocument}>
+              {/* Document letterhead */}
+              <div className={styles.canvasLetterhead}>
+                <div className={styles.canvasCompanyLogo}>
+                  <div className={styles.canvasLogoIcon}>A</div>
+                  <div className={styles.canvasCompanyInfo}>
+                    <span className={styles.canvasCompanyName}>ACME CORPORATION</span>
+                    <span className={styles.canvasCompanyAddress}>
+                      123 Parc d'Affaires, Bureau 400
+                    </span>
+                    <span className={styles.canvasCompanyAddress}>Paris, France 75008</span>
                   </div>
-                  <p className={styles.canvasCitationText}>
-                    <mark className={styles.canvasCitationHighlight}>{pageData.highlightedText}</mark>
-                  </p>
                 </div>
-
-                <div className={styles.canvasText}>
-                  {pageData.afterText.split('\n').map((line, i) => (
-                    <p key={`after-${i}`}>{line || '\u00A0'}</p>
-                  ))}
+                <div className={styles.canvasDocType}>
+                  {citation?.documentTitle?.includes('CSP')
+                    ? 'CONTRAT DE SERVICES PRINCIPAL'
+                    : citation?.documentTitle?.includes('Bon de Commande')
+                      ? 'BON DE COMMANDE'
+                      : citation?.documentTitle?.includes('EDT')
+                        ? 'ÉNONCÉ DE TRAVAIL'
+                        : citation?.documentTitle?.includes('Avenant')
+                          ? 'AVENANT'
+                          : 'CONTRAT'}
                 </div>
               </div>
-            ) : (
-              <div className={styles.canvasPlaceholder}>
-                <Icon name="document" size={40} />
-                <p>Page {selectedPage}</p>
-                <button
-                  className={styles.canvasJumpButton}
-                  onClick={() => setSelectedPage(pageData?.pageNumber || 1)}
-                >
-                  Aller à la citation (page {pageData?.pageNumber})
-                </button>
-              </div>
-            )}
 
-            {/* Page footer */}
-            <div className={styles.canvasPageFooter}>
-              <span>Page {selectedPage}</span>
-              <span>{citation?.documentTitle}</span>
+              <div className={styles.canvasDivider} />
+
+              {/* Section header */}
+              {pageData && <h3 className={styles.canvasSectionTitle}>{pageData.sectionTitle}</h3>}
+
+              {/* Document text */}
+              {pageData && selectedPage === pageData.pageNumber ? (
+                <div className={styles.canvasTextContent}>
+                  <div className={styles.canvasText}>
+                    {pageData.beforeText.split('\n').map((line, i) => (
+                      <p key={`before-${i}`}>{line || '\u00A0'}</p>
+                    ))}
+                  </div>
+
+                  {/* Highlighted citation */}
+                  <div className={styles.canvasCitation}>
+                    <div className={styles.canvasCitationBadge}>
+                      <Icon name="ai-spark" size={14} />
+                      <span>Citation {citation?.id?.replace('cit-', '')}</span>
+                    </div>
+                    <p className={styles.canvasCitationText}>
+                      <mark className={styles.canvasCitationHighlight}>
+                        {pageData.highlightedText}
+                      </mark>
+                    </p>
+                  </div>
+
+                  <div className={styles.canvasText}>
+                    {pageData.afterText.split('\n').map((line, i) => (
+                      <p key={`after-${i}`}>{line || '\u00A0'}</p>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.canvasPlaceholder}>
+                  <Icon name="document" size={40} />
+                  <p>Page {selectedPage}</p>
+                  <button
+                    className={styles.canvasJumpButton}
+                    onClick={() => setSelectedPage(pageData?.pageNumber || 1)}
+                  >
+                    Aller à la citation (page {pageData?.pageNumber})
+                  </button>
+                </div>
+              )}
+
+              {/* Page footer */}
+              <div className={styles.canvasPageFooter}>
+                <span>Page {selectedPage}</span>
+                <span>{citation?.documentTitle}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   );
@@ -450,9 +475,7 @@ const ConflictView: React.FC<ConflictViewProps> = ({ conflicts, onCitationClick 
                     <span className={styles.conflictClauseTitle}>{clause.documentTitle}</span>
                     <span className={styles.conflictClauseSection}>{clause.section}</span>
                   </div>
-                  <div className={styles.conflictClauseText}>
-                    {clause.text}
-                  </div>
+                  <div className={styles.conflictClauseText}>{clause.text}</div>
                 </div>
               ))}
             </div>
@@ -535,8 +558,16 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, onShare }) => 
           <label className={styles.shareModalLabel}>Niveau d'autorisation</label>
           <Dropdown
             items={[
-              { label: 'Peut voir', onClick: () => setPermission('view'), selected: permission === 'view' },
-              { label: 'Peut modifier', onClick: () => setPermission('edit'), selected: permission === 'edit' },
+              {
+                label: 'Peut voir',
+                onClick: () => setPermission('view'),
+                selected: permission === 'view',
+              },
+              {
+                label: 'Peut modifier',
+                onClick: () => setPermission('edit'),
+                selected: permission === 'edit',
+              },
             ]}
           >
             <Button
@@ -614,7 +645,7 @@ const ExpandedPrompt: React.FC<ExpandedPromptProps> = ({ action, onRun, onClose 
     <div className={styles.expandedPrompt}>
       <div className={styles.expandedPromptHeader}>
         <div className={styles.expandedPromptTitle}>
-          <Icon name={action.icon as any || 'bolt'} size={20} />
+          <Icon name={(action.icon as any) || 'bolt'} size={20} />
           <span>{action.label}</span>
         </div>
         <IconButton
@@ -730,7 +761,11 @@ const AIPanel: React.FC<AIPanelProps> = ({
 
   // Share modal and toast state
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [toastState, setToastState] = useState<{ visible: boolean; message: string; status: 'loading' | 'success' | 'error' }>({
+  const [toastState, setToastState] = useState<{
+    visible: boolean;
+    message: string;
+    status: 'loading' | 'success' | 'error';
+  }>({
     visible: false,
     message: '',
     status: 'loading',
@@ -775,11 +810,19 @@ const AIPanel: React.FC<AIPanelProps> = ({
     setIsShareModalOpen(false);
 
     // Show loading toast
-    setToastState({ visible: true, message: 'Vérification des autorisations...', status: 'loading' });
+    setToastState({
+      visible: true,
+      message: 'Vérification des autorisations...',
+      status: 'loading',
+    });
 
     // Simulate verification delay
     setTimeout(() => {
-      setToastState({ visible: true, message: 'Utilisateur vérifié. Invitation envoyée.', status: 'success' });
+      setToastState({
+        visible: true,
+        message: 'Utilisateur vérifié. Invitation envoyée.',
+        status: 'success',
+      });
 
       // Auto-dismiss after 3 seconds
       setTimeout(() => {
@@ -788,14 +831,17 @@ const AIPanel: React.FC<AIPanelProps> = ({
     }, 1500);
   }, []);
 
-  const handleCitationClick = useCallback((citation: CitationData) => {
-    setActiveCitation(citation);
-    setIsDocumentCanvasOpen(true);
-    // Auto-expand to fullscreen if not already expanded (to show document canvas properly)
-    if (panelWidth < window.innerWidth - 50) {
-      onWidthChange(window.innerWidth);
-    }
-  }, [panelWidth, onWidthChange]);
+  const handleCitationClick = useCallback(
+    (citation: CitationData) => {
+      setActiveCitation(citation);
+      setIsDocumentCanvasOpen(true);
+      // Auto-expand to fullscreen if not already expanded (to show document canvas properly)
+      if (panelWidth < window.innerWidth - 50) {
+        onWidthChange(window.innerWidth);
+      }
+    },
+    [panelWidth, onWidthChange]
+  );
 
   const handleCloseDocumentCanvas = useCallback(() => {
     setIsDocumentCanvasOpen(false);
@@ -853,17 +899,20 @@ const AIPanel: React.FC<AIPanelProps> = ({
     }, 1500);
   }, []);
 
-  const handleSuggestionClick = useCallback((suggestion: string) => {
-    // Find if this is an action with expansion details
-    const action = QUICK_ACTIONS.find(a => a.label === suggestion);
-    if (action?.expansion) {
-      // Show expanded prompt card
-      setExpandedAction(action);
-    } else {
-      // Send message directly for questions without expansion (mark as from suggestion)
-      handleSendMessage(suggestion, true);
-    }
-  }, [handleSendMessage]);
+  const handleSuggestionClick = useCallback(
+    (suggestion: string) => {
+      // Find if this is an action with expansion details
+      const action = QUICK_ACTIONS.find((a) => a.label === suggestion);
+      if (action?.expansion) {
+        // Show expanded prompt card
+        setExpandedAction(action);
+      } else {
+        // Send message directly for questions without expansion (mark as from suggestion)
+        handleSendMessage(suggestion, true);
+      }
+    },
+    [handleSendMessage]
+  );
 
   const handleRunExpandedPrompt = useCallback(() => {
     if (expandedAction) {
@@ -873,106 +922,112 @@ const AIPanel: React.FC<AIPanelProps> = ({
   }, [expandedAction, handleSendMessage]);
 
   // Custom message renderer for rich messages and conflicts
-  const renderMessage = useCallback((message: ChatMessage) => {
-    const richData = richMessages.get(message.id);
-    const conflictData = conflictMessages.get(message.id);
+  const renderMessage = useCallback(
+    (message: ChatMessage) => {
+      const richData = richMessages.get(message.id);
+      const conflictData = conflictMessages.get(message.id);
 
-    if (message.role === 'assistant') {
-      // Feedback buttons component for AI responses
-      const feedbackButtons = (
-        <div className={styles.messageFeedback}>
-          <Tooltip content="Bonne réponse">
-            <IconButton
-              icon="thumbs-up"
-              size="small"
-              variant="tertiary"
-              aria-label="Bonne réponse"
-            />
-          </Tooltip>
-          <Tooltip content="Mauvaise réponse">
-            <IconButton
-              icon="thumbs-down"
-              size="small"
-              variant="tertiary"
-              aria-label="Mauvaise réponse"
-            />
-          </Tooltip>
-          <Tooltip content="Copier">
-            <IconButton
-              icon="duplicate"
-              size="small"
-              variant="tertiary"
-              aria-label="Copier la réponse"
-            />
-          </Tooltip>
-        </div>
-      );
+      if (message.role === 'assistant') {
+        // Feedback buttons component for AI responses
+        const feedbackButtons = (
+          <div className={styles.messageFeedback}>
+            <Tooltip content="Bonne réponse">
+              <IconButton
+                icon="thumbs-up"
+                size="small"
+                variant="tertiary"
+                aria-label="Bonne réponse"
+              />
+            </Tooltip>
+            <Tooltip content="Mauvaise réponse">
+              <IconButton
+                icon="thumbs-down"
+                size="small"
+                variant="tertiary"
+                aria-label="Mauvaise réponse"
+              />
+            </Tooltip>
+            <Tooltip content="Copier">
+              <IconButton
+                icon="duplicate"
+                size="small"
+                variant="tertiary"
+                aria-label="Copier la réponse"
+              />
+            </Tooltip>
+          </div>
+        );
 
-      // Render rich message (e.g., Prevailing Terms Analysis)
-      if (richData) {
+        // Render rich message (e.g., Prevailing Terms Analysis)
+        if (richData) {
+          return (
+            <div className={styles.richMessageWrapper}>
+              <p className={styles.richMessageIntro}>{message.content}</p>
+              <RichMessage data={richData} onCitationClick={handleCitationClick} />
+              {feedbackButtons}
+            </div>
+          );
+        }
+
+        // Render conflict view (side-by-side comparison)
+        if (conflictData) {
+          return (
+            <div className={styles.richMessageWrapper}>
+              <p className={styles.richMessageIntro}>{message.content}</p>
+              <ConflictView conflicts={conflictData} onCitationClick={handleCitationClick} />
+              {feedbackButtons}
+            </div>
+          );
+        }
+      }
+
+      // Render user message from suggestion with special "Selected" styling
+      if (message.role === 'user' && message.metadata?.fromSuggestion) {
         return (
-          <div className={styles.richMessageWrapper}>
-            <p className={styles.richMessageIntro}>{message.content}</p>
-            <RichMessage data={richData} onCitationClick={handleCitationClick} />
-            {feedbackButtons}
+          <div className={styles.selectedMessage}>
+            <span className={styles.selectedLabel}>Sélectionné</span>
+            <div className={styles.selectedBubble}>
+              <Icon name="status-check" size={16} />
+              <span>{message.content}</span>
+            </div>
           </div>
         );
       }
 
-      // Render conflict view (side-by-side comparison)
-      if (conflictData) {
-        return (
-          <div className={styles.richMessageWrapper}>
-            <p className={styles.richMessageIntro}>{message.content}</p>
-            <ConflictView conflicts={conflictData} onCitationClick={handleCitationClick} />
-            {feedbackButtons}
-          </div>
-        );
-      }
-    }
-
-    // Render user message from suggestion with special "Selected" styling
-    if (message.role === 'user' && message.metadata?.fromSuggestion) {
-      return (
-        <div className={styles.selectedMessage}>
-          <span className={styles.selectedLabel}>Sélectionné</span>
-          <div className={styles.selectedBubble}>
-            <Icon name="status-check" size={16} />
-            <span>{message.content}</span>
-          </div>
-        </div>
-      );
-    }
-
-    return null; // Return null to use default rendering
-  }, [richMessages, conflictMessages, handleCitationClick]);
+      return null; // Return null to use default rendering
+    },
+    [richMessages, conflictMessages, handleCitationClick]
+  );
 
   // Handle drag resize
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    onStartResize();
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      onStartResize();
 
-    // Dismiss the "Go wide!" tooltip when user starts dragging
-    setShowResizeTooltip(false);
+      // Dismiss the "Go wide!" tooltip when user starts dragging
+      setShowResizeTooltip(false);
 
-    const startX = e.clientX;
-    const startWidth = panelWidth;
+      const startX = e.clientX;
+      const startWidth = panelWidth;
 
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      const deltaX = startX - moveEvent.clientX;
-      const newWidth = Math.min(MAX_PANEL_WIDTH, Math.max(MIN_PANEL_WIDTH, startWidth + deltaX));
-      onWidthChange(newWidth);
-    };
+      const handleMouseMove = (moveEvent: MouseEvent) => {
+        const deltaX = startX - moveEvent.clientX;
+        const newWidth = Math.min(MAX_PANEL_WIDTH, Math.max(MIN_PANEL_WIDTH, startWidth + deltaX));
+        onWidthChange(newWidth);
+      };
 
-    const handleMouseUp = () => {
-      onEndResize();
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
+      const handleMouseUp = () => {
+        onEndResize();
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  }, [panelWidth, onWidthChange, onStartResize, onEndResize]);
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    },
+    [panelWidth, onWidthChange, onStartResize, onEndResize]
+  );
 
   const handleToggleExpand = useCallback(() => {
     if (panelWidth >= window.innerWidth - 50) {
@@ -997,22 +1052,25 @@ const AIPanel: React.FC<AIPanelProps> = ({
     setExpandedAction(null);
   }, []);
 
-  const handleHistoryItemClick = useCallback((id: string) => {
-    setActiveHistoryId(id);
+  const handleHistoryItemClick = useCallback(
+    (id: string) => {
+      setActiveHistoryId(id);
 
-    // Load stored conversation for this history item
-    const storedMessages = STORED_CONVERSATIONS[id];
-    if (storedMessages) {
-      setMessages(storedMessages);
-      // Clear rich messages and conflicts when switching conversations
-      setRichMessages(new Map());
-      setConflictMessages(new Map());
-    }
+      // Load stored conversation for this history item
+      const storedMessages = STORED_CONVERSATIONS[id];
+      if (storedMessages) {
+        setMessages(storedMessages);
+        // Clear rich messages and conflicts when switching conversations
+        setRichMessages(new Map());
+        setConflictMessages(new Map());
+      }
 
-    if (!useInlineHistory) {
-      setIsHistoryOpen(false);
-    }
-  }, [useInlineHistory]);
+      if (!useInlineHistory) {
+        setIsHistoryOpen(false);
+      }
+    },
+    [useInlineHistory]
+  );
 
   const isExpanded = panelWidth > 600;
 
@@ -1021,28 +1079,33 @@ const AIPanel: React.FC<AIPanelProps> = ({
     isOpen ? styles.aiPanelOpen : '',
     isResizing ? styles.aiPanelResizing : '',
     isExpanded ? styles.aiPanelExpanded : '',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   const contentWrapperClasses = [
     styles.aiChatContentWrapper,
     !isExpanded ? styles.aiChatContentWrapperNarrow : '',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   const historyPanelClasses = useInlineHistory
     ? [
         styles.historyPanel,
         styles.historyPanelInline,
         !isHistoryOpen ? styles.historyPanelInlineHidden : '',
-      ].filter(Boolean).join(' ')
-    : [
-        styles.historyPanel,
-        isHistoryOpen ? styles.historyPanelOpen : '',
-      ].filter(Boolean).join(' ');
+      ]
+        .filter(Boolean)
+        .join(' ')
+    : [styles.historyPanel, isHistoryOpen ? styles.historyPanelOpen : ''].filter(Boolean).join(' ');
 
   const historyOverlayClasses = [
     styles.historyOverlay,
     !useInlineHistory && isHistoryOpen ? styles.historyOverlayVisible : '',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   const renderHistoryContent = () => (
     <>
@@ -1127,16 +1190,9 @@ const AIPanel: React.FC<AIPanelProps> = ({
   );
 
   return (
-    <div
-      ref={panelRef}
-      className={panelClasses}
-      style={{ width: isOpen ? panelWidth : 0 }}
-    >
+    <div ref={panelRef} className={panelClasses} style={{ width: isOpen ? panelWidth : 0 }}>
       {isOpen && (
-        <div
-          className={styles.dragHandle}
-          onMouseDown={handleMouseDown}
-        >
+        <div className={styles.dragHandle} onMouseDown={handleMouseDown}>
           <div className={styles.dragHandleBar} />
 
           {/* "Go wide!" discoverability tooltip */}
@@ -1221,22 +1277,15 @@ const AIPanel: React.FC<AIPanelProps> = ({
       </div>
 
       <div className={styles.aiPanelLayout}>
-        {useInlineHistory && (
-          <div className={historyPanelClasses}>
-            {renderHistoryContent()}
-          </div>
-        )}
+        {useInlineHistory && <div className={historyPanelClasses}>{renderHistoryContent()}</div>}
 
-        <div className={`${styles.aiPanelContent} ${isNarrowMode && isDocumentCanvasOpen ? styles.aiPanelContentHidden : ''}`}>
+        <div
+          className={`${styles.aiPanelContent} ${isNarrowMode && isDocumentCanvasOpen ? styles.aiPanelContentHidden : ''}`}
+        >
           {!useInlineHistory && (
             <>
-              <div
-                className={historyOverlayClasses}
-                onClick={() => setIsHistoryOpen(false)}
-              />
-              <div className={historyPanelClasses}>
-                {renderHistoryContent()}
-              </div>
+              <div className={historyOverlayClasses} onClick={() => setIsHistoryOpen(false)} />
+              <div className={historyPanelClasses}>{renderHistoryContent()}</div>
             </>
           )}
 
@@ -1260,11 +1309,15 @@ const AIPanel: React.FC<AIPanelProps> = ({
               maxHeight="100%"
               className={styles.aiChatContainer}
               renderMessage={renderMessage}
-              contextSource={agreementCount ? {
-                count: agreementCount,
-                label: 'contrats',
-                onClick: () => console.log('Voir source contexte'),
-              } : undefined}
+              contextSource={
+                agreementCount
+                  ? {
+                      count: agreementCount,
+                      label: 'contrats',
+                      onClick: () => console.log('Voir source contexte'),
+                    }
+                  : undefined
+              }
               showContextAttention={showContextAttention}
             />
 
@@ -1291,11 +1344,7 @@ const AIPanel: React.FC<AIPanelProps> = ({
       </div>
 
       {/* Share Modal */}
-      <ShareModal
-        isOpen={isShareModalOpen}
-        onClose={handleCloseShareModal}
-        onShare={handleShare}
-      />
+      <ShareModal isOpen={isShareModalOpen} onClose={handleCloseShareModal} onShare={handleShare} />
 
       {/* Toast Notification */}
       <Toast
@@ -1357,9 +1406,7 @@ export function AgreementStudioFR() {
     },
     {
       id: 'folders',
-      items: [
-        { id: 'folders', label: 'Dossiers', icon: 'folder' as const, hasMenu: true },
-      ],
+      items: [{ id: 'folders', label: 'Dossiers', icon: 'folder' as const, hasMenu: true }],
     },
     {
       id: 'features',
@@ -1367,7 +1414,12 @@ export function AgreementStudioFR() {
       items: [
         { id: 'parties', label: 'Parties', icon: 'building-person' as const, badge: 'Nouveau' },
         { id: 'requests', label: 'Demandes', icon: 'ticket' as const, badge: 'Nouveau' },
-        { id: 'maestro-workflows', label: 'Workflows Maestro', icon: 'workflow' as const, badge: 'Nouveau' },
+        {
+          id: 'maestro-workflows',
+          label: 'Workflows Maestro',
+          icon: 'workflow' as const,
+          badge: 'Nouveau',
+        },
         { id: 'workspaces', label: 'Espaces de Travail', icon: 'transaction' as const },
         { id: 'powerforms', label: 'PowerForms', icon: 'flash' as const },
         { id: 'bulk-send', label: 'Envoi Groupé', icon: 'document-stack' as const },
@@ -1411,8 +1463,11 @@ export function AgreementStudioFR() {
   }, [submittedSearch]);
 
   // Check if we're showing Acme search results
-  const isAcmeSearch = submittedSearch.toLowerCase().includes('acme') && filteredAgreements.length > 0;
-  const acmeAgreementCount = filteredAgreements.filter(a => a.fileName.toLowerCase().includes('acme')).length;
+  const isAcmeSearch =
+    submittedSearch.toLowerCase().includes('acme') && filteredAgreements.length > 0;
+  const acmeAgreementCount = filteredAgreements.filter((a) =>
+    a.fileName.toLowerCase().includes('acme')
+  ).length;
 
   const columns: DataTableColumn<Agreement>[] = useMemo(
     () => [
@@ -1441,8 +1496,7 @@ export function AgreementStudioFR() {
               {row.fileName}
             </Link>
             <span className={dataTableStyles.cellSecondary}>
-              {row.fileStatus === 'uploaded' ? '↑' : '✓'}{' '}
-              {row.fileStatusDetail}
+              {row.fileStatus === 'uploaded' ? '↑' : '✓'} {row.fileStatusDetail}
             </span>
           </div>
         ),
@@ -1477,7 +1531,11 @@ export function AgreementStudioFR() {
             <span className={dataTableStyles.statusDot} data-status={row.status} />
             <div className={dataTableStyles.statusText}>
               <span className={dataTableStyles.statusLabel}>
-                {row.status === 'active' ? 'Actif' : row.status === 'inactive' ? 'Inactif' : 'Expiré'}
+                {row.status === 'active'
+                  ? 'Actif'
+                  : row.status === 'inactive'
+                    ? 'Inactif'
+                    : 'Expiré'}
               </span>
               {row.statusDate && (
                 <span className={dataTableStyles.statusDate}>{row.statusDate}</span>
@@ -1502,14 +1560,14 @@ export function AgreementStudioFR() {
       },
       {
         key: 'effectiveDate',
-        header: 'Date d\'Effet',
+        header: "Date d'Effet",
         sortable: true,
         width: '130px',
         cell: (row) => row.effectiveDate || '—',
       },
       {
         key: 'expirationDate',
-        header: 'Date d\'Expiration',
+        header: "Date d'Expiration",
         sortable: true,
         width: '140px',
         cell: (row) => row.expirationDate || '—',
@@ -1631,14 +1689,14 @@ export function AgreementStudioFR() {
   const viewSelectorItems = [
     {
       label: 'Documents',
-      description: 'Analyser les données contractuelles avec l\'IA',
+      description: "Analyser les données contractuelles avec l'IA",
       icon: <Icon name="document" size="medium" />,
       selected: selectedView === 'documents',
       onClick: () => setSelectedView('documents'),
     },
     {
       label: 'Enveloppes',
-      description: 'Voir les signatures et l\'activité',
+      description: "Voir les signatures et l'activité",
       icon: <Icon name="envelope" size="medium" />,
       selected: selectedView === 'envelopes',
       onClick: () => setSelectedView('envelopes'),
@@ -1646,7 +1704,10 @@ export function AgreementStudioFR() {
   ];
 
   const mainContentStyle = isAIChatOpen
-    ? { width: `calc(100% - ${panelWidth}px)`, transition: isResizing ? 'none' : 'width 250ms cubic-bezier(0.4, 0, 0.2, 1)' }
+    ? {
+        width: `calc(100% - ${panelWidth}px)`,
+        transition: isResizing ? 'none' : 'width 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+      }
     : {};
 
   return (
@@ -1672,109 +1733,122 @@ export function AgreementStudioFR() {
             onLockChange: setIsNavLocked,
           }}
         >
-          <div className={`${styles.pageContent} ${isSearchTransitioning ? styles.pageContentTransitioning : ''}`}>
-          <AgreementTableView
-            pageHeader={
-              <PageHeader
-                title={submittedSearch ? 'Résultats de Recherche' : 'Terminés'}
-                showAIBadge
-                aiBadgeText="Assisté par IA"
-                actions={pageHeaderActions}
-              />
-            }
-            banner={
-              showBanner ? (
-                isAcmeSearch ? (
-                  // Banner for Acme search results - CTA to chat
-                  <Banner
-                    kind="promo"
-                    customIcon={<IrisIcon />}
-                    closable
-                    onClose={() => setShowBanner(false)}
-                    action={{
-                      label: `Discuter avec ${acmeAgreementCount} contrats`,
-                      onClick: handleOpenAIChat,
-                    }}
-                  >
-                    <strong>{acmeAgreementCount} contrats Acme</strong> trouvés. Utilisez l'IA pour analyser les termes, trouver les conflits et résumer les dispositions clés.
-                  </Banner>
-                ) : !submittedSearch ? (
-                  // Default banner - renewal notice
-                  <Banner
-                    kind="promo"
-                    customIcon={<IrisIcon />}
-                    closable
-                    onClose={() => setShowBanner(false)}
-                    action={{
-                      label: 'Voir les contrats à renouveler',
-                      href: '#',
-                      onClick: () => console.log('Voir renouvellements'),
-                    }}
-                  >
-                    <strong>10 contrats</strong> avec des dates de préavis de renouvellement dans les 30 prochains jours.
-                  </Banner>
+          <div
+            className={`${styles.pageContent} ${isSearchTransitioning ? styles.pageContentTransitioning : ''}`}
+          >
+            <AgreementTableView
+              pageHeader={
+                <PageHeader
+                  title={submittedSearch ? 'Résultats de Recherche' : 'Terminés'}
+                  showAIBadge
+                  aiBadgeText="Assisté par IA"
+                  actions={pageHeaderActions}
+                />
+              }
+              banner={
+                showBanner ? (
+                  isAcmeSearch ? (
+                    // Banner for Acme search results - CTA to chat
+                    <Banner
+                      kind="promo"
+                      customIcon={<IrisIcon />}
+                      closable
+                      onClose={() => setShowBanner(false)}
+                      action={{
+                        label: `Discuter avec ${acmeAgreementCount} contrats`,
+                        onClick: handleOpenAIChat,
+                      }}
+                    >
+                      <strong>{acmeAgreementCount} contrats Acme</strong> trouvés. Utilisez l'IA
+                      pour analyser les termes, trouver les conflits et résumer les dispositions
+                      clés.
+                    </Banner>
+                  ) : !submittedSearch ? (
+                    // Default banner - renewal notice
+                    <Banner
+                      kind="promo"
+                      customIcon={<IrisIcon />}
+                      closable
+                      onClose={() => setShowBanner(false)}
+                      action={{
+                        label: 'Voir les contrats à renouveler',
+                        href: '#',
+                        onClick: () => console.log('Voir renouvellements'),
+                      }}
+                    >
+                      <strong>10 contrats</strong> avec des dates de préavis de renouvellement dans
+                      les 30 prochains jours.
+                    </Banner>
+                  ) : undefined
                 ) : undefined
-              ) : undefined
-            }
-            filterBar={
-              <FilterBar
-                viewSelector={
-                  <Dropdown items={viewSelectorItems} header="Sélectionner une vue" iconStyle="boxed">
+              }
+              filterBar={
+                <FilterBar
+                  viewSelector={
+                    <Dropdown
+                      items={viewSelectorItems}
+                      header="Sélectionner une vue"
+                      iconStyle="boxed"
+                    >
+                      <Button
+                        kind="secondary"
+                        size="small"
+                        endElement={<Icon name="chevron-down" size="small" />}
+                      >
+                        {selectedView === 'documents' ? 'Documents' : 'Enveloppes'}
+                      </Button>
+                    </Dropdown>
+                  }
+                  search={{
+                    value: searchValue,
+                    onChange: setSearchValue,
+                    onSubmit: handleSearchSubmit,
+                    placeholder: 'Rechercher des contrats...',
+                  }}
+                  showSearchIndicator
+                  quickActions={[
+                    <IconButton key="bookmark" icon="bookmark" variant="secondary" size="small" />,
+                  ]}
+                  filters={
                     <Button
                       kind="secondary"
                       size="small"
-                      endElement={<Icon name="chevron-down" size="small" />}
+                      startElement={<Icon name="filter" size="small" />}
                     >
-                      {selectedView === 'documents' ? 'Documents' : 'Enveloppes'}
+                      Filtres
                     </Button>
-                  </Dropdown>
-                }
-                search={{
-                  value: searchValue,
-                  onChange: setSearchValue,
-                  onSubmit: handleSearchSubmit,
-                  placeholder: 'Rechercher des contrats...',
-                }}
-                showSearchIndicator
-                quickActions={[
-                  <IconButton key="bookmark" icon="bookmark" variant="secondary" size="small" />,
-                ]}
-                filters={
-                  <Button
-                    kind="secondary"
-                    size="small"
-                    startElement={<Icon name="filter" size="small" />}
-                  >
-                    Filtres
-                  </Button>
-                }
+                  }
+                />
+              }
+            >
+              <DataTable
+                columns={columns}
+                data={filteredAgreements}
+                getRowKey={(row) => row.id}
+                selectable
+                selectedRows={selectedRows}
+                onSelectionChange={setSelectedRows}
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                onSortChange={handleSortChange}
+                selectionActions={selectionActions}
+                pagination={pagination}
+                showColumnControl
+                renderRowActions={renderRowActions}
+                rowHeight="tall"
+                stickyHeader
+                stickyFooter
               />
-            }
-          >
-            <DataTable
-              columns={columns}
-              data={filteredAgreements}
-              getRowKey={(row) => row.id}
-              selectable
-              selectedRows={selectedRows}
-              onSelectionChange={setSelectedRows}
-              sortColumn={sortColumn}
-              sortDirection={sortDirection}
-              onSortChange={handleSortChange}
-              selectionActions={selectionActions}
-              pagination={pagination}
-              showColumnControl
-              renderRowActions={renderRowActions}
-              rowHeight="tall"
-              stickyHeader
-              stickyFooter
-            />
-          </AgreementTableView>
+            </AgreementTableView>
           </div>
         </DocuSignShell>
 
         {!isAIChatOpen && isAcmeSearch && (
-          <FloatingCTA onClick={handleOpenAIChat} agreementCount={acmeAgreementCount} searchTerm="Acme" />
+          <FloatingCTA
+            onClick={handleOpenAIChat}
+            agreementCount={acmeAgreementCount}
+            searchTerm="Acme"
+          />
         )}
       </div>
 

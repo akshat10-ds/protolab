@@ -14,6 +14,7 @@ import NavigatorAgreementsAIChatPage from './prototypes/pages/NavigatorAgreement
 import AgreementStudioPage from './prototypes/pages/AgreementStudioPage';
 import AgreementStudioFRPage from './prototypes/pages/AgreementStudioFRPage';
 import HROnboardingWizardPage from './prototypes/pages/HROnboardingWizardPage';
+import { PromptExpansionDemoPage } from './prototypes/pages/PromptExpansionDemoPage';
 import IterationLab from './lab/IterationLab';
 import LearningsReview from './learnings/LearningsReview';
 
@@ -48,10 +49,14 @@ export default function App() {
         <Route path="/prototypes/accordion-wizard" element={<AccordionWizardPage />} />
         <Route path="/prototypes/user-info-form" element={<UserInfoFormPage />} />
         <Route path="/prototypes/navigator-agreements" element={<NavigatorAgreementsPage />} />
-        <Route path="/prototypes/navigator-agreements-ai-chat" element={<NavigatorAgreementsAIChatPage />} />
+        <Route
+          path="/prototypes/navigator-agreements-ai-chat"
+          element={<NavigatorAgreementsAIChatPage />}
+        />
         <Route path="/prototypes/agreement-studio" element={<AgreementStudioPage />} />
         <Route path="/prototypes/agreement-studio-fr" element={<AgreementStudioFRPage />} />
         <Route path="/prototypes/hr-onboarding-wizard" element={<HROnboardingWizardPage />} />
+        <Route path="/prototypes/prompt-expansion-demo" element={<PromptExpansionDemoPage />} />
 
         {/* Fullscreen Prototypes - No wrapper chrome, for presentation mode */}
         <Route path="/fullscreen/:name" element={<FullscreenPrototype />} />

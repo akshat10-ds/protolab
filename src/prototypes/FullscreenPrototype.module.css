@@ -1,0 +1,19 @@
+@import '../design-system/1-tokens/tokens.css';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height - accounts for mobile browser chrome */
+  max-height: 100vh;
+  max-height: 100dvh;
+  overflow: hidden;
+  background: var(--ink-bg-default);
+}
+
+/* Ensure child fills available space */
+.wrapper > * {
+  flex: 1;
+  min-height: 0;
+  max-height: 100%;
+}

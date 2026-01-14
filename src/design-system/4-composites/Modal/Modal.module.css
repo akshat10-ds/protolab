@@ -25,6 +25,11 @@
   }
 }
 
+/* Contained mode - positions within parent container instead of viewport */
+.contained {
+  position: absolute;
+}
+
 .modal {
   background: var(--ink-white-100); /* #ffffff */
   border-radius: var(--ink-radius-size-l); /* 16px - radiusSizeL from Figma */
