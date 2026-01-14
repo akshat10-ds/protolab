@@ -4,7 +4,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--ink-spacing-100);
+  gap: var(--ink-spacing-50);
   width: 100%;
 }
 
@@ -43,9 +43,11 @@
 /* Description */
 .description {
   font-family: var(--ink-font-family);
-  font-size: var(--ink-font-size-sm);
+  font-size: var(--ink-font-size-xs); /* 12px - Figma spec */
+  font-weight: var(--ink-font-weight-medium); /* 500 - Figma spec */
   color: var(--ink-font-color-neutral);
   line-height: var(--ink-line-height-normal);
+  letter-spacing: var(--ink-letter-spacing-wide); /* 0.16px - Figma spec */
 }
 
 /* Select Container */
@@ -62,7 +64,7 @@
   font-weight: var(--ink-font-weight-regular); /* 400 */
   color: var(--ink-font-color-default);
   background: var(--ink-form-control-bg-color-default);
-  border: var(--ink-form-border-width) solid var(--ink-neutral-fade-70); /* DocuSign: darker than Input */
+  border: var(--ink-form-border-width) solid var(--ink-form-control-border-color-default); /* Figma: neutral-fade-50 */
   border-radius: var(--ink-radius-sm); /* 4px */
   padding: var(--ink-spacing-100) var(--ink-spacing-600) var(--ink-spacing-100)
     var(--ink-spacing-200); /* DocuSign: 48px right padding for icon space */

@@ -1,0 +1,670 @@
+/**
+ * NavigatorAgreementsAIChat Prototype Styles
+ *
+ * AI Chat prototype with floating CTA button and expandable right panel.
+ * Based on Figma design: node-id=18195:323613 and 18195:323615
+ */
+
+@import '../design-system/1-tokens/tokens.css';
+
+/* ============================================================================
+   Logo
+   ============================================================================ */
+
+.logo {
+  height: 24px;
+  width: auto;
+}
+
+/* ============================================================================
+   Layout Container - AI panel sits outside pushing entire UI
+   ============================================================================ */
+
+.layoutContainer {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.mainContent {
+  width: 100%;
+  height: 100%;
+  transition: width 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mainContentShifted {
+  width: calc(100% - 360px);
+}
+
+/* ============================================================================
+   Floating CTA Button
+   ============================================================================ */
+
+.floatingCTA {
+  position: fixed;
+  right: 0;
+  bottom: 85px;
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) var(--ink-spacing-200) var(--ink-spacing-100) var(--ink-spacing-100);
+  background: var(--ink-cobalt-140);
+  border: none;
+  border-radius: 100px 0 0 100px;
+  cursor: pointer;
+  box-shadow: 0px 32px 64px 0px rgba(25, 24, 35, 0.15);
+  transition: all 200ms ease;
+  font-family: var(--ink-font-family-default);
+}
+
+.floatingCTA:hover {
+  background: var(--ink-cobalt-150);
+  transform: translateX(-4px);
+}
+
+.floatingCTA:active {
+  transform: translateX(-2px);
+}
+
+.floatingCTAIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+.floatingCTAText {
+  font-size: var(--ink-font-size-body-m);
+  font-weight: var(--ink-font-weight-medium);
+  color: white;
+  white-space: nowrap;
+}
+
+/* ============================================================================
+   AI Panel (Right Sidebar) - Sits outside main content as flex item
+   ============================================================================ */
+
+.aiPanel {
+  height: 100%;
+  background: var(--ink-bg-color-default);
+  border-left: 1px solid var(--ink-border-color-subtle);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: width 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Ensure panel is above main content when open */
+  position: relative;
+  z-index: 300;
+}
+
+.aiPanelOpen {
+  /* Width is now controlled by inline style */
+}
+
+/* Disable transitions during resize for smooth dragging */
+.aiPanelResizing {
+  transition: none !important;
+}
+
+/* ============================================================================
+   Drag Handle for Resizing
+   ============================================================================ */
+
+.dragHandle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 100%;
+  cursor: ew-resize;
+  z-index: 310;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.dragHandle:hover .dragHandleBar,
+.dragHandle:active .dragHandleBar {
+  background: var(--ink-cobalt-100);
+  opacity: 1;
+}
+
+.dragHandleBar {
+  width: 4px;
+  height: 48px;
+  background: var(--ink-neutral-40);
+  border-radius: var(--ink-radius-full);
+  opacity: 0;
+  transition: opacity 150ms ease, background 150ms ease;
+}
+
+.aiPanel:hover .dragHandleBar {
+  opacity: 0.6;
+}
+
+/* AIChat container styling */
+.aiChatContainer {
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* ============================================================================
+   Expanded State - Content Max Width
+   When panel is wide (full-screen), constrain content for readability
+   ============================================================================ */
+
+.aiPanelExpanded {
+  background: var(--ink-bg-color-default);
+}
+
+/* Main layout container - flex row for inline history + content */
+.aiPanelLayout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Content area - fills remaining space */
+.aiPanelContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  background: var(--ink-bg-color-default);
+}
+
+/* Content wrapper for centered, max-width constrained content */
+.aiChatContentWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  max-width: var(--ai-chat-content-max-width, 720px);
+  margin: 0 auto;
+  transition: max-width 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* When not expanded, allow full width */
+.aiChatContentWrapperNarrow {
+  max-width: 100%;
+}
+
+/* ============================================================================
+   Chat History Panel - Smart Adaptive Layout
+   ============================================================================ */
+
+.historyPanel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100%;
+  background: var(--ink-bg-color-default);
+  border-right: 1px solid var(--ink-border-color-subtle);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+              background 250ms ease;
+  box-shadow: none;
+}
+
+.historyPanelOpen {
+  transform: translateX(0);
+}
+
+/* ============================================================================
+   Inline Mode - When there's enough space, history becomes a natural sidebar
+   ============================================================================ */
+
+.historyPanelInline {
+  position: relative;
+  transform: none;
+  z-index: 1;
+  flex-shrink: 0;
+  box-shadow: none;
+  background: var(--ink-ecru-10);
+  border-right: 1px solid var(--ink-neutral-fade-10);
+  border-left: none;
+  width: 260px;
+  transition: width 250ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 200ms ease,
+              margin 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Remove any inset shadow on content when history is inline */
+.aiPanelLayout .aiPanelContent {
+  box-shadow: none;
+}
+
+/* Hidden state for inline mode */
+.historyPanelInlineHidden {
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  border-right: none;
+  margin-left: 0;
+}
+
+/* Inline mode hover refinement */
+.historyPanelInline .historyItem:hover {
+  background: var(--ink-ecru-20);
+}
+
+.historyPanelInline .historyItemActive {
+  background: var(--ink-white-100);
+  box-shadow: 0 1px 3px var(--ink-neutral-fade-10);
+}
+
+.historyPanelInline .historyItemActive:hover {
+  background: var(--ink-white-100);
+}
+
+.historyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+  flex-shrink: 0;
+}
+
+.historyTitle {
+  font-size: var(--ink-font-size-body-m);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+  margin: 0;
+}
+
+.historyList {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--ink-spacing-100) 0;
+}
+
+.historyGroup {
+  padding: var(--ink-spacing-100) var(--ink-spacing-200);
+}
+
+.historyGroupLabel {
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.historyItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  margin: 0 calc(-1 * var(--ink-spacing-200));
+  cursor: pointer;
+  transition: background 150ms ease;
+  border: none;
+  background: transparent;
+  width: calc(100% + var(--ink-spacing-200) * 2);
+  text-align: left;
+}
+
+.historyItem:hover {
+  background: var(--ink-ecru-10);
+}
+
+.historyItemActive {
+  background: var(--ink-cobalt-10);
+}
+
+.historyItemActive:hover {
+  background: var(--ink-cobalt-20);
+}
+
+.historyItemIcon {
+  flex-shrink: 0;
+  color: var(--ink-font-color-subtle);
+  margin-top: 2px;
+}
+
+.historyItemContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.historyItemTitle {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.historyItemMeta {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+  margin-top: 2px;
+}
+
+.historyOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 15;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.historyOverlayVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ============================================================================
+   AI Panel Header
+   ============================================================================ */
+
+.aiPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ink-spacing-200) var(--ink-spacing-150);
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.aiPanelHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+}
+
+.aiPanelHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+}
+
+/* ============================================================================
+   AI Panel Content
+   ============================================================================ */
+
+.aiPanelContent {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Zero Query State (Welcome) */
+.zeroQueryState {
+  flex: 1;
+  padding: 0 var(--ink-spacing-150);
+  overflow-y: auto;
+}
+
+.greeting {
+  padding: var(--ink-spacing-150) 0 var(--ink-spacing-300);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+}
+
+.greetingTitle {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.16px;
+  margin: 0;
+  color: var(--ink-cobalt-140);
+}
+
+.greetingName {
+  /* Inherits bold styling from parent */
+}
+
+.greetingSubtitle {
+  color: var(--ink-font-color-default);
+  font-weight: var(--ink-font-weight-regular);
+}
+
+/* Sections */
+.section {
+  padding: var(--ink-spacing-200) 0;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--ink-spacing-100);
+  cursor: pointer;
+}
+
+.sectionHeader:hover {
+  opacity: 0.8;
+}
+
+.sectionTitle {
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-subtle);
+  letter-spacing: 0.2px;
+}
+
+.sectionChevron {
+  color: var(--ink-font-color-subtle);
+}
+
+/* Action Cards */
+.actionCards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+}
+
+.actionCard {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-150) var(--ink-spacing-100);
+  background: var(--ink-ecru-10);
+  border: none;
+  border-radius: var(--ink-radius-size-m);
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease;
+  width: 100%;
+}
+
+.actionCard:hover {
+  background: var(--ink-ecru-20);
+}
+
+.actionCardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--ink-font-color-default);
+}
+
+.actionCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.actionCardTitle {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  line-height: 1.5;
+}
+
+.actionCardDescription {
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-font-color-subtle);
+  line-height: 1.5;
+}
+
+/* Question Cards */
+.questionCard {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) var(--ink-spacing-100);
+  background: var(--ink-ecru-10);
+  border: none;
+  border-radius: var(--ink-radius-size-m);
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease;
+  width: 100%;
+  min-height: 44px;
+}
+
+.questionCard:hover {
+  background: var(--ink-ecru-20);
+}
+
+.questionCardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--ink-font-color-default);
+}
+
+.questionCardText {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-font-color-default);
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   AI Panel Input Area
+   ============================================================================ */
+
+.inputArea {
+  padding: var(--ink-spacing-150);
+  border-top: 1px solid var(--ink-border-color-subtle);
+  background: var(--ink-bg-color-default);
+  border-radius: var(--ink-radius-size-s) var(--ink-radius-size-s) 0 0;
+  flex-shrink: 0;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+  padding: 0 var(--ink-spacing-150) var(--ink-spacing-100);
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+}
+
+.inputField {
+  width: 100%;
+  padding: var(--ink-spacing-150) 0 var(--ink-spacing-50);
+  border: none;
+  background: transparent;
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-subtle);
+  resize: none;
+  min-height: 54px;
+  line-height: 1.4;
+}
+
+.inputField:focus {
+  outline: none;
+  color: var(--ink-font-color-default);
+}
+
+.inputField::placeholder {
+  color: var(--ink-font-color-subtle);
+}
+
+.inputActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.addSourceButton {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  background: transparent;
+  border: 1px dashed var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-full);
+  cursor: pointer;
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  letter-spacing: 0.32px;
+  transition: all 150ms ease;
+}
+
+.addSourceButton:hover {
+  border-color: var(--ink-border-color-subtle);
+  background: var(--ink-bg-color-muted);
+}
+
+.disclaimer {
+  margin-top: var(--ink-spacing-100);
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-subtle);
+  text-align: center;
+  letter-spacing: 0.32px;
+  line-height: 1.4;
+}
+
+/* ============================================================================
+   Overlay (for mobile or emphasis)
+   ============================================================================ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+
+.overlayVisible {
+  opacity: 1;
+  pointer-events: auto;
+}

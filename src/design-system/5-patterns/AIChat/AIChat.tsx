@@ -61,6 +61,16 @@ export interface SuggestedAction {
   icon?: string;
 }
 
+/** Context source indicator (e.g., "15 agreements") */
+export interface ContextSource {
+  /** Label to display (e.g., "agreements", "documents") */
+  label: string;
+  /** Count of items in context */
+  count: number;
+  /** Click handler for the context pill */
+  onClick?: () => void;
+}
+
 export interface AIChatProps {
   /** Array of chat messages to display */
   messages: ChatMessage[];
@@ -110,6 +120,18 @@ export interface AIChatProps {
   onMaximize?: () => void;
   /** Callback when close button is clicked */
   onClose?: () => void;
+  /** Custom message renderer. Return null to use default rendering. */
+  renderMessage?: (message: ChatMessage) => React.ReactNode | null;
+  /** Context source to display in input area (e.g., loaded agreements) */
+  contextSource?: ContextSource;
+  /** Show attention animation on context source pill (ripple effect) */
+  showContextAttention?: boolean;
+  /** Show attention animation on input container (ripple effect) */
+  showInputAttention?: boolean;
+  /** Controlled input value (optional) */
+  inputValue?: string;
+  /** Callback when input value changes */
+  onInputChange?: (value: string) => void;
 }
 
 // ============================================================================
@@ -203,19 +225,10 @@ interface TypingIndicatorProps {
   assistantAvatar?: string;
 }
 
-const TypingIndicator: React.FC<TypingIndicatorProps> = ({
-  assistantName = 'Assistant',
-  assistantAvatar,
-}) => {
+const TypingIndicator: React.FC<TypingIndicatorProps> = () => {
   return (
     <div className={`${styles.message} ${styles.assistantMessage}`}>
-      <div className={styles.messageAvatar}>
-        <Avatar src={assistantAvatar} name={assistantName} size="small" />
-      </div>
       <div className={styles.messageContent}>
-        <Text variant="label" weight="medium">
-          {assistantName}
-        </Text>
         <div className={styles.typingIndicator}>
           <span className={styles.typingDot} />
           <span className={styles.typingDot} />
@@ -235,10 +248,20 @@ interface InputAreaProps {
   showAddSource?: boolean;
   /** Callback when add source is clicked */
   onAddSource?: () => void;
+  /** Context source to display instead of "Add source" */
+  contextSource?: ContextSource;
+  /** Show attention animation on context source pill */
+  showContextAttention?: boolean;
+  /** Show attention animation on input container (ripple effect) */
+  showInputAttention?: boolean;
   /** Show AI disclaimer */
   showDisclaimer?: boolean;
   /** Custom disclaimer text */
   disclaimerText?: string;
+  /** Controlled input value */
+  value?: string;
+  /** Callback when value changes (for controlled mode) */
+  onValueChange?: (value: string) => void;
 }
 
 const InputArea: React.FC<InputAreaProps> = ({
@@ -248,18 +271,66 @@ const InputArea: React.FC<InputAreaProps> = ({
   isLoading = false,
   showAddSource = true,
   onAddSource,
+  contextSource,
+  showContextAttention = false,
+  showInputAttention = false,
   showDisclaimer = true,
   disclaimerText = 'Responses are generated with AI and are not legal advice.',
+  value: controlledValue,
+  onValueChange,
 }) => {
-  const [value, setValue] = useState('');
+  // Support both controlled and uncontrolled modes
+  const isControlled = controlledValue !== undefined;
+  const [internalValue, setInternalValue] = useState('');
+  const value = isControlled ? controlledValue : internalValue;
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Auto-resize textarea based on content
+  const adjustTextAreaHeight = useCallback(() => {
+    const textarea = textAreaRef.current;
+    if (textarea) {
+      const minHeight = 40;
+      const maxHeight = 200;
+
+      // If empty or very short, use min height directly
+      if (!value || value.length < 50) {
+        textarea.style.height = `${minHeight}px`;
+        return;
+      }
+
+      // Reset height to auto to get accurate scrollHeight
+      textarea.style.height = 'auto';
+      // Set height to scrollHeight, clamped between min and max
+      const newHeight = Math.max(minHeight, Math.min(textarea.scrollHeight, maxHeight));
+      textarea.style.height = `${newHeight}px`;
+    }
+  }, [value]);
+
+  // Adjust height when value changes
+  useEffect(() => {
+    adjustTextAreaHeight();
+  }, [value, adjustTextAreaHeight]);
+
+  const handleValueChange = useCallback((newValue: string) => {
+    if (isControlled) {
+      onValueChange?.(newValue);
+    } else {
+      setInternalValue(newValue);
+    }
+  }, [isControlled, onValueChange]);
 
   const handleSend = useCallback(() => {
     const trimmed = value.trim();
     if (trimmed && !disabled && !isLoading) {
       onSend(trimmed);
-      setValue('');
+      // Clear value after send
+      handleValueChange('');
+      // Reset textarea height
+      if (textAreaRef.current) {
+        textAreaRef.current.style.height = 'auto';
+      }
     }
-  }, [value, onSend, disabled, isLoading]);
+  }, [value, onSend, disabled, isLoading, handleValueChange]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -275,21 +346,34 @@ const InputArea: React.FC<InputAreaProps> = ({
 
   return (
     <div className={styles.inputArea}>
-      <div className={styles.inputContainer}>
+      <div className={`${styles.inputContainer}${showInputAttention ? ` ${styles.inputContainerAttention}` : ''}`}>
         <div className={styles.inputContent}>
           <TextArea
+            ref={textAreaRef}
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => handleValueChange(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             disabled={disabled}
             rows={1}
             className={styles.textInput}
-            aria-label="Chat message input"
+            label="Chat message input"
+            hideLabel
           />
         </div>
         <div className={styles.inputActions}>
-          {showAddSource && (
+          {contextSource ? (
+            <button
+              type="button"
+              className={`${styles.contextSourcePill}${showContextAttention ? ` ${styles.contextSourcePillAttention}` : ''}`}
+              onClick={contextSource.onClick}
+              disabled={disabled}
+            >
+              <Icon name="document-stack" size="small" />
+              <span>{contextSource.count} {contextSource.label}</span>
+              <Icon name="chevron-down" size="small" />
+            </button>
+          ) : showAddSource ? (
             <button
               type="button"
               className={styles.addSourceButton}
@@ -299,7 +383,7 @@ const InputArea: React.FC<InputAreaProps> = ({
               <Icon name="plus" size="small" />
               <span>Add source</span>
             </button>
-          )}
+          ) : null}
           {isLoading ? (
             <Spinner size="small" />
           ) : (
@@ -315,9 +399,9 @@ const InputArea: React.FC<InputAreaProps> = ({
         </div>
       </div>
       {showDisclaimer && (
-        <Text variant="caption" color="secondary" align="center" className={styles.disclaimer}>
+        <p className={styles.disclaimer}>
           {disclaimerText}
-        </Text>
+        </p>
       )}
     </div>
   );
@@ -356,21 +440,22 @@ const Welcome: React.FC<WelcomeProps> = ({
           {userName && (
             <div className={styles.welcomeGreeting}>
               <AIBadge />
-              <Text variant="heading" className={styles.greetingName}>
-                Hello, {userName}
-              </Text>
-              <Text variant="body" className={styles.greetingSubtitle}>
+              <h2 className={styles.greetingText}>
+                <span className={styles.greetingHello}>Hello,</span>{' '}
+                <span className={styles.greetingName}>{userName}</span>
+              </h2>
+              <p className={styles.greetingSubtitle}>
                 {welcomeTitle || 'What would you like to know?'}
-              </Text>
+              </p>
             </div>
           )}
 
-          {/* Suggested Actions */}
+          {/* Suggested Prompts */}
           {suggestedActions && suggestedActions.length > 0 && (
             <div className={styles.suggestionsSection}>
               <Inline gap="small" align="center" className={styles.sectionHeader}>
                 <Text variant="caption" color="secondary" weight="medium">
-                  Actions
+                  Prompts
                 </Text>
                 <Icon name="chevron-right" size="small" />
               </Inline>
@@ -390,7 +475,7 @@ const Welcome: React.FC<WelcomeProps> = ({
                         {action.label}
                       </Text>
                       {action.description && (
-                        <Text variant="caption" color="secondary">
+                        <Text variant="caption">
                           {action.description}
                         </Text>
                       )}
@@ -418,7 +503,9 @@ const Welcome: React.FC<WelcomeProps> = ({
                     className={styles.questionCard}
                     onClick={() => onSuggestionClick?.(question)}
                   >
-                    <Icon name="help" size="small" />
+                    <div className={styles.suggestionIcon}>
+                      <Icon name="help" size="medium" />
+                    </div>
                     <Text variant="body">{question}</Text>
                   </button>
                 ))}
@@ -539,6 +626,12 @@ export const AIChat: React.FC<AIChatProps> = ({
   onNewChat,
   onMaximize,
   onClose,
+  renderMessage,
+  contextSource,
+  showContextAttention = false,
+  showInputAttention = false,
+  inputValue,
+  onInputChange,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -578,19 +671,36 @@ export const AIChat: React.FC<AIChatProps> = ({
           </Welcome>
         ) : (
           <Stack gap="medium" className={styles.messages}>
-            {messages.map((message) => (
-              <Message
-                key={message.id}
-                message={message}
-                userAvatar={userAvatar}
-                assistantAvatar={assistantAvatar}
-                userName={userName}
-                assistantName={assistantName}
-                showTimestamp={showTimestamps}
-                showActions={showActions}
-                onAction={onMessageAction}
-              />
-            ))}
+            {messages.map((message) => {
+              // Check if custom renderer is provided and returns content
+              const customContent = renderMessage?.(message);
+              if (customContent !== null && customContent !== undefined) {
+                return (
+                  <div
+                    key={message.id}
+                    className={`${styles.message} ${message.role === 'user' ? styles.userMessage : styles.assistantMessage}`}
+                  >
+                    <div className={styles.messageContent}>
+                      {customContent}
+                    </div>
+                  </div>
+                );
+              }
+              // Default rendering
+              return (
+                <Message
+                  key={message.id}
+                  message={message}
+                  userAvatar={userAvatar}
+                  assistantAvatar={assistantAvatar}
+                  userName={userName}
+                  assistantName={assistantName}
+                  showTimestamp={showTimestamps}
+                  showActions={showActions}
+                  onAction={onMessageAction}
+                />
+              );
+            })}
             {isLoading && (
               <TypingIndicator assistantName={assistantName} assistantAvatar={assistantAvatar} />
             )}
@@ -604,6 +714,11 @@ export const AIChat: React.FC<AIChatProps> = ({
         placeholder={placeholder}
         disabled={disabled}
         isLoading={isLoading}
+        contextSource={contextSource}
+        showContextAttention={showContextAttention}
+        showInputAttention={showInputAttention}
+        value={inputValue}
+        onValueChange={onInputChange}
       />
     </Card>
   );

@@ -326,6 +326,16 @@ const componentTokens: Record<string, { name: string; token: string; category: T
       { name: 'Border Radius (round)', token: '--ink-radius-size-s', category: 'radius' },
       { name: 'Padding', token: '--ink-spacing-200', category: 'spacing' },
     ],
+    Dropdown: [
+      { name: 'Glass BG', token: '--ink-bg-glass-frost', category: 'colors' },
+      { name: 'Border', token: '--ink-neutral-fade-10', category: 'colors' },
+      { name: 'Shadow', token: '--ink-shadow-elevated', category: 'shadows' },
+      { name: 'Header Color', token: '--ink-font-color-neutral-subtle', category: 'colors' },
+      { name: 'Item Hover', token: '--ink-neutral-fade-5', category: 'colors' },
+      { name: 'Border Radius', token: '--ink-radius-size-m', category: 'radius' },
+      { name: 'Padding', token: '--ink-spacing-100', category: 'spacing' },
+      { name: 'Z-Index', token: '--ink-z-dropdown', category: 'zIndex' },
+    ],
     Tooltip: [
       { name: 'Background', token: '--ink-neutral-140', category: 'colors' },
       { name: 'Text', token: '--ink-white-100', category: 'colors' },

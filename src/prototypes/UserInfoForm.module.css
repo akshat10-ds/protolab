@@ -1,0 +1,7 @@
+@import '../design-system/1-tokens/tokens.css';
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--ink-spacing-400);
+}

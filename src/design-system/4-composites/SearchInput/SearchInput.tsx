@@ -11,7 +11,10 @@ export interface SearchSuggestion {
   icon?: React.ReactNode;
 }
 
-export interface SearchInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface SearchInputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'size'
+> {
   /** Input value */
   value?: string;
   /** Default value for uncontrolled component */
@@ -40,6 +43,8 @@ export interface SearchInputProps extends Omit<React.InputHTMLAttributes<HTMLInp
   className?: string;
   /** Custom search icon */
   searchIcon?: React.ReactNode;
+  /** Size variant - small (32px) matches button heights */
+  size?: 'small' | 'medium';
 }
 
 const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
@@ -59,6 +64,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
       disabled = false,
       className,
       searchIcon,
+      size = 'medium',
       ...props
     },
     ref
@@ -136,9 +142,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault();
-          setSelectedIndex((prev) =>
-            prev < suggestions.length - 1 ? prev + 1 : prev
-          );
+          setSelectedIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : prev));
           break;
         case 'ArrowUp':
           e.preventDefault();
@@ -164,10 +168,8 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
 
     return (
       <div ref={containerRef} className={cn(styles.container, className)}>
-        <div className={cn(styles.inputWrapper, disabled && styles.disabled)}>
-          <span className={styles.searchIcon}>
-            {searchIcon || defaultSearchIcon}
-          </span>
+        <div className={cn(styles.inputWrapper, styles[size], disabled && styles.disabled)}>
+          <span className={styles.searchIcon}>{searchIcon || defaultSearchIcon}</span>
           <input
             ref={ref}
             type="text"
@@ -192,10 +194,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
                   fill="none"
                   opacity="0.25"
                 />
-                <path
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                />
+                <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
             </span>
           )}
@@ -216,10 +215,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
             {suggestions.map((suggestion, index) => (
               <li
                 key={suggestion.id}
-                className={cn(
-                  styles.suggestion,
-                  index === selectedIndex && styles.selected
-                )}
+                className={cn(styles.suggestion, index === selectedIndex && styles.selected)}
                 onClick={() => handleSuggestionClick(suggestion)}
                 onMouseEnter={() => setSelectedIndex(index)}
               >
@@ -229,9 +225,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
                 <div className={styles.suggestionContent}>
                   <span className={styles.suggestionLabel}>{suggestion.label}</span>
                   {suggestion.description && (
-                    <span className={styles.suggestionDescription}>
-                      {suggestion.description}
-                    </span>
+                    <span className={styles.suggestionDescription}>{suggestion.description}</span>
                   )}
                 </div>
               </li>

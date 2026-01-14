@@ -14,7 +14,8 @@ import { Link } from '../../3-primitives';
 import styles from './AIBadge.module.css';
 
 // Iris Icon SVG Component - exact paths from Figma
-const IrisIcon: React.FC<{ className?: string }> = ({ className }) => (
+// Exported for use in other components (e.g., Banner promo variant)
+export const IrisIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg
     className={className}
     width="16"

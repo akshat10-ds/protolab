@@ -1,31 +1,62 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Tooltip.module.css';
 
+/** @deprecated Use TooltipLocation instead */
 export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
+export type TooltipLocation = 'above' | 'below' | 'before' | 'after';
+export type TooltipAlignment = 'start' | 'center' | 'end';
+
 export interface TooltipProps {
-  /** The content to display in the tooltip */
-  content: string;
+  /** The text to display inside the Tooltip */
+  text?: string;
   /** The element that triggers the tooltip */
   children: React.ReactElement;
-  /** Position of the tooltip relative to the trigger */
-  position?: TooltipPosition;
+  /** The preferred location of the Tooltip relative to its anchor element */
+  location?: TooltipLocation;
+  /**
+   * The alignment of the Tooltip along the edge of its anchor element.
+   * For locations 'above' and 'below': 'start' = left-aligned, 'center' = centered, 'end' = right-aligned
+   * For locations 'before' and 'after': 'start' = top-aligned, 'center' = centered, 'end' = bottom-aligned
+   */
+  alignment?: TooltipAlignment;
   /** Delay in milliseconds before showing the tooltip */
   delay?: number;
   /** Whether the tooltip is disabled */
   disabled?: boolean;
   /** Data QA attribute for testing */
   'data-qa'?: string;
+  /** @deprecated Use text instead */
+  content?: string;
+  /** @deprecated Use location instead */
+  position?: TooltipPosition;
 }
 
+// Map legacy position prop to new location prop
+const positionToLocation: Record<TooltipPosition, TooltipLocation> = {
+  top: 'above',
+  bottom: 'below',
+  left: 'before',
+  right: 'after',
+};
+
 export const Tooltip: React.FC<TooltipProps> = ({
-  content,
+  text,
   children,
-  position = 'top',
+  location,
+  alignment = 'center',
   delay = 200,
   disabled = false,
   'data-qa': dataQa,
+  // Legacy props
+  content,
+  position,
 }) => {
+  // Support legacy props
+  const tooltipText = text || content || '';
+  const tooltipLocation: TooltipLocation =
+    location || (position ? positionToLocation[position] : 'above');
+
   const [visible, setVisible] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
   const triggerRef = useRef<HTMLElement>(null);
@@ -37,28 +68,53 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const tooltipRect = tooltipRef.current.getBoundingClientRect();
-    const gap = 8; // Gap between trigger and tooltip
+    const gap = 0; // Figma spec: no spacing between tooltip and anchor
 
     let top = 0;
     let left = 0;
 
-    switch (position) {
-      case 'top':
+    // Calculate position based on location
+    switch (tooltipLocation) {
+      case 'above':
         top = triggerRect.top - tooltipRect.height - gap;
-        left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
         break;
-      case 'bottom':
+      case 'below':
         top = triggerRect.bottom + gap;
-        left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
         break;
-      case 'left':
-        top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
+      case 'before':
         left = triggerRect.left - tooltipRect.width - gap;
         break;
-      case 'right':
-        top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
+      case 'after':
         left = triggerRect.right + gap;
         break;
+    }
+
+    // Calculate alignment
+    if (tooltipLocation === 'above' || tooltipLocation === 'below') {
+      switch (alignment) {
+        case 'start':
+          left = triggerRect.left;
+          break;
+        case 'center':
+          left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
+          break;
+        case 'end':
+          left = triggerRect.right - tooltipRect.width;
+          break;
+      }
+    } else {
+      // before/after locations
+      switch (alignment) {
+        case 'start':
+          top = triggerRect.top;
+          break;
+        case 'center':
+          top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
+          break;
+        case 'end':
+          top = triggerRect.bottom - tooltipRect.height;
+          break;
+      }
     }
 
     // Boundary checks
@@ -117,33 +173,45 @@ export const Tooltip: React.FC<TooltipProps> = ({
   }, []);
 
   // Clone the child element and add event handlers
+  // Handle case where children might be undefined or invalid
+  if (!children || !React.isValidElement(children)) {
+    return null;
+  }
+
   const trigger = React.cloneElement(children, {
     ref: triggerRef,
     onMouseEnter: (e: React.MouseEvent) => {
       handleMouseEnter();
-      children.props.onMouseEnter?.(e);
+      children.props?.onMouseEnter?.(e);
     },
     onMouseLeave: (e: React.MouseEvent) => {
       handleMouseLeave();
-      children.props.onMouseLeave?.(e);
+      children.props?.onMouseLeave?.(e);
     },
     onFocus: (e: React.FocusEvent) => {
       handleMouseEnter();
-      children.props.onFocus?.(e);
+      children.props?.onFocus?.(e);
     },
     onBlur: (e: React.FocusEvent) => {
       handleMouseLeave();
-      children.props.onBlur?.(e);
+      children.props?.onBlur?.(e);
     },
   });
 
+  // Build CSS class based on location and alignment
+  const tooltipClasses = [
+    styles.tooltip,
+    styles[tooltipLocation],
+    styles[`align-${alignment}`],
+  ].join(' ');
+
   return (
-    <>
+    <React.Fragment>
       {trigger}
       {visible && !disabled && (
         <div
           ref={tooltipRef}
-          className={`${styles.tooltip} ${styles[position]}`}
+          className={tooltipClasses}
           style={{
             top: `${coords.top}px`,
             left: `${coords.left}px`,
@@ -151,11 +219,17 @@ export const Tooltip: React.FC<TooltipProps> = ({
           role="tooltip"
           data-qa={dataQa}
         >
-          {content}
-          <div className={styles.arrow} />
+          <span className={styles.text}>{tooltipText}</span>
+          <div className={styles.caret}>
+            <svg className={styles.caretSvg} width="15" height="8" viewBox="0 0 15 8" fill="none">
+              <path d="M7.5 8L0.5 0H14.5L7.5 8Z" className={styles.caretFill} />
+              <path d="M0.5 0L7.5 8" className={styles.caretBorder} strokeWidth="1" />
+              <path d="M14.5 0L7.5 8" className={styles.caretBorder} strokeWidth="1" />
+            </svg>
+          </div>
         </div>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

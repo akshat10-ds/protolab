@@ -1,4 +1,4 @@
-/* Ink Design System - Status Badge - Exact Figma Specs */
+/* Ink Design System - Status Badge - Exact Figma Specs (node-id: 83-2801) */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -6,16 +6,29 @@
   font-weight: var(--ink-font-weight-medium); /* 500 */
   font-size: var(--ink-font-badge-size); /* fontBadge: 12px from Figma */
   line-height: var(--ink-font-badge-line-height); /* fontBadge: 1.5 from Figma */
-  letter-spacing: 0.16px; /* wide spacing from Figma */
-  border-radius: var(--ink-radius-sm); /* 4px - radiusSizeXS from Figma */
-  padding: 0 var(--ink-spacing-100); /* 0 8px - symmetric per production */
+  letter-spacing: 0.16px; /* font.letterSpacing.wide from Figma */
+  border-radius: var(--ink-radius-size-xs); /* radiusSizeXS: 4px from Figma */
+  /* Figma: pl-[4px] pr-[8px] - asymmetric padding */
+  padding-left: var(--ink-spacing-50); /* gap50: 4px */
+  padding-right: var(--ink-spacing-100); /* gap100: 8px */
+  padding-top: 0;
+  padding-bottom: 0;
   height: 24px;
+  min-width: 30px; /* from Figma min-w-[30px] */
   white-space: nowrap;
   box-sizing: border-box;
 }
 
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .text {
-  /* No extra padding - symmetric with container */
+  /* Figma: text.padding has pl-[4px] */
+  padding-left: var(--ink-spacing-50); /* 4px from Figma */
 }
 
 /* Variant: subtle (neutral/default) */
@@ -50,6 +63,12 @@
 
 /* Variant: promo (purple accent) */
 .badge.promo {
-  background-color: var(--ink-cobalt-110); /* statusBgColorAccent */
+  background-color: var(--ink-cobalt-110); /* statusBgColorAccent #4200ca */
   color: var(--ink-white-100); /* fontColorInverse #ffffff */
+}
+
+/* Variant: promoSubtle (light purple accent) */
+.badge.promoSubtle {
+  background-color: var(--ink-cobalt-20); /* statusBgColorAccent #e9e6fd */
+  color: var(--ink-cobalt-110); /* fontColorAccentEmphasis #4200ca */
 }

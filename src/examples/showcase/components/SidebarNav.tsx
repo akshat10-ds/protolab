@@ -80,22 +80,29 @@ export const layerSubpages: Record<LayerView, { id: string; label: string }[]> =
     { id: 'chip', label: 'Chip' },
     { id: 'table', label: 'Table' },
     { id: 'list', label: 'List' },
+    { id: 'taskcard', label: 'TaskCard' },
   ],
   patterns: [
     { id: 'globalnav', label: 'GlobalNav' },
     { id: 'localnav', label: 'LocalNav' },
+    { id: 'pageheader', label: 'PageHeader' },
+    { id: 'filterbar', label: 'FilterBar' },
     { id: 'aichat', label: 'AIChat' },
+    { id: 'datatable', label: 'DataTable' },
   ],
-  layouts: [{ id: 'docusign-shell', label: 'DocuSignShell' }],
+  layouts: [
+    { id: 'docusign-shell', label: 'DocuSignShell' },
+    { id: 'agreement-table-view', label: 'AgreementTableView' },
+  ],
 };
 
 const layers: { id: LayerView; label: string; number: string; count: number }[] = [
   { id: 'tokens', label: 'Tokens', number: '01', count: 14 },
   { id: 'utilities', label: 'Utilities', number: '02', count: 5 },
   { id: 'primitives', label: 'Primitives', number: '03', count: 22 },
-  { id: 'composites', label: 'Composites', number: '04', count: 21 },
-  { id: 'patterns', label: 'Patterns', number: '05', count: 3 },
-  { id: 'layouts', label: 'Layouts', number: '06', count: 1 },
+  { id: 'composites', label: 'Composites', number: '04', count: 22 },
+  { id: 'patterns', label: 'Patterns', number: '05', count: 6 },
+  { id: 'layouts', label: 'Layouts', number: '06', count: 2 },
 ];
 
 export interface SidebarNavProps {

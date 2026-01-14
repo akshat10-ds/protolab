@@ -19,6 +19,7 @@ import {
   Chip,
   Avatar,
   Card,
+  TaskCard,
 } from '@/design-system';
 import type { TableColumn } from '@/design-system';
 import styles from '../../Showcase.module.css';
@@ -31,10 +32,10 @@ export interface OverlayCompositesProps {
 const comboVariants = ['brand', 'primary', 'secondary', 'tertiary'] as const;
 const comboSizes = ['small', 'medium'] as const;
 const comboIcons = [
-  { icon: 'download', label: 'Download' },
-  { icon: 'save', label: 'Save', variant: 'primary' },
-  { icon: 'share', label: 'Share', variant: 'secondary' },
-] as const;
+  { icon: 'download', label: 'Download', variant: 'brand' as const },
+  { icon: 'save', label: 'Save', variant: 'primary' as const },
+  { icon: 'share', label: 'Share', variant: 'secondary' as const },
+];
 
 const alertKinds = ['information', 'success', 'warning', 'danger'] as const;
 const alertOtherKinds = ['promo', 'subtle', 'neutral', 'neutralDark'] as const;
@@ -80,6 +81,24 @@ const dropdownWithShortcuts = [
 ];
 
 const dropdownPositions = ['bottom', 'top', 'left', 'right'] as const;
+
+// View selector style dropdown (with header, boxed icons, selected state)
+const viewSelectorItems = [
+  {
+    label: 'Documents',
+    description: 'Analyze agreement data with AI',
+    icon: <Icon name="document" size="medium" />,
+    selected: true,
+    onClick: () => alert('Documents'),
+  },
+  {
+    label: 'Envelopes',
+    description: 'View signatures and activity',
+    icon: <Icon name="envelope" size="medium" />,
+    selected: false,
+    onClick: () => alert('Envelopes'),
+  },
+];
 
 const sampleData = [
   { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'active' },
@@ -174,7 +193,7 @@ export const OverlayComposites: React.FC<OverlayCompositesProps> = ({ activeSubp
                 <ComboButton
                   key={icon}
                   startIcon={icon}
-                  variant={variant as any}
+                  variant={variant}
                   onClick={() => alert(label)}
                   onDropdownClick={() => alert('Options')}
                 >
@@ -329,6 +348,23 @@ export const OverlayComposites: React.FC<OverlayCompositesProps> = ({ activeSubp
   if (activeSubpage === 'dropdown') {
     return (
       <div className={styles.tokenPage}>
+        {/* View Selector Style (Header + Boxed Icons + Selected) */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>View Selector Style</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <Dropdown items={viewSelectorItems} header="Select a view" iconStyle="boxed">
+              <Button kind="secondary" endElement={<Icon name="chevron-down" size="small" />}>
+                Documents
+              </Button>
+            </Dropdown>
+          </div>
+          <Text size="sm" color="secondary" style={{ marginTop: 'var(--ink-spacing-100)' }}>
+            Uses header, iconStyle="boxed", and selected prop for checkmark
+          </Text>
+        </div>
+
         {/* Default */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
@@ -519,23 +555,43 @@ export const OverlayComposites: React.FC<OverlayCompositesProps> = ({ activeSubp
           </div>
           <div className={styles.interactiveArea}>
             <Stack gap="small">
-              <Banner kind="information" icon="info">
-                Information banner
+              <Banner
+                kind="information"
+                icon="info"
+                action={{ label: 'Button', onClick: () => {} }}
+              >
+                This child node renders as a string
               </Banner>
-              <Banner kind="success" icon="status-check">
-                Success banner
+              <Banner
+                kind="danger"
+                icon="status-error"
+                action={{ label: 'Button', onClick: () => {} }}
+              >
+                This child node renders as a string
               </Banner>
-              <Banner kind="warning" icon="status-warn">
-                Warning banner
+              <Banner
+                kind="success"
+                icon="status-check"
+                action={{ label: 'Button', onClick: () => {} }}
+              >
+                This child node renders as a string
               </Banner>
-              <Banner kind="danger" icon="status-error">
-                Danger banner
+              <Banner
+                kind="warning"
+                icon="status-warn"
+                action={{ label: 'Button', onClick: () => {} }}
+              >
+                This child node renders as a string
               </Banner>
-              <Banner kind="promo" icon="star">
-                Promo banner
+              <Banner kind="promo" icon="megaphone" action={{ label: 'Button', onClick: () => {} }}>
+                This child node renders as a string
               </Banner>
-              <Banner kind="subtle">Subtle banner</Banner>
-              <Banner kind="neutral">Neutral banner</Banner>
+              <Banner kind="subtle" icon="clock" action={{ label: 'Button', onClick: () => {} }}>
+                This child node renders as a string
+              </Banner>
+              <Banner kind="neutral" icon="clock" action={{ label: 'Button', onClick: () => {} }}>
+                This child node renders as a string
+              </Banner>
             </Stack>
           </div>
         </div>
@@ -1240,6 +1296,122 @@ export const OverlayComposites: React.FC<OverlayCompositesProps> = ({ activeSubp
               <span className={styles.stateLabel}>Disabled</span>
               <Chip disabled>Disabled</Chip>
             </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeSubpage === 'taskcard') {
+    return (
+      <div className={styles.tokenPage}>
+        {/* Basic */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Basic TaskCard</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <TaskCard>
+              <TaskCard.Header heading="Review Document" />
+              <TaskCard.Body>
+                <Text>
+                  An Ink is a liquid containing various pigments or dyes used for coloring a surface
+                  to render an image or text.
+                </Text>
+              </TaskCard.Body>
+              <TaskCard.Footer actionLabel="Review" onActionClick={() => alert('Review clicked')} />
+            </TaskCard>
+          </div>
+        </div>
+
+        {/* With Overflow Icon */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>With Overflow Icon</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <TaskCard>
+              <TaskCard.Header
+                heading="Sign Agreement"
+                showIcon
+                onIconClick={() => alert('Overflow clicked')}
+              />
+              <TaskCard.Body>
+                <Text>Please review and sign the attached agreement before the deadline.</Text>
+              </TaskCard.Body>
+              <TaskCard.Footer actionLabel="Sign Now" />
+            </TaskCard>
+          </div>
+        </div>
+
+        {/* With Metadata */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>With Metadata</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <TaskCard>
+              <TaskCard.Header heading="Complete Profile" showIcon />
+              <TaskCard.Body>
+                <Text>Fill in your profile information to get started with DocuSign.</Text>
+              </TaskCard.Body>
+              <TaskCard.Footer metadata="Due: March 15, 2024" showMetadata actionLabel="Complete" />
+            </TaskCard>
+          </div>
+        </div>
+
+        {/* Multiple Cards */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Multiple TaskCards</h3>
+          </div>
+          <div className={styles.stateRow}>
+            <div className={styles.stateCell}>
+              <TaskCard>
+                <TaskCard.Header heading="Upload Files" showIcon />
+                <TaskCard.Body>
+                  <Text size="small">Upload the required documents for verification.</Text>
+                </TaskCard.Body>
+                <TaskCard.Footer metadata="2 files pending" actionLabel="Upload" />
+              </TaskCard>
+            </div>
+            <div className={styles.stateCell}>
+              <TaskCard>
+                <TaskCard.Header heading="Approve Request" showIcon />
+                <TaskCard.Body>
+                  <Text size="small">Review and approve the pending access request.</Text>
+                </TaskCard.Body>
+                <TaskCard.Footer metadata="High priority" actionLabel="Approve" />
+              </TaskCard>
+            </div>
+          </div>
+        </div>
+
+        {/* Custom Footer */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Custom Footer Content</h3>
+          </div>
+          <div className={styles.interactiveArea}>
+            <TaskCard>
+              <TaskCard.Header heading="Custom Actions" />
+              <TaskCard.Body>
+                <Text>This task card has a custom footer with multiple buttons.</Text>
+              </TaskCard.Body>
+              <TaskCard.Footer>
+                <Text size="small" color="secondary">
+                  Last updated 2h ago
+                </Text>
+                <Inline gap="small">
+                  <Button kind="secondary" size="small">
+                    Skip
+                  </Button>
+                  <Button kind="primary" size="small">
+                    Continue
+                  </Button>
+                </Inline>
+              </TaskCard.Footer>
+            </TaskCard>
           </div>
         </div>
       </div>

@@ -2,83 +2,87 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import styles from './ProgressBar.module.css';
 
-export type ProgressBarSize = 'small' | 'medium' | 'large';
-export type ProgressBarVariant = 'primary' | 'success' | 'warning' | 'error';
+export type ProgressBarKind = 'info' | 'success';
+export type ProgressBarVariant = 'determinate' | 'indeterminate';
 
 export interface ProgressBarProps {
   /** Current progress value (0-100) */
   value?: number;
   /** Maximum value (default: 100) */
   max?: number;
-  /** Size of the progress bar */
-  size?: ProgressBarSize;
-  /** Color variant */
+  /** Whether the Progress Bar shows info or success */
+  kind?: ProgressBarKind;
+  /** Whether the Progress Bar is determinate or indeterminate */
   variant?: ProgressBarVariant;
-  /** Show indeterminate/loading state */
-  indeterminate?: boolean;
-  /** Show label with percentage */
+  /** Show the label and content of the Progress Bar */
   showLabel?: boolean;
-  /** Custom label text (overrides percentage) */
+  /** Label to display for the Progress Bar */
   label?: string;
-  /** Show label inside the bar */
-  labelInside?: boolean;
+  /** Text at the end of the Progress Bar (percentage display) */
+  content?: string;
+  /** Shows the content/percentage of the Progress Bar */
+  showContent?: boolean;
   /** Additional className */
   className?: string;
-  /** Striped pattern */
-  striped?: boolean;
-  /** Animate stripes */
-  animated?: boolean;
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({
   value = 0,
   max = 100,
-  size = 'medium',
-  variant = 'primary',
-  indeterminate = false,
-  showLabel = false,
-  label,
-  labelInside = false,
+  kind = 'info',
+  variant = 'determinate',
+  showLabel = true,
+  label = 'Label',
+  content,
+  showContent = true,
   className,
-  striped = false,
-  animated = false,
 }) => {
-  const percentage = indeterminate ? 100 : Math.min(Math.max((value / max) * 100, 0), 100);
-  const displayLabel = label || `${Math.round(percentage)}%`;
+  const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
+  const displayContent = content || `${Math.round(percentage)}%`;
+  const isIndeterminate = variant === 'indeterminate';
 
   return (
     <div className={cn(styles.container, className)}>
-      {showLabel && !labelInside && (
-        <div className={styles.labelOuter}>
-          <span className={styles.labelText}>{displayLabel}</span>
+      {/* Label row - shows for both determinate and indeterminate when showLabel is true */}
+      {showLabel && (
+        <div className={styles.labelRow}>
+          <span className={styles.labelText}>{label}</span>
+          {/* Only show percentage for determinate variant */}
+          {!isIndeterminate && showContent && (
+            <span className={styles.percentageText}>{displayContent}</span>
+          )}
         </div>
       )}
-      <div
-        className={cn(
-          styles.track,
-          styles[size],
-          styles[variant]
-        )}
-        role="progressbar"
-        aria-valuenow={indeterminate ? undefined : value}
-        aria-valuemin={0}
-        aria-valuemax={max}
-        aria-label={label}
-      >
+
+      {/* Determinate progress bar */}
+      {!isIndeterminate && (
         <div
-          className={cn(
-            styles.fill,
-            indeterminate && styles.indeterminate,
-            striped && styles.striped,
-            animated && styles.animated
-          )}
-          style={{ width: `${percentage}%` }}
+          className={cn(styles.track, styles[kind])}
+          role="progressbar"
+          aria-valuenow={value}
+          aria-valuemin={0}
+          aria-valuemax={max}
+          aria-label={label}
         >
-          {showLabel && labelInside && (
-            <span className={styles.labelInner}>{displayLabel}</span>
-          )}
+          <div className={styles.fill} style={{ width: `${percentage}%` }} />
+          {/* Stop indicator at the end of track */}
+          <div className={styles.stopIndicator} />
         </div>
-      </div>
+      )}
+
+      {/* Indeterminate progress bar */}
+      {isIndeterminate && (
+        <div
+          className={cn(styles.trackIndeterminate, styles[kind])}
+          role="progressbar"
+          aria-label={label}
+        >
+          <div className={styles.trackIndeterminateBackground} />
+          <div className={styles.fillIndeterminate}>
+            <div className={styles.fillIndeterminateBar} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Stack,
   Inline,
@@ -23,14 +23,66 @@ export interface DataPrimitivesProps {
   onComponentSelect?: (componentId: string, props: Record<string, unknown>) => void;
 }
 
+// Controlled Slider wrapper for showcase
+const ControlledSlider: React.FC<
+  Omit<React.ComponentProps<typeof Slider>, 'value' | 'onChange'> & { defaultValue?: number }
+> = ({ defaultValue = 50, ...props }) => {
+  const [value, setValue] = useState(defaultValue);
+  return <Slider {...props} value={value} onChange={setValue} />;
+};
+
+// Controlled Slider with IconButtons
+const SliderWithButtons: React.FC<{
+  label: string;
+  defaultValue?: number;
+  startIcon?: string;
+  endIcon?: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  hideLabel?: boolean;
+  description?: string;
+  disabled?: boolean;
+}> = ({
+  label,
+  defaultValue = 50,
+  startIcon = 'zoom-out',
+  endIcon = 'zoom-in',
+  min = 0,
+  max = 100,
+  step = 1,
+  hideLabel = false,
+  description,
+  disabled = false,
+}) => {
+  const [value, setValue] = useState(defaultValue);
+  return (
+    <Slider
+      label={label}
+      value={value}
+      onChange={setValue}
+      min={min}
+      max={max}
+      step={step}
+      hideLabel={hideLabel}
+      description={description}
+      disabled={disabled}
+      startElement={startIcon}
+      endElement={endIcon}
+      onStartClick={() => setValue((prev) => Math.max(min, prev - step))}
+      onEndClick={() => setValue((prev) => Math.min(max, prev + step))}
+    />
+  );
+};
+
 // Data definitions for compact rendering
 const badgeVariants = ['subtle', 'emphasis', 'success', 'warning', 'alert', 'promo'] as const;
 const avatarSizes = ['xsmall', 'small', 'medium', 'large'] as const;
 const avatarColors = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
 const statusKinds = ['neutral', 'success', 'warning', 'alert'] as const;
 const spinnerSizes = ['small', 'medium', 'large'] as const;
-const progressSizes = ['small', 'medium', 'large'] as const;
-const progressVariants = ['primary', 'success', 'warning', 'error'] as const;
+const progressKinds = ['info', 'success'] as const;
+const progressVariants = ['determinate', 'indeterminate'] as const;
 
 export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
   activeSubpage,
@@ -49,21 +101,81 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
             <Stack gap="medium">
               <SelectableComponent
                 componentId="slider-volume"
-                componentProps={{ label: 'Volume', defaultValue: 50 }}
+                componentProps={{ label: 'Volume', value: 50 }}
                 isSelected={selectedComponentId === 'slider-volume'}
                 onSelect={onComponentSelect}
               >
-                <Slider label="Volume" defaultValue={50} />
+                <ControlledSlider label="Volume" defaultValue={50} />
               </SelectableComponent>
               <SelectableComponent
                 componentId="slider-brightness"
-                componentProps={{ label: 'Brightness', defaultValue: 75, showValue: true }}
+                componentProps={{ label: 'Brightness', value: 75, showValue: true }}
                 isSelected={selectedComponentId === 'slider-brightness'}
                 onSelect={onComponentSelect}
               >
-                <Slider label="Brightness" defaultValue={75} showValue />
+                <ControlledSlider label="Brightness" defaultValue={75} showValue />
               </SelectableComponent>
             </Stack>
+          </div>
+        </div>
+
+        {/* With Start/End IconButtons */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>With Start/End IconButtons</h3>
+            <span className={styles.tokenSectionSubtitle}>Click buttons to adjust value</span>
+          </div>
+          <div className={styles.interactiveArea}>
+            <Stack gap="medium">
+              <SliderWithButtons
+                label="Zoom"
+                defaultValue={50}
+                startIcon="zoom-out"
+                endIcon="zoom-in"
+              />
+              <SliderWithButtons
+                label="Volume"
+                defaultValue={70}
+                startIcon="volume-slash"
+                endIcon="volume-high"
+              />
+            </Stack>
+          </div>
+        </div>
+
+        {/* States - Interactive */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>States</h3>
+            <span className={styles.tokenSectionSubtitle}>Hover and drag to see color changes</span>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>default</span>
+            <div style={{ flex: 1, maxWidth: '300px' }}>
+              <ControlledSlider label="Default state" defaultValue={50} hideLabel />
+            </div>
+            <span className={styles.demoDesc}>Subtle gray track fill</span>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>hover</span>
+            <div style={{ flex: 1, maxWidth: '300px' }}>
+              <ControlledSlider label="Hover state" defaultValue={50} hideLabel />
+            </div>
+            <span className={styles.demoDesc}>Hover over track → darker fill</span>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>active</span>
+            <div style={{ flex: 1, maxWidth: '300px' }}>
+              <ControlledSlider label="Active state" defaultValue={50} hideLabel />
+            </div>
+            <span className={styles.demoDesc}>Click & drag → purple accent fill</span>
+          </div>
+          <div className={styles.demoRow}>
+            <span className={styles.demoLabel}>disabled</span>
+            <div style={{ flex: 1, maxWidth: '300px' }}>
+              <ControlledSlider label="Disabled state" defaultValue={50} hideLabel disabled />
+            </div>
+            <span className={styles.demoDesc}>25% opacity</span>
           </div>
         </div>
 
@@ -75,7 +187,7 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>0-1000, step 50</span>
             <div style={{ flex: 1, maxWidth: '300px' }}>
-              <Slider
+              <ControlledSlider
                 label="Price"
                 min={0}
                 max={1000}
@@ -89,7 +201,7 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
           <div className={styles.demoRow}>
             <span className={styles.demoLabel}>0-10, step 1</span>
             <div style={{ flex: 1, maxWidth: '300px' }}>
-              <Slider
+              <ControlledSlider
                 label="Rating"
                 min={0}
                 max={10}
@@ -100,37 +212,6 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
               />
             </div>
           </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>0-100, step 5</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <Slider
-                label="Quality"
-                min={0}
-                max={100}
-                step={5}
-                defaultValue={50}
-                showValue
-                hideLabel
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* States */}
-        <div className={styles.tokenSection}>
-          <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>States</h3>
-          </div>
-          <div className={styles.stateRow}>
-            <div className={styles.stateCell}>
-              <span className={styles.stateLabel}>Default</span>
-              <Slider label="Default" defaultValue={50} hideLabel />
-            </div>
-            <div className={styles.stateCell}>
-              <span className={styles.stateLabel}>Disabled</span>
-              <Slider label="Disabled" defaultValue={50} disabled hideLabel />
-            </div>
-          </div>
         </div>
 
         {/* With Description */}
@@ -139,7 +220,7 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
             <h3 className={styles.tokenSectionTitle}>With Description</h3>
           </div>
           <div className={styles.interactiveArea}>
-            <Slider
+            <ControlledSlider
               label="Quality"
               description="Higher values = larger file size"
               min={1}
@@ -566,25 +647,25 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
   if (activeSubpage === 'progressbar') {
     return (
       <div className={styles.tokenPage}>
-        {/* Sizes */}
+        {/* Kinds */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Sizes</h3>
+            <h3 className={styles.tokenSectionTitle}>Kinds</h3>
           </div>
-          {progressSizes.map((size) => (
-            <div className={styles.demoRow} key={size}>
-              <span className={styles.demoLabel}>{size}</span>
-              <div style={{ flex: 1, maxWidth: '300px' }}>
+          {progressKinds.map((kind) => (
+            <div className={styles.demoRow} key={kind}>
+              <span className={styles.demoLabel}>{kind}</span>
+              <div style={{ flex: 1, maxWidth: '320px' }}>
                 <SelectableComponent
-                  componentId={`progressbar-size-${size}`}
-                  componentProps={{ value: 60, size }}
-                  isSelected={selectedComponentId === `progressbar-size-${size}`}
+                  componentId={`progressbar-kind-${kind}`}
+                  componentProps={{ value: 100, kind, showLabel: true }}
+                  isSelected={selectedComponentId === `progressbar-kind-${kind}`}
                   onSelect={onComponentSelect}
                 >
-                  <ProgressBar value={60} size={size} />
+                  <ProgressBar value={100} kind={kind} showLabel label="Label" />
                 </SelectableComponent>
               </div>
-              <span className={styles.propsCode}>size="{size}"</span>
+              <span className={styles.propsCode}>kind="{kind}"</span>
             </div>
           ))}
         </div>
@@ -597,8 +678,14 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
           {progressVariants.map((variant) => (
             <div className={styles.demoRow} key={variant}>
               <span className={styles.demoLabel}>{variant}</span>
-              <div style={{ flex: 1, maxWidth: '300px' }}>
-                <ProgressBar value={65} variant={variant} />
+              <div style={{ flex: 1, maxWidth: '320px' }}>
+                <ProgressBar
+                  value={variant === 'determinate' ? 50 : 0}
+                  variant={variant}
+                  kind="info"
+                  showLabel
+                  label="Label"
+                />
               </div>
               <span className={styles.propsCode}>variant="{variant}"</span>
             </div>
@@ -611,48 +698,38 @@ export const DataPrimitives: React.FC<DataPrimitivesProps> = ({
             <h3 className={styles.tokenSectionTitle}>Labels</h3>
           </div>
           <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>outside</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar value={65} showLabel />
+            <span className={styles.demoLabel}>with label</span>
+            <div style={{ flex: 1, maxWidth: '320px' }}>
+              <ProgressBar value={75} showLabel label="Uploading" />
             </div>
           </div>
           <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>inside</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar value={65} showLabel labelInside size="large" />
+            <span className={styles.demoLabel}>no label</span>
+            <div style={{ flex: 1, maxWidth: '320px' }}>
+              <ProgressBar value={75} showLabel={false} />
             </div>
           </div>
           <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>custom</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar value={45} showLabel label="45 of 100 files" />
+            <span className={styles.demoLabel}>custom content</span>
+            <div style={{ flex: 1, maxWidth: '320px' }}>
+              <ProgressBar value={45} showLabel label="Processing" content="45 of 100" />
             </div>
           </div>
         </div>
 
-        {/* Styles */}
+        {/* Progress Values */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Styles</h3>
+            <h3 className={styles.tokenSectionTitle}>Progress Values</h3>
           </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>indeterminate</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar indeterminate />
+          {[0, 25, 50, 75, 100].map((val) => (
+            <div className={styles.demoRow} key={val}>
+              <span className={styles.demoLabel}>{val}%</span>
+              <div style={{ flex: 1, maxWidth: '320px' }}>
+                <ProgressBar value={val} showLabel label="Progress" />
+              </div>
             </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>striped</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar value={70} striped />
-            </div>
-          </div>
-          <div className={styles.demoRow}>
-            <span className={styles.demoLabel}>animated</span>
-            <div style={{ flex: 1, maxWidth: '300px' }}>
-              <ProgressBar value={70} striped animated />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     );

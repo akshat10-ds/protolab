@@ -5,4 +5,4 @@
  */
 
 export { AIChat } from './AIChat';
-export type { AIChatProps, ChatMessage, MessageRole, MessageStatus } from './AIChat';
+export type { AIChatProps, ChatMessage, MessageRole, MessageStatus, SuggestedAction, ContextSource } from './AIChat';

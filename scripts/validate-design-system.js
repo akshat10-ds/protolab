@@ -51,6 +51,8 @@ const INLINE_STYLE_ALLOWLIST = [
   '4-composites/Table/Table.tsx', // column widths
   // Patterns with dynamic CSS custom properties
   '5-patterns/AIChat/AIChat.tsx', // maxHeight via CSS variable
+  '5-patterns/DataTable/DataTableCell.tsx', // column widths
+  '5-patterns/DataTable/DataTableHeader.tsx', // column widths
   // Demo files
   '3-primitives/Icon/IconDemo.tsx',
 ];

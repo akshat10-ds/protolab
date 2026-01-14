@@ -155,9 +155,39 @@ const componentDescriptions: Record<string, string> = {
   spacer: 'Spacing utility',
 };
 
+// Parse URL to get initial layer and subpage
+function getInitialStateFromUrl(): { layer: LayerView; subpage: string } {
+  const path = window.location.pathname;
+  const match = path.match(/^\/showcase\/([^/]+)\/([^/]+)/);
+
+  if (match) {
+    const [, urlLayer, urlSubpage] = match;
+    // Validate layer
+    const validLayers: LayerView[] = [
+      'tokens',
+      'utilities',
+      'primitives',
+      'composites',
+      'patterns',
+      'layouts',
+    ];
+    if (validLayers.includes(urlLayer as LayerView)) {
+      const layer = urlLayer as LayerView;
+      // Validate subpage exists in that layer
+      const subpages = layerSubpages[layer];
+      if (subpages.some((s) => s.id === urlSubpage)) {
+        return { layer, subpage: urlSubpage };
+      }
+    }
+  }
+
+  return { layer: 'primitives', subpage: 'button' };
+}
+
 export default function ComponentShowcase() {
-  const [activeLayer, setActiveLayer] = useState<LayerView>('primitives');
-  const [activeSubpage, setActiveSubpage] = useState<string>('button');
+  const initialState = getInitialStateFromUrl();
+  const [activeLayer, setActiveLayer] = useState<LayerView>(initialState.layer);
+  const [activeSubpage, setActiveSubpage] = useState<string>(initialState.subpage);
   const [showCommandPalette, setShowCommandPalette] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedResultIndex, setSelectedResultIndex] = useState(0);
@@ -165,6 +195,13 @@ export default function ComponentShowcase() {
   const [inspectorOpen, setInspectorOpen] = useState(true);
   const [liveProps, setLiveProps] = useState<Record<string, unknown>>({});
   const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
+  const [fullWidthMode, setFullWidthMode] = useState(() => {
+    try {
+      return localStorage.getItem('showcase-fullwidth') === 'true';
+    } catch {
+      return false;
+    }
+  });
   const searchInputRef = useRef<HTMLInputElement>(null);
   const commandInputRef = useRef<HTMLInputElement>(null);
   const resultItemsRef = useRef<(HTMLButtonElement | null)[]>([]);
@@ -235,6 +272,14 @@ export default function ComponentShowcase() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeSubpage]);
 
+  // Sync URL when layer or subpage changes
+  useEffect(() => {
+    const newUrl = `/showcase/${activeLayer}/${activeSubpage}`;
+    if (window.location.pathname !== newUrl) {
+      window.history.pushState({}, '', newUrl);
+    }
+  }, [activeLayer, activeSubpage]);
+
   // Show back to top button after scrolling
   useEffect(() => {
     const handleScroll = () => {
@@ -244,13 +289,26 @@ export default function ComponentShowcase() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Cmd+K to open command palette
+  // Persist full-width mode to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('showcase-fullwidth', String(fullWidthMode));
+    } catch {
+      // Ignore localStorage errors
+    }
+  }, [fullWidthMode]);
+
+  // Keyboard shortcuts: Cmd+K (command palette), Cmd+Shift+F (full-width toggle)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         setShowCommandPalette(true);
         setSearchQuery('');
+      }
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'f') {
+        e.preventDefault();
+        setFullWidthMode((prev) => !prev);
       }
       if (e.key === 'Escape') {
         setShowCommandPalette(false);
@@ -392,7 +450,7 @@ export default function ComponentShowcase() {
   };
 
   return (
-    <div className={styles.showcaseContainer}>
+    <div className={styles.showcaseContainer} data-fullwidth={fullWidthMode}>
       {/* Sidebar */}
       <SidebarNav
         activeLayer={activeLayer}
@@ -401,6 +459,16 @@ export default function ComponentShowcase() {
         onSubpageChange={setActiveSubpage}
         onOpenSearch={() => setShowCommandPalette(true)}
       />
+
+      {/* Full-Width Toggle Button */}
+      <button
+        className={styles.fullWidthToggle}
+        onClick={() => setFullWidthMode(!fullWidthMode)}
+        aria-label={fullWidthMode ? 'Exit full-width mode' : 'Enter full-width mode'}
+        title={fullWidthMode ? 'Exit full-width (⌘⇧F)' : 'Full-width preview (⌘⇧F)'}
+      >
+        <Icon name={fullWidthMode ? 'arrows-in' : 'arrows-out'} size={16} />
+      </button>
 
       {/* Main Content */}
       <div

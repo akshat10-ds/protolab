@@ -9,7 +9,7 @@
   justify-content: space-between;
   padding: 0 var(--ink-spacing-200); /* 16px */
   background: var(--ink-white-100); /* Pure white for GlobalNav */
-  border-bottom: var(--ink-form-border-width) solid var(--ink-border-color-default);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
   position: sticky;
   top: 0;
   z-index: var(--ink-z-sticky);

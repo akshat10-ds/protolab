@@ -29,9 +29,11 @@ const SimpleForm = lazy(() => import('@/prototypes/SimpleForm'));
 const DocuSignLanding = lazy(() => import('@/prototypes/DocuSignLanding'));
 const PartiesView = lazy(() => import('@/prototypes/PartiesView'));
 const AccordionWizard = lazy(() => import('@/prototypes/AccordionWizard'));
+const DataTableTest = lazy(() => import('./DataTableTest'));
 
 // Available components to iterate on
 const AVAILABLE_COMPONENTS = [
+  { id: 'DataTableTest', label: 'DataTable Test', description: 'Sticky columns & hover test' },
   { id: 'AIChat', label: 'AIChat (Pattern)', description: 'AI conversation interface' },
   { id: 'SimpleForm', label: 'SimpleForm', description: 'Basic form prototype' },
   { id: 'DocuSignLanding', label: 'DocuSign Landing', description: 'Landing page prototype' },
@@ -91,7 +93,7 @@ const saveFeedback = (items: FeedbackPin[]) => {
 };
 
 export default function IterationLab() {
-  const [activeComponent, setActiveComponent] = useState<string>('AIChat');
+  const [activeComponent, setActiveComponent] = useState<string>('DataTableTest');
   const previewRef = useRef<HTMLDivElement>(null);
 
   // Feedback state
@@ -420,7 +422,7 @@ export default function IterationLab() {
 
       <div className={styles.content}>
         {/* Component Preview */}
-        <main className={styles.preview}>
+        <main className={`${styles.preview} ${activeComponent === 'DataTableTest' ? styles.fullscreen : ''}`}>
           <div className={styles.previewHeader}>
             <Inline gap="small" align="center">
               <Text variant="label" color="secondary">
@@ -485,6 +487,7 @@ export default function IterationLab() {
                   </div>
                 }
               >
+                {activeComponent === 'DataTableTest' && <DataTableTest />}
                 {activeComponent === 'AIChat' && (
                   <AIChat
                     messages={messages}

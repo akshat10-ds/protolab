@@ -24,3 +24,7 @@ export type { ContainerProps } from './Container';
 // Spacing Utilities
 export { Spacer } from './Spacer';
 export type { SpacerProps } from './Spacer';
+
+// Portal Utility
+export { Portal } from './Portal';
+export type { PortalProps } from './Portal';

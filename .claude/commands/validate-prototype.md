@@ -424,6 +424,63 @@ padding: var(--ink-spacing-300);
 - ❌ Suggest workarounds that violate rules
 - ❌ Allow inline styles "just this once"
 
+---
+
+## Showcase vs Prototype Code
+
+**Important distinction**: Showcase files (`src/examples/showcase/`) have different rules than prototype files.
+
+### Prototype Code (STRICT rules)
+Located in: `src/prototypes/`
+- ❌ No inline styles allowed
+- ❌ No hardcoded pixel values
+- ❌ No hardcoded hex colors
+- ✅ All styling via component props or CSS modules with tokens
+
+### Showcase Code (RELAXED rules)
+Located in: `src/examples/showcase/`
+- ✅ Inline styles acceptable for demo layout (`style={{ flex: 1 }}`)
+- ✅ Token visualization requires inline styles (`style={{ color: var(${token}) }}`)
+- ⚠️ Hardcoded values like `'16px'` should still use tokens when possible
+
+**Why the difference?**
+- Showcase code demonstrates how components work
+- It's not production code that would be copied
+- Certain inline styles are necessary to visualize token values
+
+### Quick Reference: What to Fix
+
+| Pattern | Prototype | Showcase |
+|---------|-----------|----------|
+| `style={{ flex: 1 }}` | ❌ VIOLATION | ✅ OK for demos |
+| `style={{ padding: '16px' }}` | ❌ VIOLATION | ⚠️ Should use `var(--ink-spacing-400)` |
+| `style={{ color: var(--ink-...) }}` | ❌ VIOLATION | ✅ OK for token demos |
+| `import { X } from 'lucide-react'` | ❌ VIOLATION | ❌ VIOLATION |
+| Hardcoded hex colors | ❌ VIOLATION | ❌ VIOLATION |
+
+---
+
+## Run Validation Scripts
+
+For automated compliance checking, run these scripts:
+
+```bash
+# Primary constraint validation (must pass)
+node scripts/validate-design-system.js
+
+# Component styling patterns (should pass)
+node scripts/validate-component-styles.js
+
+# Form component patterns
+node scripts/validate-form-patterns.js
+```
+
+**Exit codes:**
+- `0` = All checks passed
+- `1` = Violations found (review output)
+
+---
+
 ## Success Criteria
 
 Validation succeeds when:

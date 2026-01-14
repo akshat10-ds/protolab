@@ -4,13 +4,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: none;
+  border: 1px solid transparent; /* Production: transparent border */
   border-radius: var(--ink-radius-size-xs); /* 4px */
   cursor: pointer;
-  transition: all var(--ink-transition-fast);
+  transition-property: background-color, border-color, color;
+  transition-duration: 100ms; /* Production: 0.1s */
+  transition-timing-function: cubic-bezier(0.33, 0, 0.67, 1); /* Production easing */
   font-family: var(--ink-font-family);
   position: relative;
   user-select: none;
+  vertical-align: middle;
+  padding: 0; /* Production: padding-block/inline: 0 */
 }
 
 .iconButton:focus-visible {
@@ -74,18 +78,21 @@
   border-color: var(--ink-cta-border-color-secondary-active);
 }
 
-/* Tertiary variant */
+/* Tertiary variant - Icon-only tertiary buttons stay transparent */
+/* Text buttons use --ink-cta-bg-color-tertiary-default, but icon-only are transparent */
 .tertiary {
-  background-color: var(--ink-cta-bg-color-tertiary-default);
-  color: var(--ink-cta-font-color-tertiary);
+  background-color: transparent; /* Icon-only tertiary stays transparent */
+  color: var(--ink-cta-font-color-tertiary); /* rgba(19, 0, 50, 0.9) */
 }
 
 .tertiary:hover:not(:disabled) {
   background-color: var(--ink-cta-bg-color-tertiary-hover);
+  color: var(--ink-cta-font-color-tertiary); /* No color change on hover */
 }
 
 .tertiary:active:not(:disabled) {
   background-color: var(--ink-cta-bg-color-tertiary-active);
+  color: var(--ink-cta-font-color-tertiary); /* No color change on active */
 }
 
 /* Danger variant - Figma spec: transparent bg with red icon by default */

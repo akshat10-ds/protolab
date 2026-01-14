@@ -35,6 +35,7 @@ export type {
 export {
   // Icons
   Icon,
+  AIIcon,
   iconPaths,
   // Action Components
   Button,
@@ -70,6 +71,8 @@ export {
 export type {
   // Icons
   IconProps,
+  AIIconProps,
+  AIIconName,
   // Action Components
   ButtonProps,
   ButtonKind,
@@ -103,7 +106,7 @@ export type {
   // Feedback Components
   SpinnerProps,
   ProgressBarProps,
-  ProgressBarSize,
+  ProgressBarKind,
   ProgressBarVariant,
   // Overlay Components (Basic)
   TooltipProps,
@@ -138,11 +141,14 @@ export {
   Banner,
   Callout,
   AIBadge,
+  IrisIcon,
   Stepper,
   Chip,
   // Data Components
   Table,
   List,
+  // Card Components (Composite)
+  TaskCard,
 } from './4-composites';
 
 export type {
@@ -190,21 +196,45 @@ export type {
   // Data Components
   TableProps,
   ListProps,
+  // Card Components (Composite)
+  TaskCardProps,
+  TaskCardHeaderProps,
+  TaskCardBodyProps,
+  TaskCardFooterProps,
 } from './4-composites';
 
 // ============================================================================
 // LAYER 5: PATTERNS
 // ============================================================================
-export { GlobalNav, LocalNav } from './5-patterns';
+export { GlobalNav, LocalNav, PageHeader, DataTable, AIChat, FilterBar, dataTableStyles } from './5-patterns';
 
-export type { GlobalNavProps, LocalNavProps } from './5-patterns';
+export type {
+  GlobalNavProps,
+  LocalNavProps,
+  PageHeaderProps,
+  DataTableProps,
+  DataTableColumn,
+  DataTableRowHeight,
+  DataTableAlignment,
+  DataTableSortDirection,
+  DataTableAction,
+  DataTablePaginationConfig,
+  PageSizeOption,
+  AIChatProps,
+  ChatMessage,
+  MessageRole,
+  MessageStatus,
+  SuggestedAction,
+  FilterBarProps,
+  FilterBarSearchConfig,
+} from './5-patterns';
 
 // ============================================================================
 // LAYER 6: LAYOUTS
 // ============================================================================
-export { DocuSignShell } from './6-layouts';
+export { DocuSignShell, AgreementTableView } from './6-layouts';
 
-export type { DocuSignShellProps } from './6-layouts';
+export type { DocuSignShellProps, AgreementTableViewProps } from './6-layouts';
 
 // ============================================================================
 // CONSTANTS & UTILITIES

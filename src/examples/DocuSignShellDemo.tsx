@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { DocuSignShell } from '@/design-system/6-layouts/DocuSignShell';
-import type { GlobalNavItem } from '@/design-system/5-patterns/GlobalNav';
-import type { LocalNavSection, HeaderMenuItem } from '@/design-system/5-patterns/LocalNav';
+import { DocuSignShell } from '@/design-system';
+import type { GlobalNavItem, LocalNavSection, HeaderMenuItem } from '@/design-system';
 import DocuSignLogo from '@/assets/Docusign Horizontal Black.svg';
 import CompletedAgreementsPage from './CompletedAgreementsPage';
 
@@ -31,13 +30,6 @@ export default function DocuSignShellDemo() {
   const [activeItem, setActiveItem] = useState('completed');
   const [navToggle, setNavToggle] = useState(true);
   const [navLocked, setNavLocked] = useState(true);
-  const [navCollapsed, setNavCollapsed] = useState(false);
-
-  const handleLockClick = () => {
-    const newLocked = !navLocked;
-    setNavLocked(newLocked);
-    setNavCollapsed(!newLocked);
-  };
 
   // LocalNav sections - exact DocuSign Agreements structure
   const agreementsSections: LocalNavSection[] = [
@@ -167,9 +159,9 @@ export default function DocuSignShellDemo() {
         headerMenuItems: headerMenuItems,
         sections: agreementsSections,
         activeItemId: activeItem,
-        collapsed: navCollapsed,
+        isLocked: navLocked,
+        onLockChange: setNavLocked,
         footerToggle: { label: 'New navigation', checked: navToggle, onChange: setNavToggle },
-        footerLockButton: { locked: navLocked, onLockClick: handleLockClick },
       }}
     >
       <CompletedAgreementsPage />

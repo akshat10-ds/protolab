@@ -1,0 +1,20 @@
+@import '../design-system/1-tokens/tokens.css';
+
+/**
+ * HROnboardingWizard Styles
+ *
+ * Minimal styles using design tokens.
+ * Most styling is handled by the design system components.
+ */
+
+/* Success icon container for completion state */
+.successIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--ink-green-10);
+  color: var(--ink-green-60);
+}

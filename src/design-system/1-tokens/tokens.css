@@ -208,7 +208,7 @@
   --ink-cta-bg-color-secondary-active: var(--ink-neutral-fade-10);
 
   /* CTA Background - Tertiary */
-  --ink-cta-bg-color-tertiary-default: transparent;
+  --ink-cta-bg-color-tertiary-default: var(--ink-neutral-fade-5);
   --ink-cta-bg-color-tertiary-hover: var(--ink-neutral-fade-10);
   --ink-cta-bg-color-tertiary-active: var(--ink-neutral-fade-15);
 
@@ -346,7 +346,9 @@
   --ink-font-color-inverse: var(--ink-white-100);
   --ink-font-color-neutral: var(--ink-neutral-fade-70);
   --ink-font-color-neutral-emphasis: var(--ink-neutral-100);
-  --ink-font-color-neutral-subtle: var(--ink-neutral-50);
+  --ink-font-color-neutral-subtle: var(
+    --ink-neutral-fade-70
+  ); /* fontColorSubtle = rgba(19,0,50,0.7) from Figma */
   --ink-font-color-placeholder: var(--ink-neutral-fade-30);
   --ink-font-color-success: var(--ink-green-100);
   --ink-font-color-warning: var(--ink-orange-100);
@@ -812,6 +814,8 @@
     var(--ink-red-70) 0%,
     var(--ink-cobalt-100) 100%
   );
+  /* AI Iris gradient - production DocuSign AI colors (magenta to blue-violet) */
+  --ink-gradient-ai-iris: linear-gradient(90deg, #d9155d 0%, #a02aac 50%, #4c06ff 100%);
 
   /* ========================================== */
   /* inkBreakpointTokens                        */
@@ -839,6 +843,8 @@
   --ink-font-family:
     'DS Indigo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --ink-font-family-default: var(--ink-font-family);
+  --ink-font-family-bold:
+    'DS Indigo Bold', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   /* Font Size */
   --ink-font-size-xxs: 10px;
@@ -864,6 +870,7 @@
   --ink-line-height-relaxed: 1.75;
 
   /* Letter Spacing */
+  --ink-letter-spacing-open: 0.32px;
   --ink-letter-spacing-wide: 0.16px;
   --ink-letter-spacing-normal: 0;
   --ink-letter-spacing-tight: -0.02em;

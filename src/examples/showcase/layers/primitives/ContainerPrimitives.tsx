@@ -95,7 +95,7 @@ export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({
         {/* Variants */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>Variants</h3>
+            <h3 className={styles.tokenSectionTitle}>Background Variants</h3>
           </div>
           <div className={styles.stateRow}>
             {cardVariants.map((variant) => (
@@ -122,24 +122,25 @@ export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
             <h3 className={styles.tokenSectionTitle}>Card Anatomy</h3>
+            <p className={styles.tokenSectionDescription}>
+              Cards have optional Header, Body, and Footer sections
+            </p>
           </div>
           <div className={styles.interactiveArea}>
-            <Card>
+            <Card style={{ maxWidth: 320 }}>
               <Card.Header>
                 <Text weight="semibold">Card Header</Text>
               </Card.Header>
               <Card.Body>
-                <Text>Card body content goes here.</Text>
+                <Text>Card body content goes here. This is the main content area.</Text>
               </Card.Body>
               <Card.Footer>
-                <Inline gap="small">
-                  <Button kind="primary" size="small">
-                    Action
-                  </Button>
-                  <Button kind="tertiary" size="small">
-                    Cancel
-                  </Button>
-                </Inline>
+                <Button kind="secondary" size="small">
+                  Cancel
+                </Button>
+                <Button kind="primary" size="small">
+                  Confirm
+                </Button>
               </Card.Footer>
             </Card>
           </div>
@@ -148,23 +149,67 @@ export const ContainerPrimitives: React.FC<ContainerPrimitivesProps> = ({
         {/* States */}
         <div className={styles.tokenSection}>
           <div className={styles.tokenSectionHeader}>
-            <h3 className={styles.tokenSectionTitle}>States & Options</h3>
+            <h3 className={styles.tokenSectionTitle}>States</h3>
           </div>
           <div className={styles.stateRow}>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>Default</span>
+              <Card>
+                <Card.Body>
+                  <Text>Default card</Text>
+                </Card.Body>
+              </Card>
+            </div>
             <div className={styles.stateCell}>
               <span className={styles.stateLabel}>Disabled</span>
               <Card disabled>
                 <Card.Body>
-                  <Text>Disabled</Text>
+                  <Text>Disabled card</Text>
                 </Card.Body>
               </Card>
             </div>
             <div className={styles.stateCell}>
               <span className={styles.stateLabel}>No Padding</span>
               <Card noPadding>
-                <div style={{ background: 'var(--ink-neutral-20)', padding: '12px' }}>
-                  <Text>Custom padding</Text>
-                </div>
+                <Card.Body>
+                  <Text>No padding</Text>
+                </Card.Body>
+              </Card>
+            </div>
+          </div>
+        </div>
+
+        {/* Card with Image */}
+        <div className={styles.tokenSection}>
+          <div className={styles.tokenSectionHeader}>
+            <h3 className={styles.tokenSectionTitle}>Image Position</h3>
+            <p className={styles.tokenSectionDescription}>Use Card.Image with imagePosition prop</p>
+          </div>
+          <div className={styles.stateRow}>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>Top</span>
+              <Card imagePosition="top" style={{ maxWidth: 240 }}>
+                <Card.Image
+                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=267&fit=crop"
+                  alt="Office workspace"
+                />
+                <Card.Body>
+                  <Text weight="semibold">Card Title</Text>
+                  <Text size="small">Description text</Text>
+                </Card.Body>
+              </Card>
+            </div>
+            <div className={styles.stateCell}>
+              <span className={styles.stateLabel}>Start</span>
+              <Card imagePosition="start" style={{ maxWidth: 360 }}>
+                <Card.Image
+                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=267&fit=crop"
+                  alt="Office workspace"
+                />
+                <Card.Body>
+                  <Text weight="semibold">Card Title</Text>
+                  <Text size="small">Description text</Text>
+                </Card.Body>
               </Card>
             </div>
           </div>

@@ -1,0 +1,13 @@
+/**
+ * NavigatorAgreements Prototype Styles
+ *
+ * Minimal styles - layout handled by AgreementTableView component.
+ */
+
+@import '../design-system/1-tokens/tokens.css';
+
+/* Logo sizing */
+.logo {
+  height: 24px;
+  width: auto;
+}

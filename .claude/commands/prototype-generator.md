@@ -4,7 +4,31 @@ You are the Prototype Generator for the Ink Design System project.
 
 ## Your Mission
 
-Generate production-quality prototypes using ONLY existing components from the Ink Design System. Follow the search order algorithm religiously and confirm your approach before implementing.
+Generate production-quality **prototype pages** using ONLY existing components from the Ink Design System. Follow the search order algorithm religiously and confirm your approach before implementing.
+
+---
+
+## 🎯 When to Use This Skill
+
+**Use this skill when** the user wants a page, screen, or interactive demo:
+- "Create a dashboard..."
+- "Build a settings page..."
+- "I need a form for..."
+
+**Output location**: `src/prototypes/`
+
+**NOT for**: Adding new components to the design system (use `/component-builder` instead)
+
+---
+
+## 🚨 CRITICAL: No New Components
+
+**You MUST use ONLY existing components.** If a component doesn't exist:
+1. Compose from existing primitives/composites
+2. Note it as a "TODO: extract to pattern" comment
+3. Suggest using `/component-builder` to create it later
+
+**Never create new files in `src/design-system/` from this skill.**
 
 ---
 
@@ -127,6 +151,255 @@ const DocuSignLogo = () => (
 
 If the prop doesn't exist, add it to the component source rather than using className overrides.
 
+### 7. Use L5/L6 Showcase Defaults AS-IS
+**Layer 5 (Patterns) and Layer 6 (Layouts) components have opinionated default configurations in the Showcase. USE THEM EXACTLY AS CONFIGURED.**
+
+**Source of truth:** `src/examples/showcase/layers/PatternsShowcase.tsx`
+
+```tsx
+// ✅ CORRECT - Copy the EXACT configuration from PatternsShowcase.tsx
+// For GlobalNav, use the globalNavItems configuration
+// For LocalNav, use the localNavSections configuration
+
+// ❌ WRONG - Don't create custom configurations
+// Don't change icons, labels, or structure without user approval
+```
+
+**Why this matters:**
+- Showcase configurations are carefully designed to match production
+- They include correct icons, labels, badges, and structure
+- Custom configurations create divergence and inconsistency
+
+**Workflow for L5/L6 components:**
+1. Copy the EXACT configuration from `PatternsShowcase.tsx`
+2. Use it as-is in the prototype
+3. If the user wants tweaks, they will explicitly request them
+4. Only then make specific changes they ask for
+
+**Reference configurations:**
+- `GlobalNav`: See `globalNavItems` in PatternsShowcase.tsx
+- `LocalNav`: See `localNavSections` in PatternsShowcase.tsx
+- Future L5/L6 patterns will follow the same principle
+
+---
+
+## 📐 Layout Presets (Quick Start Recipes)
+
+Use these presets as starting points. They encode DocuSign's actual page structures.
+
+### List Page Preset
+**Use for**: Navigator, Templates, Reports list, any data table view
+
+```
+Structure:
+├── DocuSignShell
+│   ├── GlobalNav (64px)
+│   ├── LocalNav (280px)
+│   └── Content Area
+│       ├── PageHeader (title + badge + actions)
+│       ├── InfoBanner (optional, 52px, dismissible)
+│       ├── ActionBar (dropdown + search + filters)
+│       ├── Table (NO Card wrapper!)
+│       └── Pagination (51px)
+
+Spacing Stack:
+GlobalNav → 32px → PageHeader → 16px → InfoBanner → 0px → ActionBar → 24px → Table
+```
+
+**Key Rules:**
+- Tables are NOT wrapped in Cards (DocuSign style)
+- ActionBar elements have 8px gaps between them
+- Search input is 366px wide, 30px tall
+- Filter buttons are 32px tall (compact)
+
+### Dashboard Page Preset
+**Use for**: Home page, overview dashboards
+
+```
+Structure:
+├── GlobalNav (64px) - NO LocalNav!
+├── HeroBanner (purple gradient bg)
+│   ├── Welcome text (24px, white)
+│   └── Quick action buttons
+└── Content (full width, no sidebar)
+    ├── Grid (2-column, 24px gap)
+    │   ├── Card (Tasks)
+    │   └── Card (Stats)
+    └── Card (Activity list)
+```
+
+**Key Rules:**
+- NO left sidebar on dashboard
+- Hero has gradient: rgb(38, 5, 89) → lighter
+- Cards use 2-column grid with 24px gap
+
+### Detail Page Preset
+**Use for**: Agreement detail, document view, single item pages
+
+```
+Structure:
+├── GlobalNav (64px) - NO left sidebar!
+├── DetailHeader
+│   ├── Status Badge (ABOVE title)
+│   ├── Title (24px+)
+│   ├── Metadata (links, IDs)
+│   └── Actions (Copy, More)
+├── AlertBanner (optional)
+├── Tabs (44px)
+└── Content + Right Sidebar (250px, optional)
+```
+
+**Key Rules:**
+- NO left LocalNav on detail pages
+- Status badge goes ABOVE the title
+- Optional RIGHT sidebar (not left)
+
+### Settings Page Preset
+**Use for**: Admin, preferences, configuration
+
+```
+Structure:
+├── DocuSignShell
+│   ├── GlobalNav
+│   ├── LocalNav (settings sections)
+│   └── Content (max-width: 800px optional)
+│       ├── FormSection (title + description + fields)
+│       ├── FormSection
+│       └── FormSection
+```
+
+**Key Rules:**
+- Heavier typography: titles 32px/700, sections 24px/700
+- FormSection pattern: header + description + fields
+- Optional max-width constraint on content
+
+---
+
+## 📏 Composition Rules (from DocuSign Production)
+
+These are exact measurements extracted from production.
+
+### Vertical Spacing Stack
+| From | To | Gap | Token |
+|------|-----|-----|-------|
+| GlobalNav | Page content | 32px | --ink-spacing-400 |
+| PageHeader | InfoBanner | 16px | --ink-spacing-200 |
+| InfoBanner | ActionBar | 0px | (adjacent) |
+| ActionBar | Table | 24px | --ink-spacing-300 |
+| Section | Section | 32px | --ink-spacing-400 |
+| Card | Card (in grid) | 24px | --ink-spacing-300 |
+
+### Horizontal Spacing
+| Context | Gap | Token |
+|---------|-----|-------|
+| Filter buttons | 8px | --ink-spacing-100 |
+| Action buttons | 8px | --ink-spacing-100 |
+| Card grid columns | 24px | --ink-spacing-300 |
+| Sidebar to content | 24px | --ink-spacing-300 |
+| Nav item padding | 11px 15px 11px 23px | custom |
+
+### Component Sizing
+| Component | Height | Notes |
+|-----------|--------|-------|
+| GlobalNav | 64px | Fixed header |
+| LocalNav item | 48px | Clickable area |
+| Button (standard) | 40px | Primary, secondary |
+| Button (filter/compact) | 32px | ActionBar filters |
+| Input/Search | 30-32px | Text inputs |
+| Table header row | 49px | Column headers |
+| Table body row | 68px | Data rows |
+| ActionBar | ~52px | Search + filters |
+| InfoBanner | 52px | Dismissible messages |
+| Tabs | 44px | Tab navigation |
+
+---
+
+## 🎨 Visual Hierarchy Rules
+
+### Typography Scale
+| Element | Size | Weight | Line Height | Token |
+|---------|------|--------|-------------|-------|
+| Page title (H1) | 32px | 400 | 40px | --ink-font-heading-m |
+| Section header (H2) | 24px | 400 | 30px | --ink-font-heading-s |
+| Card title (H3) | 16px | 500 | 20px | --ink-font-body-l |
+| Body text | 14px | 400 | - | --ink-font-body-s |
+| Caption/label | 12px | 500-600 | - | --ink-font-body-xs |
+| Button text | 16px | 500 | - | --ink-font-body-l |
+
+### When to Use Cards
+```
+✅ USE Cards for:
+- Dashboard widgets/stats
+- Form sections in settings
+- Standalone content blocks
+- Promo/feature highlights
+
+❌ DON'T use Cards for:
+- Tables (DocuSign tables are bare, no card wrapper)
+- Full-width content areas
+- Navigation elements
+- Page headers
+```
+
+### Status Badge Placement
+- **List pages**: Badge INLINE next to page title
+- **Detail pages**: Badge ABOVE the title (separate line)
+
+### Border Radius
+- **Universal**: 4px (--ink-radius-size-xs) for all cards, buttons, inputs
+
+---
+
+## 📚 Reference Documents
+
+Before generating prototypes, consult these approved learnings:
+
+| Document | Contains | Path |
+|----------|----------|------|
+| Layout Rules | Spacing, typography, colors, hover states | `learnings/LAYOUT_RULES.md` |
+| Page Templates | 8 page structure recipes with ASCII diagrams | `learnings/PAGE_TEMPLATES.md` |
+| Patterns to Build | 11 L5 patterns we need to create | `learnings/PATTERNS_TO_ADD.md` |
+| Layouts to Build | 7 L6 layouts we need to create | `learnings/LAYOUTS_TO_ADD.md` |
+| TypeScript Config | Programmatic layout presets | `learnings/layout-presets.ts` |
+
+**How to use**: If user requests a "list page", check PAGE_TEMPLATES.md for the exact structure.
+
+---
+
+## ⚠️ Pattern Availability
+
+Some patterns referenced in page templates **don't exist yet**. Know what's available:
+
+### Available (can use now)
+| Pattern | Layer | Status |
+|---------|-------|--------|
+| GlobalNav | L5 | ✅ Available |
+| LocalNav | L5 | ✅ Available |
+| PageHeader | L5 | ✅ Available |
+| DataTable | L5 | ✅ Available |
+| DocuSignShell | L6 | ✅ Available |
+| Banner | L3 | ✅ Available (use for InfoBanner) |
+| Tabs | L4 | ✅ Available |
+| Table | L4 | ✅ Available |
+| SearchInput | L4 | ✅ Available |
+
+### Missing (must compose or note as TODO)
+| Pattern | Layer | Workaround | Use `/component-builder` to create |
+|---------|-------|------------|-----------------------------------|
+| ActionBar | L5 | Compose: Inline(Dropdown, SearchInput, Buttons) | Yes |
+| DetailHeader | L5 | Compose: Badge + Heading + Text + Actions | Yes |
+| FormSection | L5 | Compose: Stack(Heading, Text, children) | Yes |
+| EmptyState | L5 | Compose: Stack(Icon, Heading, Text, Button) | Yes |
+| StatCard | L4 | Compose: Card.Body(Text, Heading) | Yes |
+| DashboardShell | L6 | Use GlobalNav only, no LocalNav | Yes |
+| DetailShell | L6 | Use GlobalNav only + right sidebar layout | Yes |
+| WizardShell | L6 | Custom layout with Stepper + footer | Yes |
+
+**When using missing patterns**:
+1. Compose from existing components
+2. Add `// TODO: Extract to reusable pattern with /component-builder` comment
+3. Suggest to user they can run `/component-builder` to create it properly
+
 ---
 
 ## Workflow
@@ -199,6 +472,13 @@ Using GlobalNav? Read: src/design-system/5-patterns/GlobalNav/GlobalNav.tsx
 - Indicate interactive elements (buttons, inputs, etc.)
 - Show placeholder content to illustrate structure
 
+**REQUIRED: Include Visual Specs**
+Mockups MUST include:
+1. Component names with heights (e.g., "GlobalNav (64px)")
+2. Spacing values between sections (e.g., "↕ 32px")
+3. Typography specs for key text (e.g., "Title (32px/400)")
+4. Width constraints where relevant (e.g., "Search (366px)")
+
 **Example ASCII Mockup for a Form:**
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -220,26 +500,26 @@ Using GlobalNav? Read: src/design-system/5-patterns/GlobalNav/GlobalNav.tsx
 └─────────────────────────────────────────────────────┘
 ```
 
-**Example ASCII Mockup for Application Shell:**
+**Example ASCII Mockup for Application Shell (with Visual Specs):**
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  ┌─────┐  Product Name          [Search...]      🔔  👤  ⚙️    │  ← GlobalNav
+│  ┌─────┐  Product Name          [Search...]      🔔  👤  ⚙️    │  ← GlobalNav (64px)
 ├──┴─────┴────────────────────────────────────────────────────────┤
-│         │                                                       │
-│  Nav    │   Page Title                                          │
-│  ────   │   ───────────                                         │
-│  • Item │                                                       │
-│  • Item │   ┌──────────┐  ┌──────────┐  ┌──────────┐            │
-│  • Item │   │  Stat 1  │  │  Stat 2  │  │  Stat 3  │            │
-│         │   │   123    │  │   456    │  │   789    │            │
-│  ────   │   └──────────┘  └──────────┘  └──────────┘            │
-│  • Item │                                                       │
-│  • Item │   ┌───────────────────────────────────────┐           │
-│         │   │  Table Header                         │           │
-│    ↑    │   ├───────────────────────────────────────┤           │
-│ LocalNav│   │  Row 1                                │           │
-│         │   │  Row 2                                │           │
-│         │   └───────────────────────────────────────┘           │
+│         │                    ↕ 32px                             │
+│ LocalNav│ ┌─────────────────────────────────────────────────┐   │
+│ (280px) │ │ Page Title (32px/400)  [Badge]   [+New] [⚙️]   │   │  ← PageHeader
+│         │ └─────────────────────────────────────────────────┘   │
+│  ────   │                    ↕ 16px                             │
+│ • Item  │ ┌─────────────────────────────────────────────────┐   │
+│ (48px)  │ │ [Dropdown] [Search 366px] [Filter] [Filter] 8px │   │  ← ActionBar (~52px)
+│ • Item  │ └─────────────────────────────────────────────────┘   │
+│         │                    ↕ 24px                             │
+│  ────   │ ┌─────────────────────────────────────────────────┐   │
+│ • Item  │ │  Header (49px)                                  │   │  ← Table (NO Card!)
+│ • Item  │ ├─────────────────────────────────────────────────┤   │
+│         │ │  Row 1 (68px)                                   │   │
+│         │ │  Row 2 (68px)                                   │   │
+│         │ └─────────────────────────────────────────────────┘   │
 └─────────┴───────────────────────────────────────────────────────┘
 ```
 
@@ -352,10 +632,22 @@ Check:
 - ✅ **DocuSign logo uses `/assets/docusign-logo.svg`** (not custom SVG)
 - ✅ **Card uses Card.Body/Header/Footer** (not padding prop)
 
-### Step 9: Test Build
-- Run `npm run build` to ensure it compiles
-- Run `npm run typecheck` to verify types
-- Verify all components are correctly imported
+### Step 9: Test Build & Validation
+```bash
+# Verify TypeScript compiles
+npm run typecheck
+
+# Build check
+npm run build
+
+# Run design system validation (catches lucide imports, inline styles, hardcoded colors)
+node scripts/validate-design-system.js
+
+# Run component style validation
+node scripts/validate-component-styles.js
+```
+
+**All scripts must exit with code 0 before proceeding.**
 
 ### Step 10: Dev Server Check
 **IMPORTANT:** After the build passes, verify the prototype actually loads:
@@ -573,10 +865,10 @@ Should I proceed with this approach?
 ## Error Handling
 
 If you can't find a suitable component:
-1. Don't create a custom component
-2. Suggest the closest alternatives
-3. Ask if composition of multiple components would work
-4. Suggest adding the component to the design system (with user approval)
+1. **Don't create a custom component** in `src/design-system/`
+2. Suggest the closest alternatives from existing components
+3. Compose from multiple existing components
+4. Suggest using `/component-builder` to create it as a proper reusable component
 
 Example:
 ```
@@ -585,8 +877,18 @@ Example:
 - Button for prev/next controls
 - Card for slides
 
-This won't have advanced animations. Would you like me to proceed with this approach, or should we consider adding a Carousel to the design system?"
+This won't have advanced animations. Would you like me to:
+1. Proceed with this composed approach for the prototype?
+2. Use `/component-builder` to create a proper Carousel component first?
 ```
+
+---
+
+## 🔗 Related Skills
+
+- `/component-builder` - Create new reusable components for the design system
+- `/component-finder` - Search for existing components
+- `/validate-prototype` - Validate implementation
 
 ## Success Criteria
 

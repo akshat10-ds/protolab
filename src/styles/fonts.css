@@ -44,11 +44,24 @@
   font-display: swap;
 }
 
-/* Bold */
+/* Bold - DISABLED: DSIndigo-Bold font file doesn't contain distinct bold glyphs.
+   Browser will synthesize bold from Regular font instead, which looks better.
 @font-face {
   font-family: 'DS Indigo';
   font-style: normal;
   font-weight: 700;
+  src: url('/fonts/DSIndigo-Bold/DSIndigo-Bold.woff2') format('woff2'),
+       url('/fonts/DSIndigo-Bold/DSIndigo-Bold.woff') format('woff'),
+       url('/fonts/DSIndigo-Bold/DSIndigo-Bold.ttf') format('truetype');
+  font-display: swap;
+}
+*/
+
+/* Bold - Direct family name for explicit usage */
+@font-face {
+  font-family: 'DS Indigo Bold';
+  font-style: normal;
+  font-weight: 400;
   src: url('/fonts/DSIndigo-Bold/DSIndigo-Bold.woff2') format('woff2'),
        url('/fonts/DSIndigo-Bold/DSIndigo-Bold.woff') format('woff'),
        url('/fonts/DSIndigo-Bold/DSIndigo-Bold.ttf') format('truetype');

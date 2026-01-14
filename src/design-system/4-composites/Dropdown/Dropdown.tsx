@@ -1,9 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import styles from './Dropdown.module.css';
 import { Icon } from '../../3-primitives/Icon';
+import { Portal } from '../../2-utilities/Portal';
 
 export type DropdownPosition = 'top' | 'bottom' | 'left' | 'right';
 export type DropdownAlign = 'start' | 'center' | 'end';
+
+interface Coords {
+  top: number;
+  left: number;
+}
 
 export interface DropdownItemProps {
   /** Item label */
@@ -22,6 +28,8 @@ export interface DropdownItemProps {
   shortcut?: string;
   /** Sub-menu items */
   children?: DropdownItemProps[];
+  /** Whether this item is selected (shows checkmark) */
+  selected?: boolean;
 }
 
 export interface DropdownProps {
@@ -41,6 +49,10 @@ export interface DropdownProps {
   onOpenChange?: (open: boolean) => void;
   /** Close on item click */
   closeOnItemClick?: boolean;
+  /** Section header text (e.g., "Select a view") */
+  header?: string;
+  /** Show icons with background box styling */
+  iconStyle?: 'default' | 'boxed';
   /** Data QA attribute for testing */
   'data-qa'?: string;
 }
@@ -54,6 +66,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
   defaultOpen = false,
   onOpenChange,
   closeOnItemClick = true,
+  header,
+  iconStyle = 'default',
   'data-qa': dataQa,
 }) => {
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
@@ -62,10 +76,85 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const isControlled = controlledOpen !== undefined;
   const open = isControlled ? controlledOpen : internalOpen;
 
-  const [coords, setCoords] = useState({ top: 0, left: 0 });
-  const triggerRef = useRef<HTMLElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Calculate position based on wrapper element
+  const calculatePosition = (wrapperEl: HTMLElement): Coords => {
+    const triggerRect = wrapperEl.getBoundingClientRect();
+    const gap = 4; // Gap between trigger and dropdown
+
+    // Parse combined position values like "bottom-start" into separate position and align
+    // This supports both combined format (e.g., "bottom-start") and separate props
+    let effectivePosition = position;
+    let effectiveAlign = align;
+
+    if (position.includes('-')) {
+      const [pos, al] = position.split('-') as [DropdownPosition, DropdownAlign];
+      effectivePosition = pos;
+      effectiveAlign = al;
+    }
+
+    let top = 0;
+    let left = 0;
+
+    // Calculate based on position prop
+    switch (effectivePosition) {
+      case 'bottom':
+        top = triggerRect.bottom + gap;
+        break;
+      case 'top':
+        top = triggerRect.top - gap;
+        break;
+      case 'left':
+        left = triggerRect.left - gap;
+        top = triggerRect.top;
+        break;
+      case 'right':
+        left = triggerRect.right + gap;
+        top = triggerRect.top;
+        break;
+    }
+
+    // Calculate based on align prop (for top/bottom positions)
+    if (effectivePosition === 'top' || effectivePosition === 'bottom') {
+      switch (effectiveAlign) {
+        case 'start':
+          left = triggerRect.left;
+          break;
+        case 'center':
+          left = triggerRect.left + triggerRect.width / 2;
+          break;
+        case 'end':
+          left = triggerRect.right;
+          break;
+      }
+    }
+
+    return { top, left };
+  };
+
+  // Position dropdown after it mounts using double RAF to ensure layout is complete
+  useLayoutEffect(() => {
+    if (!open || !dropdownRef.current || !wrapperRef.current) return;
+
+    // Double RAF ensures the DOM is fully laid out
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (dropdownRef.current && wrapperRef.current) {
+          // Use the trigger button (first child) for accurate positioning
+          const triggerElement =
+            (wrapperRef.current.firstElementChild as HTMLElement) || wrapperRef.current;
+          const coords = calculatePosition(triggerElement);
+
+          dropdownRef.current.style.top = `${coords.top}px`;
+          dropdownRef.current.style.left = `${coords.left}px`;
+          dropdownRef.current.style.visibility = 'visible';
+        }
+      });
+    });
+  }, [open, position, align]);
 
   const setOpen = (newOpen: boolean) => {
     if (!isControlled) {
@@ -76,70 +165,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
       setActiveIndex(-1);
       setSubmenuOpenIndex(-1);
     }
-  };
-
-  const calculatePosition = () => {
-    if (!triggerRef.current || !dropdownRef.current) return;
-
-    const triggerRect = triggerRef.current.getBoundingClientRect();
-    const dropdownRect = dropdownRef.current.getBoundingClientRect();
-    const gap = 4;
-
-    let top = 0;
-    let left = 0;
-
-    switch (position) {
-      case 'top':
-        top = triggerRect.top - dropdownRect.height - gap;
-        break;
-      case 'bottom':
-        top = triggerRect.bottom + gap;
-        break;
-      case 'left':
-        left = triggerRect.left - dropdownRect.width - gap;
-        break;
-      case 'right':
-        left = triggerRect.right + gap;
-        break;
-    }
-
-    if (position === 'top' || position === 'bottom') {
-      switch (align) {
-        case 'start':
-          left = triggerRect.left;
-          break;
-        case 'center':
-          left = triggerRect.left + (triggerRect.width - dropdownRect.width) / 2;
-          break;
-        case 'end':
-          left = triggerRect.right - dropdownRect.width;
-          break;
-      }
-    } else {
-      switch (align) {
-        case 'start':
-          top = triggerRect.top;
-          break;
-        case 'center':
-          top = triggerRect.top + (triggerRect.height - dropdownRect.height) / 2;
-          break;
-        case 'end':
-          top = triggerRect.bottom - dropdownRect.height;
-          break;
-      }
-    }
-
-    const padding = 8;
-    if (left < padding) left = padding;
-    if (left + dropdownRect.width > window.innerWidth - padding) {
-      left = window.innerWidth - dropdownRect.width - padding;
-    }
-    if (top < padding) top = padding;
-    if (top + dropdownRect.height > window.innerHeight - padding) {
-      top = window.innerHeight - dropdownRect.height - padding;
-    }
-
-    setCoords({ top, left });
   };
 
   const handleTriggerClick = (e: React.MouseEvent) => {
@@ -191,7 +216,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
       case 'Escape':
         e.preventDefault();
         setOpen(false);
-        triggerRef.current?.focus();
+        // Focus the first focusable element in wrapper (the trigger)
+        const firstFocusable = wrapperRef.current?.querySelector('button, [tabindex]');
+        (firstFocusable as HTMLElement)?.focus();
         break;
     }
   };
@@ -208,9 +235,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
     const handleClickOutside = (e: MouseEvent) => {
       if (
         dropdownRef.current &&
-        triggerRef.current &&
+        wrapperRef.current &&
         !dropdownRef.current.contains(e.target as Node) &&
-        !triggerRef.current.contains(e.target as Node)
+        !wrapperRef.current.contains(e.target as Node)
       ) {
         setOpen(false);
       }
@@ -220,16 +247,18 @@ export const Dropdown: React.FC<DropdownProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [open]);
 
+  // Update position on scroll/resize
   useEffect(() => {
-    if (open) {
-      calculatePosition();
-    }
-  }, [open]);
+    if (!open || !dropdownRef.current || !wrapperRef.current) return;
 
-  useEffect(() => {
-    if (!open) return;
+    const handleUpdate = () => {
+      if (dropdownRef.current && wrapperRef.current) {
+        const newCoords = calculatePosition(wrapperRef.current);
+        dropdownRef.current.style.top = `${newCoords.top}px`;
+        dropdownRef.current.style.left = `${newCoords.left}px`;
+      }
+    };
 
-    const handleUpdate = () => calculatePosition();
     window.addEventListener('scroll', handleUpdate, true);
     window.addEventListener('resize', handleUpdate);
 
@@ -237,7 +266,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
       window.removeEventListener('scroll', handleUpdate, true);
       window.removeEventListener('resize', handleUpdate);
     };
-  }, [open]);
+  }, [open, position, align]);
 
   const renderItem = (item: DropdownItemProps, index: number) => {
     if (item.divider) {
@@ -246,6 +275,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
     const hasSubmenu = item.children && item.children.length > 0;
     const isSubmenuOpen = submenuOpenIndex === index;
+    const iconClassName =
+      iconStyle === 'boxed' ? `${styles.icon} ${styles.iconBoxed}` : styles.icon;
 
     return (
       <button
@@ -255,13 +286,14 @@ export const Dropdown: React.FC<DropdownProps> = ({
         }}
         className={`${styles.item} ${item.disabled ? styles.disabled : ''} ${
           activeIndex === index ? styles.active : ''
-        }`}
+        } ${item.selected ? styles.selected : ''}`}
         onClick={() => handleItemClick(item, index)}
         disabled={item.disabled}
         type="button"
         role="menuitem"
+        aria-selected={item.selected}
       >
-        {item.icon && <span className={styles.icon}>{item.icon}</span>}
+        {item.icon && <span className={iconClassName}>{item.icon}</span>}
         <div className={styles.content}>
           <span className={styles.label}>{item.label}</span>
           {item.description && <span className={styles.description}>{item.description}</span>}
@@ -272,36 +304,43 @@ export const Dropdown: React.FC<DropdownProps> = ({
             <Icon name="chevron-right" size="small" />
           </span>
         )}
+        {item.selected && (
+          <span className={styles.checkmark}>
+            <Icon name="check" size="small" />
+          </span>
+        )}
       </button>
     );
   };
 
   const trigger = React.cloneElement(children, {
-    ref: triggerRef,
     onClick: handleTriggerClick,
     'aria-expanded': open,
     'aria-haspopup': 'menu',
   });
 
+  // Build alignment class for transform-based centering
+  const alignClass = styles[`align${align.charAt(0).toUpperCase() + align.slice(1)}`] || '';
+
   return (
-    <>
+    <div className={styles.wrapper} ref={wrapperRef}>
       {trigger}
       {open && (
-        <div
-          ref={dropdownRef}
-          className={styles.dropdown}
-          style={{
-            top: `${coords.top}px`,
-            left: `${coords.left}px`,
-          }}
-          role="menu"
-          onKeyDown={handleKeyDown}
-          data-qa={dataQa}
-        >
-          {items.map((item, index) => renderItem(item, index))}
-        </div>
+        <Portal>
+          <div
+            ref={dropdownRef}
+            className={`${styles.dropdown} ${alignClass}`}
+            style={{ position: 'fixed', visibility: 'hidden' }}
+            role="menu"
+            onKeyDown={handleKeyDown}
+            data-qa={dataQa}
+          >
+            {header && <div className={styles.header}>{header}</div>}
+            {items.map((item, index) => renderItem(item, index))}
+          </div>
+        </Portal>
       )}
-    </>
+    </div>
   );
 };
 

@@ -2,10 +2,16 @@
  * InteractivePreview - Live component preview that responds to liveProps
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import * as DesignSystem from '@/design-system';
 import { componentRegistry } from '@/editor/registry/componentRegistry';
+import DocuSignLogo from '@/assets/Docusign Horizontal Black.svg';
 import styles from './InteractivePreview.module.css';
+
+// DocuSign logo component for GlobalNav
+const docuSignLogo = (
+  <img src={DocuSignLogo} alt="DocuSign" style={{ height: '24px', width: 'auto' }} />
+);
 
 // Component map for dynamic rendering
 const componentMap: Record<string, React.ComponentType<Record<string, unknown>>> = {
@@ -156,7 +162,7 @@ const defaultComponentProps: Record<string, Record<string, unknown>> = {
   Checkbox: { label: 'Checkbox option', showLabel: true, showErrorMessage: true },
   Radio: { label: 'Radio option', name: 'preview-radio' },
   Switch: { label: 'Toggle option' },
-  Slider: { label: 'Slider', defaultValue: 50 },
+  Slider: { label: 'Slider', value: 50, onChange: () => {} },
 
   // Data Primitives
   Badge: { children: 'Badge', variant: 'subtle' },
@@ -197,6 +203,22 @@ const defaultComponentProps: Record<string, Record<string, unknown>> = {
   },
 
   // Composites
+  ComboBox: {
+    options: [
+      { value: 'option1', label: 'Option 1' },
+      { value: 'option2', label: 'Option 2' },
+      { value: 'option3', label: 'Option 3' },
+    ],
+    placeholder: 'Select an option',
+  },
+  Dropdown: {
+    children: <DesignSystem.Button kind="secondary">Open Menu</DesignSystem.Button>,
+    items: [
+      { label: 'Edit', icon: <DesignSystem.Icon name="edit" size="small" /> },
+      { label: 'Duplicate', icon: <DesignSystem.Icon name="duplicate" size="small" /> },
+      { label: 'Delete', icon: <DesignSystem.Icon name="trash" size="small" /> },
+    ],
+  },
   Table: {
     columns: [
       { key: 'name', header: 'Name' },
@@ -263,11 +285,22 @@ const defaultComponentProps: Record<string, Record<string, unknown>> = {
     ],
   },
   GlobalNav: {
-    logo: 'DocuSign',
+    logo: docuSignLogo,
     navItems: [
-      { id: 'home', label: 'Home', active: true },
-      { id: 'docs', label: 'Documents' },
+      { id: 'home', label: 'Home' },
+      { id: 'agreements', label: 'Agreements', active: true },
+      { id: 'templates', label: 'Templates' },
+      { id: 'reports', label: 'Reports' },
+      { id: 'admin', label: 'Admin' },
     ],
+    showAppSwitcher: false,
+    showSearch: true,
+    searchVariant: 'pill',
+    showNotifications: true,
+    notificationCount: 1,
+    showSettings: true,
+    settingsIcon: 'filter',
+    user: { name: 'AM' },
   },
 };
 
@@ -278,6 +311,17 @@ interface InteractivePreviewProps {
 
 export function InteractivePreview({ activeSubpage, liveProps }: InteractivePreviewProps) {
   const componentType = subpageToComponent[activeSubpage];
+
+  // State for Slider value (to make buttons functional)
+  const [sliderValue, setSliderValue] = useState(50);
+
+  // Reset slider value when switching components or when value prop changes
+  useEffect(() => {
+    if (componentType === 'Slider') {
+      const newValue = (liveProps.value as number) ?? 50;
+      setSliderValue(newValue);
+    }
+  }, [componentType, liveProps.value]);
 
   if (!componentType) {
     return null;
@@ -305,10 +349,14 @@ export function InteractivePreview({ activeSubpage, liveProps }: InteractivePrev
     }
     if (value !== '' && value !== undefined) {
       // Convert icon props (startElement, endElement) from string to Icon component
+      // Exception: Slider expects strings for icon names (used as IconButton icon prop)
       if ((key === 'startElement' || key === 'endElement') && typeof value === 'string') {
         // Skip if value is 'none' - don't pass the prop
         if (value === 'none') {
           delete mergedProps[key];
+        } else if (componentType === 'Slider') {
+          // Slider expects string icon names for IconButton
+          mergedProps[key] = value;
         } else {
           mergedProps[key] = <DesignSystem.Icon name={value as string} size="small" />;
         }
@@ -323,6 +371,18 @@ export function InteractivePreview({ activeSubpage, liveProps }: InteractivePrev
       }
     }
   });
+
+  // Special handling for Slider - make buttons functional
+  if (componentType === 'Slider') {
+    const min = (mergedProps.min as number) ?? 0;
+    const max = (mergedProps.max as number) ?? 100;
+    const step = (mergedProps.step as number) ?? 1;
+
+    mergedProps.value = sliderValue;
+    mergedProps.onChange = (newValue: number) => setSliderValue(newValue);
+    mergedProps.onStartClick = () => setSliderValue((prev) => Math.max(min, prev - step));
+    mergedProps.onEndClick = () => setSliderValue((prev) => Math.min(max, prev + step));
+  }
 
   // Extract children if present (only for non-void components)
   const { children, ...restProps } = mergedProps;
