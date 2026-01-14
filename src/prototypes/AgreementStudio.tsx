@@ -1009,7 +1009,8 @@ const AIPanel: React.FC<AIPanelProps> = ({
     // The steps already contain formatted content (ROLE:, TASK:, etc.)
     const formattedSteps = action.expansion.steps.join('\n\n');
 
-    return `${formattedSteps}\n\n---\n[Analyzing ${action.expansion.documentsToAnalyze} documents]`;
+    // Include action label marker at end for scripted response matching
+    return `${formattedSteps}\n\n---\n[Action: ${action.label}]\n[Analyzing ${action.expansion.documentsToAnalyze} documents]`;
   }, []);
 
   // Narrow mode: canvas takes full width with back button
@@ -1188,12 +1189,12 @@ const AIPanel: React.FC<AIPanelProps> = ({
     setIsLoading(true);
 
     // Check if this is a scripted prompt (rich message or conflict)
-    // Match by exact key OR if content starts with the key (for expanded prompts)
+    // Match by exact key, content starting with key, OR action marker in expanded prompts
     const scriptedKey = Object.keys(SCRIPTED_RESPONSES).find(
-      key => content === key || content.startsWith(`${key}:`)
+      key => content === key || content.startsWith(`${key}:`) || content.includes(`[Action: ${key}]`)
     );
     const conflictKey = Object.keys(CONFLICT_RESPONSES).find(
-      key => content === key || content.startsWith(`${key}:`)
+      key => content === key || content.startsWith(`${key}:`) || content.includes(`[Action: ${key}]`)
     );
     const scriptedResponse = scriptedKey ? SCRIPTED_RESPONSES[scriptedKey] : undefined;
     const conflictResponse = conflictKey ? CONFLICT_RESPONSES[conflictKey] : undefined;
