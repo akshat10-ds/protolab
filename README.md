@@ -1,5 +1,7 @@
 # Ink Design System Starter
 
+**Live Demo:** [protolab-ink.vercel.app](https://protolab-ink.vercel.app)
+
 A complete design system starter kit for rapid prototyping and building production-ready interfaces. Built with React, TypeScript, and CSS Modules.
 
 ## Features
