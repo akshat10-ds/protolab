@@ -1001,11 +1001,15 @@ const AIPanel: React.FC<AIPanelProps> = ({
 
   const useInlineHistory = panelWidth >= INLINE_HISTORY_THRESHOLD;
 
-  // Generate full prompt text from quick action
+  // Generate full prompt text from quick action with readable formatting
   const generateExpandedPromptText = useCallback((action: ExtendedSuggestedAction): string => {
     if (!action.expansion) return action.label;
-    const steps = action.expansion.steps.join(', ');
-    return `${action.label}: ${steps}. Analyze ${action.expansion.documentsToAnalyze} documents.`;
+
+    const numberedSteps = action.expansion.steps
+      .map((step, index) => `${index + 1}. ${step}`)
+      .join('\n\n');
+
+    return `${action.label}\n\n${numberedSteps}\n\n[Analyzing ${action.expansion.documentsToAnalyze} documents]`;
   }, []);
 
   // Narrow mode: canvas takes full width with back button
