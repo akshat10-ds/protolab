@@ -139,27 +139,28 @@
   background-color: var(--ink-cta-bg-color-tertiary-active); /* rgba(19,0,50,0.15) */
 }
 
-/* Clear Button - IconButton style */
+/* Clear Button - IconButton tertiary style (no opacity changes) */
 .clearButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: 4px;
   background: transparent;
   border: none;
+  border-radius: var(--ink-radius-size-xs);
   color: var(--ink-font-color-default);
   cursor: pointer;
   pointer-events: all;
-  transition: opacity var(--ink-transition-fast);
+  transition: background-color var(--ink-transition-fast);
   flex-shrink: 0;
 }
 
 .clearButton:hover {
-  opacity: 0.7;
+  background-color: var(--ink-cta-bg-color-tertiary-hover); /* rgba(19,0,50,0.1) */
 }
 
 .clearButton:active {
-  opacity: 0.5;
+  background-color: var(--ink-cta-bg-color-tertiary-active); /* rgba(19,0,50,0.15) */
 }
 
 .clearButton:focus-visible {

@@ -10,3 +10,6 @@
 
 export { DocuSignShell } from './DocuSignShell';
 export type { DocuSignShellProps } from './DocuSignShell';
+
+export { AgreementTableView } from './AgreementTableView';
+export type { AgreementTableViewProps } from './AgreementTableView';

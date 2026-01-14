@@ -67,7 +67,7 @@ export type { BannerProps, BannerKind, BannerShape, BannerAction } from './Banne
 export { Callout } from './Callout';
 export type { CalloutProps } from './Callout';
 
-export { AIBadge } from './AIBadge';
+export { AIBadge, IrisIcon } from './AIBadge';
 export type { AIBadgeProps } from './AIBadge';
 
 // Navigation Components (Composite)

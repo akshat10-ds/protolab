@@ -3,7 +3,8 @@
 .shell {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100%;
+  min-height: 0;
   background: var(--ink-bg-canvas);
 }
 
@@ -17,12 +18,13 @@
 .body {
   display: flex;
   flex: 1;
+  min-height: 0;
   overflow: hidden;
 }
 
 .sidebar {
   flex-shrink: 0;
-  border-right: 1px solid var(--ink-border-color-default);
+  /* No border-right per DocuSign production - separation via background color difference */
   background: var(--ink-bg-color-default);
 }
 
@@ -30,5 +32,5 @@
   flex: 1;
   overflow-y: auto;
   min-width: 0;
-  background: var(--ink-bg-color-default);
+  background: var(--ink-white-100); /* Pure white content area per DocuSign production */
 }

@@ -1,142 +1,123 @@
-import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import styles from './Table.module.css';
 import { Icon } from '../../3-primitives/Icon';
+import { IconButton } from '../../3-primitives/IconButton';
 import { Checkbox } from '../../3-primitives/Checkbox';
+import { TableActionBar } from './TableActionBar';
+import { TableColumnControl } from './TableColumnControl';
+import { TablePagination } from './TablePagination';
+import type {
+  TableProps,
+  TableColumn,
+  TableSize,
+  TableVariant,
+  TableAlign,
+  SortDirection,
+  ColumnControlSaveData,
+} from './types';
 
-export type TableSize = 'small' | 'medium' | 'large';
-export type TableVariant = 'default' | 'bordered' | 'striped';
-export type TableAlign = 'left' | 'center' | 'right';
-export type SortDirection = 'asc' | 'desc' | null;
+// Re-export types for convenience
+export type { TableProps, TableColumn, TableSize, TableVariant, TableAlign, SortDirection };
 
-// Column Definition
-export interface TableColumn<T = any> {
-  /** Unique key for the column */
-  key: string;
-  /** Display header for the column */
-  header: React.ReactNode;
-  /** Width of the column (CSS value) */
-  width?: string;
-  /** Text alignment */
-  align?: TableAlign;
-  /** Whether column is sortable */
-  sortable?: boolean;
-  /** Custom cell render function (Figma pattern) - receives the row */
-  cell?: (row: T) => React.ReactNode;
-  /** Custom render function for cell (legacy pattern) - receives value, row, and index */
-  render?: (value: any, row: T, index: number) => React.ReactNode;
-  /** Custom sort function */
-  sortFn?: (a: T, b: T) => number;
-}
-
-// Table Props
-export interface TableProps<T = any> {
-  /** Column definitions */
-  columns: TableColumn<T>[];
-  /** Data rows */
-  data: T[];
-  /** Visual variant */
-  variant?: TableVariant;
-  /** Size variant */
-  size?: TableSize;
-  /** Whether to show row hover state */
-  hoverable?: boolean;
-  /** Whether rows are selectable */
-  selectable?: boolean;
-  /** Selected row keys */
-  selectedRows?: Set<string | number>;
-  /** Callback when selection changes */
-  onSelectionChange?: (selected: Set<string | number>) => void;
-  /** Row key extractor */
-  getRowKey?: (row: T, index: number) => string | number;
-  /** Row click handler */
-  onRowClick?: (row: T, index: number) => void;
-  /** Sort configuration */
-  sortColumn?: string;
-  sortDirection?: SortDirection;
-  /** Sort change handler */
-  onSortChange?: (column: string, direction: SortDirection) => void;
-  /** Loading state */
-  loading?: boolean;
-  /** Empty state message */
-  emptyMessage?: React.ReactNode;
-  /** Whether table is responsive (stacks on mobile) */
-  responsive?: boolean;
-  /** Additional className */
-  className?: string;
-  /** Sticky header */
-  stickyHeader?: boolean;
-  /** Max height for scrollable table */
-  maxHeight?: string;
-}
-
+/**
+ * Table - Production-ready data table component
+ *
+ * Features:
+ * - Column sorting (ascending/descending/none cycle)
+ * - Row selection with checkboxes
+ * - Column visibility control via modal
+ * - Selection action bar
+ * - Pagination footer
+ * - Favorite/star column (optional)
+ * - Multiple visual variants
+ * - Responsive mobile layout
+ */
 export function Table<T = any>({
+  // Core props
   columns,
   data,
   variant = 'default',
   size = 'medium',
   hoverable = false,
-  selectable = false,
-  selectedRows = new Set(),
-  onSelectionChange,
-  getRowKey = (row, index) => index,
   onRowClick,
-  sortColumn,
-  sortDirection,
-  onSortChange,
   loading = false,
   emptyMessage = 'No data available',
   responsive = true,
   className = '',
   stickyHeader = false,
   maxHeight,
+  // Selection props
+  selectable = false,
+  selectedRows,
+  onSelectionChange,
+  getRowKey = (row, index) => index,
+  // Sorting props
+  sortColumn,
+  sortDirection,
+  onSortChange,
+  // Column control props (NEW)
+  showColumnControl = false,
+  onColumnControlSave,
+  initialColumns,
+  // Action bar props (NEW)
+  selectionActions = [],
+  actionBarContent,
+  // Pagination props (NEW)
+  pagination,
+  // Favorite column props (NEW)
+  showFavoriteColumn = false,
+  favoriteRows,
+  onFavoriteChange,
+  // Testing props
+  'data-qa': dataQa,
 }: TableProps<T>) {
-  const [localSelectedRows, setLocalSelectedRows] = useState(selectedRows);
+  // -------------------------------------------------------------------------
+  // State
+  // -------------------------------------------------------------------------
+
+  const [localSelectedRows, setLocalSelectedRows] = useState<Set<string | number>>(
+    selectedRows || new Set()
+  );
+  const [columnControlOpen, setColumnControlOpen] = useState(false);
+  const [workingColumns, setWorkingColumns] = useState<TableColumn<T>[]>(() =>
+    columns.map((col, index) => ({
+      ...col,
+      order: col.order ?? index,
+      isVisible: col.isVisible ?? true,
+    }))
+  );
+
+  // Sync working columns when columns prop changes
+  React.useEffect(() => {
+    setWorkingColumns(
+      columns.map((col, index) => ({
+        ...col,
+        order: col.order ?? index,
+        isVisible: col.isVisible ?? true,
+      }))
+    );
+  }, [columns]);
+
+  // -------------------------------------------------------------------------
+  // Derived state
+  // -------------------------------------------------------------------------
 
   // Use controlled or uncontrolled selection
-  const selection = onSelectionChange ? selectedRows : localSelectedRows;
+  const selection = onSelectionChange ? selectedRows || new Set() : localSelectedRows;
   const setSelection = onSelectionChange || setLocalSelectedRows;
 
-  // Handle select all
-  const handleSelectAll = useCallback(() => {
-    if (selection.size === data.length) {
-      setSelection(new Set());
-    } else {
-      const allKeys = data.map((row, index) => getRowKey(row, index));
-      setSelection(new Set(allKeys));
-    }
-  }, [data, selection, setSelection, getRowKey]);
-
-  // Handle row selection
-  const handleRowSelect = useCallback((rowKey: string | number) => {
-    const newSelection = new Set(selection);
-    if (newSelection.has(rowKey)) {
-      newSelection.delete(rowKey);
-    } else {
-      newSelection.add(rowKey);
-    }
-    setSelection(newSelection);
-  }, [selection, setSelection]);
-
-  // Handle sort
-  const handleSort = useCallback((columnKey: string) => {
-    if (!onSortChange) return;
-
-    let newDirection: SortDirection = 'asc';
-    if (sortColumn === columnKey) {
-      if (sortDirection === 'asc') {
-        newDirection = 'desc';
-      } else if (sortDirection === 'desc') {
-        newDirection = null;
-      }
-    }
-    onSortChange(columnKey, newDirection);
-  }, [sortColumn, sortDirection, onSortChange]);
+  // Filter and sort visible columns
+  const visibleColumns = useMemo(() => {
+    return workingColumns
+      .filter((col) => col.isVisible !== false)
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  }, [workingColumns]);
 
   // Sort data if needed
   const sortedData = useMemo(() => {
     if (!sortColumn || !sortDirection) return data;
 
-    const column = columns.find(col => col.key === sortColumn);
+    const column = columns.find((col) => col.key === sortColumn);
     if (!column) return data;
 
     const sorted = [...data].sort((a, b) => {
@@ -155,144 +136,341 @@ export function Table<T = any>({
     return sorted;
   }, [data, columns, sortColumn, sortDirection]);
 
+  // Selection state
+  const isAllSelected = selection.size > 0 && selection.size === data.length;
+  const isIndeterminate = selection.size > 0 && selection.size < data.length;
+
+  // -------------------------------------------------------------------------
+  // Handlers
+  // -------------------------------------------------------------------------
+
+  // Handle select all
+  const handleSelectAll = useCallback(() => {
+    if (selection.size === data.length) {
+      setSelection(new Set());
+    } else {
+      const allKeys = data.map((row, index) => getRowKey(row, index));
+      setSelection(new Set(allKeys));
+    }
+  }, [data, selection.size, setSelection, getRowKey]);
+
+  // Handle row selection
+  const handleRowSelect = useCallback(
+    (rowKey: string | number) => {
+      const newSelection = new Set(selection);
+      if (newSelection.has(rowKey)) {
+        newSelection.delete(rowKey);
+      } else {
+        newSelection.add(rowKey);
+      }
+      setSelection(newSelection);
+    },
+    [selection, setSelection]
+  );
+
+  // Handle sort
+  const handleSort = useCallback(
+    (columnKey: string) => {
+      if (!onSortChange) return;
+
+      let newDirection: SortDirection = 'asc';
+      if (sortColumn === columnKey) {
+        if (sortDirection === 'asc') {
+          newDirection = 'desc';
+        } else if (sortDirection === 'desc') {
+          newDirection = null;
+        }
+      }
+      onSortChange(columnKey, newDirection);
+    },
+    [sortColumn, sortDirection, onSortChange]
+  );
+
+  // Handle favorite toggle
+  const handleFavoriteToggle = useCallback(
+    (e: React.MouseEvent, rowKey: string | number) => {
+      e.stopPropagation();
+      if (onFavoriteChange) {
+        const isFavorite = favoriteRows?.has(rowKey) ?? false;
+        onFavoriteChange(rowKey, !isFavorite);
+      }
+    },
+    [favoriteRows, onFavoriteChange]
+  );
+
+  // Handle column control save
+  const handleColumnControlSave = useCallback(
+    (newColumns: TableColumn<T>[]) => {
+      setWorkingColumns(newColumns);
+      setColumnControlOpen(false);
+
+      if (onColumnControlSave) {
+        const visibilityChanges = new Map<string, boolean>();
+        const orderChanges = new Map<string, number>();
+
+        newColumns.forEach((col, index) => {
+          const original = columns.find((c) => c.key === col.key);
+          if (original) {
+            if ((col.isVisible !== false) !== (original.isVisible !== false)) {
+              visibilityChanges.set(col.key, col.isVisible !== false);
+            }
+            if ((col.order ?? index) !== (original.order ?? index)) {
+              orderChanges.set(col.key, col.order ?? index);
+            }
+          }
+        });
+
+        onColumnControlSave({
+          columns: newColumns,
+          visibilityChanges,
+          orderChanges,
+        });
+      }
+    },
+    [columns, onColumnControlSave]
+  );
+
+  // -------------------------------------------------------------------------
+  // Render helpers
+  // -------------------------------------------------------------------------
+
   const containerStyle: React.CSSProperties = maxHeight
     ? { maxHeight, overflow: 'auto' }
     : {};
 
-  const isAllSelected = selection.size > 0 && selection.size === data.length;
-  const isIndeterminate = selection.size > 0 && selection.size < data.length;
+  const tableClasses = `
+    ${styles.table}
+    ${styles[variant]}
+    ${styles[size]}
+    ${hoverable ? styles.hoverable : ''}
+    ${stickyHeader ? styles.stickyHeader : ''}
+  `.trim();
+
+  // -------------------------------------------------------------------------
+  // Loading state
+  // -------------------------------------------------------------------------
 
   if (loading) {
     return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.spinner}>Loading...</div>
+      <div className={styles.tableWrapper} data-qa={dataQa}>
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner}>Loading...</div>
+        </div>
       </div>
     );
   }
+
+  // -------------------------------------------------------------------------
+  // Empty state
+  // -------------------------------------------------------------------------
 
   if (data.length === 0) {
     return (
-      <div className={styles.emptyContainer}>
-        <div className={styles.emptyMessage}>{emptyMessage}</div>
+      <div className={styles.tableWrapper} data-qa={dataQa}>
+        <div className={styles.emptyContainer}>
+          <div className={styles.emptyMessage}>{emptyMessage}</div>
+        </div>
       </div>
     );
   }
 
+  // -------------------------------------------------------------------------
+  // Render
+  // -------------------------------------------------------------------------
+
   return (
-    <div
-      className={`
-        ${styles.container}
-        ${responsive ? styles.responsive : ''}
-        ${className}
-      `.trim()}
-      style={containerStyle}
-    >
-      <table
+    <div className={styles.tableWrapper} data-qa={dataQa}>
+      {/* Action Bar - visible when rows selected */}
+      {selectable && (selectionActions.length > 0 || actionBarContent) && (
+        <TableActionBar
+          selectedCount={selection.size}
+          actions={selectionActions}
+          customContent={actionBarContent}
+          visible={selection.size > 0}
+          selectedRows={selection}
+        />
+      )}
+
+      {/* Table container */}
+      <div
         className={`
-          ${styles.table}
-          ${styles[variant]}
-          ${styles[size]}
-          ${hoverable ? styles.hoverable : ''}
-          ${stickyHeader ? styles.stickyHeader : ''}
+          ${styles.container}
+          ${responsive ? styles.responsive : ''}
+          ${className}
         `.trim()}
+        style={containerStyle}
       >
-        <thead className={styles.thead}>
-          <tr className={styles.tr}>
-            {selectable && (
-              <th className={`${styles.th} ${styles.checkboxCell}`}>
-                <Checkbox
-                  label="Select all rows"
-                  hideLabel
-                  checked={isAllSelected}
-                  indeterminate={isIndeterminate}
-                  onChange={handleSelectAll}
-                />
-              </th>
-            )}
-            {columns.map((column) => (
-              <th
-                key={column.key}
-                className={`
-                  ${styles.th}
-                  ${column.align ? styles[`align-${column.align}`] : ''}
-                  ${column.sortable ? styles.sortable : ''}
-                `.trim()}
-                style={{ width: column.width }}
-                onClick={column.sortable ? () => handleSort(column.key) : undefined}
-              >
-                <div className={styles.headerContent}>
-                  <span>{column.header}</span>
-                  {column.sortable && (
-                    <div className={styles.sortIcon}>
-                      {sortColumn === column.key && sortDirection === 'asc' && (
-                        <Icon name="chevron-up" size="small" />
-                      )}
-                      {sortColumn === column.key && sortDirection === 'desc' && (
-                        <Icon name="chevron-down" size="small" />
-                      )}
-                      {(sortColumn !== column.key || !sortDirection) && (
-                        <Icon name="sort" size="small" />
-                      )}
-                    </div>
-                  )}
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className={styles.tbody}>
-          {sortedData.map((row, rowIndex) => {
-            const rowKey = getRowKey(row, rowIndex);
-            const isSelected = selection.has(rowKey);
+        <table className={tableClasses}>
+          <thead className={styles.thead}>
+            <tr className={styles.tr}>
+              {/* Selection checkbox column */}
+              {selectable && (
+                <th className={`${styles.th} ${styles.checkboxCell}`}>
+                  <Checkbox
+                    label="Select all rows"
+                    hideLabel
+                    checked={isAllSelected}
+                    indeterminate={isIndeterminate}
+                    onChange={handleSelectAll}
+                  />
+                </th>
+              )}
 
-            return (
-              <tr
-                key={rowKey}
-                className={`
-                  ${styles.tr}
-                  ${isSelected ? styles.selected : ''}
-                  ${onRowClick ? styles.clickable : ''}
-                `.trim()}
-                onClick={() => onRowClick?.(row, rowIndex)}
-              >
-                {selectable && (
-                  <td className={`${styles.td} ${styles.checkboxCell}`}>
-                    <Checkbox
-                      label={`Select row ${rowIndex + 1}`}
-                      hideLabel
-                      checked={isSelected}
-                      onChange={() => handleRowSelect(rowKey)}
-                      onClick={(e: React.MouseEvent) => e.stopPropagation()}
-                    />
-                  </td>
-                )}
-                {columns.map((column) => {
-                  const value = (row as any)[column.key];
-                  // Use cell prop (Figma pattern) if available, otherwise use render (legacy), otherwise show raw value
-                  const cellContent = column.cell
-                    ? column.cell(row)
-                    : column.render
-                    ? column.render(value, row, rowIndex)
-                    : value;
+              {/* Favorite column */}
+              {showFavoriteColumn && (
+                <th className={`${styles.th} ${styles.favoriteCell}`}>
+                  <Icon name="star" size="small" />
+                </th>
+              )}
 
-                  return (
-                    <td
-                      key={column.key}
-                      className={`
-                        ${styles.td}
-                        ${column.align ? styles[`align-${column.align}`] : ''}
-                      `.trim()}
-                      data-label={column.header}
-                    >
-                      {cellContent}
+              {/* Data columns */}
+              {visibleColumns.map((column) => (
+                <th
+                  key={column.key}
+                  className={`
+                    ${styles.th}
+                    ${column.align ? styles[`align-${column.align}`] : ''}
+                    ${column.sortable ? styles.sortable : ''}
+                  `.trim()}
+                  style={{ width: column.width }}
+                  onClick={column.sortable ? () => handleSort(column.key) : undefined}
+                  title={column.headerTooltip}
+                >
+                  <div className={styles.headerContent}>
+                    <span>{column.header}</span>
+                    {column.sortable && (
+                      <div className={styles.sortIcon}>
+                        {sortColumn === column.key && sortDirection === 'asc' && (
+                          <Icon name="chevron-up" size="small" />
+                        )}
+                        {sortColumn === column.key && sortDirection === 'desc' && (
+                          <Icon name="chevron-down" size="small" />
+                        )}
+                        {(sortColumn !== column.key || !sortDirection) && (
+                          <Icon name="sort" size="small" />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </th>
+              ))}
+
+              {/* Column control trigger */}
+              {showColumnControl && (
+                <th className={`${styles.th} ${styles.columnControlCell}`}>
+                  <IconButton
+                    icon="boolean"
+                    variant="tertiary"
+                    size="small"
+                    onClick={() => setColumnControlOpen(true)}
+                    aria-label="Customize columns"
+                    className={styles.columnControlButton}
+                  />
+                </th>
+              )}
+            </tr>
+          </thead>
+
+          <tbody className={styles.tbody}>
+            {sortedData.map((row, rowIndex) => {
+              const rowKey = getRowKey(row, rowIndex);
+              const isSelected = selection.has(rowKey);
+              const isFavorite = favoriteRows?.has(rowKey) ?? false;
+
+              return (
+                <tr
+                  key={rowKey}
+                  className={`
+                    ${styles.tr}
+                    ${isSelected ? styles.selected : ''}
+                    ${onRowClick ? styles.clickable : ''}
+                  `.trim()}
+                  onClick={() => onRowClick?.(row, rowIndex)}
+                >
+                  {/* Selection checkbox */}
+                  {selectable && (
+                    <td className={`${styles.td} ${styles.checkboxCell}`}>
+                      <Checkbox
+                        label={`Select row ${rowIndex + 1}`}
+                        hideLabel
+                        checked={isSelected}
+                        onChange={() => handleRowSelect(rowKey)}
+                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                      />
                     </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  )}
+
+                  {/* Favorite column */}
+                  {showFavoriteColumn && (
+                    <td className={`${styles.td} ${styles.favoriteCell}`}>
+                      <button
+                        className={`
+                          ${styles.favoriteButton}
+                          ${isFavorite ? styles.active : ''}
+                        `.trim()}
+                        onClick={(e) => handleFavoriteToggle(e, rowKey)}
+                        aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                      >
+                        <Icon
+                          name={isFavorite ? 'star-filled' : 'star'}
+                          size="small"
+                        />
+                      </button>
+                    </td>
+                  )}
+
+                  {/* Data cells */}
+                  {visibleColumns.map((column) => {
+                    const value = (row as any)[column.key];
+                    const cellContent = column.cell
+                      ? column.cell(row)
+                      : column.render
+                      ? column.render(value, row, rowIndex)
+                      : value;
+
+                    return (
+                      <td
+                        key={column.key}
+                        className={`
+                          ${styles.td}
+                          ${column.align ? styles[`align-${column.align}`] : ''}
+                        `.trim()}
+                        data-label={column.header}
+                      >
+                        {cellContent}
+                      </td>
+                    );
+                  })}
+
+                  {/* Empty cell for column control alignment */}
+                  {showColumnControl && (
+                    <td className={`${styles.td} ${styles.columnControlCell}`} />
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination footer */}
+      {pagination && (
+        <TablePagination
+          config={pagination}
+          disabled={loading}
+        />
+      )}
+
+      {/* Column control modal */}
+      {showColumnControl && (
+        <TableColumnControl
+          open={columnControlOpen}
+          columns={workingColumns}
+          initialColumns={initialColumns}
+          onSave={handleColumnControlSave}
+          onCancel={() => setColumnControlOpen(false)}
+        />
+      )}
     </div>
   );
 }

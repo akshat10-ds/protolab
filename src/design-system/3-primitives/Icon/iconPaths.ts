@@ -28,6 +28,23 @@ export const iconPaths: Record<string, IconPath> = {
   'align-top': {
     path: 'M21 5H3V3h18zM9 9H7v10h2zm2-2v14H5V7zm6 2h-2v7h2zm2-2v11h-6V7z',
   },
+  // AI Icons - DocuSign Iris AI branding
+  'ai-iris': {
+    // Multi-layered diamond/star shape for AI branding
+    path: 'M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2zm0 4.83l1.33 4.01.83.83 4.01 1.33-4.01 1.33-.83.83L12 17.17l-1.33-4.01-.83-.83-4.01-1.33 4.01-1.33.83-.83L12 6.83z',
+  },
+  'ai-iris-filled': {
+    // Filled version of AI Iris icon
+    path: 'M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z',
+  },
+  'ai-spark': {
+    // Outlined 4-pointed star - document being processed with AI
+    path: 'M12 3l-1.8 5.4c-.3.8-.9 1.4-1.7 1.8L3 12l5.5 1.8c.8.3 1.4.9 1.7 1.7L12 21l1.8-5.5c.3-.8.9-1.4 1.7-1.7L21 12l-5.5-1.8c-.8-.3-1.4-.9-1.7-1.7L12 3zm0 4.24l.96 2.88.48.48 2.88.96-2.88.96-.48.48L12 15.88l-.96-2.88-.48-.48-2.88-.96 2.88-.96.48-.48L12 7.24z',
+  },
+  'ai-spark-filled': {
+    // Filled 4-pointed star - document finished processing with AI
+    path: 'M12 3l-1.8 5.4c-.3.8-.9 1.4-1.7 1.8L3 12l5.5 1.8c.8.3 1.4.9 1.7 1.7L12 21l1.8-5.5c.3-.8.9-1.4 1.7-1.7L21 12l-5.5-1.8c-.8-.3-1.4-.9-1.7-1.7L12 3z',
+  },
   'arrow-down': {
     path: 'm20 14.35-7.43 7.42c-.16.16-.37.23-.57.23s-.41-.07-.57-.23L4 14.35 5.35 13 11 18.66V2h2v16.66L18.65 13z',
   },

@@ -35,6 +35,7 @@ export type {
 export {
   // Icons
   Icon,
+  AIIcon,
   iconPaths,
   // Action Components
   Button,
@@ -70,6 +71,8 @@ export {
 export type {
   // Icons
   IconProps,
+  AIIconProps,
+  AIIconName,
   // Action Components
   ButtonProps,
   ButtonKind,
@@ -138,6 +141,7 @@ export {
   Banner,
   Callout,
   AIBadge,
+  IrisIcon,
   Stepper,
   Chip,
   // Data Components
@@ -202,16 +206,35 @@ export type {
 // ============================================================================
 // LAYER 5: PATTERNS
 // ============================================================================
-export { GlobalNav, LocalNav } from './5-patterns';
+export { GlobalNav, LocalNav, PageHeader, DataTable, AIChat, FilterBar, dataTableStyles } from './5-patterns';
 
-export type { GlobalNavProps, LocalNavProps } from './5-patterns';
+export type {
+  GlobalNavProps,
+  LocalNavProps,
+  PageHeaderProps,
+  DataTableProps,
+  DataTableColumn,
+  DataTableRowHeight,
+  DataTableAlignment,
+  DataTableSortDirection,
+  DataTableAction,
+  DataTablePaginationConfig,
+  PageSizeOption,
+  AIChatProps,
+  ChatMessage,
+  MessageRole,
+  MessageStatus,
+  SuggestedAction,
+  FilterBarProps,
+  FilterBarSearchConfig,
+} from './5-patterns';
 
 // ============================================================================
 // LAYER 6: LAYOUTS
 // ============================================================================
-export { DocuSignShell } from './6-layouts';
+export { DocuSignShell, AgreementTableView } from './6-layouts';
 
-export type { DocuSignShellProps } from './6-layouts';
+export type { DocuSignShellProps, AgreementTableViewProps } from './6-layouts';
 
 // ============================================================================
 // CONSTANTS & UTILITIES

@@ -1,5 +1,10 @@
+/* Wrapper provides inline context for trigger */
+.wrapper {
+  display: inline-block;
+}
+
 .dropdown {
-  position: fixed;
+  /* Position handled by inline styles via Portal */
   background-color: var(
     --ink-bg-glass-frost
   ); /* bgColorGlassFrost from Figma - semi-transparent white */
@@ -17,6 +22,15 @@
   max-width: 380px; /* Increased for boxed icons with descriptions */
   max-height: 400px;
   overflow-y: auto;
+}
+
+/* Alignment transforms (applied via JS-calculated left position) */
+.alignCenter {
+  transform: translateX(-50%);
+}
+
+.alignEnd {
+  transform: translateX(-100%);
 }
 
 /* Section header - matches Figma "fontSectionHeadline" specs */

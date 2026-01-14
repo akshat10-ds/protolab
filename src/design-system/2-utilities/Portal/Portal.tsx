@@ -5,7 +5,7 @@
  * that need to escape container overflow/clipping constraints.
  */
 
-import { useEffect, useState, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 export interface PortalProps {
@@ -16,14 +16,9 @@ export interface PortalProps {
 }
 
 export const Portal: React.FC<PortalProps> = ({ children, container }) => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
-
-  if (!mounted) {
+  // For client-side only apps, we can render directly
+  // This ensures children mount synchronously for positioning calculations
+  if (typeof document === 'undefined') {
     return null;
   }
 

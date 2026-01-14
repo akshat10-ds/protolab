@@ -3,7 +3,9 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
   background: var(--ink-bg-default);
 }
 
@@ -30,6 +32,14 @@
 
 .content {
   flex: 1;
-  padding: var(--ink-spacing-400);
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Remove padding so full-page prototypes like DocuSignShell fill the space */
+}
+
+/* For prototypes that need the full viewport height */
+.content > * {
+  flex: 1;
+  min-height: 0;
 }

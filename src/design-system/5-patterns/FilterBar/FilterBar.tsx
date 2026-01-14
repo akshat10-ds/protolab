@@ -42,6 +42,8 @@ export interface FilterBarSearchConfig {
   value: string;
   /** Callback when search value changes */
   onChange: (value: string) => void;
+  /** Callback when search is submitted (Enter key) */
+  onSubmit?: () => void;
   /** Placeholder text */
   placeholder?: string;
   /** Search suggestions */
@@ -126,6 +128,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             placeholder={search.placeholder || 'Search...'}
             value={search.value}
             onChange={search.onChange}
+            onSearch={search.onSubmit ? () => search.onSubmit?.() : undefined}
             suggestions={search.suggestions}
             onSuggestionSelect={search.onSuggestionSelect}
             size="small"

@@ -7,13 +7,14 @@
   height: 100%;
   background-color: var(--ink-bg-color-canvas-page); /* #F7F6F7 - DocuSign canvas page background */
   font-family: var(--ink-font-family);
-  transition: width var(--ink-transition-normal);
+  transition: width 150ms cubic-bezier(0.33, 0, 0.67, 1); /* Production timing */
+  overflow: hidden; /* Prevent content overflow during animation */
   /* Note: No border-right - DocuSign separates via content area background */
 }
 
-/* Collapsed state */
+/* Collapsed state - 72px per Figma spec */
 .navCollapsed {
-  width: 64px;
+  width: 72px;
 }
 
 /* Hovered state when collapsed - expand */
@@ -24,10 +25,12 @@
   box-shadow: var(--ink-shadow-lg);
 }
 
-/* Header Wrapper */
+/* Header Wrapper - fixed height to prevent jitter during animation */
 .headerWrapper {
   position: relative;
-  padding: var(--ink-spacing-200) var(--ink-spacing-200) 0; /* DocuSign: 16px sides, 0 bottom */
+  padding: var(--ink-spacing-200); /* 16px all sides */
+  padding-bottom: 0;
+  min-height: 56px; /* 40px button + 16px padding */
 }
 
 /* Header Chevron Rotation */
@@ -41,21 +44,36 @@
   transform: rotate(180deg);
 }
 
-/* Header Button - Collapsed variant */
-.headerButtonCollapsed {
-  width: 48px;
-  height: 48px;
-  padding: 0 !important;
-  margin: 0 auto;
-  display: flex !important;
-  align-items: center;
+/* Header Button Wrappers - for smooth crossfade between states */
+.headerButtonExpanded {
+  display: none;
+}
+
+.headerButtonExpanded.visible {
+  display: block;
+}
+
+.headerButtonCollapsedWrapper {
+  display: none;
   justify-content: center;
 }
 
-/* Collapsed header wrapper adjustments */
-.navCollapsed .headerWrapper {
-  padding: var(--ink-spacing-2);
+.headerButtonCollapsedWrapper.visible {
+  display: flex;
 }
+
+/* Header Button - Collapsed variant (IconButton) */
+.headerButtonCollapsed {
+  width: 40px;
+  height: 40px;
+}
+
+/* Collapsed header wrapper - same min-height to prevent jitter */
+.navCollapsed .headerWrapper {
+  padding: var(--ink-spacing-200);
+  padding-bottom: 0;
+}
+
 
 /* Header Dropdown Menu */
 .headerMenu {
@@ -88,7 +106,7 @@
 }
 
 .headerMenuItem:hover {
-  background-color: var(--ink-neutral-10);
+  background-color: var(--ink-neutral-fade-5); /* Production: rgba(19, 0, 50, 0.05) */
 }
 
 .headerMenuItemIcon {
@@ -163,7 +181,7 @@
 }
 
 .sectionHeader:hover {
-  background-color: var(--ink-neutral-10);
+  background-color: var(--ink-neutral-fade-5); /* Production: rgba(19, 0, 50, 0.05) */
 }
 
 .sectionIcon {
@@ -207,6 +225,15 @@
   letter-spacing: 0.5px;
   color: var(--ink-neutral-fade-70);
   flex: 1;
+}
+
+/* Icon for section label headers (non-collapsible) */
+.sectionLabelIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--ink-neutral-fade-70);
+  margin-right: var(--ink-spacing-150); /* 12px gap between icon and label */
 }
 
 .sectionChevron {
@@ -269,11 +296,11 @@
 }
 
 .item.hasMenu {
-  padding-right: var(--ink-spacing-1);
+  padding-right: var(--ink-spacing-100); /* 8px - room for menu button */
 }
 
 .item:hover {
-  background-color: var(--ink-neutral-10);
+  background-color: var(--ink-neutral-fade-5); /* Production: rgba(19, 0, 50, 0.05) */
 }
 
 .item.active {
@@ -283,11 +310,17 @@
   font-weight: var(--ink-font-weight-semibold); /* 600 - DocuSign active weight */
 }
 
-/* Nested active items: no background, just font-weight and indicator */
+/* Nested active items: background but NO left indicator bar */
 .item.nested.active {
   height: 42px;
   min-height: 42px;
-  background-color: transparent;
+  background-color: var(--ink-bg-active-subtle);
+  font-weight: var(--ink-font-weight-semibold);
+}
+
+/* Hide indicator bar for nested items */
+.item.nested .activeIndicator {
+  display: none;
 }
 
 .itemIcon {
@@ -311,6 +344,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  opacity: 1;
+  transition: opacity 100ms cubic-bezier(0.33, 0, 0.67, 1); /* Production timing */
+}
+
+/* Hide labels when nav is collapsed */
+.navCollapsed .itemLabel {
+  opacity: 0;
 }
 
 .item.active .itemLabel {
@@ -328,25 +368,23 @@
   border-radius: 0;
 }
 
-/* Collapsed Item (icon only) */
+/* Collapsed Item (icon only) - full width for active indicator to reach edge */
 .itemCollapsed {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
+  width: 100%;
   height: 48px;
-  margin: 0 auto;
   border: none;
   background: transparent;
   cursor: pointer;
   position: relative;
   color: var(--ink-neutral-fade-70);
-  border-radius: var(--ink-radius-xs);
   transition: background-color var(--ink-transition-fast);
 }
 
 .itemCollapsed:hover {
-  background-color: var(--ink-neutral-10);
+  background-color: var(--ink-neutral-fade-5); /* Production: rgba(19, 0, 50, 0.05) */
 }
 
 .itemCollapsed.active {
@@ -357,12 +395,13 @@
 .itemCollapsed .activeIndicator {
   left: 0;
   width: var(--ink-spacing-50); /* 4px - matches expanded state */
-  border-radius: 0 var(--ink-radius-xs) var(--ink-radius-xs) 0;
+  border-radius: 0;
 }
 
-/* Menu Button - positioning only, IconButton handles styling */
+/* Menu Button - align within item row, constrained by divider bounds */
 .menuButton {
   flex-shrink: 0;
+  margin-right: var(--ink-spacing-100); /* 8px from right edge to align with divider */
 }
 
 /* Scrollbar styling */
@@ -403,6 +442,14 @@
   align-items: center;
   gap: var(--ink-spacing-2);
   flex: 1;
+  opacity: 1;
+  transition: opacity 100ms cubic-bezier(0.33, 0, 0.67, 1); /* Production timing */
+}
+
+/* Hide footer toggle content when collapsed */
+.navCollapsed .footerToggle {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .footerLabel {
@@ -419,12 +466,8 @@
   flex-shrink: 0;
 }
 
-/* Collapsed Footer */
+/* Collapsed Footer - center the lock button in 72px width */
 .footerCollapsed {
   justify-content: center;
-  padding: var(--ink-spacing-2);
-}
-
-.footerCollapsed .footerLockButton {
-  margin: 0 auto;
+  padding: var(--ink-spacing-200);
 }

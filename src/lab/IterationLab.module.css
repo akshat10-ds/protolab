@@ -35,6 +35,20 @@
   overflow: hidden;
 }
 
+/* Fullscreen mode - no padding, no border */
+.preview.fullscreen {
+  padding: 0;
+}
+
+.preview.fullscreen .previewHeader {
+  display: none;
+}
+
+.preview.fullscreen .previewArea {
+  border: none;
+  border-radius: 0;
+}
+
 .previewHeader {
   display: flex;
   align-items: center;

@@ -40,7 +40,7 @@
   font-size: var(--ink-font-size-xs);
   font-weight: var(--ink-font-weight-medium);
   letter-spacing: 0.16px;
-  color: var(--ink-font-color-subtle);
+  color: var(--ink-font-color-neutral-subtle);
   line-height: var(--ink-line-height-normal);
 }
 
@@ -94,7 +94,7 @@
 }
 
 .textarea::placeholder {
-  color: var(--ink-font-color-subtle);
+  color: var(--ink-font-color-neutral-subtle);
 }
 
 /* Resize options */
@@ -123,7 +123,7 @@
 /* Character count */
 .count {
   font-size: var(--ink-font-size-xs);
-  color: var(--ink-font-color-subtle);
+  color: var(--ink-font-color-neutral-subtle);
   line-height: var(--ink-line-height-normal);
   text-align: right;
 }

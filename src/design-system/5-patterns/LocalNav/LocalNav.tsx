@@ -63,21 +63,25 @@ export interface LocalNavProps {
   activeItemId?: string;
   /** Custom className */
   className?: string;
-  /** Whether the nav is collapsed (icons only) */
-  collapsed?: boolean;
-  /** Callback when collapsed state changes (for external control) */
-  onCollapsedChange?: (collapsed: boolean) => void;
+  /**
+   * Whether the nav is locked open. When locked, nav stays expanded.
+   * When unlocked, nav collapses and expands on hover.
+   * Defaults to true (locked/expanded).
+   */
+  isLocked?: boolean;
+  /** Callback when lock state changes */
+  onLockChange?: (locked: boolean) => void;
+  /**
+   * Whether collapsibility is enabled. If false, nav is always expanded
+   * and lock button is hidden. Defaults to true.
+   */
+  allowCollapsibility?: boolean;
   /** Footer toggle for feature flags (e.g., "New navigation") */
   footerToggle?: {
     label: string;
     checked: boolean;
     onChange: (checked: boolean) => void;
     icon?: IconName;
-  };
-  /** Footer lock button */
-  footerLockButton?: {
-    locked: boolean;
-    onLockClick: () => void;
   };
 }
 
@@ -89,12 +93,11 @@ export const LocalNav: React.FC<LocalNavProps> = ({
   onHeaderClick,
   activeItemId,
   className,
-  collapsed = false,
-  onCollapsedChange,
+  isLocked: controlledIsLocked,
+  onLockChange,
+  allowCollapsibility = true,
   footerToggle,
-  footerLockButton,
 }) => {
-  const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
   const [headerMenuOpen, setHeaderMenuOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -103,18 +106,35 @@ export const LocalNav: React.FC<LocalNavProps> = ({
     new Set(sections.filter((s) => s.collapsible && !s.defaultExpanded).map((s) => s.id))
   );
 
-  // Determine if nav should show expanded (either not collapsed, or hovered while collapsed)
-  const isExpanded = !collapsed || isHovered;
+  // Support both controlled and uncontrolled lock state
+  const isControlled = controlledIsLocked !== undefined;
+  const [internalIsLocked, setInternalIsLocked] = useState(true);
+  const isLocked = isControlled ? controlledIsLocked : internalIsLocked;
 
-  // Handle mouse enter/leave for hover-to-expand
+  // Handle lock toggle
+  const handleLockToggle = () => {
+    const newLocked = !isLocked;
+    if (!isControlled) {
+      setInternalIsLocked(newLocked);
+    }
+    onLockChange?.(newLocked);
+  };
+
+  // Determine if nav should show expanded
+  // If collapsibility is disabled, always expanded
+  // If locked, always expanded
+  // Otherwise, expand on hover
+  const isExpanded = !allowCollapsibility || isLocked || isHovered;
+
+  // Handle mouse enter/leave for hover-to-expand (when unlocked)
   const handleMouseEnter = () => {
-    if (collapsed) {
+    if (allowCollapsibility && !isLocked) {
       setIsHovered(true);
     }
   };
 
   const handleMouseLeave = () => {
-    if (collapsed) {
+    if (allowCollapsibility && !isLocked) {
       setIsHovered(false);
       setHeaderMenuOpen(false); // Close menu when leaving collapsed nav
     }
@@ -165,16 +185,22 @@ export const LocalNav: React.FC<LocalNavProps> = ({
     });
   };
 
+  // Compute collapsed state for CSS classes
+  // Nav is "collapsed" when collapsibility is enabled AND not locked AND not currently hovered
+  const isCollapsed = allowCollapsibility && !isLocked && !isHovered;
+
   return (
     <nav
       ref={navRef}
-      className={`${styles.localNav} ${collapsed ? styles.navCollapsed : ''} ${isHovered ? styles.navHovered : ''} ${className || ''}`}
+      className={`${styles.localNav} ${isCollapsed ? styles.navCollapsed : ''} ${isHovered && !isLocked ? styles.navHovered : ''} ${className || ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
     >
       {/* Header */}
       <div className={styles.headerWrapper} ref={headerRef}>
-        {isExpanded ? (
+        {/* Both buttons rendered for smooth animation - visibility controlled by CSS */}
+        <div className={`${styles.headerButtonExpanded} ${isExpanded ? styles.visible : ''}`}>
           <Button
             kind="primary"
             size="medium"
@@ -182,6 +208,7 @@ export const LocalNav: React.FC<LocalNavProps> = ({
             onClick={handleHeaderClick}
             aria-expanded={headerMenuOpen}
             aria-haspopup={headerMenuItems && headerMenuItems.length > 0 ? 'menu' : undefined}
+            tabIndex={isExpanded ? 0 : -1}
             endElement={
               <span
                 className={`${styles.headerChevron} ${headerMenuOpen ? styles.headerChevronRotated : ''}`}
@@ -192,17 +219,18 @@ export const LocalNav: React.FC<LocalNavProps> = ({
           >
             {headerLabel}
           </Button>
-        ) : (
-          <Button
-            kind="primary"
+        </div>
+        <div className={`${styles.headerButtonCollapsedWrapper} ${!isExpanded ? styles.visible : ''}`}>
+          <IconButton
+            icon={headerIcon}
             size="medium"
+            variant="primary"
             onClick={handleHeaderClick}
             aria-label={headerLabel}
+            tabIndex={isExpanded ? -1 : 0}
             className={styles.headerButtonCollapsed}
-          >
-            <Icon name={headerIcon} size="medium" />
-          </Button>
-        )}
+          />
+        </div>
 
         {/* Header Dropdown Menu */}
         {headerMenuItems && headerMenuItems.length > 0 && headerMenuOpen && isExpanded && (
@@ -239,7 +267,6 @@ export const LocalNav: React.FC<LocalNavProps> = ({
           // Helper to render an item (reused in multiple places)
           const renderItem = (item: LocalNavItem) => {
             const isItemActive = item.active || item.id === activeItemId;
-            const isItemHovered = hoveredItemId === item.id;
 
             // Collapsed nav: show only icon items (skip nested items without icons)
             if (!isExpanded && !item.icon) {
@@ -261,27 +288,30 @@ export const LocalNav: React.FC<LocalNavProps> = ({
                     </button>
                   </Tooltip>
                 ) : (
-                  // Expanded view: full item
-                  <button
-                    className={`${styles.item} ${
-                      isItemActive ? styles.active : ''
-                    } ${isItemHovered ? styles.hovered : ''} ${
-                      item.nested ? styles.nested : ''
-                    } ${item.hasMenu ? styles.hasMenu : ''} ${item.icon ? styles.hasIcon : ''}`}
-                    onClick={() => handleItemClick(item)}
-                    onMouseEnter={() => setHoveredItemId(item.id)}
-                    onMouseLeave={() => setHoveredItemId(null)}
-                  >
-                    {item.icon && (
-                      <span className={styles.itemIcon}>
-                        <Icon name={item.icon} size="medium" />
-                      </span>
-                    )}
-                    <Tooltip content={item.label}>
+                  // Expanded view: full item (hover handled by CSS)
+                  // Use div with role="button" when hasMenu to avoid button-in-button nesting
+                  item.hasMenu ? (
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      className={`${styles.item} ${isItemActive ? styles.active : ''} ${
+                        item.nested ? styles.nested : ''
+                      } ${styles.hasMenu} ${item.icon ? styles.hasIcon : ''}`}
+                      onClick={() => handleItemClick(item)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleItemClick(item);
+                        }
+                      }}
+                    >
+                      {item.icon && (
+                        <span className={styles.itemIcon}>
+                          <Icon name={item.icon} size="medium" />
+                        </span>
+                      )}
                       <span className={styles.itemLabel}>{item.label}</span>
-                    </Tooltip>
-                    {item.badge && <Badge variant="subtle">{item.badge}</Badge>}
-                    {item.hasMenu && (
+                      {item.badge && <Badge variant="subtle">{item.badge}</Badge>}
                       <IconButton
                         icon="overflow-horizontal"
                         size="small"
@@ -293,9 +323,25 @@ export const LocalNav: React.FC<LocalNavProps> = ({
                         aria-label="More options"
                         className={styles.menuButton}
                       />
-                    )}
-                    {isItemActive && <div className={styles.activeIndicator} />}
-                  </button>
+                      {isItemActive && <div className={styles.activeIndicator} />}
+                    </div>
+                  ) : (
+                    <button
+                      className={`${styles.item} ${isItemActive ? styles.active : ''} ${
+                        item.nested ? styles.nested : ''
+                      } ${item.icon ? styles.hasIcon : ''}`}
+                      onClick={() => handleItemClick(item)}
+                    >
+                      {item.icon && (
+                        <span className={styles.itemIcon}>
+                          <Icon name={item.icon} size="medium" />
+                        </span>
+                      )}
+                      <span className={styles.itemLabel}>{item.label}</span>
+                      {item.badge && <Badge variant="subtle">{item.badge}</Badge>}
+                      {isItemActive && <div className={styles.activeIndicator} />}
+                    </button>
+                  )
                 )}
               </li>
             );
@@ -310,11 +356,17 @@ export const LocalNav: React.FC<LocalNavProps> = ({
                 <>
                   {isExpanded && (
                     <div className={styles.sectionLabelHeader}>
+                      {section.icon && (
+                        <span className={styles.sectionLabelIcon}>
+                          <Icon name={section.icon} size="medium" />
+                        </span>
+                      )}
                       <span className={styles.sectionLabel}>{section.title}</span>
                       {section.headerAction && (
                         <IconButton
                           icon={section.headerAction.icon}
                           size="small"
+                          variant="tertiary"
                           onClick={section.headerAction.onClick}
                           aria-label={section.headerAction.label}
                           title={section.headerAction.label}
@@ -370,7 +422,7 @@ export const LocalNav: React.FC<LocalNavProps> = ({
       </div>
 
       {/* Footer */}
-      {(footerToggle || footerLockButton) && (
+      {(footerToggle || allowCollapsibility) && (
         <div className={`${styles.footer} ${!isExpanded ? styles.footerCollapsed : ''}`}>
           {isExpanded && footerToggle && (
             <>
@@ -385,13 +437,14 @@ export const LocalNav: React.FC<LocalNavProps> = ({
               <Switch checked={footerToggle.checked} onChange={footerToggle.onChange} />
             </>
           )}
-          {footerLockButton && (
-            <Tooltip content={footerLockButton.locked ? 'Unlock' : 'Lock'} side="right">
+          {allowCollapsibility && (
+            <Tooltip content={isLocked ? 'Unlock sidebar' : 'Lock sidebar'} side="right">
               <IconButton
-                icon={footerLockButton.locked ? 'lock' : 'unlock'}
-                size="small"
-                onClick={footerLockButton.onLockClick}
-                aria-label={footerLockButton.locked ? 'Unlock navigation' : 'Lock navigation'}
+                icon={isLocked ? 'lock' : 'unlock'}
+                size="medium"
+                variant="tertiary"
+                onClick={handleLockToggle}
+                aria-label={isLocked ? 'Unlock navigation sidebar' : 'Lock navigation sidebar'}
               />
             </Tooltip>
           )}

@@ -1133,6 +1133,23 @@
   transition: height 0.3s ease-out;
 }
 
+/* LocalNav specific preview - allows internal scrolling */
+.localNavPreviewContainer {
+  border: 1px solid var(--ink-border-default);
+  border-radius: var(--ink-radius-size-xs);
+  height: 500px;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.patternPreviewContainerFull {
+  border: 1px solid var(--ink-border-default);
+  border-radius: var(--ink-radius-size-xs);
+  padding: var(--ink-spacing-200);
+  background: var(--ink-bg-default);
+}
+
 /* L6 Layout preview containers */
 .layoutPreviewContainer {
   border: 2px solid var(--ink-border-default);
@@ -1170,3 +1187,10 @@
   overflow: hidden;
   margin: 0 -1px;
 }
+
+/* ============================================
+   DATATABLE DEMO CELL STYLES
+   ============================================ */
+/* NOTE: These styles have been moved to the DataTable component itself.
+   Import dataTableStyles from @/design-system to use them.
+   See: src/design-system/5-patterns/DataTable/DataTable.module.css */

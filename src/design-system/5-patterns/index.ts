@@ -11,4 +11,22 @@ export { LocalNav } from './LocalNav';
 export type { LocalNavProps, LocalNavItem, LocalNavSection } from './LocalNav';
 
 export { AIChat } from './AIChat';
-export type { AIChatProps, ChatMessage, MessageRole, MessageStatus } from './AIChat';
+export type { AIChatProps, ChatMessage, MessageRole, MessageStatus, SuggestedAction } from './AIChat';
+
+export { DataTable, dataTableStyles } from './DataTable';
+export type {
+  DataTableProps,
+  DataTableColumn,
+  DataTableRowHeight,
+  DataTableAlignment,
+  DataTableSortDirection,
+  DataTableAction,
+  DataTablePaginationConfig,
+  PageSizeOption,
+} from './DataTable';
+
+export { PageHeader } from './PageHeader';
+export type { PageHeaderProps } from './PageHeader';
+
+export { FilterBar } from './FilterBar';
+export type { FilterBarProps, FilterBarSearchConfig } from './FilterBar';

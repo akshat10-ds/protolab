@@ -14,8 +14,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import {
   DocuSignShell,
-  GlobalNav,
-  LocalNav,
+  AgreementTableView,
   PageHeader,
   FilterBar,
   DataTable,
@@ -33,8 +32,6 @@ import {
   Icon,
   AIIcon,
   Link,
-  Badge,
-  Stack,
 } from '@/design-system';
 import styles from './NavigatorAgreements.module.css';
 
@@ -192,9 +189,6 @@ export function NavigatorAgreements() {
   // Search state
   const [searchValue, setSearchValue] = useState('');
 
-  // Footer toggle state - ON by default per production
-  const [newNavEnabled, setNewNavEnabled] = useState(true);
-
   // LocalNav collapse state - starts locked (expanded) as default
   const [isNavLocked, setIsNavLocked] = useState(true);
 
@@ -210,39 +204,34 @@ export function NavigatorAgreements() {
     { id: 'admin', label: 'Admin' },
   ];
 
+  // LocalNav sections - EXACT configuration from PatternsShowcase.tsx (source of truth)
   const localNavSections = [
     {
       id: 'main',
       items: [
         { id: 'all-agreements', label: 'All Agreements', icon: 'envelope' as const },
-        { id: 'drafts', label: 'Drafts' },
-        { id: 'in-progress', label: 'In Progress' },
-        { id: 'completed', label: 'Completed', active: true },
-        { id: 'deleted', label: 'Deleted' },
+        { id: 'drafts', label: 'Drafts', nested: true },
+        { id: 'in-progress', label: 'In Progress', nested: true },
+        { id: 'completed', label: 'Completed', nested: true, active: true },
+        { id: 'deleted', label: 'Deleted', nested: true },
       ],
     },
     {
       id: 'folders',
-      title: 'Folders',
-      hasDivider: true,
-      headerLabel: true,
-      headerAction: {
-        icon: 'overflow-horizontal' as const,
-        label: 'Folder options',
-        onClick: () => console.log('Folder options'),
-      },
-      items: [],
+      items: [
+        { id: 'folders', label: 'Folders', icon: 'folder' as const, hasMenu: true },
+      ],
     },
     {
       id: 'features',
       hasDivider: true,
       items: [
-        { id: 'parties', label: 'Parties', icon: 'people' as const, badge: 'New' },
-        { id: 'requests', label: 'Requests', icon: 'document' as const, badge: 'New' },
-        { id: 'maestro', label: 'Maestro Workflows', icon: 'refresh' as const, badge: 'New' },
-        { id: 'workspaces', label: 'Workspaces', icon: 'people' as const },
-        { id: 'powerforms', label: 'PowerForms', icon: 'bolt' as const },
-        { id: 'bulk-send', label: 'Bulk Send', icon: 'duplicate' as const },
+        { id: 'parties', label: 'Parties', icon: 'building-person' as const, badge: 'New' },
+        { id: 'requests', label: 'Requests', icon: 'ticket' as const, badge: 'New' },
+        { id: 'maestro-workflows', label: 'Maestro Workflows', icon: 'workflow' as const, badge: 'New' },
+        { id: 'workspaces', label: 'Workspaces', icon: 'transaction' as const },
+        { id: 'powerforms', label: 'PowerForms', icon: 'flash' as const },
+        { id: 'bulk-send', label: 'Bulk Send', icon: 'document-stack' as const },
       ],
     },
   ];
@@ -518,27 +507,19 @@ export function NavigatorAgreements() {
         allowCollapsibility: true,
         isLocked: isNavLocked,
         onLockChange: setIsNavLocked,
-        footerToggle: {
-          label: 'New navigation',
-          checked: newNavEnabled,
-          onChange: setNewNavEnabled,
-        },
       }}
     >
-      <Stack gap="none" className={styles.content}>
-        {/* Page Header */}
-        <div className={styles.pageHeader}>
+      <AgreementTableView
+        pageHeader={
           <PageHeader
             title="Completed"
             showAIBadge
             aiBadgeText="AI-Assisted"
             actions={pageHeaderActions}
           />
-        </div>
-
-        {/* Alert Banner */}
-        {showBanner && (
-          <div className={styles.banner}>
+        }
+        banner={
+          showBanner ? (
             <Banner
               kind="promo"
               customIcon={<IrisIcon />}
@@ -552,11 +533,9 @@ export function NavigatorAgreements() {
             >
               <strong>0 agreements</strong> with renewal notice dates in the next 30 days.
             </Banner>
-          </div>
-        )}
-
-        {/* Action Bar */}
-        <div className={styles.actionBar}>
+          ) : undefined
+        }
+        filterBar={
           <FilterBar
             viewSelector={
               <Dropdown items={viewSelectorItems} header="Select a view" iconStyle="boxed">
@@ -588,29 +567,26 @@ export function NavigatorAgreements() {
               </Button>
             }
           />
-        </div>
-
-        {/* Data Table */}
-        <div className={styles.tableWrapper}>
-          <DataTable
-            columns={columns}
-            data={DEMO_DATA}
-            getRowKey={(row) => row.id}
-            selectable
-            selectedRows={selectedRows}
-            onSelectionChange={setSelectedRows}
-            sortColumn={sortColumn}
-            sortDirection={sortDirection}
-            onSortChange={handleSortChange}
-            selectionActions={selectionActions}
-            pagination={pagination}
-            showColumnControl
-            renderRowActions={renderRowActions}
-            rowHeight="tall"
-            stickyHeader
-          />
-        </div>
-      </Stack>
+        }
+      >
+        <DataTable
+          columns={columns}
+          data={DEMO_DATA}
+          getRowKey={(row) => row.id}
+          selectable
+          selectedRows={selectedRows}
+          onSelectionChange={setSelectedRows}
+          sortColumn={sortColumn}
+          sortDirection={sortDirection}
+          onSortChange={handleSortChange}
+          selectionActions={selectionActions}
+          pagination={pagination}
+          showColumnControl
+          renderRowActions={renderRowActions}
+          rowHeight="tall"
+          stickyHeader
+        />
+      </AgreementTableView>
     </DocuSignShell>
   );
 }

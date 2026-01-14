@@ -843,6 +843,8 @@
   --ink-font-family:
     'DS Indigo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --ink-font-family-default: var(--ink-font-family);
+  --ink-font-family-bold:
+    'DS Indigo Bold', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   /* Font Size */
   --ink-font-size-xxs: 10px;
@@ -868,6 +870,7 @@
   --ink-line-height-relaxed: 1.75;
 
   /* Letter Spacing */
+  --ink-letter-spacing-open: 0.32px;
   --ink-letter-spacing-wide: 0.16px;
   --ink-letter-spacing-normal: 0;
   --ink-letter-spacing-tight: -0.02em;

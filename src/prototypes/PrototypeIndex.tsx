@@ -42,6 +42,42 @@ const prototypes: PrototypeInfo[] = [
     description: 'Multi-step registration wizard using accordion-style navigation.',
     path: '/prototypes/accordion-wizard',
   },
+  {
+    id: 'user-info-form',
+    title: 'User Info Form',
+    description: 'Progressive disclosure form using accordions to organize user information collection.',
+    path: '/prototypes/user-info-form',
+  },
+  {
+    id: 'navigator-agreements',
+    title: 'Navigator Agreements',
+    description: 'DocuSign Navigator agreements list with DataTable, filters, and pagination.',
+    path: '/prototypes/navigator-agreements',
+  },
+  {
+    id: 'navigator-agreements-ai-chat',
+    title: 'Navigator + AI Chat',
+    description: 'Navigator Agreements with floating AI CTA button and expandable AI Chat panel.',
+    path: '/prototypes/navigator-agreements-ai-chat',
+  },
+  {
+    id: 'agreement-studio',
+    title: 'Agreement Studio',
+    description: 'Scripted demo: Acme Renewal Prep with AI-powered agreement analysis, citations, and conflict detection.',
+    path: '/prototypes/agreement-studio',
+  },
+  {
+    id: 'agreement-studio-fr',
+    title: 'Agreement Studio (FR)',
+    description: 'Version française: Préparation Renouvellement Acme avec analyse contractuelle IA, citations et détection de conflits.',
+    path: '/prototypes/agreement-studio-fr',
+  },
+  {
+    id: 'hr-onboarding-wizard',
+    title: 'HR Onboarding Wizard',
+    description: 'A workflow builder for creating customized employee onboarding experiences with data collection, ID verification, and policy acceptance.',
+    path: '/prototypes/hr-onboarding-wizard',
+  },
   // Add more prototypes here as they are created
 ];
 

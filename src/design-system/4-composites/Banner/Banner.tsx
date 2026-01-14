@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Banner.module.css';
-import { Icon, IconButton, Button } from '../../3-primitives';
+import { Icon, IconButton, Button, Link } from '../../3-primitives';
 import type { IconName } from '../../3-primitives/Icon';
 
 export type BannerKind =
@@ -15,7 +15,8 @@ export type BannerShape = 'square' | 'round';
 
 export interface BannerAction {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
+  href?: string;
 }
 
 export interface BannerProps {
@@ -29,8 +30,10 @@ export interface BannerProps {
   lineWrap?: boolean;
   /** Show bottom border */
   bottomBorder?: boolean;
-  /** Optional icon */
+  /** Optional icon name from Icon component */
   icon?: IconName;
+  /** Custom icon element (takes precedence over icon prop) */
+  customIcon?: React.ReactNode;
   /** Optional action button */
   action?: BannerAction;
   /** Show close button */
@@ -50,6 +53,7 @@ export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(
       lineWrap = false,
       bottomBorder = false,
       icon,
+      customIcon,
       action,
       closable = true,
       onClose,
@@ -72,17 +76,25 @@ export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(
       <div ref={ref} className={containerClasses} role="status" aria-live="polite">
         <div className={styles.content}>
           <div className={styles.messageWrapper}>
-            {icon && (
+            {(customIcon || icon) && (
               <div className={styles.iconWrapper}>
-                <Icon name={icon} size="small" />
+                {customIcon || <Icon name={icon!} size="small" />}
               </div>
             )}
             <p className={styles.message}>{children}</p>
           </div>
           {action && (
-            <Button kind="tertiary" size="small" onClick={action.onClick}>
-              {action.label}
-            </Button>
+            <div className={styles.actionButton}>
+              {action.href ? (
+                <Link href={action.href} onClick={action.onClick} size="small">
+                  {action.label}
+                </Link>
+              ) : (
+                <Button kind="tertiary" size="small" onClick={action.onClick}>
+                  {action.label}
+                </Button>
+              )}
+            </div>
           )}
         </div>
         {closable && (

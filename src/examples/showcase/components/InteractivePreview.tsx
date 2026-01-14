@@ -5,7 +5,13 @@
 import React, { useState, useEffect } from 'react';
 import * as DesignSystem from '@/design-system';
 import { componentRegistry } from '@/editor/registry/componentRegistry';
+import DocuSignLogo from '@/assets/Docusign Horizontal Black.svg';
 import styles from './InteractivePreview.module.css';
+
+// DocuSign logo component for GlobalNav
+const docuSignLogo = (
+  <img src={DocuSignLogo} alt="DocuSign" style={{ height: '24px', width: 'auto' }} />
+);
 
 // Component map for dynamic rendering
 const componentMap: Record<string, React.ComponentType<Record<string, unknown>>> = {
@@ -279,11 +285,22 @@ const defaultComponentProps: Record<string, Record<string, unknown>> = {
     ],
   },
   GlobalNav: {
-    logo: 'DocuSign',
+    logo: docuSignLogo,
     navItems: [
-      { id: 'home', label: 'Home', active: true },
-      { id: 'docs', label: 'Documents' },
+      { id: 'home', label: 'Home' },
+      { id: 'agreements', label: 'Agreements', active: true },
+      { id: 'templates', label: 'Templates' },
+      { id: 'reports', label: 'Reports' },
+      { id: 'admin', label: 'Admin' },
     ],
+    showAppSwitcher: false,
+    showSearch: true,
+    searchVariant: 'pill',
+    showNotifications: true,
+    notificationCount: 1,
+    showSettings: true,
+    settingsIcon: 'filter',
+    user: { name: 'AM' },
   },
 };
 
