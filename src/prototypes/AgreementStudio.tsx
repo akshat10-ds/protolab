@@ -1417,10 +1417,15 @@ const AIPanel: React.FC<AIPanelProps> = ({
               >
                 {message.content}
               </div>
-              <button type="button" className={styles.expandCollapseButton} onClick={toggleExpand}>
-                <Icon name={isExpanded ? 'chevron-up' : 'chevron-down'} size="small" />
-                <span>{isExpanded ? 'Show less' : 'Show full prompt'}</span>
-              </button>
+              <Tooltip text={isExpanded ? 'Collapse' : 'Expand'} location="before">
+                <button
+                  type="button"
+                  className={styles.expandCollapseButton}
+                  onClick={toggleExpand}
+                >
+                  <Icon name={isExpanded ? 'collapse' : 'expand'} size="small" />
+                </button>
+              </Tooltip>
             </div>
           );
         }

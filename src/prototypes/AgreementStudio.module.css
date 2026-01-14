@@ -981,7 +981,7 @@
   max-width: 85%;
   margin-left: auto;
   padding: var(--ink-spacing-150) var(--ink-spacing-200);
-  padding-bottom: var(--ink-spacing-400); /* Extra space at bottom for button */
+  padding-right: 44px; /* Space for icon button */
   background: var(--ink-bg-color-muted);
   border-radius: var(--ink-radius-size-m);
   color: var(--ink-font-color-default);
@@ -1007,22 +1007,21 @@
   /* Full content shown */
 }
 
-/* Button positioned inside the bubble at bottom-right */
+/* Small icon button in top-right corner */
 .expandCollapseButton {
   position: absolute;
-  bottom: var(--ink-spacing-100);
-  right: var(--ink-spacing-150);
+  top: var(--ink-spacing-100);
+  right: var(--ink-spacing-100);
   display: flex;
   align-items: center;
-  gap: var(--ink-spacing-50);
-  padding: var(--ink-spacing-50) var(--ink-spacing-100);
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
   background: var(--ink-bg-color-default);
   border: 1px solid var(--ink-border-color-subtle);
   border-radius: var(--ink-radius-size-xs);
   color: var(--ink-font-color-neutral);
-  font-family: var(--ink-font-family-default);
-  font-size: var(--ink-font-size-xs);
-  font-weight: var(--ink-font-weight-medium);
   cursor: pointer;
   transition:
     background-color 150ms ease,
