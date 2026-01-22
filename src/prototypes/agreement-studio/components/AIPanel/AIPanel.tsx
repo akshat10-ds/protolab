@@ -24,11 +24,10 @@ import {
 
 // Types
 import type {
-  RichMessageData,
   CitationData,
-  ConflictData,
   Agreement,
   ExtendedSuggestedAction,
+  MarkdownResponseData,
 } from '../../data/agreement-studio-types';
 
 // Data
@@ -37,17 +36,17 @@ import {
   SUGGESTED_QUESTIONS,
   CHAT_HISTORY,
   STORED_CONVERSATIONS,
-  SCRIPTED_RESPONSES,
-  CONFLICT_RESPONSES,
+  MARKDOWN_RESPONSES,
 } from '../../data/agreement-studio-data';
 
 // Components
 import { Toast } from '../Toast';
 import { ShareModal } from '../ShareModal';
-import { RichMessage } from '../RichMessage';
+import { MarkdownMessage } from '../MarkdownMessage';
 import { DocumentCanvas } from '../DocumentCanvas';
 import { AgreementsSidebar } from '../AgreementsSidebar';
-import { ConflictView } from '../ConflictView';
+import { DocumentPreviewCard } from '../DocumentPreviewCard';
+import { ThinkingSteps } from '../ThinkingSteps';
 
 import styles from './AIPanel.module.css';
 
@@ -96,6 +95,211 @@ export const AIPanel: React.FC<AIPanelProps> = ({
   const chatWrapperRef = useRef<HTMLDivElement>(null);
   const savedScrollPositionRef = useRef<number>(0);
 
+  // Smart scroll tracking - only auto-scroll if user is near bottom
+  const isUserNearBottomRef = useRef(true);
+  const [showScrollToBottom, setShowScrollToBottom] = useState(false);
+
+  // Scroll-to-top enforcement for Gemini-style pattern
+  // Stores the target scroll position to maintain during streaming
+  const maintainScrollPositionRef = useRef<number | null>(null);
+  const scrollObserverRef = useRef<MutationObserver | null>(null);
+  const scrollEnforcementRafRef = useRef<number | null>(null);
+
+  // Skip/Stop generation controls
+  const [canSkip, setCanSkip] = useState(false);
+  const skipRequestedRef = useRef(false);
+  const stopRequestedRef = useRef(false);
+
+  // Smart scroll helper - scrolls to show specific content without following during streaming
+  const scrollToElement = useCallback((selector: string, behavior: ScrollBehavior = 'smooth') => {
+    if (!chatWrapperRef.current) return;
+    const scrollContainer = chatWrapperRef.current.querySelector('[class*="messagesContainer"]');
+    const targetElement = chatWrapperRef.current.querySelector(selector);
+    if (scrollContainer && targetElement) {
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const targetRect = targetElement.getBoundingClientRect();
+      const scrollTop = (scrollContainer as HTMLElement).scrollTop;
+      // Scroll so target is near the top of the container with some padding
+      const targetOffset = targetRect.top - containerRect.top + scrollTop - 20;
+      (scrollContainer as HTMLElement).scrollTo({ top: targetOffset, behavior });
+    }
+  }, []);
+
+  // Check if user is near bottom of scroll container
+  const checkIfNearBottom = useCallback(() => {
+    if (!chatWrapperRef.current) return true;
+    const scrollContainer = chatWrapperRef.current.querySelector('[class*="messagesContainer"]');
+    if (!scrollContainer) return true;
+    const { scrollTop, scrollHeight, clientHeight } = scrollContainer as HTMLElement;
+    const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+    return distanceFromBottom < 100; // Within 100px of bottom
+  }, []);
+
+  // Scroll to bottom of chat (for showing new AI response start)
+  // If force=false, only scrolls if user is already near bottom
+  const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth', force = false) => {
+    if (!chatWrapperRef.current) return;
+    if (!force && !isUserNearBottomRef.current) {
+      // User scrolled up, show "scroll to bottom" button instead
+      setShowScrollToBottom(true);
+      return;
+    }
+    const scrollContainer = chatWrapperRef.current.querySelector('[class*="messagesContainer"]');
+    if (scrollContainer) {
+      (scrollContainer as HTMLElement).scrollTo({
+        top: (scrollContainer as HTMLElement).scrollHeight,
+        behavior,
+      });
+      setShowScrollToBottom(false);
+    }
+  }, []);
+
+  // Stop enforcing scroll position (called when streaming completes or user manually scrolls)
+  const stopScrollEnforcement = useCallback(() => {
+    maintainScrollPositionRef.current = null;
+    if (scrollObserverRef.current) {
+      scrollObserverRef.current.disconnect();
+      scrollObserverRef.current = null;
+    }
+    if (scrollEnforcementRafRef.current !== null) {
+      cancelAnimationFrame(scrollEnforcementRafRef.current);
+      scrollEnforcementRafRef.current = null;
+    }
+  }, []);
+
+  // Scroll so the user's message is at the absolute TOP of the viewport
+  // This creates empty space below for the AI response to stream into (Gemini-style)
+  // Uses a MutationObserver to continuously enforce scroll position during streaming
+  const scrollToNewResponseTop = useCallback(() => {
+    if (!chatWrapperRef.current) return;
+
+    // Find the scroll container - AIChat uses .messageList which has overflow-y: auto
+    const scrollContainer = chatWrapperRef.current.querySelector(
+      '[class*="messageList"]'
+    ) as HTMLElement;
+    if (!scrollContainer) return;
+
+    // Helper to find user message and calculate target scroll
+    const calculateTargetScroll = (): number | null => {
+      const messagesStack = scrollContainer.querySelector('[class*="messages"]');
+      if (!messagesStack) return null;
+
+      const children = Array.from(messagesStack.children);
+      // Last child is the messagesEndRef div, second-to-last is AI message, third-to-last is user message
+      if (children.length < 3) return null;
+
+      // Get the user message that triggered the response (third from end, before AI message and endRef)
+      const userMessageElement = children[children.length - 3] as HTMLElement;
+      if (!userMessageElement) return null;
+
+      return Math.max(0, userMessageElement.offsetTop - 16);
+    };
+
+    const targetScrollTop = calculateTargetScroll();
+    if (targetScrollTop === null) return;
+
+    // Apply scroll immediately
+    scrollContainer.scrollTop = targetScrollTop;
+    setShowScrollToBottom(false);
+
+    // Store target for enforcement
+    maintainScrollPositionRef.current = targetScrollTop;
+
+    // Set up MutationObserver to re-enforce scroll position when DOM changes
+    // This handles React re-renders and content streaming that would otherwise reset scroll
+    if (scrollObserverRef.current) {
+      scrollObserverRef.current.disconnect();
+    }
+
+    scrollObserverRef.current = new MutationObserver(() => {
+      if (maintainScrollPositionRef.current !== null) {
+        // Re-calculate target position by re-querying the DOM (not using stale closure)
+        const freshTarget = calculateTargetScroll();
+        if (freshTarget !== null) {
+          maintainScrollPositionRef.current = freshTarget;
+          scrollContainer.scrollTop = freshTarget;
+        }
+      }
+    });
+
+    // Observe changes to the scroll container's children (streaming content)
+    scrollObserverRef.current.observe(scrollContainer, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+
+    // Also use requestAnimationFrame loop for the first 2 seconds to aggressively enforce scroll
+    // This catches any scroll resets that MutationObserver might miss
+    const startTime = Date.now();
+    const ENFORCEMENT_DURATION = 2000; // 2 seconds
+
+    const enforceLoop = () => {
+      if (maintainScrollPositionRef.current === null) return;
+      if (Date.now() - startTime > ENFORCEMENT_DURATION) return;
+
+      const freshTarget = calculateTargetScroll();
+      if (freshTarget !== null && Math.abs(scrollContainer.scrollTop - freshTarget) > 10) {
+        scrollContainer.scrollTop = freshTarget;
+        maintainScrollPositionRef.current = freshTarget;
+      }
+
+      scrollEnforcementRafRef.current = requestAnimationFrame(enforceLoop);
+    };
+
+    scrollEnforcementRafRef.current = requestAnimationFrame(enforceLoop);
+  }, []);
+
+  // Track scroll position to know if user is near bottom
+  // Also detect user manual scroll to stop scroll enforcement
+  useEffect(() => {
+    const scrollContainer = chatWrapperRef.current?.querySelector('[class*="messageList"]');
+    if (!scrollContainer) return;
+
+    let lastScrollTop = (scrollContainer as HTMLElement).scrollTop;
+
+    const handleScroll = () => {
+      const currentScrollTop = (scrollContainer as HTMLElement).scrollTop;
+      const nearBottom = checkIfNearBottom();
+      isUserNearBottomRef.current = nearBottom;
+
+      if (nearBottom) {
+        setShowScrollToBottom(false);
+      }
+
+      // If scroll position changed significantly from the enforced position,
+      // user likely scrolled manually - stop enforcement
+      if (maintainScrollPositionRef.current !== null) {
+        const diff = Math.abs(currentScrollTop - maintainScrollPositionRef.current);
+        // Allow small tolerance (5px) for minor adjustments, but if user scrolled > 50px, stop enforcement
+        if (diff > 50) {
+          stopScrollEnforcement();
+          // Show scroll-to-bottom button since user scrolled away
+          if (!nearBottom) {
+            setShowScrollToBottom(true);
+          }
+        }
+      }
+
+      lastScrollTop = currentScrollTop;
+    };
+
+    scrollContainer.addEventListener('scroll', handleScroll);
+    return () => scrollContainer.removeEventListener('scroll', handleScroll);
+  }, [checkIfNearBottom, stopScrollEnforcement]);
+
+  // Cleanup scroll observer and RAF on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollObserverRef.current) {
+        scrollObserverRef.current.disconnect();
+      }
+      if (scrollEnforcementRafRef.current !== null) {
+        cancelAnimationFrame(scrollEnforcementRafRef.current);
+      }
+    };
+  }, []);
+
   // Attention animation for context source pill
   const [showContextAttention, setShowContextAttention] = useState(false);
   // Attention animation for input container (triggered on quick action click)
@@ -129,9 +333,22 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     }
   }, [isOpen, agreementCount]);
 
-  // Rich message and document viewer state
-  const [richMessages, setRichMessages] = useState<Map<string, RichMessageData>>(new Map());
-  const [conflictMessages, setConflictMessages] = useState<Map<string, ConflictData[]>>(new Map());
+  // Markdown message and document viewer state
+  const [markdownMessages, setMarkdownMessages] = useState<Map<string, MarkdownResponseData>>(
+    new Map()
+  );
+  // Track which AI messages are currently streaming (for ThinkingSteps animation)
+  const [streamingMessageIds, setStreamingMessageIds] = useState<Set<string>>(new Set());
+  // Track partially streamed markdown content for progressive reveal
+  const [streamingMarkdownContent, setStreamingMarkdownContent] = useState<Map<string, string>>(
+    new Map()
+  );
+  // Track thinking steps expanded state per message (auto-collapse when content starts)
+  const [thinkingExpandedState, setThinkingExpandedState] = useState<Map<string, boolean>>(
+    new Map()
+  );
+  // Track last response for "yes" to advance through scenario
+  const [lastResponseKey, setLastResponseKey] = useState<string | null>(null);
   const [isDocumentCanvasOpen, setIsDocumentCanvasOpen] = useState(false);
   const [activeCitation, setActiveCitation] = useState<CitationData | null>(null);
   const [isDocumentLoading, setIsDocumentLoading] = useState(false);
@@ -410,6 +627,12 @@ export const AIPanel: React.FC<AIPanelProps> = ({
       // Escape key handling
       if (e.key === 'Escape') {
         e.preventDefault();
+        // If streaming, skip to completion first
+        if (canSkip) {
+          skipRequestedRef.current = true;
+          setCanSkip(false);
+          return;
+        }
         if (isDocumentCanvasOpen) {
           // Close document canvas first
           handleCloseDocumentCanvas();
@@ -436,80 +659,350 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     chatInputValue,
     handleCloseDocumentCanvas,
     onClose,
+    canSkip,
   ]);
 
-  const handleSendMessage = useCallback((content: string, fromSuggestion = false) => {
-    const userMessage: ChatMessage = {
-      id: `user-${Date.now()}`,
-      role: 'user',
-      content,
-      timestamp: new Date(),
-      metadata: fromSuggestion ? { fromSuggestion: true } : undefined,
-    };
-    setMessages((prev) => [...prev, userMessage]);
+  const handleSendMessage = useCallback(
+    (content: string, fromSuggestion = false) => {
+      const userMessage: ChatMessage = {
+        id: `user-${Date.now()}`,
+        role: 'user',
+        content,
+        timestamp: new Date(),
+        metadata: fromSuggestion ? { fromSuggestion: true } : undefined,
+      };
+      setMessages((prev) => [...prev, userMessage]);
 
-    setIsLoading(true);
+      setIsLoading(true);
 
-    // Check if this is a scripted prompt (rich message or conflict)
-    // Match by exact key, content starting with key, OR action marker in expanded prompts
-    const scriptedKey = Object.keys(SCRIPTED_RESPONSES).find(
-      (key) =>
-        content === key || content.startsWith(`${key}:`) || content.includes(`[Action: ${key}]`)
-    );
-    const conflictKey = Object.keys(CONFLICT_RESPONSES).find(
-      (key) =>
-        content === key || content.startsWith(`${key}:`) || content.includes(`[Action: ${key}]`)
-    );
+      // Check if this is a scripted prompt (markdown response)
+      // Match case-insensitively by exact key, content starting with key, OR action marker
+      const contentLower = content.toLowerCase().trim();
 
-    const scriptedResponse = scriptedKey ? SCRIPTED_RESPONSES[scriptedKey] : undefined;
-    const conflictResponse = conflictKey ? CONFLICT_RESPONSES[conflictKey] : undefined;
+      // Define scenario flow: "yes" advances through these steps
+      const scenarioFlow: Record<string, string> = {
+        'Calculate Price Adjustment': 'yes', // After summary, "yes" triggers pricing history
+        yes: 'sure', // After pricing history, "yes" triggers calculation
+        'Show pricing history': 'sure', // Same as above
+      };
 
-    // Simulate initial thinking delay
-    setTimeout(() => {
-      const aiMessageId = `ai-${Date.now()}`;
-      let responseText = `I understand you're asking about "${content.slice(0, 50)}${content.length > 50 ? '...' : ''}". Let me analyze the 15 Acme agreements to provide you with accurate information.`;
+      // Check if user said "yes" and determine what step to show
+      let markdownKey: string | undefined;
+      const isAffirmative = [
+        'yes',
+        'sure',
+        'ok',
+        'okay',
+        'go ahead',
+        'search',
+        'calculate',
+      ].includes(contentLower);
 
-      if (scriptedResponse) {
-        responseText = `I've analyzed all 15 Acme agreements to identify the prevailing terms. Here's what I found:`;
-      } else if (conflictResponse) {
-        responseText = `I've cross-referenced all 15 Acme agreements to identify conflicting provisions. Here's what I found:`;
+      if (isAffirmative && lastResponseKey) {
+        // Advance to next step based on last response
+        if (lastResponseKey === 'Calculate Price Adjustment') {
+          markdownKey = 'yes'; // Show pricing history
+        } else if (lastResponseKey === 'yes' || lastResponseKey === 'Show pricing history') {
+          markdownKey = 'sure'; // Show calculation
+        } else if (
+          lastResponseKey === 'sure' ||
+          lastResponseKey === 'search' ||
+          lastResponseKey === 'calculate'
+        ) {
+          markdownKey = 'draft'; // Show draft amendment
+        }
       }
 
-      // Start with empty message for streaming effect
-      const aiMessage: ChatMessage = {
-        id: aiMessageId,
-        role: 'assistant',
-        content: '',
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, aiMessage]);
-      setIsLoading(false);
+      // If not an affirmative advancing the flow, do normal matching
+      if (!markdownKey) {
+        markdownKey = Object.keys(MARKDOWN_RESPONSES).find(
+          (key) =>
+            contentLower === key.toLowerCase() ||
+            content.startsWith(`${key}:`) ||
+            content.includes(`[Action: ${key}]`)
+        );
+      }
 
-      // Stream text word by word
-      const words = responseText.split(' ');
-      let currentIndex = 0;
+      const markdownResponse = markdownKey ? MARKDOWN_RESPONSES[markdownKey] : undefined;
 
-      const streamInterval = setInterval(() => {
-        if (currentIndex < words.length) {
-          const partialText = words.slice(0, currentIndex + 1).join(' ');
-          setMessages((prev) =>
-            prev.map((msg) => (msg.id === aiMessageId ? { ...msg, content: partialText } : msg))
-          );
-          currentIndex++;
+      // Check if response has thinking steps (ThinkingSteps serves as loading indicator)
+      const hasThinkingSteps =
+        markdownResponse?.thinkingSteps && markdownResponse.thinkingSteps.length > 0;
+
+      const aiMessageId = `ai-${Date.now()}`;
+      let responseText = `I couldn't find a specific answer for that. Could you try rephrasing your question?`;
+
+      if (markdownResponse) {
+        // Determine intro text based on the action
+        if (markdownKey === 'Summarize Prevailing Terms') {
+          responseText = `I've analyzed all 15 Acme agreements to identify the prevailing terms. Here's what I found:`;
+        } else if (markdownKey === 'Check for Conflicts') {
+          responseText = `I've cross-referenced all 15 Acme agreements to identify conflicting provisions. Here's what I found:`;
         } else {
-          clearInterval(streamInterval);
-
-          // After streaming completes, add rich message data if applicable
-          if (scriptedResponse) {
-            setRichMessages((prev) => new Map(prev).set(aiMessageId, scriptedResponse));
-          }
-          if (conflictResponse) {
-            setConflictMessages((prev) => new Map(prev).set(aiMessageId, conflictResponse));
-          }
+          // Generic intro for other markdown responses
+          responseText = `Here's what I found:`;
         }
-      }, 30); // 30ms per word for smooth streaming
-    }, 1500); // Show skeleton loader for a moment before response
-  }, []);
+      }
+
+      if (hasThinkingSteps) {
+        // Reset skip/stop state
+        skipRequestedRef.current = false;
+        stopRequestedRef.current = false;
+        setCanSkip(true);
+
+        // For responses with thinking steps: show ThinkingSteps immediately
+        const aiMessage: ChatMessage = {
+          id: aiMessageId,
+          role: 'assistant',
+          content: '',
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, aiMessage]);
+        setIsLoading(false);
+
+        // Add markdown data immediately so ThinkingSteps renders
+        setMarkdownMessages((prev) => new Map(prev).set(aiMessageId, markdownResponse!));
+        // Mark as streaming for ThinkingSteps animation
+        setStreamingMessageIds((prev) => new Set(prev).add(aiMessageId));
+        // Start with thinking steps expanded
+        setThinkingExpandedState((prev) => new Map(prev).set(aiMessageId, true));
+
+        // Scroll so the user message + new AI response appear at the TOP (Gemini pattern)
+        // Use a single delayed scroll after React has finished initial renders
+        setTimeout(() => {
+          scrollToNewResponseTop();
+        }, 150);
+
+        // Calculate delay for thinking animation (reduced by ~40% for snappier feel)
+        // Each step: ~1.5-2s action + 0.5s result = ~2s average per step
+        const thinkingDuration = markdownResponse!.thinkingSteps!.length * 2000 + 300;
+
+        // Helper to complete streaming immediately (for skip)
+        const completeStreaming = () => {
+          setMessages((prev) =>
+            prev.map((msg) => (msg.id === aiMessageId ? { ...msg, content: responseText } : msg))
+          );
+          setStreamingMarkdownContent((prev) => {
+            const next = new Map(prev);
+            next.delete(aiMessageId);
+            return next;
+          });
+          setStreamingMessageIds((prev) => {
+            const next = new Set(prev);
+            next.delete(aiMessageId);
+            return next;
+          });
+          setCanSkip(false);
+          setLastResponseKey(markdownKey!);
+          // Stop scroll enforcement when streaming completes
+          stopScrollEnforcement();
+          scrollToBottom('smooth', true);
+        };
+
+        // After thinking animation completes, start text streaming
+        setTimeout(() => {
+          // Check if skip was requested during thinking
+          if (skipRequestedRef.current || stopRequestedRef.current) {
+            completeStreaming();
+            return;
+          }
+
+          // Don't scroll here - keep user message at top (Gemini pattern)
+
+          // Parse markdown content into semantic chunks for smarter streaming
+          const fullContent = markdownResponse?.content || '';
+          const introWords = responseText.split(' ');
+
+          // Split content into semantic chunks: lines, but buffer table rows together
+          const rawLines = fullContent.split('\n');
+          const semanticChunks: string[] = [];
+          let tableBuffer: string[] = [];
+
+          for (const line of rawLines) {
+            if (line.trim().startsWith('|')) {
+              // Buffer table rows
+              tableBuffer.push(line);
+            } else {
+              // Flush table buffer if we have one
+              if (tableBuffer.length > 0) {
+                semanticChunks.push(tableBuffer.join('\n'));
+                tableBuffer = [];
+              }
+              semanticChunks.push(line);
+            }
+          }
+          // Flush remaining table buffer
+          if (tableBuffer.length > 0) {
+            semanticChunks.push(tableBuffer.join('\n'));
+          }
+
+          let introIndex = 0;
+          let chunkIndex = 0;
+          let wordIndexInChunk = 0;
+
+          // Stream intro text first, then markdown content by words/chunks
+          const streamNextChunk = () => {
+            // Check for skip/stop
+            if (skipRequestedRef.current || stopRequestedRef.current) {
+              completeStreaming();
+              return;
+            }
+
+            // Phase 1: Stream intro text word by word
+            if (introIndex < introWords.length) {
+              const chunkSize = Math.floor(Math.random() * 3) + 1;
+              const endIndex = Math.min(introIndex + chunkSize, introWords.length);
+              const partialText = introWords.slice(0, endIndex).join(' ');
+
+              setMessages((prev) =>
+                prev.map((msg) => (msg.id === aiMessageId ? { ...msg, content: partialText } : msg))
+              );
+
+              introIndex = endIndex;
+              // Don't auto-scroll during streaming - keep user message at top (Gemini pattern)
+
+              const lastWord = introWords[endIndex - 1] || '';
+              let delay = 20 + Math.random() * 25;
+              if (lastWord.match(/[.!?]$/)) delay += 60;
+              else if (lastWord.match(/[,;:]$/)) delay += 30;
+
+              setTimeout(streamNextChunk, delay);
+              return;
+            }
+
+            // Phase 2: Stream markdown content by semantic chunks
+            if (chunkIndex < semanticChunks.length) {
+              // Auto-collapse thinking steps when markdown content starts
+              if (chunkIndex === 0 && wordIndexInChunk === 0) {
+                setThinkingExpandedState((prev) => new Map(prev).set(aiMessageId, false));
+              }
+
+              const currentChunk = semanticChunks[chunkIndex];
+              const isTable = currentChunk.includes('|');
+              const isHeader = currentChunk.startsWith('#');
+              const isList = currentChunk.startsWith('-') || currentChunk.match(/^\d+\./);
+
+              // Tables render as complete blocks
+              if (isTable) {
+                const completedChunks = semanticChunks.slice(0, chunkIndex + 1);
+                setStreamingMarkdownContent((prev) =>
+                  new Map(prev).set(aiMessageId, completedChunks.join('\n'))
+                );
+                chunkIndex++;
+                wordIndexInChunk = 0;
+                // Don't auto-scroll - keep user message at top (Gemini pattern)
+                setTimeout(streamNextChunk, 80 + Math.random() * 40); // Pause after table
+                return;
+              }
+
+              // Headers and list items render as complete lines
+              if (isHeader || isList || currentChunk.trim() === '') {
+                const completedChunks = semanticChunks.slice(0, chunkIndex + 1);
+                setStreamingMarkdownContent((prev) =>
+                  new Map(prev).set(aiMessageId, completedChunks.join('\n'))
+                );
+                chunkIndex++;
+                wordIndexInChunk = 0;
+                // Don't auto-scroll - keep user message at top (Gemini pattern)
+                const delay = currentChunk.trim() === '' ? 30 : 50 + Math.random() * 30;
+                setTimeout(streamNextChunk, delay);
+                return;
+              }
+
+              // Regular text: stream word by word
+              const words = currentChunk.split(' ');
+              const wordsPerChunk = 2 + Math.floor(Math.random() * 3); // 2-4 words at a time
+              wordIndexInChunk = Math.min(wordIndexInChunk + wordsPerChunk, words.length);
+
+              const partialLine = words.slice(0, wordIndexInChunk).join(' ');
+              const completedChunks = semanticChunks.slice(0, chunkIndex);
+              const partialMarkdown = [...completedChunks, partialLine].join('\n');
+
+              setStreamingMarkdownContent((prev) =>
+                new Map(prev).set(aiMessageId, partialMarkdown)
+              );
+              // Don't auto-scroll - keep user message at top (Gemini pattern)
+
+              if (wordIndexInChunk >= words.length) {
+                // Line complete, move to next chunk
+                chunkIndex++;
+                wordIndexInChunk = 0;
+                const lastWord = words[words.length - 1] || '';
+                let delay = 25 + Math.random() * 20;
+                if (lastWord.match(/[.!?]$/)) delay += 50;
+                else if (lastWord.match(/[,;:]$/)) delay += 25;
+                setTimeout(streamNextChunk, delay);
+              } else {
+                // Continue streaming words in current line
+                setTimeout(streamNextChunk, 15 + Math.random() * 20);
+              }
+              return;
+            }
+
+            // Phase 3: All done - mark streaming complete
+            completeStreaming();
+          };
+
+          streamNextChunk();
+        }, thinkingDuration);
+      } else {
+        // For responses without thinking steps: use skeleton delay
+        setTimeout(() => {
+          const aiMessage: ChatMessage = {
+            id: aiMessageId,
+            role: 'assistant',
+            content: '',
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, aiMessage]);
+          setIsLoading(false);
+
+          // Scroll to show the new AI message
+          setTimeout(() => scrollToBottom('smooth'), 50);
+
+          // Stream text with variable timing for realistic feel
+          const words = responseText.split(' ');
+          let currentIndex = 0;
+
+          const streamNextChunk = () => {
+            if (currentIndex >= words.length) {
+              // After streaming completes, add markdown message data if applicable
+              if (markdownResponse && markdownKey) {
+                setMarkdownMessages((prev) => new Map(prev).set(aiMessageId, markdownResponse));
+                setLastResponseKey(markdownKey);
+              }
+              return;
+            }
+
+            // Stream 1-3 words at a time (like real LLM tokens)
+            const chunkSize = Math.floor(Math.random() * 3) + 1;
+            const endIndex = Math.min(currentIndex + chunkSize, words.length);
+            const partialText = words.slice(0, endIndex).join(' ');
+
+            setMessages((prev) =>
+              prev.map((msg) => (msg.id === aiMessageId ? { ...msg, content: partialText } : msg))
+            );
+
+            currentIndex = endIndex;
+
+            // Variable delay: slower at punctuation, faster for common words
+            const lastWord = words[endIndex - 1] || '';
+            let delay = 25 + Math.random() * 30; // Base: 25-55ms
+            if (lastWord.match(/[.!?]$/))
+              delay += 80; // Pause at sentences
+            else if (lastWord.match(/[,;:]$/))
+              delay += 40; // Smaller pause at commas
+            else if (lastWord.match(/\*\*$/)) delay += 20; // Slight pause at bold markers
+
+            setTimeout(streamNextChunk, delay);
+          };
+
+          streamNextChunk();
+        }, 1500); // Show skeleton for non-thinking responses
+      }
+    },
+    [lastResponseKey, scrollToNewResponseTop, stopScrollEnforcement, scrollToBottom]
+  );
 
   const handleSuggestionClick = useCallback(
     (suggestion: string) => {
@@ -530,11 +1023,28 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     [handleSendMessage, generateExpandedPromptText]
   );
 
-  // Custom message renderer for rich messages and conflicts
+  // Skip streaming - jump to final result
+  const handleSkip = useCallback(() => {
+    skipRequestedRef.current = true;
+    setCanSkip(false);
+  }, []);
+
+  // Stop generation - halt where we are
+  const handleStop = useCallback(() => {
+    stopRequestedRef.current = true;
+    setCanSkip(false);
+  }, []);
+
+  // Scroll to bottom button click
+  const handleScrollToBottomClick = useCallback(() => {
+    scrollToBottom('smooth', true);
+    setShowScrollToBottom(false);
+  }, [scrollToBottom]);
+
+  // Custom message renderer for markdown messages
   const renderMessage = useCallback(
     (message: ChatMessage) => {
-      const richData = richMessages.get(message.id);
-      const conflictData = conflictMessages.get(message.id);
+      const markdownData = markdownMessages.get(message.id);
 
       if (message.role === 'assistant') {
         // Feedback buttons component for AI responses
@@ -567,24 +1077,94 @@ export const AIPanel: React.FC<AIPanelProps> = ({
           </div>
         );
 
-        // Render rich message (e.g., Prevailing Terms Analysis)
-        if (richData) {
-          return (
-            <div className={styles.richMessageWrapper}>
-              <p className={styles.richMessageIntro}>{message.content}</p>
-              <RichMessage data={richData} onCitationClick={handleCitationClick} />
-              {feedbackButtons}
-            </div>
-          );
-        }
+        // Render markdown message (Prevailing Terms or Conflicts)
+        if (markdownData) {
+          const isMessageStreaming = streamingMessageIds.has(message.id);
+          const partialMarkdown = streamingMarkdownContent.get(message.id);
+          // Show markdown when we have partial content OR streaming is complete
+          const showMarkdown = partialMarkdown !== undefined || !isMessageStreaming;
+          // Use partial content while streaming, full content when complete
+          const markdownToRender = partialMarkdown ?? markdownData.content;
 
-        // Render conflict view (side-by-side comparison)
-        if (conflictData) {
           return (
             <div className={styles.richMessageWrapper}>
-              <p className={styles.richMessageIntro}>{message.content}</p>
-              <ConflictView conflicts={conflictData} onCitationClick={handleCitationClick} />
-              {feedbackButtons}
+              {markdownData.thinkingSteps && markdownData.thinkingSteps.length > 0 && (
+                <ThinkingSteps
+                  steps={markdownData.thinkingSteps}
+                  isStreaming={isMessageStreaming}
+                  isExpanded={thinkingExpandedState.get(message.id) ?? !isMessageStreaming}
+                  onExpandedChange={(expanded) => {
+                    setThinkingExpandedState((prev) => new Map(prev).set(message.id, expanded));
+                  }}
+                  onStepChange={() => {
+                    // Don't auto-scroll during thinking - keep user message at top (Gemini pattern)
+                  }}
+                  onAnswerNow={handleSkip}
+                />
+              )}
+              {/* Show intro text once it starts streaming (message.content is populated) */}
+              {message.content && (
+                <p className={styles.richMessageIntro}>
+                  {message.content}
+                  {/* Pulsing cursor while streaming intro (before markdown starts) */}
+                  {isMessageStreaming && !partialMarkdown && (
+                    <span className={styles.streamingCursor} />
+                  )}
+                </p>
+              )}
+              {/* Show markdown as it streams in */}
+              {showMarkdown && markdownToRender && (
+                <>
+                  <MarkdownMessage
+                    content={markdownToRender}
+                    citations={markdownData.citations}
+                    onCitationClick={handleCitationClick}
+                  />
+                  {/* Pulsing cursor at end of streaming markdown */}
+                  {isMessageStreaming && partialMarkdown && (
+                    <span className={styles.streamingCursor} />
+                  )}
+                </>
+              )}
+              {!isMessageStreaming && markdownData.documentPreview && (
+                <DocumentPreviewCard
+                  title={markdownData.documentPreview.title}
+                  label={markdownData.documentPreview.label}
+                  status={markdownData.documentPreview.status}
+                  details={markdownData.documentPreview.details}
+                  onDownload={() => {
+                    // Simulate download
+                    setToastState({
+                      visible: true,
+                      message: 'Downloading Amendment #4...',
+                      status: 'loading',
+                    });
+                    setTimeout(() => {
+                      setToastState({
+                        visible: true,
+                        message: 'Amendment #4 downloaded successfully',
+                        status: 'success',
+                      });
+                      setTimeout(
+                        () => setToastState((prev) => ({ ...prev, visible: false })),
+                        2000
+                      );
+                    }, 1500);
+                  }}
+                  onOpenFullView={() => {
+                    // Open document in canvas
+                    const citation = {
+                      id: 'draft-preview',
+                      documentId: markdownData.documentPreview?.documentId || 'draft-amendment-4',
+                      documentTitle: markdownData.documentPreview?.title || 'Draft Amendment',
+                      section: '§1.1 Price Adjustment',
+                      excerpt: 'Draft amendment for 2025 pricing adjustment',
+                    };
+                    handleCitationClick(citation);
+                  }}
+                />
+              )}
+              {!isMessageStreaming && feedbackButtons}
             </div>
           );
         }
@@ -645,7 +1225,16 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
       return null; // Return null to use default rendering
     },
-    [richMessages, conflictMessages, handleCitationClick, expandedUserMessages]
+    [
+      markdownMessages,
+      handleCitationClick,
+      expandedUserMessages,
+      streamingMessageIds,
+      streamingMarkdownContent,
+      thinkingExpandedState,
+      handleSkip,
+      scrollToBottom,
+    ]
   );
 
   // Handle drag resize
@@ -697,8 +1286,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
   const handleNewChat = useCallback(() => {
     // Clear current conversation and start fresh
     setMessages([]);
-    setRichMessages(new Map());
-    setConflictMessages(new Map());
+    setMarkdownMessages(new Map());
     setActiveHistoryId(null);
     setIsDocumentCanvasOpen(false);
     // Increment key to replay welcome animations
@@ -714,9 +1302,8 @@ export const AIPanel: React.FC<AIPanelProps> = ({
       const storedMessages = STORED_CONVERSATIONS[id];
       if (storedMessages) {
         setMessages(storedMessages);
-        // Clear rich messages and conflicts when switching conversations
-        setRichMessages(new Map());
-        setConflictMessages(new Map());
+        // Clear markdown messages when switching conversations
+        setMarkdownMessages(new Map());
       }
 
       if (!useInlineHistory) {
@@ -1013,7 +1600,22 @@ export const AIPanel: React.FC<AIPanelProps> = ({
               showInputAttention={showInputAttention}
               inputValue={chatInputValue}
               onInputChange={setChatInputValue}
+              isStreaming={canSkip}
+              onStop={handleStop}
+              disableAutoScroll={true}
             />
+
+            {/* Scroll to bottom button - appears when user scrolls up during streaming */}
+            {showScrollToBottom && (
+              <button
+                type="button"
+                className={styles.scrollToBottomButton}
+                onClick={handleScrollToBottomClick}
+              >
+                <Icon name="arrow-down" size={14} />
+                New content
+              </button>
+            )}
           </div>
         </div>
 

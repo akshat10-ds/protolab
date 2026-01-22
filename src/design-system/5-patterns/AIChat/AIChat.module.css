@@ -52,7 +52,8 @@
   min-height: 0; /* Allow flex item to shrink below content size */
   overflow-y: auto;
   padding: var(--ink-spacing-200);
-  scroll-behavior: smooth;
+  /* scroll-behavior removed to allow instant scrolls from JS */
+  overflow-anchor: none; /* Prevent browser from auto-adjusting scroll on content changes */
   animation: messageListFadeIn 400ms ease-out forwards;
 }
 
@@ -99,6 +100,7 @@
 
 .assistantMessage {
   margin-right: auto;
+  max-width: 100%; /* Allow full width for tables and rich content */
   animation: messageFadeIn 300ms ease-out forwards;
 }
 
@@ -127,6 +129,9 @@
 .userMessage .messageBubble {
   background: var(--ink-bg-color-muted);
   color: var(--ink-font-color-default);
+  width: fit-content;
+  max-width: 85%;
+  margin-left: auto;
 }
 
 /* Assistant message bubble - no background, just plain text */
@@ -650,8 +655,21 @@
   animation-delay: 300ms;
 }
 
-.suggestionCard:hover {
+.suggestionCard:hover:not(:disabled) {
   background: var(--ink-ecru-20);
+}
+
+.suggestionCardCompleted {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.suggestionCardCompleted:hover {
+  background: var(--ink-ecru-10);
+}
+
+.suggestionIconCompleted {
+  color: var(--ink-font-success);
 }
 
 .suggestionIcon {
@@ -718,4 +736,17 @@
 
 .messageList::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
+}
+
+/* ============================================================================
+   Feedback Buttons
+   ============================================================================ */
+
+.feedbackActive {
+  color: var(--ink-cobalt-100);
+  background: var(--ink-cobalt-10);
+}
+
+.feedbackActive:hover {
+  background: var(--ink-cobalt-20);
 }
