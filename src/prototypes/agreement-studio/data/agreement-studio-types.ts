@@ -131,3 +131,48 @@ export interface ChatHistoryData {
   yesterday: ChatHistoryEntry[];
   lastWeek: ChatHistoryEntry[];
 }
+
+// =============================================================================
+// Thinking Steps Types (agentic reasoning UI)
+// =============================================================================
+
+/**
+ * Represents a single step in the agent's reasoning process.
+ * Each step has an action (what it's doing) and optionally a result (what it learned).
+ * This models real agentic behavior where each step's output informs the next.
+ */
+export interface ThinkingStep {
+  id: string;
+  /** What the agent is doing (e.g., "Scanning 15 Acme agreements for pricing clauses") */
+  action: string;
+  /** What the agent found/learned - informs the next step (e.g., "Found 3 documents with pricing terms") */
+  result?: string;
+}
+
+// =============================================================================
+// Markdown Response Types (simplified AI responses)
+// =============================================================================
+
+export interface DocumentPreviewData {
+  /** Document title */
+  title: string;
+  /** Label above title (e.g., "Draft Amendment") */
+  label?: string;
+  /** Status badge text */
+  status?: string;
+  /** Detail rows to display */
+  details: { label: string; value: string }[];
+  /** Document ID for opening in full view */
+  documentId?: string;
+}
+
+export interface MarkdownResponseData {
+  /** Markdown content to render */
+  content: string;
+  /** Map of citation IDs (as strings "1", "2", etc.) to citation data */
+  citations: Record<string, CitationData>;
+  /** Optional document preview card data */
+  documentPreview?: DocumentPreviewData;
+  /** Optional thinking steps shown before content */
+  thinkingSteps?: ThinkingStep[];
+}

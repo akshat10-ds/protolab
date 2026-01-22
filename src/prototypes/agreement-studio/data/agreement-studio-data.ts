@@ -13,6 +13,7 @@ import type {
   RichMessageData,
   DocumentPageData,
   ConflictData,
+  MarkdownResponseData,
 } from './agreement-studio-types';
 
 // =============================================================================
@@ -380,6 +381,20 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
       ],
       estimatedTime: '~40 seconds',
       documentsToAnalyze: 15,
+    },
+  },
+  {
+    label: 'Calculate Price Adjustment',
+    description: 'Analyze renewal pricing rules and calculate adjustments',
+    icon: 'currency-dollar',
+    expansion: {
+      steps: [
+        'ROLE: Contract Pricing Analyst',
+        'TASK: Analyze price adjustment provisions',
+        'OBJECTIVE: Summarize key pricing terms for renewal',
+      ],
+      estimatedTime: '~30 seconds',
+      documentsToAnalyze: 12,
     },
   },
 ];
@@ -759,6 +774,115 @@ Priority response times remain unchanged:
 
 Support may be accessed via phone, email, or the online support portal.`,
   },
+  // Price Adjustment Scenario - Step 0 Citations
+  'cit-pa-1': {
+    pageNumber: 4,
+    totalPages: 6,
+    sectionTitle: '4. PRICE ADJUSTMENTS',
+    beforeText: `4.1 Annual Price Adjustment
+
+Effective with each Contract Year renewal, the unit pricing set forth in applicable Order Forms may be adjusted as follows:`,
+    highlightedText: `Price adjustments shall be the lesser of: (i) CPI-U annual change, (ii) 5% fixed tariff, or (iii) BLS Producer Price Index change.`,
+    afterText: `4.2 Notification
+
+Provider shall notify Customer of any price adjustment at least sixty (60) days prior to the start of each Contract Year.
+
+4.3 Dispute Resolution
+
+In the event of a dispute regarding the applicable price adjustment, the parties shall negotiate in good faith to resolve such dispute within thirty (30) days.`,
+  },
+  'cit-pa-2': {
+    pageNumber: 11,
+    totalPages: 18,
+    sectionTitle: '11. TERM AND RENEWAL',
+    beforeText: `11.1 Initial Term
+
+The initial term of this Agreement shall commence on the Effective Date and continue for five (5) years unless terminated earlier in accordance with Section 12.
+
+11.2 Automatic Renewal`,
+    highlightedText: `This Agreement shall automatically renew on January 15 of each year unless terminated with 90 days written notice.`,
+    afterText: `11.3 Effect of Renewal
+
+Upon each renewal, the terms and conditions of this Agreement shall continue in full force and effect, subject to any price adjustments as set forth in Section 4 or applicable Amendments.
+
+11.4 Renewal Notification
+
+Provider shall send Customer a renewal reminder at least one hundred twenty (120) days prior to each renewal date.`,
+  },
+  'cit-pa-3': {
+    pageNumber: 3,
+    totalPages: 8,
+    sectionTitle: '3. PRICING',
+    beforeText: `3.1 Unit Pricing
+
+For the 2024 Contract Year, the following pricing shall apply to all Products and Services ordered under this Order Form:`,
+    highlightedText: `Unit price for Services shall be $1.20 per unit for the 2024 contract year.`,
+    afterText: `3.2 Volume
+
+Customer commits to ordering a minimum of 1,500,000 units during the 2024 Contract Year.
+
+3.3 Volume Discounts
+
+The following volume discount schedule shall apply for orders exceeding the minimum commitment:
+• 1,500,001 - 2,000,000 units: 5% discount
+• 2,000,001 - 2,500,000 units: 10% discount
+• 2,500,001+ units: 15% discount`,
+  },
+  // Pricing History Citations (Step 1b)
+  'cit-ph-1': {
+    pageNumber: 3,
+    totalPages: 6,
+    sectionTitle: '3. PRICING',
+    beforeText: `3.1 Unit Pricing
+
+For the 2022 Contract Year, the following pricing shall apply to all Products and Services ordered under this Order Form:`,
+    highlightedText: `Unit price for Services shall be $1.00 per unit for the 2022 contract year. Customer commits to ordering a minimum of 1,200,000 units.`,
+    afterText: `3.2 Volume Discounts
+
+The following volume discount schedule shall apply for orders exceeding the minimum commitment:
+• 1,200,001 - 1,500,000 units: 5% discount
+• 1,500,001 - 2,000,000 units: 10% discount
+
+This represents the initial pricing structure established at contract commencement.`,
+  },
+  'cit-ph-2': {
+    pageNumber: 3,
+    totalPages: 6,
+    sectionTitle: '3. PRICING',
+    beforeText: `3.1 Unit Pricing
+
+For the 2023 Contract Year, the following pricing shall apply to all Products and Services ordered under this Order Form:`,
+    highlightedText: `Unit price for Services shall be $1.10 per unit for the 2023 contract year. Customer commits to ordering a minimum of 1,360,000 units.`,
+    afterText: `3.2 Price Adjustment Rationale
+
+The 10% price increase from $1.00 to $1.10 reflects:
+• CPI-U annual change: 8.0%
+• Applied rate: 10% (capped at tariff maximum per Amendment 2)
+
+3.3 Volume Discounts
+
+Same discount schedule as prior year applies.`,
+  },
+  'cit-ph-3': {
+    pageNumber: 3,
+    totalPages: 8,
+    sectionTitle: '3. PRICING',
+    beforeText: `3.1 Unit Pricing
+
+For the 2024 Contract Year, the following pricing shall apply to all Products and Services ordered under this Order Form:`,
+    highlightedText: `Unit price for Services shall be $1.20 per unit for the 2024 contract year. Customer commits to ordering a minimum of 1,500,000 units.`,
+    afterText: `3.2 Price Adjustment Rationale
+
+The 9.1% price increase from $1.10 to $1.20 reflects:
+• CPI-U annual change: 4.1%
+• BLS Producer Price Index: 3.2%
+• Fixed tariff: 5%
+• Applied rate: Minimum of above = 3.2% (rounded to $1.20)
+
+3.3 Volume Commitment
+
+Customer volume commitment increased to 1,500,000 units to reflect business growth.`,
+  },
 };
 
 // =============================================================================
@@ -824,4 +948,553 @@ export const CONFLICT_RESPONSES: Record<string, ConflictData[]> = {
       },
     },
   ],
+};
+
+// =============================================================================
+// Markdown Responses - Simplified AI responses using markdown formatting
+// =============================================================================
+
+export const MARKDOWN_RESPONSES: Record<string, MarkdownResponseData> = {
+  'Summarize Prevailing Terms': {
+    content: `## Prevailing Terms Analysis
+*Based on 15 Acme agreements*
+
+### Financials
+
+| Term | Value | Source |
+|------|-------|--------|
+| Unit Price | $150/unit | [Order Form 2024 §3.1]¹ |
+| Annual Minimum | $500K | [MSA §4.2]² |
+| Payment Terms | Net 30 | [Order Form 2024 §5.1]³ |
+
+### Risk & Liability
+
+- **Aggregate Cap:** $2M [MSA §8.1]⁴
+- **Indemnification:** Mutual [MSA §9]⁵
+- **IP Ownership:** Customer retains [SOW §5]⁶
+
+### Key Changes (2024)
+
+- SLA uptime: 99.5% → **99.9%** [Amendment #3 §2]⁷
+- Support hours: 8x5 → **24x7** [Amendment #3 §3]⁸
+
+---
+*8 citations from 4 documents*`,
+    citations: {
+      '1': {
+        id: 'cit-md-1',
+        documentId: '2',
+        documentTitle: 'Acme Corp - Order Form 2024',
+        section: '§3.1 Pricing',
+        excerpt:
+          'Unit pricing shall be One Hundred Fifty Dollars ($150.00) per unit, inclusive of standard support and maintenance. Volume discounts apply for orders exceeding 10,000 units per quarter.',
+      },
+      '2': {
+        id: 'cit-md-2',
+        documentId: '1',
+        documentTitle: 'Acme Corp - Master Services Agreement',
+        section: '§4.2 Minimum Commitment',
+        excerpt:
+          'Customer commits to a minimum annual spend of Five Hundred Thousand Dollars ($500,000.00 USD) during each Contract Year, calculated on a cumulative basis across all Order Forms.',
+      },
+      '3': {
+        id: 'cit-md-3',
+        documentId: '2',
+        documentTitle: 'Acme Corp - Order Form 2024',
+        section: '§5.1 Payment',
+        excerpt:
+          'All invoices are due and payable within thirty (30) days of the invoice date (Net 30). Late payments shall accrue interest at 1.5% per month or the maximum rate permitted by law.',
+      },
+      '4': {
+        id: 'cit-md-4',
+        documentId: '1',
+        documentTitle: 'Acme Corp - Master Services Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt:
+          "IN NO EVENT SHALL EITHER PARTY'S AGGREGATE LIABILITY EXCEED TWO MILLION DOLLARS ($2,000,000.00 USD), EXCEPT FOR BREACHES OF CONFIDENTIALITY OR INDEMNIFICATION OBLIGATIONS.",
+      },
+      '5': {
+        id: 'cit-md-5',
+        documentId: '1',
+        documentTitle: 'Acme Corp - Master Services Agreement',
+        section: '§9 Indemnification',
+        excerpt:
+          'Each party shall indemnify, defend, and hold harmless the other party from any third-party claims arising from (a) breach of this Agreement, (b) violation of applicable law, or (c) gross negligence or willful misconduct.',
+      },
+      '6': {
+        id: 'cit-md-6',
+        documentId: '3',
+        documentTitle: 'Acme Corp - SOW Implementation Services',
+        section: '§5 Intellectual Property',
+        excerpt:
+          'All Customer Data and pre-existing Customer IP shall remain the sole property of Customer. Any custom developments created specifically for Customer under this SOW shall be assigned to Customer upon full payment.',
+      },
+      '7': {
+        id: 'cit-md-7',
+        documentId: '6',
+        documentTitle: 'Acme Corp - Amendment #3 (SLA Update)',
+        section: '§2 Service Level Modifications',
+        excerpt:
+          'Section 6.1 of the MSA is hereby amended to increase the guaranteed uptime from ninety-nine point five percent (99.5%) to ninety-nine point nine percent (99.9%), with corresponding service credits.',
+      },
+      '8': {
+        id: 'cit-md-8',
+        documentId: '6',
+        documentTitle: 'Acme Corp - Amendment #3 (SLA Update)',
+        section: '§3 Support Enhancement',
+        excerpt:
+          'Standard support coverage is upgraded from business hours (8am-5pm, Monday-Friday) to twenty-four hours per day, seven days per week (24x7) at no additional charge, effective February 1, 2024.',
+      },
+    },
+  },
+  'Check for Conflicts': {
+    content: `## Conflict Analysis
+*Found 2 conflicts across 15 Acme agreements*
+
+---
+
+### ⚠️ Conflict 1: IP Ownership
+
+**MSA §7.1** — *Intellectual Property Rights*
+> "All Intellectual Property created by Provider shall be owned exclusively by Provider, with Customer receiving a perpetual, non-exclusive license..."
+
+**SOW 2024 §5.3** — *Work Product Ownership*
+> "Customer shall retain sole and exclusive ownership of all Work Product, including custom developments created specifically for Customer..."
+
+**Resolution:** SOW takes precedence per MSA §2.1 (Order of Precedence) [¹]
+
+---
+
+### ⚠️ Conflict 2: Termination Notice Period
+
+**MSA §12.2** — *Termination for Convenience*
+> "Either party may terminate this Agreement for convenience upon ninety (90) days prior written notice..."
+
+**Amendment #2 §4** — *Modified Termination*
+> "Section 12.2 is hereby modified to require one hundred twenty (120) days prior written notice..."
+
+**Resolution:** Amendment #2 supersedes MSA — **120 days notice required** [²]
+
+---
+*2 citations*`,
+    citations: {
+      '1': {
+        id: 'cit-md-conflict-1',
+        documentId: '1',
+        documentTitle: 'Acme Corp - Master Services Agreement',
+        section: '§2.1 Order of Precedence',
+        excerpt:
+          'In the event of a conflict between documents, the following order of precedence shall apply: (1) Amendments, in reverse chronological order; (2) Statements of Work; (3) Order Forms; (4) this Master Services Agreement.',
+      },
+      '2': {
+        id: 'cit-md-conflict-2',
+        documentId: '5',
+        documentTitle: 'Acme Corp - Amendment #2',
+        section: '§1 Effect of Amendment',
+        excerpt:
+          'This Amendment modifies and supplements the Master Services Agreement dated January 15, 2022. In case of conflict, this Amendment shall prevail.',
+      },
+    },
+  },
+  'Calculate Price Adjustment': {
+    content: `## Acme Corp - Renewal Summary
+
+*Analysis of 12 agreements for pricing and renewal terms*
+
+### Key Terms
+
+- **Price Increase Provisions:** Amendment 2 §4.1 establishes a "minimum of three indices" methodology [¹]
+- **Renewal Dates:** Auto-renewal on January 15 annually per MSA §11.2 [²]
+- **Current Base Price:** $1.20/unit per Order Form #4 §3.1 [³]
+- **Volume Commitment:** 1,500,000 units annually
+
+### Pricing Methodology
+
+Per Amendment 2, price adjustments are calculated as the **minimum** of:
+1. CPI-U annual change
+2. 5% fixed tariff
+3. BLS Producer Price Index
+
+---
+
+*Want me to show the pricing history and calculate the adjustment for your upcoming renewal?*`,
+    thinkingSteps: [
+      {
+        id: '1',
+        action: 'Scanning 15 Acme Corp agreements for pricing clauses',
+        result:
+          'I found 4 documents containing pricing-related terms: the Master Services Agreement, Amendment #2, and Order Forms from 2023 and 2024.',
+      },
+      {
+        id: '2',
+        action: 'Reading MSA-2022-001 §11 Pricing',
+        result:
+          'The MSA establishes base pricing terms but defers adjustment methodology to Amendment #2, which governs all annual price changes.',
+      },
+      {
+        id: '3',
+        action: 'Checking Amendment #2 §4.1',
+        result:
+          'This section specifies a "minimum of three indices" formula—the adjustment must be the lesser of CPI-U, a 5% cap, or the BLS Producer Price Index.',
+      },
+      {
+        id: '4',
+        action: 'Extracting current rate from Order Form 2024',
+        result:
+          'The current unit price is $1.20, established in January 2024 with an annual volume of 1.5M units.',
+      },
+    ],
+    citations: {
+      '1': {
+        id: 'cit-pa-1',
+        documentId: '5',
+        documentTitle: 'Acme Corp - Amendment #2 (Term Extension)',
+        section: '§4.1 Price Adjustments',
+        excerpt:
+          'Price adjustments shall be the lesser of: (i) CPI-U annual change, (ii) 5% fixed tariff, or (iii) BLS Producer Price Index change.',
+      },
+      '2': {
+        id: 'cit-pa-2',
+        documentId: '1',
+        documentTitle: 'Acme Corp - Master Services Agreement',
+        section: '§11.2 Renewal',
+        excerpt:
+          'This Agreement shall automatically renew on January 15 of each year unless terminated with 90 days written notice.',
+      },
+      '3': {
+        id: 'cit-pa-3',
+        documentId: '2',
+        documentTitle: 'Acme Corp - Order Form 2024',
+        section: '§3.1 Unit Pricing',
+        excerpt: 'Unit price for Services shall be $1.20 per unit for the 2024 contract year.',
+      },
+    },
+  },
+  'Show pricing history': {
+    content: `## Pricing History
+
+*Extracted from Order Forms 2022-2024*
+
+| Order Form | Year | Unit Price | Volume | Total Value |
+|------------|------|------------|--------|-------------|
+| [OF-2022]⁴ | 2022 | $1.00 | 1.2M units | $1,200,000 |
+| [OF-2023]⁵ | 2023 | $1.10 | 1.36M units | $1,500,000 |
+| [OF-2024]⁶ | 2024 | $1.20 | 1.5M units | $1,800,000 |
+
+### Summary
+
+- **Current Base Price:** $1.20/unit
+- **3-Year Growth:** +20% ($1.00 → $1.20)
+- **Average Annual Increase:** 6.7%
+
+---
+
+*I have the base price and tariff rate from your agreements. To calculate the 2025 price, I need the current CPI-U and BLS Producer Price Index rates. Would you like me to search the web for these, or do you have them available?*`,
+    citations: {
+      '4': {
+        id: 'cit-ph-1',
+        documentId: '13',
+        documentTitle: 'Acme Corp - Order Form 2022',
+        section: '§3.1 Unit Pricing',
+        excerpt:
+          'Unit price for Services shall be $1.00 per unit for the 2022 contract year. Customer commits to ordering a minimum of 1,200,000 units.',
+      },
+      '5': {
+        id: 'cit-ph-2',
+        documentId: '9',
+        documentTitle: 'Acme Corp - Order Form 2023',
+        section: '§3.1 Unit Pricing',
+        excerpt:
+          'Unit price for Services shall be $1.10 per unit for the 2023 contract year. Customer commits to ordering a minimum of 1,360,000 units.',
+      },
+      '6': {
+        id: 'cit-ph-3',
+        documentId: '2',
+        documentTitle: 'Acme Corp - Order Form 2024',
+        section: '§3.1 Unit Pricing',
+        excerpt:
+          'Unit price for Services shall be $1.20 per unit for the 2024 contract year. Customer commits to ordering a minimum of 1,500,000 units.',
+      },
+    },
+  },
+  // Alias "yes" to trigger the same pricing history response
+  yes: {
+    content: `## Pricing History
+
+*Extracted from Order Forms 2022-2024*
+
+| Order Form | Year | Unit Price | Volume | Total Value |
+|------------|------|------------|--------|-------------|
+| [OF-2022]⁴ | 2022 | $1.00 | 1.2M units | $1,200,000 |
+| [OF-2023]⁵ | 2023 | $1.10 | 1.36M units | $1,500,000 |
+| [OF-2024]⁶ | 2024 | $1.20 | 1.5M units | $1,800,000 |
+
+### Summary
+
+- **Current Base Price:** $1.20/unit
+- **3-Year Growth:** +20% ($1.00 → $1.20)
+- **Average Annual Increase:** 6.7%
+
+---
+
+*I have the base price and tariff rate from your agreements. To calculate the 2025 price, I need the current CPI-U and BLS Producer Price Index rates. Would you like me to search the web for these, or do you have them available?*`,
+    thinkingSteps: [
+      {
+        id: '1',
+        action: 'Opening Order Form 2022 (OF-2022-001)',
+        result:
+          'Initial contract pricing was $1.00/unit with a commitment of 1.2M units annually. This was the baseline established at contract signing.',
+      },
+      {
+        id: '2',
+        action: 'Opening Order Form 2023 (OF-2023-001)',
+        result:
+          'Price increased to $1.10/unit (10% increase) with volume growing to 1.36M units. The increase was based on CPI-U at that time.',
+      },
+      {
+        id: '3',
+        action: 'Opening Order Form 2024 (OF-2024-001)',
+        result:
+          'Current pricing is $1.20/unit (9.1% increase) with 1.5M units. This represents continued growth in both price and volume.',
+      },
+      {
+        id: '4',
+        action: 'Calculating year-over-year changes',
+        result:
+          'Average annual increase has been 9.5% over two years, with volume growing 25% total. The pricing trend is within the contractual cap of 5% per year.',
+      },
+    ],
+    citations: {
+      '4': {
+        id: 'cit-ph-1',
+        documentId: '13',
+        documentTitle: 'Acme Corp - Order Form 2022',
+        section: '§3.1 Unit Pricing',
+        excerpt:
+          'Unit price for Services shall be $1.00 per unit for the 2022 contract year. Customer commits to ordering a minimum of 1,200,000 units.',
+      },
+      '5': {
+        id: 'cit-ph-2',
+        documentId: '9',
+        documentTitle: 'Acme Corp - Order Form 2023',
+        section: '§3.1 Unit Pricing',
+        excerpt:
+          'Unit price for Services shall be $1.10 per unit for the 2023 contract year. Customer commits to ordering a minimum of 1,360,000 units.',
+      },
+      '6': {
+        id: 'cit-ph-3',
+        documentId: '2',
+        documentTitle: 'Acme Corp - Order Form 2024',
+        section: '§3.1 Unit Pricing',
+        excerpt:
+          'Unit price for Services shall be $1.20 per unit for the 2024 contract year. Customer commits to ordering a minimum of 1,500,000 units.',
+      },
+    },
+  },
+  // Step 3: Calculation results - triggered by "sure", "search", "calculate", etc.
+  sure: {
+    content: `## 2025 Price Calculation
+
+*Based on current economic indices (as of January 2025)*
+
+I found the latest rates from the Bureau of Labor Statistics:
+- **CPI-U Annual Change:** 3.2%
+- **BLS Producer Price Index:** 2.8%
+- **Fixed Tariff Cap:** 5.0% (per Amendment 2)
+
+### Calculation Results
+
+| Method | Rate | New Price | Annual Increase |
+|--------|------|-----------|-----------------|
+| BLS Producer Price Index | 2.8% | $1.234 | +$0.034/unit |
+| CPI-U | 3.2% | $1.238 | +$0.038/unit |
+| Fixed Tariff Cap | 5.0% | $1.260 | +$0.060/unit |
+
+### Recommendation
+
+Per Amendment 2 §4.1, the price adjustment must be the **minimum** of all three methods. [⁷]
+
+**Recommended 2025 Unit Price: $1.234**
+
+This represents a **2.8% increase** from the current $1.20/unit, using the BLS Producer Price Index method.
+
+| | 2024 | 2025 | Change |
+|--|------|------|--------|
+| Unit Price | $1.20 | $1.234 | +2.8% |
+| Annual Value (1.5M units) | $1,800,000 | $1,851,000 | +$51,000 |
+
+---
+
+*Would you like me to draft an amendment with this pricing for your review?*`,
+    thinkingSteps: [
+      {
+        id: '1',
+        action: 'Fetching BLS Producer Price Index (Dec 2024)',
+        result:
+          'The Bureau of Labor Statistics reports a 2.8% year-over-year change in the Producer Price Index for industrial commodities.',
+      },
+      {
+        id: '2',
+        action: 'Fetching CPI-U Annual Change (Dec 2024)',
+        result:
+          'Consumer Price Index for All Urban Consumers shows a 3.2% annual change, reflecting broader inflation trends.',
+      },
+      {
+        id: '3',
+        action: 'Applying Amendment #2 §4.1 formula',
+        result:
+          'Per the contract, the adjustment is the minimum of: CPI-U (3.2%), the 5% cap, or PPI (2.8%). The PPI rate of 2.8% is the lowest and governs.',
+      },
+      {
+        id: '4',
+        action: 'Calculating new unit price',
+        result:
+          'Applying 2.8% to the current $1.20/unit rate yields $1.234/unit. This represents an increase of $0.034 per unit, or approximately $51,000 annually at current volumes.',
+      },
+    ],
+    citations: {
+      '7': {
+        id: 'cit-calc-1',
+        documentId: '5',
+        documentTitle: 'Acme Corp - Amendment #2 (Term Extension)',
+        section: '§4.1 Price Adjustments',
+        excerpt:
+          'Annual price adjustments shall be calculated as the lesser of: (i) the annual percentage change in the Consumer Price Index for All Urban Consumers (CPI-U), (ii) five percent (5%), or (iii) the annual percentage change in the Bureau of Labor Statistics Producer Price Index.',
+      },
+    },
+  },
+  // Aliases for calculation trigger
+  search: {
+    content: `## 2025 Price Calculation
+
+*Based on current economic indices (as of January 2025)*
+
+I found the latest rates from the Bureau of Labor Statistics:
+- **CPI-U Annual Change:** 3.2%
+- **BLS Producer Price Index:** 2.8%
+- **Fixed Tariff Cap:** 5.0% (per Amendment 2)
+
+### Calculation Results
+
+| Method | Rate | New Price | Annual Increase |
+|--------|------|-----------|-----------------|
+| BLS Producer Price Index | 2.8% | $1.234 | +$0.034/unit |
+| CPI-U | 3.2% | $1.238 | +$0.038/unit |
+| Fixed Tariff Cap | 5.0% | $1.260 | +$0.060/unit |
+
+### Recommendation
+
+Per Amendment 2 §4.1, the price adjustment must be the **minimum** of all three methods. [⁷]
+
+**Recommended 2025 Unit Price: $1.234**
+
+This represents a **2.8% increase** from the current $1.20/unit, using the BLS Producer Price Index method.
+
+| | 2024 | 2025 | Change |
+|--|------|------|--------|
+| Unit Price | $1.20 | $1.234 | +2.8% |
+| Annual Value (1.5M units) | $1,800,000 | $1,851,000 | +$51,000 |
+
+---
+
+*Would you like me to draft an amendment with this pricing for your review?*`,
+    citations: {
+      '7': {
+        id: 'cit-calc-1',
+        documentId: '5',
+        documentTitle: 'Acme Corp - Amendment #2 (Term Extension)',
+        section: '§4.1 Price Adjustments',
+        excerpt:
+          'Annual price adjustments shall be calculated as the lesser of: (i) the annual percentage change in the Consumer Price Index for All Urban Consumers (CPI-U), (ii) five percent (5%), or (iii) the annual percentage change in the Bureau of Labor Statistics Producer Price Index.',
+      },
+    },
+  },
+  calculate: {
+    content: `## 2025 Price Calculation
+
+*Based on current economic indices (as of January 2025)*
+
+I found the latest rates from the Bureau of Labor Statistics:
+- **CPI-U Annual Change:** 3.2%
+- **BLS Producer Price Index:** 2.8%
+- **Fixed Tariff Cap:** 5.0% (per Amendment 2)
+
+### Calculation Results
+
+| Method | Rate | New Price | Annual Increase |
+|--------|------|-----------|-----------------|
+| BLS Producer Price Index | 2.8% | $1.234 | +$0.034/unit |
+| CPI-U | 3.2% | $1.238 | +$0.038/unit |
+| Fixed Tariff Cap | 5.0% | $1.260 | +$0.060/unit |
+
+### Recommendation
+
+Per Amendment 2 §4.1, the price adjustment must be the **minimum** of all three methods. [⁷]
+
+**Recommended 2025 Unit Price: $1.234**
+
+This represents a **2.8% increase** from the current $1.20/unit, using the BLS Producer Price Index method.
+
+| | 2024 | 2025 | Change |
+|--|------|------|--------|
+| Unit Price | $1.20 | $1.234 | +2.8% |
+| Annual Value (1.5M units) | $1,800,000 | $1,851,000 | +$51,000 |
+
+---
+
+*Would you like me to draft an amendment with this pricing for your review?*`,
+    citations: {
+      '7': {
+        id: 'cit-calc-1',
+        documentId: '5',
+        documentTitle: 'Acme Corp - Amendment #2 (Term Extension)',
+        section: '§4.1 Price Adjustments',
+        excerpt:
+          'Annual price adjustments shall be calculated as the lesser of: (i) the annual percentage change in the Consumer Price Index for All Urban Consumers (CPI-U), (ii) five percent (5%), or (iii) the annual percentage change in the Bureau of Labor Statistics Producer Price Index.',
+      },
+    },
+  },
+  // Step 4: Draft Amendment - triggered after calculation results
+  draft: {
+    content: `I've prepared a draft amendment incorporating the 2025 pricing adjustment. The document includes all required terms based on your existing agreements.`,
+    thinkingSteps: [
+      {
+        id: '1',
+        action: 'Loading Amendment template',
+        result:
+          'Using the Acme Corp standard amendment format, which includes required sections for pricing, effective dates, and signature blocks.',
+      },
+      {
+        id: '2',
+        action: 'Linking to parent agreement',
+        result:
+          'Established reference to Master Services Agreement MSA-2022-001 and all prior amendments to maintain the amendment chain.',
+      },
+      {
+        id: '3',
+        action: 'Applying pricing terms',
+        result:
+          'Populated pricing section with new unit price of $1.234 (2.8% increase per PPI methodology) effective January 1, 2025.',
+      },
+      {
+        id: '4',
+        action: 'Generating PDF preview',
+        result:
+          'Amendment #4 is ready for review. The document follows your standard format and can be sent for signature once approved.',
+      },
+    ],
+    citations: {},
+    documentPreview: {
+      title: 'Amendment #4 - Price Adjustment (2025)',
+      label: 'Draft Amendment',
+      status: 'Ready for Review',
+      details: [
+        { label: 'Effective Date', value: 'January 15, 2025' },
+        { label: 'New Unit Price', value: '$1.234/unit' },
+        { label: 'Adjustment Method', value: 'BLS Producer Price Index (2.8%)' },
+        { label: 'Reference', value: 'Amendment 2 §4.1' },
+      ],
+      documentId: 'draft-amendment-4',
+    },
+  },
 };
