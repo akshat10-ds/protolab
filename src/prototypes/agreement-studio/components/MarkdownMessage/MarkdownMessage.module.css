@@ -1,0 +1,243 @@
+@import '../../../../design-system/1-tokens/tokens.css';
+
+/* Container */
+.markdownMessage {
+  font-size: var(--ink-font-size-body);
+  line-height: 1.6;
+  color: var(--ink-font-primary);
+}
+
+/* Headers */
+.h2 {
+  font-size: var(--ink-font-size-body);
+  font-weight: 600;
+  color: var(--ink-font-primary);
+  margin: 0 0 var(--ink-spacing-150) 0;
+  padding-bottom: var(--ink-spacing-100);
+  border-bottom: 1px solid var(--ink-border-subtle);
+}
+
+.h3 {
+  font-size: var(--ink-font-size-body);
+  font-weight: 600;
+  color: var(--ink-font-primary);
+  margin: var(--ink-spacing-200) 0 var(--ink-spacing-100) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+}
+
+/* Warning emoji in headers */
+.warningEmoji {
+  font-size: 1em;
+}
+
+/* Paragraphs */
+.p {
+  margin: 0 0 var(--ink-spacing-100) 0;
+}
+
+/* Metadata (italic lines) */
+.metadata {
+  font-size: var(--ink-font-size-caption);
+  color: var(--ink-font-secondary);
+  margin: 0 0 var(--ink-spacing-150) 0;
+  font-style: italic;
+}
+
+/* Horizontal rule */
+.hr {
+  border: none;
+  border-top: 1px solid var(--ink-border-subtle);
+  margin: var(--ink-spacing-200) 0;
+}
+
+/* Lists */
+.ul {
+  margin: 0 0 var(--ink-spacing-150) 0;
+  padding-left: var(--ink-spacing-200);
+  list-style-type: disc;
+}
+
+.li {
+  margin-bottom: var(--ink-spacing-75);
+  line-height: 1.5;
+}
+
+.li:last-child {
+  margin-bottom: 0;
+}
+
+/* Blockquotes */
+.blockquote {
+  margin: var(--ink-spacing-100) 0;
+  padding: var(--ink-spacing-150);
+  background: var(--ink-bg-subtle);
+  border-left: 3px solid var(--ink-border-subtle);
+  border-radius: 0 var(--ink-radius-size-xs) var(--ink-radius-size-xs) 0;
+  font-size: var(--ink-font-size-caption);
+  color: var(--ink-font-secondary);
+  line-height: 1.5;
+}
+
+/* Tables */
+.tableContainer {
+  margin: var(--ink-spacing-150) 0;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--ink-radius-size-xs);
+  border: 1px solid var(--ink-border-subtle);
+}
+
+.tableFooter {
+  display: flex;
+  justify-content: flex-start;
+  padding: var(--ink-spacing-100) 0 var(--ink-spacing-150) 0;
+  border-bottom: 1px solid var(--ink-border-subtle);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--ink-font-size-caption);
+}
+
+.table th,
+.table td {
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  text-align: left;
+  border-bottom: 1px solid var(--ink-border-subtle);
+}
+
+.table th {
+  font-weight: 600;
+  background: var(--ink-bg-subtle);
+  color: var(--ink-font-secondary);
+  font-size: var(--ink-font-size-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover td {
+  background: var(--ink-bg-hover);
+}
+
+/* Inline styles */
+.strong {
+  font-weight: 600;
+  color: var(--ink-font-primary);
+}
+
+.em {
+  font-style: italic;
+  color: var(--ink-font-secondary);
+}
+
+/* Citation wrapper for tooltip positioning */
+.citationWrapper {
+  position: relative;
+  display: inline;
+}
+
+/* Mini citation chip - inline-friendly citation marker */
+.citationChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  margin-left: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink-font-secondary);
+  background: var(--ink-bg-subtle);
+  border: 1px solid var(--ink-border-subtle);
+  border-radius: 4px;
+  vertical-align: middle;
+  transform: translateY(-2px);
+  transition: all 120ms ease;
+}
+
+/* Citation button - wraps the chip, resets button styles */
+.citationButton {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  vertical-align: baseline;
+}
+
+.citationButton:hover .citationChip {
+  background: var(--ink-neutral-90);
+  border-color: var(--ink-neutral-90);
+  color: var(--ink-font-inverse);
+}
+
+/* Citation hover tooltip - card style */
+/* Using position: fixed to escape overflow:hidden parent containers */
+/* Visibility controlled via JS for accurate positioning */
+.citationTooltip {
+  position: fixed;
+  width: 280px;
+  max-width: calc(100vw - 32px);
+  padding: var(--ink-spacing-150);
+  background: var(--ink-bg-default);
+  border: 1px solid var(--ink-border-subtle);
+  border-radius: var(--ink-radius-size-s);
+  box-shadow:
+    0 8px 24px var(--ink-neutral-fade-20),
+    0 2px 8px var(--ink-neutral-fade-10);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease,
+    transform 150ms ease;
+  transform: translateY(-4px);
+  pointer-events: none;
+  z-index: 99999;
+}
+
+.citationTooltipVisible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.citationTooltipLabel {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink-font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--ink-spacing-50);
+}
+
+.citationTooltipTitle {
+  display: block;
+  font-size: var(--ink-font-size-caption);
+  font-weight: 500;
+  color: var(--ink-font-primary);
+  margin-bottom: var(--ink-spacing-100);
+  line-height: 1.3;
+}
+
+.citationTooltipExcerpt {
+  display: block;
+  font-size: var(--ink-font-size-caption);
+  color: var(--ink-font-secondary);
+  line-height: 1.5;
+  font-style: italic;
+}

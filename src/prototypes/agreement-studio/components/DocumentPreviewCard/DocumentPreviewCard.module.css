@@ -1,0 +1,83 @@
+@import '../../../../design-system/1-tokens/tokens.css';
+
+.documentPreviewCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-150);
+  padding: var(--ink-spacing-250);
+  padding-left: var(--ink-spacing-300);
+  background: var(--ink-bg-default);
+  border: 1px solid var(--ink-border-subtle);
+  border-radius: var(--ink-radius-size-s);
+  margin: var(--ink-spacing-200) 0;
+  /* Subtle left accent to indicate generated content - using inset shadow to avoid clipping */
+  box-shadow: inset 3px 0 0 0 var(--ink-color-brand-500);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ink-spacing-100);
+}
+
+.label {
+  font-size: var(--ink-font-size-caption);
+  font-weight: 600;
+  color: var(--ink-font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  padding: var(--ink-spacing-50) var(--ink-spacing-100);
+  background: var(--ink-bg-color-success-subtle);
+  color: var(--ink-font-color-success);
+  font-size: var(--ink-font-size-caption);
+  font-weight: 500;
+  border-radius: var(--ink-radius-size-xs);
+}
+
+.title {
+  font-size: var(--ink-font-size-body-l);
+  font-weight: 600;
+  color: var(--ink-font-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--ink-spacing-100) var(--ink-spacing-300);
+  padding: var(--ink-spacing-150) 0;
+  border-top: 1px solid var(--ink-border-subtle);
+  border-bottom: 1px solid var(--ink-border-subtle);
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-25);
+}
+
+.detailLabel {
+  font-size: var(--ink-font-size-caption);
+  color: var(--ink-font-secondary);
+}
+
+.detailValue {
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-primary);
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  gap: var(--ink-spacing-100);
+  padding-top: var(--ink-spacing-50);
+}
