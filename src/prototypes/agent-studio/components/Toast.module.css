@@ -1,0 +1,47 @@
+/**
+ * Toast Component Styles
+ */
+
+@import '../../../design-system/1-tokens/tokens.css';
+
+.toast {
+  position: fixed;
+  top: var(--ink-spacing-200);
+  right: var(--ink-spacing-200);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-150);
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-m);
+  box-shadow: 0 4px 24px var(--ink-neutral-fade-15);
+  transform: translateX(120%);
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toastVisible {
+  transform: translateX(0);
+}
+
+.toastIcon {
+  flex-shrink: 0;
+}
+
+.toastIconLoading {
+  color: var(--ink-cobalt-100);
+}
+
+.toastIconSuccess {
+  color: var(--ink-green-100);
+}
+
+.toastIconError {
+  color: var(--ink-red-100);
+}
+
+.toastMessage {
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-default);
+}

@@ -167,6 +167,77 @@
 }
 
 /* ============================================================================
+   Sidebar Navigation
+   ============================================================================ */
+
+.sidebarNav {
+  padding: var(--ink-spacing-100) var(--ink-spacing-200);
+}
+
+.sidebarNavItem {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  width: calc(100% + var(--ink-spacing-200) * 2);
+  margin-left: calc(-1 * var(--ink-spacing-200));
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-font-color-default);
+  text-align: left;
+  transition: background-color 150ms ease;
+  position: relative;
+}
+
+.sidebarNavItem:hover {
+  background-color: var(--ink-neutral-fade-5);
+}
+
+.sidebarNavItemActive {
+  background-color: var(--ink-bg-active-subtle);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+}
+
+.sidebarNavItemActive::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--ink-border-active-indicator);
+}
+
+.sidebarNavItemActive:hover {
+  background-color: var(--ink-bg-active-subtle);
+}
+
+.sidebarNavChevron {
+  margin-left: auto;
+  color: var(--ink-font-color-subtle);
+}
+
+.sidebarDivider {
+  height: 1px;
+  background: var(--ink-border-color-subtle);
+  margin: var(--ink-spacing-100) var(--ink-spacing-200);
+}
+
+.sidebarSectionLabel {
+  padding: var(--ink-spacing-100) var(--ink-spacing-200);
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================================================
    Chat History Panel - Smart Adaptive Layout
    ============================================================================ */
 
@@ -176,7 +247,7 @@
   left: 0;
   width: 280px;
   height: 100%;
-  background: var(--ink-bg-color-default);
+  background: var(--ink-white-100);
   border-right: 1px solid var(--ink-border-color-subtle);
   z-index: 20;
   display: flex;
@@ -202,8 +273,8 @@
   z-index: 1;
   flex-shrink: 0;
   box-shadow: none;
-  background: var(--ink-ecru-10);
-  border-right: 1px solid var(--ink-neutral-fade-10);
+  background: var(--ink-white-100);
+  border-right: 1px solid var(--ink-border-color-subtle);
   border-left: none;
   width: 260px;
   transition:
@@ -226,18 +297,17 @@
   margin-left: 0;
 }
 
-/* Inline mode hover refinement */
+/* Inline mode - keep same styling as overlay mode */
 .historyPanelInline .historyItem:hover {
-  background: var(--ink-ecru-20);
+  background: transparent;
 }
 
 .historyPanelInline .historyItemActive {
-  background: var(--ink-white-100);
-  box-shadow: 0 1px 3px var(--ink-neutral-fade-10);
+  background: transparent;
 }
 
 .historyPanelInline .historyItemActive:hover {
-  background: var(--ink-white-100);
+  background: transparent;
 }
 
 .historyHeader {
@@ -259,7 +329,7 @@
 .historyList {
   flex: 1;
   overflow-y: auto;
-  padding: var(--ink-spacing-100) 0;
+  padding: var(--ink-spacing-100) var(--ink-spacing-200);
 }
 
 .historyGroup {
@@ -267,22 +337,68 @@
 }
 
 .historyGroupLabel {
-  font-size: var(--ink-font-size-detail-xs);
-  font-weight: var(--ink-font-weight-medium);
-  color: var(--ink-font-color-subtle);
+  font-size: var(--ink-font-section-headline-size);
+  font-weight: var(--ink-font-weight-semibold);
+  line-height: var(--ink-font-section-headline-line-height);
+  color: var(--ink-neutral-fade-70);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: var(--ink-spacing-100);
 }
 
-.historyItem {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--ink-spacing-100);
+/* ============================================================================
+   LocalNav-style overrides for History List
+   ============================================================================ */
+
+.historyListComponent {
+  margin: 0 calc(-1 * var(--ink-spacing-200));
+}
+
+/* Item typography and spacing */
+.historyListComponent [class*="item"] {
+  position: relative;
   padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  min-height: 42px;
+  font-size: var(--ink-font-body-s-size);
+  font-weight: var(--ink-font-weight-regular);
+  line-height: var(--ink-font-body-s-line-height);
+  color: var(--ink-neutral-fade-90);
+}
+
+/* Hover state */
+.historyListComponent [class*="clickable"]:hover {
+  background-color: var(--ink-neutral-fade-5);
+}
+
+/* Active/Selected state */
+.historyListComponent [class*="selected"] {
+  background-color: var(--ink-bg-active-subtle);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+}
+
+/* Active indicator bar - position at left edge of sidebar */
+.historyListComponent [class*="selected"]::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--ink-border-active-indicator);
+  border-radius: 0;
+}
+
+.historyListComponent [class*="selected"]:hover {
+  background-color: var(--ink-bg-active-subtle);
+}
+
+.historyItem {
+  display: block;
+  padding: var(--ink-spacing-100) var(--ink-spacing-200);
   margin: 0 calc(-1 * var(--ink-spacing-200));
   cursor: pointer;
-  transition: background 150ms ease;
+  transition: color 150ms ease;
   border: none;
   background: transparent;
   width: calc(100% + var(--ink-spacing-200) * 2);
@@ -290,43 +406,34 @@
 }
 
 .historyItem:hover {
-  background: var(--ink-ecru-10);
+  background: transparent;
 }
 
-.historyItemActive {
-  background: var(--ink-cobalt-10);
+.historyItem:hover .historyItemTitle {
+  color: var(--ink-cobalt-100);
 }
 
-.historyItemActive:hover {
-  background: var(--ink-cobalt-20);
+.historyItemActive .historyItemTitle {
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-cobalt-100);
 }
 
-.historyItemIcon {
-  flex-shrink: 0;
-  color: var(--ink-font-color-subtle);
-  margin-top: 2px;
-}
-
-.historyItemContent {
-  flex: 1;
-  min-width: 0;
+.historyItemActive:hover .historyItemTitle {
+  color: var(--ink-cobalt-120);
 }
 
 .historyItemTitle {
+  font-family: var(--ink-font-family-default);
   font-size: var(--ink-font-size-body-s);
-  font-weight: var(--ink-font-weight-medium);
+  font-weight: var(--ink-font-weight-regular);
   color: var(--ink-font-color-default);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 150ms ease;
 }
 
-.historyItemMeta {
-  font-size: var(--ink-font-size-detail-xs);
-  color: var(--ink-font-color-subtle);
-  margin-top: 2px;
-}
 
 .historyOverlay {
   position: absolute;
@@ -832,6 +939,18 @@
   line-height: 1.5;
 }
 
+/* Summary text below matrix */
+.matrixSummary {
+  margin: var(--ink-spacing-100) 0 0 0;
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-default);
+  line-height: 1.5;
+  padding: var(--ink-spacing-150);
+  background: var(--ink-bg-warning-subtle);
+  border-radius: var(--ink-radius-size-xs);
+  border-left: 3px solid var(--ink-orange-50);
+}
+
 /* Feedback buttons for AI responses */
 .messageFeedback {
   display: flex;
@@ -1138,4 +1257,250 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: var(--ink-font-weight-medium);
+}
+
+/* ============================================================================
+   Prompt Editor Placeholder
+   ============================================================================ */
+
+.promptEditorPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: var(--ink-spacing-200);
+  color: var(--ink-font-color-subtle);
+  font-size: var(--ink-font-size-body-m);
+}
+
+/* ============================================================================
+   Slash Command Menu
+   ============================================================================ */
+
+/* Wrapper positions at bottom of chat, above input - matches input width */
+.slashMenuWrapper {
+  position: absolute;
+  bottom: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--ai-chat-content-max-width, 720px);
+  padding: 0 var(--ink-spacing-150);
+  box-sizing: border-box;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.slashMenu {
+  pointer-events: auto;
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-m);
+  overflow: hidden;
+  animation: slashMenuFadeIn 150ms ease-out;
+}
+
+@keyframes slashMenuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.slashMenuItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-25);
+  width: 100%;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--ink-font-family-default);
+  transition: background 100ms ease;
+}
+
+.slashMenuItem:hover {
+  background: var(--ink-neutral-fade-5);
+}
+
+.slashMenuItemSelected {
+  background: var(--ink-bg-active-subtle);
+}
+
+.slashMenuItemCommand {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+}
+
+.slashMenuItemMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-font-color-subtle);
+}
+
+.slashMenuItemDot {
+  color: var(--ink-font-color-disabled);
+}
+
+/* ============================================================================
+   Streaming Controls - Skip button, Stop button, Scroll to bottom
+   ============================================================================ */
+
+/* Pulsing cursor at end of streaming text */
+.streamingCursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--ink-color-brand-600);
+  margin-left: var(--ink-spacing-50);
+  vertical-align: text-bottom;
+  animation: cursorBlink 1s ease-in-out infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Skip button - simple text link during streaming */
+.skipButton {
+  display: block;
+  margin-top: var(--ink-spacing-150);
+  margin-right: auto;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--ink-font-color-secondary);
+  font-size: var(--ink-font-size-body-s);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.skipButton:hover {
+  color: var(--ink-font-color-default);
+}
+
+/* Stop button wrapper - appears in input area */
+.stopButtonWrapper {
+  display: flex;
+  justify-content: center;
+  padding: var(--ink-spacing-200);
+}
+
+.stopButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-150) var(--ink-spacing-300);
+  background: var(--ink-bg-color-subtle);
+  border: 1px solid var(--ink-border-color-default);
+  border-radius: var(--ink-radius-size-full);
+  color: var(--ink-font-color-default);
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.stopButton:hover {
+  background: var(--ink-bg-color-default);
+  border-color: var(--ink-border-color-strong);
+}
+
+.stopButton svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Scroll to bottom floating button */
+.scrollToBottomButton {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-150) var(--ink-spacing-300);
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-default);
+  border-radius: var(--ink-radius-size-full);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: var(--ink-font-color-default);
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  cursor: pointer;
+  z-index: 100;
+  animation: slideUp 200ms ease-out;
+  transition: all 150ms ease;
+}
+
+.scrollToBottomButton:hover {
+  background: var(--ink-bg-color-subtle);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Generating indicator */
+.generatingIndicator {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) var(--ink-spacing-200);
+  color: var(--ink-font-color-secondary);
+  font-size: var(--ink-font-size-body-s);
+}
+
+.generatingIndicator .dot {
+  width: 4px;
+  height: 4px;
+  background: var(--ink-color-brand-600);
+  border-radius: 50%;
+  animation: dotPulse 1.4s ease-in-out infinite;
+}
+
+.generatingIndicator .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.generatingIndicator .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dotPulse {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

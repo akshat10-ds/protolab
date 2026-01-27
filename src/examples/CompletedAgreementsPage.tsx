@@ -30,7 +30,7 @@ const agreementsData = [
   {
     id: '2',
     fileName: 'Restricted Access Request Form 1 726 (4).docx',
-    subtext: 'Completed envelope: Please DocuSign this document...',
+    subtext: 'Completed envelope: Please Docusign this document...',
     parties: 'Akshat Mishra',
     partiesMore: '+2 More',
     status: 'Active',

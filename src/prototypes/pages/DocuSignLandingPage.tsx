@@ -28,8 +28,8 @@ const DocuSignLogo = () => (
 export function DocuSignLandingPage() {
   return (
     <PrototypeWrapper
-      title="DocuSign Landing"
-      description="A landing page experience for the DocuSign app platform."
+      title="Docusign Landing"
+      description="A landing page experience for the Docusign app platform."
     >
       <DocuSignShell
         globalNav={{

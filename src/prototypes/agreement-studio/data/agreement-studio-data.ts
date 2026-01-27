@@ -14,6 +14,9 @@ import type {
   DocumentPageData,
   ConflictData,
   MarkdownResponseData,
+  MatrixResponseData,
+  PromptCategory,
+  Prompt,
 } from './agreement-studio-types';
 
 // =============================================================================
@@ -297,6 +300,8 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
     label: 'Summarize Prevailing Terms',
     description: 'Analyze all agreements to identify current governing terms',
     icon: 'document-stack',
+    createdBy: 'Docusign',
+    isSystem: true,
     expansion: {
       steps: [
         'ROLE: You are a Senior Legal Counsel and Procurement Specialist with expertise in contract architecture and risk mitigation.',
@@ -320,6 +325,8 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
     label: 'Analyze Financial Terms',
     description: 'Extract pricing, payment terms, and contract values',
     icon: 'currency-dollar',
+    createdBy: 'Docusign',
+    isSystem: true,
     expansion: {
       steps: [
         'ROLE: You are a Financial Analyst and Contract Negotiation Specialist with deep expertise in SaaS pricing models and commercial terms.',
@@ -344,6 +351,8 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
     label: 'Review Risk & Liability',
     description: 'Identify liability caps, indemnification, and IP terms',
     icon: 'shield',
+    createdBy: 'Docusign',
+    isSystem: true,
     expansion: {
       steps: [
         'ROLE: You are a Risk Management Attorney and Compliance Officer specializing in technology contracts and data protection regulations.',
@@ -366,6 +375,8 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
     label: 'Check for Conflicts',
     description: 'Find conflicting terms across agreements',
     icon: 'status-warn',
+    createdBy: 'Docusign',
+    isSystem: true,
     expansion: {
       steps: [
         'ROLE: You are a Contract Harmonization Specialist with expertise in multi-document agreement architecture and conflict resolution.',
@@ -387,6 +398,8 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
     label: 'Calculate Price Adjustment',
     description: 'Analyze renewal pricing rules and calculate adjustments',
     icon: 'currency-dollar',
+    createdBy: 'Docusign',
+    isSystem: true,
     expansion: {
       steps: [
         'ROLE: Contract Pricing Analyst',
@@ -395,6 +408,21 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
       ],
       estimatedTime: '~30 seconds',
       documentsToAnalyze: 12,
+    },
+  },
+  {
+    label: 'Extract Renewal Dates',
+    description: 'Find all auto-renewal and termination notice deadlines',
+    icon: 'calendar',
+    createdBy: 'bill@tally.com',
+    isSystem: false,
+    expansion: {
+      steps: [
+        'TASK: Extract all renewal-related dates from agreements',
+        'OBJECTIVE: Create a calendar of upcoming deadlines',
+      ],
+      estimatedTime: '~20 seconds',
+      documentsToAnalyze: 15,
     },
   },
 ];
@@ -1497,4 +1525,1188 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
       documentId: 'draft-amendment-4',
     },
   },
+
+  // =============================================================================
+  // Risk Assessment Journey - 4-turn progressive analysis
+  // =============================================================================
+
+  // Turn 1: Prose answer about liability exposure
+  "What's my liability exposure?": {
+    content: `## Liability Exposure Summary
+
+Your total capped liability is **$4.2M** across 13 vendor contracts. However, **2 contracts have uncapped liability** that need immediate attention:
+
+- **Globex SaaS Agreement** — §8.1 has no aggregate cap [¹]
+- **Initech Cloud Services** — §12.3 explicitly states "unlimited liability" [²]
+
+These represent significant risk as there's no ceiling on potential damages.
+
+### Quick Stats
+
+- **Capped contracts:** 11 (ranging from $500K to $2M)
+- **Uncapped contracts:** 2 (⚠️ high risk)
+- **Average cap:** $1.2M per agreement
+
+---
+
+*Would you like me to show you the full breakdown by document?*`,
+    citations: {
+      '1': {
+        id: 'cit-risk-1',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt:
+          'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+      },
+      '2': {
+        id: 'cit-risk-2',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§12.3 Liability',
+        excerpt:
+          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+      },
+    },
+  },
+
+  // Alias for natural phrasing
+  'liability exposure': {
+    content: `## Liability Exposure Summary
+
+Your total capped liability is **$4.2M** across 13 vendor contracts. However, **2 contracts have uncapped liability** that need immediate attention:
+
+- **Globex SaaS Agreement** — §8.1 has no aggregate cap [¹]
+- **Initech Cloud Services** — §12.3 explicitly states "unlimited liability" [²]
+
+These represent significant risk as there's no ceiling on potential damages.
+
+### Quick Stats
+
+- **Capped contracts:** 11 (ranging from $500K to $2M)
+- **Uncapped contracts:** 2 (⚠️ high risk)
+- **Average cap:** $1.2M per agreement
+
+---
+
+*Would you like me to show you the full breakdown by document?*`,
+    citations: {
+      '1': {
+        id: 'cit-risk-1',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt:
+          'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+      },
+      '2': {
+        id: 'cit-risk-2',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§12.3 Liability',
+        excerpt:
+          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+      },
+    },
+  },
+
+  // Turn 2: Simple table (1 column - Liability Cap)
+  'Show me the breakdown': {
+    content: `## Liability Breakdown by Agreement
+
+*Extracted from 6 vendor contracts*
+
+| Agreement | Liability Cap |
+|-----------|---------------|
+| Globex SaaS | ⚠️ Uncapped [¹] |
+| Initech Cloud | ⚠️ Uncapped [²] |
+| Acme MSA | 2x annual fees [³] |
+| Umbrella DPA | $500K [⁴] |
+| TechVenture NDA | $1M [⁵] |
+| DataCorp SOW | $2M aggregate [⁶] |
+
+### Summary
+
+- **2 high-risk contracts** with uncapped liability
+- **4 contracts** with defined caps ($500K - $2M)
+- **Total capped exposure:** $4.2M
+
+---
+
+*Want me to add indemnification terms to this analysis?*`,
+    citations: {
+      '1': {
+        id: 'cit-table-1',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt:
+          'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+      },
+      '2': {
+        id: 'cit-table-2',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§12.3 Liability',
+        excerpt:
+          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+      },
+      '3': {
+        id: 'cit-table-3',
+        documentId: '1',
+        documentTitle: 'Acme Corp - Master Services Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt:
+          'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.',
+      },
+      '4': {
+        id: 'cit-table-4',
+        documentId: 'umbrella-dpa',
+        documentTitle: 'Umbrella Corp - Data Processing Agreement',
+        section: '§7.2 Liability Cap',
+        excerpt:
+          'The total aggregate liability of either party under this Agreement shall not exceed Five Hundred Thousand Dollars ($500,000.00 USD).',
+      },
+      '5': {
+        id: 'cit-table-5',
+        documentId: 'techventure-nda',
+        documentTitle: 'TechVenture Inc - NDA',
+        section: '§6 Limitation of Liability',
+        excerpt:
+          'The maximum aggregate liability of either party for any claims arising under this Agreement shall be One Million Dollars ($1,000,000.00 USD).',
+      },
+      '6': {
+        id: 'cit-table-6',
+        documentId: 'datacorp-sow',
+        documentTitle: 'DataCorp - Statement of Work',
+        section: '§9.1 Aggregate Cap',
+        excerpt:
+          'Provider\'s total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+      },
+    },
+  },
+
+  // Alias
+  'show me the full breakdown': {
+    content: `## Liability Breakdown by Agreement
+
+*Extracted from 6 vendor contracts*
+
+| Agreement | Liability Cap |
+|-----------|---------------|
+| Globex SaaS | ⚠️ Uncapped [¹] |
+| Initech Cloud | ⚠️ Uncapped [²] |
+| Acme MSA | 2x annual fees [³] |
+| Umbrella DPA | $500K [⁴] |
+| TechVenture NDA | $1M [⁵] |
+| DataCorp SOW | $2M aggregate [⁶] |
+
+### Summary
+
+- **2 high-risk contracts** with uncapped liability
+- **4 contracts** with defined caps ($500K - $2M)
+- **Total capped exposure:** $4.2M
+
+---
+
+*Want me to add indemnification terms to this analysis?*`,
+    citations: {
+      '1': {
+        id: 'cit-table-1',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt:
+          'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+      },
+      '2': {
+        id: 'cit-table-2',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§12.3 Liability',
+        excerpt:
+          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+      },
+      '3': {
+        id: 'cit-table-3',
+        documentId: '1',
+        documentTitle: 'Acme Corp - Master Services Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt:
+          'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.',
+      },
+      '4': {
+        id: 'cit-table-4',
+        documentId: 'umbrella-dpa',
+        documentTitle: 'Umbrella Corp - Data Processing Agreement',
+        section: '§7.2 Liability Cap',
+        excerpt:
+          'The total aggregate liability of either party under this Agreement shall not exceed Five Hundred Thousand Dollars ($500,000.00 USD).',
+      },
+      '5': {
+        id: 'cit-table-5',
+        documentId: 'techventure-nda',
+        documentTitle: 'TechVenture Inc - NDA',
+        section: '§6 Limitation of Liability',
+        excerpt:
+          'The maximum aggregate liability of either party for any claims arising under this Agreement shall be One Million Dollars ($1,000,000.00 USD).',
+      },
+      '6': {
+        id: 'cit-table-6',
+        documentId: 'datacorp-sow',
+        documentTitle: 'DataCorp - Statement of Work',
+        section: '§9.1 Aggregate Cap',
+        excerpt:
+          'Provider\'s total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+      },
+    },
+  },
+
+  // Turn 3: Table with 2 columns (Liability + Indemnification)
+  'Add indemnification too': {
+    content: `## Risk Analysis: Liability & Indemnification
+
+*Extracted from 6 vendor contracts*
+
+| Agreement | Liability Cap | Indemnification |
+|-----------|---------------|-----------------|
+| Globex SaaS | ⚠️ Uncapped [¹] | One-way (them) [⁷] |
+| Initech Cloud | ⚠️ Uncapped [²] | One-way (them) [⁸] |
+| Acme MSA | 2x annual fees [³] | Mutual [⁹] |
+| Umbrella DPA | $500K [⁴] | Mutual [¹⁰] |
+| TechVenture NDA | $1M [⁵] | Mutual [¹¹] |
+| DataCorp SOW | $2M aggregate [⁶] | Limited mutual [¹²] |
+
+### Key Finding
+
+⚠️ **Both uncapped contracts also have one-way indemnification** favoring the vendor — this compounds your risk exposure significantly.
+
+- **Mutual indemnification:** 4 contracts ✓
+- **One-way (unfavorable):** 2 contracts ⚠️
+
+---
+
+*Would you like the full risk picture with insurance requirements?*`,
+    citations: {
+      '1': {
+        id: 'cit-table-1',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt:
+          'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+      },
+      '2': {
+        id: 'cit-table-2',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§12.3 Liability',
+        excerpt:
+          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+      },
+      '3': {
+        id: 'cit-table-3',
+        documentId: '1',
+        documentTitle: 'Acme Corp - Master Services Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt:
+          'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.',
+      },
+      '4': {
+        id: 'cit-table-4',
+        documentId: 'umbrella-dpa',
+        documentTitle: 'Umbrella Corp - Data Processing Agreement',
+        section: '§7.2 Liability Cap',
+        excerpt:
+          'The total aggregate liability of either party under this Agreement shall not exceed Five Hundred Thousand Dollars ($500,000.00 USD).',
+      },
+      '5': {
+        id: 'cit-table-5',
+        documentId: 'techventure-nda',
+        documentTitle: 'TechVenture Inc - NDA',
+        section: '§6 Limitation of Liability',
+        excerpt:
+          'The maximum aggregate liability of either party for any claims arising under this Agreement shall be One Million Dollars ($1,000,000.00 USD).',
+      },
+      '6': {
+        id: 'cit-table-6',
+        documentId: 'datacorp-sow',
+        documentTitle: 'DataCorp - Statement of Work',
+        section: '§9.1 Aggregate Cap',
+        excerpt:
+          'Provider\'s total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+      },
+      '7': {
+        id: 'cit-indem-1',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§9.1 Indemnification',
+        excerpt:
+          'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims arising from Customer\'s use of the Services. Provider makes no reciprocal indemnification commitment.',
+      },
+      '8': {
+        id: 'cit-indem-2',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§13 Indemnification',
+        excerpt:
+          'Customer agrees to indemnify and hold Provider harmless from all claims, damages, and expenses. This indemnification is one-way and Provider has no corresponding obligation.',
+      },
+      '9': {
+        id: 'cit-indem-3',
+        documentId: '1',
+        documentTitle: 'Acme Corp - Master Services Agreement',
+        section: '§9 Indemnification',
+        excerpt:
+          'Each party shall indemnify, defend, and hold harmless the other party from any third-party claims arising from (a) breach of this Agreement, (b) violation of applicable law.',
+      },
+      '10': {
+        id: 'cit-indem-4',
+        documentId: 'umbrella-dpa',
+        documentTitle: 'Umbrella Corp - Data Processing Agreement',
+        section: '§8 Mutual Indemnification',
+        excerpt:
+          'Each party agrees to indemnify the other against claims arising from its own negligence, breach of contract, or violation of applicable data protection laws.',
+      },
+      '11': {
+        id: 'cit-indem-5',
+        documentId: 'techventure-nda',
+        documentTitle: 'TechVenture Inc - NDA',
+        section: '§7 Indemnification',
+        excerpt:
+          'Each party shall indemnify the other for any breach of confidentiality obligations or misuse of Confidential Information disclosed under this Agreement.',
+      },
+      '12': {
+        id: 'cit-indem-6',
+        documentId: 'datacorp-sow',
+        documentTitle: 'DataCorp - Statement of Work',
+        section: '§10 Limited Indemnification',
+        excerpt:
+          'Each party indemnifies the other for IP infringement claims only. General indemnification is limited to direct damages up to the contract value.',
+      },
+    },
+  },
+
+  // Alias
+  'add indemnification': {
+    content: `## Risk Analysis: Liability & Indemnification
+
+*Extracted from 6 vendor contracts*
+
+| Agreement | Liability Cap | Indemnification |
+|-----------|---------------|-----------------|
+| Globex SaaS | ⚠️ Uncapped [¹] | One-way (them) [⁷] |
+| Initech Cloud | ⚠️ Uncapped [²] | One-way (them) [⁸] |
+| Acme MSA | 2x annual fees [³] | Mutual [⁹] |
+| Umbrella DPA | $500K [⁴] | Mutual [¹⁰] |
+| TechVenture NDA | $1M [⁵] | Mutual [¹¹] |
+| DataCorp SOW | $2M aggregate [⁶] | Limited mutual [¹²] |
+
+### Key Finding
+
+⚠️ **Both uncapped contracts also have one-way indemnification** favoring the vendor — this compounds your risk exposure significantly.
+
+- **Mutual indemnification:** 4 contracts ✓
+- **One-way (unfavorable):** 2 contracts ⚠️
+
+---
+
+*Would you like the full risk picture with insurance requirements?*`,
+    citations: {
+      '1': {
+        id: 'cit-table-1',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt:
+          'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+      },
+      '2': {
+        id: 'cit-table-2',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§12.3 Liability',
+        excerpt:
+          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+      },
+      '3': {
+        id: 'cit-table-3',
+        documentId: '1',
+        documentTitle: 'Acme Corp - Master Services Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt:
+          'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.',
+      },
+      '4': {
+        id: 'cit-table-4',
+        documentId: 'umbrella-dpa',
+        documentTitle: 'Umbrella Corp - Data Processing Agreement',
+        section: '§7.2 Liability Cap',
+        excerpt:
+          'The total aggregate liability of either party under this Agreement shall not exceed Five Hundred Thousand Dollars ($500,000.00 USD).',
+      },
+      '5': {
+        id: 'cit-table-5',
+        documentId: 'techventure-nda',
+        documentTitle: 'TechVenture Inc - NDA',
+        section: '§6 Limitation of Liability',
+        excerpt:
+          'The maximum aggregate liability of either party for any claims arising under this Agreement shall be One Million Dollars ($1,000,000.00 USD).',
+      },
+      '6': {
+        id: 'cit-table-6',
+        documentId: 'datacorp-sow',
+        documentTitle: 'DataCorp - Statement of Work',
+        section: '§9.1 Aggregate Cap',
+        excerpt:
+          'Provider\'s total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+      },
+      '7': {
+        id: 'cit-indem-1',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§9.1 Indemnification',
+        excerpt:
+          'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims arising from Customer\'s use of the Services. Provider makes no reciprocal indemnification commitment.',
+      },
+      '8': {
+        id: 'cit-indem-2',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§13 Indemnification',
+        excerpt:
+          'Customer agrees to indemnify and hold Provider harmless from all claims, damages, and expenses. This indemnification is one-way and Provider has no corresponding obligation.',
+      },
+      '9': {
+        id: 'cit-indem-3',
+        documentId: '1',
+        documentTitle: 'Acme Corp - Master Services Agreement',
+        section: '§9 Indemnification',
+        excerpt:
+          'Each party shall indemnify, defend, and hold harmless the other party from any third-party claims arising from (a) breach of this Agreement, (b) violation of applicable law.',
+      },
+      '10': {
+        id: 'cit-indem-4',
+        documentId: 'umbrella-dpa',
+        documentTitle: 'Umbrella Corp - Data Processing Agreement',
+        section: '§8 Mutual Indemnification',
+        excerpt:
+          'Each party agrees to indemnify the other against claims arising from its own negligence, breach of contract, or violation of applicable data protection laws.',
+      },
+      '11': {
+        id: 'cit-indem-5',
+        documentId: 'techventure-nda',
+        documentTitle: 'TechVenture Inc - NDA',
+        section: '§7 Indemnification',
+        excerpt:
+          'Each party shall indemnify the other for any breach of confidentiality obligations or misuse of Confidential Information disclosed under this Agreement.',
+      },
+      '12': {
+        id: 'cit-indem-6',
+        documentId: 'datacorp-sow',
+        documentTitle: 'DataCorp - Statement of Work',
+        section: '§10 Limited Indemnification',
+        excerpt:
+          'Each party indemnifies the other for IP infringement claims only. General indemnification is limited to direct damages up to the contract value.',
+      },
+    },
+  },
 };
+
+// =============================================================================
+// Matrix Responses - Full risk assessment matrix (Turn 4)
+// =============================================================================
+
+export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
+  // Turn 4: Full risk assessment matrix
+  'Full risk assessment': {
+    introContent: 'I\'ve analyzed all 6 vendor contracts for a comprehensive risk assessment.',
+    matrix: {
+      id: 'risk-matrix-1',
+      title: 'Risk Assessment Matrix',
+      columns: [
+        { id: 'liability', header: 'Liability Cap', query: 'What is the liability cap?' },
+        { id: 'indemnity', header: 'Indemnification', query: 'What are the indemnification terms?' },
+        { id: 'insurance', header: 'Insurance', query: 'What are the insurance requirements?' },
+      ],
+      rows: [
+        {
+          documentId: 'globex-saas',
+          documentTitle: 'Globex SaaS',
+          cells: {
+            liability: {
+              value: 'Uncapped',
+              status: 'warning',
+              note: 'No aggregate cap specified',
+              citation: {
+                id: 'cit-matrix-1',
+                documentId: 'globex-saas',
+                documentTitle: 'Globex SaaS Agreement',
+                section: '§8.1 Limitation of Liability',
+                excerpt: 'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+              },
+            },
+            indemnity: {
+              value: 'One-way',
+              status: 'warning',
+              note: 'Favors vendor',
+              citation: {
+                id: 'cit-matrix-2',
+                documentId: 'globex-saas',
+                documentTitle: 'Globex SaaS Agreement',
+                section: '§9.1 Indemnification',
+                excerpt: 'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
+              },
+            },
+            insurance: {
+              value: null,
+              status: 'not_found',
+              note: 'No insurance requirements',
+            },
+          },
+          riskLevel: 'high',
+          riskReason: 'Uncapped liability with one-way indemnification and no insurance requirements',
+        },
+        {
+          documentId: 'initech-cloud',
+          documentTitle: 'Initech Cloud',
+          cells: {
+            liability: {
+              value: 'Uncapped',
+              status: 'warning',
+              note: 'Explicitly unlimited',
+              citation: {
+                id: 'cit-matrix-3',
+                documentId: 'initech-cloud',
+                documentTitle: 'Initech Cloud Services Agreement',
+                section: '§12.3 Liability',
+                excerpt: 'Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+              },
+            },
+            indemnity: {
+              value: 'One-way',
+              status: 'warning',
+              note: 'Favors vendor',
+              citation: {
+                id: 'cit-matrix-4',
+                documentId: 'initech-cloud',
+                documentTitle: 'Initech Cloud Services Agreement',
+                section: '§13 Indemnification',
+                excerpt: 'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
+              },
+            },
+            insurance: {
+              value: '$1M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-5',
+                documentId: 'initech-cloud',
+                documentTitle: 'Initech Cloud Services Agreement',
+                section: '§14 Insurance',
+                excerpt: 'Provider maintains commercial general liability insurance with limits of at least $1,000,000 per occurrence.',
+              },
+            },
+          },
+          riskLevel: 'high',
+          riskReason: 'Uncapped liability with one-way indemnification despite having insurance',
+        },
+        {
+          documentId: '1',
+          documentTitle: 'Acme MSA',
+          cells: {
+            liability: {
+              value: '2x fees',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-6',
+                documentId: '1',
+                documentTitle: 'Acme Corp - Master Services Agreement',
+                section: '§8.1 Limitation of Liability',
+                excerpt: 'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid under this Agreement.',
+              },
+            },
+            indemnity: {
+              value: 'Mutual',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-7',
+                documentId: '1',
+                documentTitle: 'Acme Corp - Master Services Agreement',
+                section: '§9 Indemnification',
+                excerpt: 'Each party shall indemnify, defend, and hold harmless the other party from any third-party claims.',
+              },
+            },
+            insurance: {
+              value: '$2M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-8',
+                documentId: '1',
+                documentTitle: 'Acme Corp - Master Services Agreement',
+                section: '§10 Insurance',
+                excerpt: 'Provider shall maintain commercial general liability insurance of at least $2,000,000 per occurrence.',
+              },
+            },
+          },
+          riskLevel: 'medium',
+          riskReason: 'Variable cap tied to fees may be insufficient for large claims',
+        },
+        {
+          documentId: 'umbrella-dpa',
+          documentTitle: 'Umbrella DPA',
+          cells: {
+            liability: {
+              value: '$500K',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-9',
+                documentId: 'umbrella-dpa',
+                documentTitle: 'Umbrella Corp - Data Processing Agreement',
+                section: '§7.2 Liability Cap',
+                excerpt: 'The total aggregate liability shall not exceed Five Hundred Thousand Dollars ($500,000.00 USD).',
+              },
+            },
+            indemnity: {
+              value: 'Mutual',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-10',
+                documentId: 'umbrella-dpa',
+                documentTitle: 'Umbrella Corp - Data Processing Agreement',
+                section: '§8 Mutual Indemnification',
+                excerpt: 'Each party agrees to indemnify the other against claims arising from its own negligence or breach.',
+              },
+            },
+            insurance: {
+              value: '$5M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-11',
+                documentId: 'umbrella-dpa',
+                documentTitle: 'Umbrella Corp - Data Processing Agreement',
+                section: '§9 Insurance Requirements',
+                excerpt: 'Provider shall maintain cyber liability insurance with limits of at least $5,000,000.',
+              },
+            },
+          },
+          riskLevel: 'low',
+          riskReason: 'Fixed cap with mutual indemnification and strong insurance coverage',
+        },
+        {
+          documentId: 'techventure-nda',
+          documentTitle: 'TechVenture NDA',
+          cells: {
+            liability: {
+              value: '$1M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-12',
+                documentId: 'techventure-nda',
+                documentTitle: 'TechVenture Inc - NDA',
+                section: '§6 Limitation of Liability',
+                excerpt: 'Maximum aggregate liability shall be One Million Dollars ($1,000,000.00 USD).',
+              },
+            },
+            indemnity: {
+              value: 'Mutual',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-13',
+                documentId: 'techventure-nda',
+                documentTitle: 'TechVenture Inc - NDA',
+                section: '§7 Indemnification',
+                excerpt: 'Each party shall indemnify the other for any breach of confidentiality obligations.',
+              },
+            },
+            insurance: {
+              value: '$3M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-14',
+                documentId: 'techventure-nda',
+                documentTitle: 'TechVenture Inc - NDA',
+                section: '§8 Insurance',
+                excerpt: 'Both parties shall maintain professional liability insurance of at least $3,000,000.',
+              },
+            },
+          },
+          riskLevel: 'low',
+          riskReason: 'Balanced terms with adequate insurance coverage',
+        },
+        {
+          documentId: 'datacorp-sow',
+          documentTitle: 'DataCorp SOW',
+          cells: {
+            liability: {
+              value: '$2M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-15',
+                documentId: 'datacorp-sow',
+                documentTitle: 'DataCorp - Statement of Work',
+                section: '§9.1 Aggregate Cap',
+                excerpt: 'Provider\'s total liability shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+              },
+            },
+            indemnity: {
+              value: 'Limited',
+              status: 'uncertain',
+              note: 'IP claims only',
+              citation: {
+                id: 'cit-matrix-16',
+                documentId: 'datacorp-sow',
+                documentTitle: 'DataCorp - Statement of Work',
+                section: '§10 Limited Indemnification',
+                excerpt: 'Each party indemnifies the other for IP infringement claims only. General indemnification is limited.',
+              },
+            },
+            insurance: {
+              value: '$2M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-17',
+                documentId: 'datacorp-sow',
+                documentTitle: 'DataCorp - Statement of Work',
+                section: '§11 Insurance',
+                excerpt: 'Provider maintains errors and omissions insurance with limits of $2,000,000.',
+              },
+            },
+          },
+          riskLevel: 'low',
+          riskReason: 'Strong liability cap and insurance, though indemnification is limited',
+        },
+      ],
+    },
+    summaryContent: '⚠️ **Globex and Initech need immediate renegotiation** — both have uncapped liability combined with one-way indemnification.',
+    thinkingSteps: [
+      {
+        id: '1',
+        action: 'Analyzing 6 vendor agreements for risk factors',
+        result: 'Found liability clauses in all 6 documents with varying cap structures.',
+      },
+      {
+        id: '2',
+        action: 'Extracting indemnification terms from each agreement',
+        result: '4 contracts have mutual indemnification, 2 have one-way terms favoring the vendor.',
+      },
+      {
+        id: '3',
+        action: 'Checking insurance requirements and coverage',
+        result: '5 of 6 contracts specify insurance requirements ranging from $1M to $5M.',
+      },
+      {
+        id: '4',
+        action: 'Computing aggregate risk scores',
+        result: 'Identified 2 high-risk, 1 medium-risk, and 3 low-risk contracts based on combined factors.',
+      },
+    ],
+    citations: {
+      '1': {
+        id: 'cit-matrix-1',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt: 'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+      },
+      '2': {
+        id: 'cit-matrix-2',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§9.1 Indemnification',
+        excerpt: 'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
+      },
+      '3': {
+        id: 'cit-matrix-3',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§12.3 Liability',
+        excerpt: 'Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+      },
+      '4': {
+        id: 'cit-matrix-4',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§13 Indemnification',
+        excerpt: 'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
+      },
+    },
+  },
+
+  // Alias
+  'full risk picture': {
+    introContent: 'I\'ve analyzed all 6 vendor contracts for a comprehensive risk assessment.',
+    matrix: {
+      id: 'risk-matrix-1',
+      title: 'Risk Assessment Matrix',
+      columns: [
+        { id: 'liability', header: 'Liability Cap', query: 'What is the liability cap?' },
+        { id: 'indemnity', header: 'Indemnification', query: 'What are the indemnification terms?' },
+        { id: 'insurance', header: 'Insurance', query: 'What are the insurance requirements?' },
+      ],
+      rows: [
+        {
+          documentId: 'globex-saas',
+          documentTitle: 'Globex SaaS',
+          cells: {
+            liability: {
+              value: 'Uncapped',
+              status: 'warning',
+              note: 'No aggregate cap specified',
+              citation: {
+                id: 'cit-matrix-1',
+                documentId: 'globex-saas',
+                documentTitle: 'Globex SaaS Agreement',
+                section: '§8.1 Limitation of Liability',
+                excerpt: 'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+              },
+            },
+            indemnity: {
+              value: 'One-way',
+              status: 'warning',
+              note: 'Favors vendor',
+              citation: {
+                id: 'cit-matrix-2',
+                documentId: 'globex-saas',
+                documentTitle: 'Globex SaaS Agreement',
+                section: '§9.1 Indemnification',
+                excerpt: 'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
+              },
+            },
+            insurance: {
+              value: null,
+              status: 'not_found',
+              note: 'No insurance requirements',
+            },
+          },
+          riskLevel: 'high',
+          riskReason: 'Uncapped liability with one-way indemnification and no insurance requirements',
+        },
+        {
+          documentId: 'initech-cloud',
+          documentTitle: 'Initech Cloud',
+          cells: {
+            liability: {
+              value: 'Uncapped',
+              status: 'warning',
+              note: 'Explicitly unlimited',
+              citation: {
+                id: 'cit-matrix-3',
+                documentId: 'initech-cloud',
+                documentTitle: 'Initech Cloud Services Agreement',
+                section: '§12.3 Liability',
+                excerpt: 'Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+              },
+            },
+            indemnity: {
+              value: 'One-way',
+              status: 'warning',
+              note: 'Favors vendor',
+              citation: {
+                id: 'cit-matrix-4',
+                documentId: 'initech-cloud',
+                documentTitle: 'Initech Cloud Services Agreement',
+                section: '§13 Indemnification',
+                excerpt: 'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
+              },
+            },
+            insurance: {
+              value: '$1M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-5',
+                documentId: 'initech-cloud',
+                documentTitle: 'Initech Cloud Services Agreement',
+                section: '§14 Insurance',
+                excerpt: 'Provider maintains commercial general liability insurance with limits of at least $1,000,000 per occurrence.',
+              },
+            },
+          },
+          riskLevel: 'high',
+          riskReason: 'Uncapped liability with one-way indemnification despite having insurance',
+        },
+        {
+          documentId: '1',
+          documentTitle: 'Acme MSA',
+          cells: {
+            liability: {
+              value: '2x fees',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-6',
+                documentId: '1',
+                documentTitle: 'Acme Corp - Master Services Agreement',
+                section: '§8.1 Limitation of Liability',
+                excerpt: 'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid under this Agreement.',
+              },
+            },
+            indemnity: {
+              value: 'Mutual',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-7',
+                documentId: '1',
+                documentTitle: 'Acme Corp - Master Services Agreement',
+                section: '§9 Indemnification',
+                excerpt: 'Each party shall indemnify, defend, and hold harmless the other party from any third-party claims.',
+              },
+            },
+            insurance: {
+              value: '$2M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-8',
+                documentId: '1',
+                documentTitle: 'Acme Corp - Master Services Agreement',
+                section: '§10 Insurance',
+                excerpt: 'Provider shall maintain commercial general liability insurance of at least $2,000,000 per occurrence.',
+              },
+            },
+          },
+          riskLevel: 'medium',
+          riskReason: 'Variable cap tied to fees may be insufficient for large claims',
+        },
+        {
+          documentId: 'umbrella-dpa',
+          documentTitle: 'Umbrella DPA',
+          cells: {
+            liability: {
+              value: '$500K',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-9',
+                documentId: 'umbrella-dpa',
+                documentTitle: 'Umbrella Corp - Data Processing Agreement',
+                section: '§7.2 Liability Cap',
+                excerpt: 'The total aggregate liability shall not exceed Five Hundred Thousand Dollars ($500,000.00 USD).',
+              },
+            },
+            indemnity: {
+              value: 'Mutual',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-10',
+                documentId: 'umbrella-dpa',
+                documentTitle: 'Umbrella Corp - Data Processing Agreement',
+                section: '§8 Mutual Indemnification',
+                excerpt: 'Each party agrees to indemnify the other against claims arising from its own negligence or breach.',
+              },
+            },
+            insurance: {
+              value: '$5M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-11',
+                documentId: 'umbrella-dpa',
+                documentTitle: 'Umbrella Corp - Data Processing Agreement',
+                section: '§9 Insurance Requirements',
+                excerpt: 'Provider shall maintain cyber liability insurance with limits of at least $5,000,000.',
+              },
+            },
+          },
+          riskLevel: 'low',
+          riskReason: 'Fixed cap with mutual indemnification and strong insurance coverage',
+        },
+        {
+          documentId: 'techventure-nda',
+          documentTitle: 'TechVenture NDA',
+          cells: {
+            liability: {
+              value: '$1M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-12',
+                documentId: 'techventure-nda',
+                documentTitle: 'TechVenture Inc - NDA',
+                section: '§6 Limitation of Liability',
+                excerpt: 'Maximum aggregate liability shall be One Million Dollars ($1,000,000.00 USD).',
+              },
+            },
+            indemnity: {
+              value: 'Mutual',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-13',
+                documentId: 'techventure-nda',
+                documentTitle: 'TechVenture Inc - NDA',
+                section: '§7 Indemnification',
+                excerpt: 'Each party shall indemnify the other for any breach of confidentiality obligations.',
+              },
+            },
+            insurance: {
+              value: '$3M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-14',
+                documentId: 'techventure-nda',
+                documentTitle: 'TechVenture Inc - NDA',
+                section: '§8 Insurance',
+                excerpt: 'Both parties shall maintain professional liability insurance of at least $3,000,000.',
+              },
+            },
+          },
+          riskLevel: 'low',
+          riskReason: 'Balanced terms with adequate insurance coverage',
+        },
+        {
+          documentId: 'datacorp-sow',
+          documentTitle: 'DataCorp SOW',
+          cells: {
+            liability: {
+              value: '$2M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-15',
+                documentId: 'datacorp-sow',
+                documentTitle: 'DataCorp - Statement of Work',
+                section: '§9.1 Aggregate Cap',
+                excerpt: 'Provider\'s total liability shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+              },
+            },
+            indemnity: {
+              value: 'Limited',
+              status: 'uncertain',
+              note: 'IP claims only',
+              citation: {
+                id: 'cit-matrix-16',
+                documentId: 'datacorp-sow',
+                documentTitle: 'DataCorp - Statement of Work',
+                section: '§10 Limited Indemnification',
+                excerpt: 'Each party indemnifies the other for IP infringement claims only. General indemnification is limited.',
+              },
+            },
+            insurance: {
+              value: '$2M',
+              status: 'found',
+              citation: {
+                id: 'cit-matrix-17',
+                documentId: 'datacorp-sow',
+                documentTitle: 'DataCorp - Statement of Work',
+                section: '§11 Insurance',
+                excerpt: 'Provider maintains errors and omissions insurance with limits of $2,000,000.',
+              },
+            },
+          },
+          riskLevel: 'low',
+          riskReason: 'Strong liability cap and insurance, though indemnification is limited',
+        },
+      ],
+    },
+    summaryContent: '⚠️ **Globex and Initech need immediate renegotiation** — both have uncapped liability combined with one-way indemnification.',
+    thinkingSteps: [
+      {
+        id: '1',
+        action: 'Analyzing 6 vendor agreements for risk factors',
+        result: 'Found liability clauses in all 6 documents with varying cap structures.',
+      },
+      {
+        id: '2',
+        action: 'Extracting indemnification terms from each agreement',
+        result: '4 contracts have mutual indemnification, 2 have one-way terms favoring the vendor.',
+      },
+      {
+        id: '3',
+        action: 'Checking insurance requirements and coverage',
+        result: '5 of 6 contracts specify insurance requirements ranging from $1M to $5M.',
+      },
+      {
+        id: '4',
+        action: 'Computing aggregate risk scores',
+        result: 'Identified 2 high-risk, 1 medium-risk, and 3 low-risk contracts based on combined factors.',
+      },
+    ],
+    citations: {
+      '1': {
+        id: 'cit-matrix-1',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§8.1 Limitation of Liability',
+        excerpt: 'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+      },
+      '2': {
+        id: 'cit-matrix-2',
+        documentId: 'globex-saas',
+        documentTitle: 'Globex SaaS Agreement',
+        section: '§9.1 Indemnification',
+        excerpt: 'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
+      },
+      '3': {
+        id: 'cit-matrix-3',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§12.3 Liability',
+        excerpt: 'Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+      },
+      '4': {
+        id: 'cit-matrix-4',
+        documentId: 'initech-cloud',
+        documentTitle: 'Initech Cloud Services Agreement',
+        section: '§13 Indemnification',
+        excerpt: 'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
+      },
+    },
+  },
+};
+
+// =============================================================================
+// Prompt Library Data
+// =============================================================================
+
+export const PROMPT_LIBRARY: PromptCategory[] = [
+  {
+    id: 'contract-analysis',
+    title: 'Contract Analysis',
+    prompts: [
+      {
+        id: 'summarize-prevailing',
+        title: 'Summarize Prevailing Terms',
+        description: 'Identify current governing terms across all agreements',
+        icon: 'document-stack',
+      },
+      {
+        id: 'compare-clauses',
+        title: 'Compare Clauses',
+        description: 'Side-by-side comparison of specific provisions',
+        icon: 'layout-grid',
+      },
+      {
+        id: 'extract-key-dates',
+        title: 'Extract Key Dates',
+        description: 'Find renewal, expiration, and notice dates',
+        icon: 'calendar',
+      },
+      {
+        id: 'analyze-financial',
+        title: 'Analyze Financial Terms',
+        description: 'Review pricing, payments, and contract values',
+        icon: 'currency-dollar',
+      },
+    ],
+  },
+  {
+    id: 'compliance-risk',
+    title: 'Compliance & Risk',
+    prompts: [
+      {
+        id: 'check-conflicts',
+        title: 'Check for Conflicts',
+        description: 'Find conflicting terms across documents',
+        icon: 'status-warn',
+      },
+      {
+        id: 'review-risk',
+        title: 'Review Risk & Liability',
+        description: 'Identify liability caps and indemnification terms',
+        icon: 'shield',
+      },
+      {
+        id: 'audit-compliance',
+        title: 'Audit Compliance',
+        description: 'Check against regulatory requirements',
+        icon: 'shield-check',
+      },
+    ],
+  },
+];
+
+// User-created prompts (initially empty, populated by user)
+export const USER_PROMPTS: Prompt[] = [];

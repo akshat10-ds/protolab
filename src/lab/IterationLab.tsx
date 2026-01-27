@@ -25,20 +25,14 @@ import { AIChat, ChatMessage } from '@/design-system/5-patterns';
 import styles from './IterationLab.module.css';
 
 // Lazy load prototype components
-const SimpleForm = lazy(() => import('@/prototypes/SimpleForm'));
 const DocuSignLanding = lazy(() => import('@/prototypes/DocuSignLanding'));
-const PartiesView = lazy(() => import('@/prototypes/PartiesView'));
-const AccordionWizard = lazy(() => import('@/prototypes/AccordionWizard'));
 const DataTableTest = lazy(() => import('./DataTableTest'));
 
 // Available components to iterate on
 const AVAILABLE_COMPONENTS = [
   { id: 'DataTableTest', label: 'DataTable Test', description: 'Sticky columns & hover test' },
   { id: 'AIChat', label: 'AIChat (Pattern)', description: 'AI conversation interface' },
-  { id: 'SimpleForm', label: 'SimpleForm', description: 'Basic form prototype' },
-  { id: 'DocuSignLanding', label: 'DocuSign Landing', description: 'Landing page prototype' },
-  { id: 'PartiesView', label: 'Parties View', description: 'Parties management view' },
-  { id: 'AccordionWizard', label: 'Accordion Wizard', description: 'Multi-step wizard' },
+  { id: 'DocuSignLanding', label: 'Docusign Landing', description: 'Landing page prototype' },
 ] as const;
 
 // Element info captured from click
@@ -514,10 +508,7 @@ export default function IterationLab() {
                     onClose={() => console.log('Close')}
                   />
                 )}
-                {activeComponent === 'SimpleForm' && <SimpleForm />}
                 {activeComponent === 'DocuSignLanding' && <DocuSignLanding />}
-                {activeComponent === 'PartiesView' && <PartiesView />}
-                {activeComponent === 'AccordionWizard' && <AccordionWizard />}
               </Suspense>
             </div>
           </div>

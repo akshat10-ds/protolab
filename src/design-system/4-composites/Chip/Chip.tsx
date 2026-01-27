@@ -16,10 +16,12 @@ export interface ChipProps {
   className?: string;
   /** Disabled state */
   disabled?: boolean;
+  /** Selected state for selectable chips */
+  selected?: boolean;
 }
 
 export const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
-  ({ children, startElement, onRemove, onClick, className, disabled = false }, ref) => {
+  ({ children, startElement, onRemove, onClick, className, disabled = false, selected = false }, ref) => {
     const isClickable = !disabled && (onClick || onRemove);
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -40,6 +42,7 @@ export const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
           styles.chip,
           isClickable && styles.clickable,
           disabled && styles.disabled,
+          selected && styles.selected,
           className
         )}
         onClick={handleClick}

@@ -11,7 +11,7 @@ export function NavigatorAgreementsAIChatPage() {
   return (
     <PrototypeWrapper
       title="Navigator Agreements + AI Chat"
-      description="DocuSign Navigator with floating AI CTA button and expandable AI Chat panel."
+      description="Docusign Navigator with floating AI CTA button and expandable AI Chat panel."
     >
       <NavigatorAgreementsAIChat />
     </PrototypeWrapper>

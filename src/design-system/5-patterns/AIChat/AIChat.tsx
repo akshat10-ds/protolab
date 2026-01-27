@@ -59,6 +59,8 @@ export interface SuggestedAction {
   description?: string;
   /** Icon name */
   icon?: string;
+  /** Whether this action/step is completed (for checklists) */
+  completed?: boolean;
 }
 
 /** Context source indicator (e.g., "15 agreements") */
@@ -70,6 +72,8 @@ export interface ContextSource {
   /** Click handler for the context pill */
   onClick?: () => void;
 }
+
+export type FeedbackType = 'positive' | 'negative' | null;
 
 export interface AIChatProps {
   /** Array of chat messages to display */
@@ -92,6 +96,12 @@ export interface AIChatProps {
   showTimestamps?: boolean;
   /** Whether to show message actions (copy, etc.) */
   showActions?: boolean;
+  /** Whether to show thumbs up/down feedback buttons on AI responses */
+  showFeedback?: boolean;
+  /** Callback when user gives feedback on a message */
+  onFeedback?: (messageId: string, feedback: FeedbackType) => void;
+  /** Map of message IDs to their feedback state */
+  messageFeedback?: Record<string, FeedbackType>;
   /** Callback when a message action is triggered */
   onMessageAction?: (action: string, message: ChatMessage) => void;
   /** Custom welcome message when no messages */
@@ -100,8 +110,14 @@ export interface AIChatProps {
   welcomeTitle?: string;
   /** Suggested actions to show in zero query state */
   suggestedActions?: SuggestedAction[];
+  /** Title for suggested actions section */
+  suggestedActionsTitle?: string;
+  /** Callback when suggested actions header is clicked */
+  onSuggestedActionsHeaderClick?: () => void;
   /** Suggested questions to show in zero query state */
   suggestedQuestions?: string[];
+  /** Title for suggested questions section */
+  suggestedQuestionsTitle?: string;
   /** Callback when a suggestion is clicked */
   onSuggestionClick?: (suggestion: string) => void;
   /** Maximum height of the chat container */
@@ -132,6 +148,14 @@ export interface AIChatProps {
   inputValue?: string;
   /** Callback when input value changes */
   onInputChange?: (value: string) => void;
+  /** Whether AI is actively streaming a response (shows stop button) */
+  isStreaming?: boolean;
+  /** Callback when stop button is clicked during streaming */
+  onStop?: () => void;
+  /** Disable automatic scrolling (for custom scroll handling in parent) */
+  disableAutoScroll?: boolean;
+  /** Callback for input keydown events. Return true to prevent default handling (e.g., Enter to send). */
+  onInputKeyDown?: (e: React.KeyboardEvent) => boolean | void;
 }
 
 // ============================================================================
@@ -146,6 +170,9 @@ interface MessageProps {
   assistantName?: string;
   showTimestamp?: boolean;
   showActions?: boolean;
+  showFeedback?: boolean;
+  feedback?: FeedbackType;
+  onFeedback?: (feedback: FeedbackType) => void;
   onAction?: (action: string, message: ChatMessage) => void;
 }
 
@@ -157,6 +184,9 @@ const Message: React.FC<MessageProps> = ({
   assistantName = 'Assistant',
   showTimestamp = false,
   showActions = true,
+  showFeedback = true,
+  feedback,
+  onFeedback,
   onAction,
 }) => {
   const isUser = message.role === 'user';
@@ -198,17 +228,43 @@ const Message: React.FC<MessageProps> = ({
           </div>
         )}
 
-        {showActions && !isUser && (
+        {(showActions || showFeedback) && !isUser && (
           <div className={styles.messageActions}>
-            <Tooltip content="Copy message">
-              <IconButton
-                icon="duplicate"
-                size="small"
-                kind="tertiary"
-                onClick={handleCopy}
-                aria-label="Copy message"
-              />
-            </Tooltip>
+            {showFeedback && (
+              <>
+                <Tooltip content="Helpful">
+                  <IconButton
+                    icon={feedback === 'positive' ? 'thumbs-up-filled' : 'thumbs-up'}
+                    size="small"
+                    kind="tertiary"
+                    onClick={() => onFeedback?.(feedback === 'positive' ? null : 'positive')}
+                    aria-label="Mark as helpful"
+                    className={feedback === 'positive' ? styles.feedbackActive : undefined}
+                  />
+                </Tooltip>
+                <Tooltip content="Not helpful">
+                  <IconButton
+                    icon={feedback === 'negative' ? 'thumbs-down-filled' : 'thumbs-down'}
+                    size="small"
+                    kind="tertiary"
+                    onClick={() => onFeedback?.(feedback === 'negative' ? null : 'negative')}
+                    aria-label="Mark as not helpful"
+                    className={feedback === 'negative' ? styles.feedbackActive : undefined}
+                  />
+                </Tooltip>
+              </>
+            )}
+            {showActions && (
+              <Tooltip content="Copy message">
+                <IconButton
+                  icon="duplicate"
+                  size="small"
+                  kind="tertiary"
+                  onClick={handleCopy}
+                  aria-label="Copy message"
+                />
+              </Tooltip>
+            )}
           </div>
         )}
 
@@ -254,6 +310,10 @@ interface InputAreaProps {
   placeholder?: string;
   disabled?: boolean;
   isLoading?: boolean;
+  /** Whether AI is actively streaming (shows stop button) */
+  isStreaming?: boolean;
+  /** Callback when stop button is clicked */
+  onStop?: () => void;
   /** Show "Add source" button */
   showAddSource?: boolean;
   /** Callback when add source is clicked */
@@ -272,6 +332,8 @@ interface InputAreaProps {
   value?: string;
   /** Callback when value changes (for controlled mode) */
   onValueChange?: (value: string) => void;
+  /** Callback for keydown events. Return true to prevent default handling. */
+  onKeyDown?: (e: React.KeyboardEvent) => boolean | void;
 }
 
 const InputArea: React.FC<InputAreaProps> = ({
@@ -279,6 +341,8 @@ const InputArea: React.FC<InputAreaProps> = ({
   placeholder = 'Ask anything...',
   disabled = false,
   isLoading = false,
+  isStreaming = false,
+  onStop,
   showAddSource = true,
   onAddSource,
   contextSource,
@@ -288,6 +352,7 @@ const InputArea: React.FC<InputAreaProps> = ({
   disclaimerText = 'Responses are generated with AI and are not legal advice.',
   value: controlledValue,
   onValueChange,
+  onKeyDown: onKeyDownProp,
 }) => {
   // Support both controlled and uncontrolled modes
   const isControlled = controlledValue !== undefined;
@@ -354,12 +419,17 @@ const InputArea: React.FC<InputAreaProps> = ({
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
+      // Allow parent to intercept keydown events
+      if (onKeyDownProp) {
+        const handled = onKeyDownProp(e);
+        if (handled) return;
+      }
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         handleSend();
       }
     },
-    [handleSend]
+    [handleSend, onKeyDownProp]
   );
 
   const canSend = value.trim().length > 0 && !disabled && !isLoading;
@@ -421,7 +491,15 @@ const InputArea: React.FC<InputAreaProps> = ({
               <span>Add source</span>
             </button>
           ) : null}
-          {isLoading ? (
+          {isStreaming ? (
+            <IconButton
+              icon="control-stop"
+              variant="brand"
+              size="small"
+              onClick={onStop}
+              aria-label="Stop generating"
+            />
+          ) : isLoading ? (
             <Spinner size="small" />
           ) : (
             <IconButton
@@ -445,7 +523,10 @@ interface WelcomeProps {
   userName?: string;
   welcomeTitle?: string;
   suggestedActions?: SuggestedAction[];
+  suggestedActionsTitle?: string;
+  onSuggestedActionsHeaderClick?: () => void;
   suggestedQuestions?: string[];
+  suggestedQuestionsTitle?: string;
   onSuggestionClick?: (suggestion: string) => void;
   children?: React.ReactNode;
 }
@@ -455,7 +536,10 @@ const Welcome: React.FC<WelcomeProps> = ({
   userName,
   welcomeTitle,
   suggestedActions,
+  suggestedActionsTitle = 'Prompts',
+  onSuggestedActionsHeaderClick,
   suggestedQuestions,
+  suggestedQuestionsTitle = 'Questions you can ask',
   onSuggestionClick,
   children,
 }) => {
@@ -486,9 +570,16 @@ const Welcome: React.FC<WelcomeProps> = ({
           {/* Suggested Prompts */}
           {suggestedActions && suggestedActions.length > 0 && (
             <div className={styles.suggestionsSection}>
-              <Inline gap="small" align="center" className={styles.sectionHeader}>
+              <Inline
+                gap="small"
+                align="center"
+                className={`${styles.sectionHeader} ${onSuggestedActionsHeaderClick ? styles.sectionHeaderClickable : ''}`}
+                onClick={onSuggestedActionsHeaderClick}
+                role={onSuggestedActionsHeaderClick ? 'button' : undefined}
+                tabIndex={onSuggestedActionsHeaderClick ? 0 : undefined}
+              >
                 <Text variant="caption" color="secondary" weight="medium">
-                  Prompts
+                  {suggestedActionsTitle}
                 </Text>
                 <Icon name="chevron-right" size="small" />
               </Inline>
@@ -497,11 +588,12 @@ const Welcome: React.FC<WelcomeProps> = ({
                   <button
                     key={index}
                     type="button"
-                    className={styles.suggestionCard}
+                    className={`${styles.suggestionCard} ${action.completed ? styles.suggestionCardCompleted : ''}`}
                     onClick={() => onSuggestionClick?.(action.label)}
+                    disabled={action.completed}
                   >
-                    <div className={styles.suggestionIcon}>
-                      <Icon name={(action.icon as any) || 'bolt'} size="medium" />
+                    <div className={`${styles.suggestionIcon} ${action.completed ? styles.suggestionIconCompleted : ''}`}>
+                      <Icon name={action.completed ? 'check' : ((action.icon as any) || 'bolt')} size="medium" />
                     </div>
                     <div className={styles.suggestionContent}>
                       <Text variant="body" weight="medium">
@@ -520,7 +612,7 @@ const Welcome: React.FC<WelcomeProps> = ({
             <div className={styles.suggestionsSection}>
               <Inline gap="small" align="center" className={styles.sectionHeader}>
                 <Text variant="caption" color="secondary" weight="medium">
-                  Questions you can ask
+                  {suggestedQuestionsTitle}
                 </Text>
                 <Icon name="chevron-right" size="small" />
               </Inline>
@@ -641,11 +733,17 @@ export const AIChat: React.FC<AIChatProps> = ({
   userName = 'You',
   showTimestamps = false,
   showActions = true,
+  showFeedback = true,
+  onFeedback,
+  messageFeedback = {},
   onMessageAction,
   welcomeMessage,
   welcomeTitle,
   suggestedActions,
+  suggestedActionsTitle,
+  onSuggestedActionsHeaderClick,
   suggestedQuestions,
+  suggestedQuestionsTitle,
   onSuggestionClick,
   maxHeight = '600px',
   className,
@@ -661,6 +759,10 @@ export const AIChat: React.FC<AIChatProps> = ({
   showInputAttention = false,
   inputValue,
   onInputChange,
+  isStreaming = false,
+  onStop,
+  disableAutoScroll = false,
+  onInputKeyDown,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastAiMessageRef = useRef<HTMLDivElement>(null);
@@ -669,7 +771,13 @@ export const AIChat: React.FC<AIChatProps> = ({
   // Smart auto-scroll:
   // - User message: scroll to bottom (show their message)
   // - AI message: scroll to start of AI response (so user sees the beginning)
+  // Can be disabled via disableAutoScroll prop for custom scroll handling
   useEffect(() => {
+    if (disableAutoScroll) {
+      prevMessagesLengthRef.current = messages.length;
+      return;
+    }
+
     const prevLength = prevMessagesLengthRef.current;
     const currentLength = messages.length;
 
@@ -687,7 +795,7 @@ export const AIChat: React.FC<AIChatProps> = ({
     }
 
     prevMessagesLengthRef.current = currentLength;
-  }, [messages]);
+  }, [messages, disableAutoScroll]);
 
   const isEmpty = messages.length === 0;
 
@@ -713,7 +821,10 @@ export const AIChat: React.FC<AIChatProps> = ({
             userName={userName !== 'You' ? userName : undefined}
             welcomeTitle={welcomeTitle}
             suggestedActions={suggestedActions}
+            suggestedActionsTitle={suggestedActionsTitle}
+            onSuggestedActionsHeaderClick={onSuggestedActionsHeaderClick}
             suggestedQuestions={suggestedQuestions}
+            suggestedQuestionsTitle={suggestedQuestionsTitle}
             onSuggestionClick={onSuggestionClick}
           >
             {welcomeMessage}
@@ -750,6 +861,9 @@ export const AIChat: React.FC<AIChatProps> = ({
                     assistantName={assistantName}
                     showTimestamp={showTimestamps}
                     showActions={showActions}
+                    showFeedback={showFeedback}
+                    feedback={messageFeedback[message.id]}
+                    onFeedback={(fb) => onFeedback?.(message.id, fb)}
                     onAction={onMessageAction}
                   />
                 </div>
@@ -768,11 +882,14 @@ export const AIChat: React.FC<AIChatProps> = ({
         placeholder={placeholder}
         disabled={disabled}
         isLoading={isLoading}
+        isStreaming={isStreaming}
+        onStop={onStop}
         contextSource={contextSource}
         showContextAttention={showContextAttention}
         showInputAttention={showInputAttention}
         value={inputValue}
         onValueChange={onInputChange}
+        onKeyDown={onInputKeyDown}
       />
     </Card>
   );

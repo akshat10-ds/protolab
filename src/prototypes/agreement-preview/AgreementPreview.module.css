@@ -1,0 +1,280 @@
+/**
+ * AgreementPreview Styles
+ *
+ * Full-page agreement preview with push layout for chat panel
+ */
+
+@import '../../design-system/1-tokens/tokens.css';
+
+/* Main Container - Horizontal split */
+.agreementPreview {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background: var(--ink-bg-color-default);
+  overflow: hidden;
+}
+
+/* Document Side - Left panel */
+.documentSide {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  transition: flex 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.documentSideWithChat {
+  flex: 0 0 60%;
+}
+
+/* Chat Side - Right panel */
+.chatSide {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--ink-border-color-subtle);
+  background: var(--ink-bg-color-default);
+  animation: slideIn 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Primary Header */
+.primaryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: var(--ink-bg-color-default);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  min-width: 0;
+  flex: 1;
+}
+
+.documentTitle {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: var(--ink-spacing-100);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+}
+
+/* Secondary Toolbar */
+.secondaryToolbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ink-spacing-100) var(--ink-spacing-200);
+  background: var(--ink-bg-color-default);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.toolbarCenter {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-150);
+}
+
+.toolbarRight {
+  position: absolute;
+  right: var(--ink-spacing-200);
+}
+
+/* Page Navigation */
+.pageNavGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-75);
+}
+
+.pageInput {
+  width: 40px;
+}
+
+.pageInput input {
+  text-align: center;
+  padding: var(--ink-spacing-75) var(--ink-spacing-50) !important;
+  min-height: unset !important;
+  height: 28px !important;
+}
+
+.pageTotalText {
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-subtle);
+  white-space: nowrap;
+  margin-left: var(--ink-spacing-75);
+}
+
+.pageNavButtons {
+  display: flex;
+  align-items: center;
+}
+
+/* Toolbar Divider */
+.toolbarDivider {
+  height: 20px;
+  margin: 0 var(--ink-spacing-50);
+}
+
+/* Zoom Controls */
+.zoomGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+}
+
+.zoomText {
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-subtle);
+  min-width: 40px;
+  text-align: center;
+}
+
+/* Document Body */
+.documentBody {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  background: var(--ink-neutral-20);
+}
+
+/* Left Sidebar */
+.leftSidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  padding: var(--ink-spacing-150) var(--ink-spacing-100);
+  background: var(--ink-bg-color-default);
+  border-right: 1px solid var(--ink-border-color-subtle);
+  flex-shrink: 0;
+}
+
+/* PDF Container */
+.pdfContainer {
+  flex: 1;
+  position: relative;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--ink-spacing-200);
+}
+
+/* PDF Wrapper - handles zoom transform */
+.pdfWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  transform: scale(var(--pdf-zoom, 1));
+  transform-origin: top center;
+  transition: transform 200ms ease-out;
+}
+
+.pdfViewer {
+  width: 100%;
+  height: 100%;
+  max-width: calc(100% / var(--pdf-zoom, 1));
+  border: none;
+  background: var(--ink-white-100);
+  box-shadow: 0 2px 8px var(--ink-neutral-fade-10);
+}
+
+/* Loading Overlay */
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ink-spacing-150);
+  background: var(--ink-bg-color-default);
+  z-index: 10;
+}
+
+.loadingText {
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-subtle);
+}
+
+/* Error State */
+.errorState {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ink-spacing-100);
+  background: var(--ink-bg-color-default);
+  padding: var(--ink-spacing-400);
+  text-align: center;
+  z-index: 10;
+}
+
+.errorState svg {
+  color: var(--ink-font-color-subtle);
+}
+
+.errorTitle {
+  font-size: var(--ink-font-size-body-m);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  margin: 0;
+  margin-top: var(--ink-spacing-100);
+}
+
+.errorDescription {
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-subtle);
+  margin: 0;
+  margin-bottom: var(--ink-spacing-100);
+  max-width: 300px;
+}
+
+/* Floating CTA */
+.floatingCta {
+  position: absolute;
+  bottom: var(--ink-spacing-300);
+  right: var(--ink-spacing-300);
+  box-shadow: 0 4px 16px var(--ink-neutral-fade-20);
+}
+
+/* Chat Panel */
+.chatPanel {
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}

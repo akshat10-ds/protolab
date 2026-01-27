@@ -1,20 +1,19 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
+import { Agentation } from 'agentation';
 import ComponentShowcase from './examples/ComponentShowcase';
 import DocuSignShellDemo from './examples/DocuSignShellDemo';
 import EditorApp from './editor/EditorApp';
 import PrototypeIndex from './prototypes/PrototypeIndex';
 import { FullscreenPrototype } from './prototypes/FullscreenPrototype';
-import SimpleFormPage from './prototypes/pages/SimpleFormPage';
-import PartiesViewPage from './prototypes/pages/PartiesViewPage';
 import DocuSignLandingPage from './prototypes/pages/DocuSignLandingPage';
-import AccordionWizardPage from './prototypes/pages/AccordionWizardPage';
-import UserInfoFormPage from './prototypes/pages/UserInfoFormPage';
 import NavigatorAgreementsPage from './prototypes/pages/NavigatorAgreementsPage';
 import NavigatorAgreementsAIChatPage from './prototypes/pages/NavigatorAgreementsAIChatPage';
 import AgreementStudioPage from './prototypes/pages/AgreementStudioPage';
 import AgreementStudioFRPage from './prototypes/pages/AgreementStudioFRPage';
-import HROnboardingWizardPage from './prototypes/pages/HROnboardingWizardPage';
+import AgreementPreviewPage from './prototypes/pages/AgreementPreviewPage';
+import AgentStudioPage from './prototypes/pages/AgentStudioPage';
+import OnboardingAgentPage from './prototypes/pages/OnboardingAgentPage';
 import { PromptExpansionDemoPage } from './prototypes/pages/PromptExpansionDemoPage';
 import IterationLab from './lab/IterationLab';
 import LearningsReview from './learnings/LearningsReview';
@@ -44,11 +43,7 @@ export default function App() {
 
         {/* Prototypes - Browse and interact with generated prototypes */}
         <Route path="/prototypes" element={<PrototypeIndex />} />
-        <Route path="/prototypes/simple-form" element={<SimpleFormPage />} />
-        <Route path="/prototypes/parties-view" element={<PartiesViewPage />} />
         <Route path="/prototypes/docusign-landing" element={<DocuSignLandingPage />} />
-        <Route path="/prototypes/accordion-wizard" element={<AccordionWizardPage />} />
-        <Route path="/prototypes/user-info-form" element={<UserInfoFormPage />} />
         <Route path="/prototypes/navigator-agreements" element={<NavigatorAgreementsPage />} />
         <Route
           path="/prototypes/navigator-agreements-ai-chat"
@@ -56,7 +51,9 @@ export default function App() {
         />
         <Route path="/prototypes/agreement-studio" element={<AgreementStudioPage />} />
         <Route path="/prototypes/agreement-studio-fr" element={<AgreementStudioFRPage />} />
-        <Route path="/prototypes/hr-onboarding-wizard" element={<HROnboardingWizardPage />} />
+        <Route path="/prototypes/agreement-preview" element={<AgreementPreviewPage />} />
+        <Route path="/prototypes/agent-studio" element={<AgentStudioPage />} />
+        <Route path="/prototypes/onboarding-agent" element={<OnboardingAgentPage />} />
         <Route path="/prototypes/prompt-expansion-demo" element={<PromptExpansionDemoPage />} />
 
         {/* Fullscreen Prototypes - No wrapper chrome, for presentation mode */}
@@ -66,6 +63,7 @@ export default function App() {
         <Route path="*" element={<Navigate to="/showcase" replace />} />
       </Routes>
       <Analytics />
+      {import.meta.env.DEV && <Agentation />}
     </BrowserRouter>
   );
 }

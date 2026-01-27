@@ -321,24 +321,6 @@ export function AgreementStudio() {
     []
   );
 
-  const selectionActions: DataTableAction[] = useMemo(
-    () => [
-      {
-        id: 'download',
-        label: 'Download',
-        icon: 'download',
-        onClick: (rows) => console.log('Download:', rows),
-      },
-      {
-        id: 'delete',
-        label: 'Delete',
-        icon: 'trash',
-        variant: 'danger',
-        onClick: (rows) => console.log('Delete:', rows),
-      },
-    ],
-    []
-  );
 
   const pagination: DataTablePaginationConfig = useMemo(
     () => ({
@@ -369,6 +351,31 @@ export function AgreementStudio() {
     const wideWidth = Math.floor(window.innerWidth * WIDE_PANEL_WIDTH_PERCENT);
     setPanelWidth(wideWidth);
   }, []);
+
+  const selectionActions: DataTableAction[] = useMemo(
+    () => [
+      {
+        id: 'ai-chat',
+        label: 'Chat',
+        icon: 'ai-spark-filled',
+        onClick: () => handleOpenAIChat(),
+      },
+      {
+        id: 'download',
+        label: 'Download',
+        icon: 'download',
+        onClick: (rows) => console.log('Download:', rows),
+      },
+      {
+        id: 'delete',
+        label: 'Delete',
+        icon: 'trash',
+        variant: 'danger',
+        onClick: (rows) => console.log('Delete:', rows),
+      },
+    ],
+    [handleOpenAIChat]
+  );
 
   const handleCloseAIChat = useCallback(() => {
     setIsAIChatOpen(false);
@@ -523,7 +530,6 @@ export function AgreementStudio() {
                     onSubmit: handleSearchSubmit,
                     placeholder: 'Search agreements...',
                   }}
-                  showSearchIndicator
                   quickActions={[
                     <IconButton key="bookmark" icon="bookmark" variant="secondary" size="small" />,
                   ]}
@@ -561,9 +567,10 @@ export function AgreementStudio() {
           </div>
         </DocuSignShell>
 
-        {!isAIChatOpen && isAcmeSearch && (
+        {!isAIChatOpen && (
           <FloatingCTA
             onClick={handleOpenAIChat}
+            text={isAcmeSearch ? `Chat with ${acmeAgreementCount} agreements` : 'Try DocuSign AI'}
             agreementCount={acmeAgreementCount}
             searchTerm="Acme"
           />
@@ -579,11 +586,19 @@ export function AgreementStudio() {
         onStartResize={handleStartResize}
         onEndResize={handleEndResize}
         isResizing={isResizing}
-        agreementCount={isAcmeSearch ? acmeAgreementCount : undefined}
+        agreementCount={
+          selectedRows.size > 0
+            ? selectedRows.size
+            : isAcmeSearch
+              ? acmeAgreementCount
+              : undefined
+        }
         agreements={
-          isAcmeSearch
-            ? filteredAgreements.filter((a) => a.fileName.toLowerCase().includes('acme'))
-            : []
+          selectedRows.size > 0
+            ? filteredAgreements.filter((a) => selectedRows.has(a.id))
+            : isAcmeSearch
+              ? filteredAgreements.filter((a) => a.fileName.toLowerCase().includes('acme'))
+              : []
         }
       />
     </div>

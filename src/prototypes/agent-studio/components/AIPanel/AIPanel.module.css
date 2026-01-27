@@ -1,0 +1,1183 @@
+/**
+ * AIPanel Component Styles
+ *
+ * Styles for the AI Chat Panel including:
+ * - Panel container and layout
+ * - Drag handle for resizing
+ * - History panel positioning
+ * - Zero query state
+ * - Input area
+ * - Rich message rendering
+ * - Document canvas wrapper
+ * - Agreements sidebar wrapper
+ */
+
+@import '../../../../design-system/1-tokens/tokens.css';
+
+/* ============================================================================
+   AI Panel (Right Sidebar) - Sits outside main content as flex item
+   ============================================================================ */
+
+.aiPanel {
+  /* Fill available height in flex container */
+  align-self: stretch;
+  background: var(--ink-bg-color-default);
+  border-left: 1px solid var(--ink-border-color-subtle);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: width 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Ensure panel is above main content when open */
+  position: relative;
+  z-index: 300;
+}
+
+.aiPanelOpen {
+  /* Width is now controlled by inline style */
+}
+
+/* Disable transitions during resize for smooth dragging */
+.aiPanelResizing {
+  transition: none !important;
+}
+
+/* ============================================================================
+   Drag Handle for Resizing
+   ============================================================================ */
+
+.dragHandle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 100%;
+  cursor: ew-resize;
+  z-index: 310;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.dragHandle:hover .dragHandleBar,
+.dragHandle:active .dragHandleBar {
+  background: var(--ink-neutral-80);
+  opacity: 1;
+}
+
+.dragHandleBar {
+  width: 4px;
+  height: 48px;
+  background: var(--ink-neutral-40);
+  border-radius: var(--ink-radius-full);
+  opacity: 0;
+  transition:
+    opacity 150ms ease,
+    background 150ms ease;
+}
+
+.aiPanel:hover .dragHandleBar {
+  opacity: 0.6;
+}
+
+/* AIChat container styling */
+.aiChatContainer {
+  flex: 1;
+  min-height: 0; /* Critical: allow flex item to shrink */
+  display: flex;
+  flex-direction: column;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* Override AIChat message list to fill available space and enable proper scrolling */
+.aiChatContainer :global(div[class*='messageList']) {
+  max-height: none !important;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Override AIChat message to use full width in this context */
+.aiChatContainer :global(div[class*='assistant']) {
+  max-width: 100% !important;
+  width: 100%;
+}
+
+/* Ensure message content also expands to full width */
+.aiChatContainer :global(div[class*='messageContent']) {
+  width: 100%;
+  flex: 1;
+}
+
+/* Ensure input area stays at bottom and doesn't get squeezed */
+.aiChatContainer :global(div[class*='inputArea']) {
+  flex-shrink: 0;
+}
+
+/* ============================================================================
+   Expanded State - Content Max Width
+   When panel is wide (full-screen), constrain content for readability
+   ============================================================================ */
+
+.aiPanelExpanded {
+  background: var(--ink-bg-color-default);
+}
+
+/* Main layout container - flex row for inline history + content */
+.aiPanelLayout {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Content area - fills remaining space */
+.aiPanelContent {
+  flex: 1;
+  min-width: 0;
+  min-height: 0; /* Critical: allow flex item to shrink below content size */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--ink-bg-color-default);
+  overflow: hidden; /* Prevent content from overflowing */
+}
+
+/* Content wrapper for centered, max-width constrained content */
+.aiChatContentWrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0; /* Critical: allow flex item to shrink */
+  width: 100%;
+  max-width: var(--ai-chat-content-max-width, 720px);
+  margin: 0 auto;
+  transition: max-width 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* When not expanded, allow full width */
+.aiChatContentWrapperNarrow {
+  max-width: 100%;
+}
+
+/* ============================================================================
+   Chat History Panel - Smart Adaptive Layout
+   ============================================================================ */
+
+.historyPanel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100%;
+  background: var(--ink-bg-color-default);
+  border-right: 1px solid var(--ink-border-color-subtle);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition:
+    transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 250ms ease;
+  box-shadow: none;
+}
+
+.historyPanelOpen {
+  transform: translateX(0);
+}
+
+/* ============================================================================
+   Inline Mode - When there's enough space, history becomes a natural sidebar
+   ============================================================================ */
+
+.historyPanelInline {
+  position: relative;
+  transform: none;
+  z-index: 1;
+  flex-shrink: 0;
+  box-shadow: none;
+  background: var(--ink-ecru-10);
+  border-right: 1px solid var(--ink-neutral-fade-10);
+  border-left: none;
+  width: 260px;
+  transition:
+    width 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 200ms ease,
+    margin 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Remove any inset shadow on content when history is inline */
+.aiPanelLayout .aiPanelContent {
+  box-shadow: none;
+}
+
+/* Hidden state for inline mode */
+.historyPanelInlineHidden {
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  border-right: none;
+  margin-left: 0;
+}
+
+/* Inline mode hover refinement */
+.historyPanelInline .historyItem:hover {
+  background: var(--ink-ecru-20);
+}
+
+.historyPanelInline .historyItemActive {
+  background: var(--ink-white-100);
+  box-shadow: 0 1px 3px var(--ink-neutral-fade-10);
+}
+
+.historyPanelInline .historyItemActive:hover {
+  background: var(--ink-white-100);
+}
+
+.historyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+  flex-shrink: 0;
+}
+
+.historyTitle {
+  font-size: var(--ink-font-size-body-m);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+  margin: 0;
+}
+
+.historyList {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--ink-spacing-100) 0;
+}
+
+.historyGroup {
+  padding: var(--ink-spacing-100) var(--ink-spacing-200);
+}
+
+.historyGroupLabel {
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.historyItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  margin: 0 calc(-1 * var(--ink-spacing-200));
+  cursor: pointer;
+  transition: background 150ms ease;
+  border: none;
+  background: transparent;
+  width: calc(100% + var(--ink-spacing-200) * 2);
+  text-align: left;
+}
+
+.historyItem:hover {
+  background: var(--ink-ecru-10);
+}
+
+.historyItemActive {
+  background: var(--ink-cobalt-10);
+}
+
+.historyItemActive:hover {
+  background: var(--ink-cobalt-20);
+}
+
+.historyItemIcon {
+  flex-shrink: 0;
+  color: var(--ink-font-color-subtle);
+  margin-top: 2px;
+}
+
+.historyItemContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.historyItemTitle {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.historyItemMeta {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+  margin-top: 2px;
+}
+
+.historyOverlay {
+  position: absolute;
+  inset: 0;
+  background: var(--ink-neutral-fade-20);
+  z-index: 15;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.historyOverlayVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ============================================================================
+   Shared Header - spans full width of panel
+   ============================================================================ */
+
+.sharedHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  height: 64px;
+  flex-shrink: 0;
+  background: var(--ink-bg-color-default);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.sharedHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.sharedHeaderCenter {
+  /* Position absolutely to ensure true visual centering */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ink-spacing-100);
+  /* Prevent overlapping left/right buttons - leave room for icons */
+  max-width: calc(100% - 200px);
+  overflow: hidden;
+}
+
+.sharedHeaderTitle {
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-md);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sharedHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+/* ============================================================================
+   AI Panel Header (legacy - kept for compatibility)
+   ============================================================================ */
+
+.aiPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ink-spacing-200) var(--ink-spacing-150);
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.aiPanelHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+}
+
+.aiPanelHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+}
+
+/* ============================================================================
+   AI Panel Content
+   ============================================================================ */
+
+/* Zero Query State (Welcome) */
+.zeroQueryState {
+  flex: 1;
+  padding: 0 var(--ink-spacing-150);
+  overflow-y: auto;
+}
+
+.greeting {
+  padding: var(--ink-spacing-150) 0 var(--ink-spacing-300);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+}
+
+.greetingTitle {
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-2xl);
+  font-weight: var(--ink-font-weight-bold);
+  line-height: 1.25;
+  letter-spacing: -0.16px;
+  margin: 0;
+  color: var(--ink-cobalt-140);
+}
+
+.greetingName {
+  /* Inherits bold styling from parent */
+}
+
+.greetingSubtitle {
+  color: var(--ink-font-color-default);
+  font-weight: var(--ink-font-weight-regular);
+}
+
+/* Sections */
+.section {
+  padding: var(--ink-spacing-200) 0;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--ink-spacing-100);
+  cursor: pointer;
+}
+
+.sectionHeader:hover {
+  opacity: 0.8;
+}
+
+.sectionTitle {
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-subtle);
+  letter-spacing: 0.2px;
+}
+
+.sectionChevron {
+  color: var(--ink-font-color-subtle);
+}
+
+/* Action Cards */
+.actionCards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+}
+
+.actionCard {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-150) var(--ink-spacing-100);
+  background: var(--ink-ecru-10);
+  border: none;
+  border-radius: var(--ink-radius-size-m);
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease;
+  width: 100%;
+}
+
+.actionCard:hover {
+  background: var(--ink-ecru-20);
+}
+
+.actionCardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--ink-font-color-default);
+}
+
+.actionCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.actionCardTitle {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  line-height: 1.5;
+}
+
+.actionCardDescription {
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-font-color-subtle);
+  line-height: 1.5;
+}
+
+/* Question Cards */
+.questionCard {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) var(--ink-spacing-100);
+  background: var(--ink-ecru-10);
+  border: none;
+  border-radius: var(--ink-radius-size-m);
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease;
+  width: 100%;
+  min-height: 44px;
+}
+
+.questionCard:hover {
+  background: var(--ink-ecru-20);
+}
+
+.questionCardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--ink-font-color-default);
+}
+
+.questionCardText {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-font-color-default);
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   AI Panel Input Area
+   ============================================================================ */
+
+.inputArea {
+  padding: var(--ink-spacing-150);
+  border-top: 1px solid var(--ink-border-color-subtle);
+  background: var(--ink-bg-color-default);
+  border-radius: var(--ink-radius-size-s) var(--ink-radius-size-s) 0 0;
+  flex-shrink: 0;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+  padding: 0 var(--ink-spacing-150) var(--ink-spacing-100);
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+}
+
+.inputField {
+  width: 100%;
+  padding: var(--ink-spacing-150) 0 var(--ink-spacing-50);
+  border: none;
+  background: transparent;
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-subtle);
+  resize: none;
+  min-height: 54px;
+  line-height: 1.4;
+}
+
+.inputField:focus {
+  outline: none;
+  color: var(--ink-font-color-default);
+}
+
+.inputField::placeholder {
+  color: var(--ink-font-color-subtle);
+}
+
+.inputActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.addSourceButton {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  background: transparent;
+  border: 1px dashed var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-full);
+  cursor: pointer;
+  font-family: var(--ink-font-family-default);
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  letter-spacing: 0.32px;
+  transition: all 150ms ease;
+}
+
+.addSourceButton:hover {
+  border-color: var(--ink-border-color-subtle);
+  background: var(--ink-bg-color-muted);
+}
+
+.disclaimer {
+  margin-top: var(--ink-spacing-100);
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-subtle);
+  text-align: center;
+  letter-spacing: 0.32px;
+  line-height: 1.4;
+}
+
+/* ============================================================================
+   Rich Message Styles (for categorized AI responses)
+   ============================================================================ */
+
+/* Tool Call Card Pattern - matches Figma spec */
+.richMessage {
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-m);
+  overflow: hidden;
+  padding: var(--ink-spacing-100) var(--ink-spacing-200) var(--ink-spacing-200);
+}
+
+.richMessageHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: 0;
+  min-height: 32px;
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.richMessageTitle {
+  flex: 1;
+  font-family: var(--ink-font-family-display);
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+  letter-spacing: var(--ink-letter-spacing-open);
+  margin: 0;
+}
+
+.richMessageSubtitle {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+}
+
+.richMessageHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+}
+
+/* Tool Call Footer with Continue button */
+.richMessageFooter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-150);
+  margin-top: var(--ink-spacing-150);
+  padding-top: var(--ink-spacing-150);
+  border-top: 1px solid var(--ink-border-color-subtle);
+}
+
+/* Content area wrapper */
+.richMessageContent {
+  background: var(--ink-bg-color-default);
+  border-radius: var(--ink-radius-size-s);
+  overflow: hidden;
+}
+
+.richMessageSection {
+  padding: var(--ink-spacing-200);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+}
+
+.richMessageSection:last-child {
+  border-bottom: none;
+}
+
+.richMessageSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  margin-bottom: var(--ink-spacing-150);
+}
+
+.richMessageSectionIcon {
+  color: var(--ink-font-color-default);
+}
+
+.richMessageSectionTitle {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Rich message table */
+.richTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--ink-font-size-body-s);
+}
+
+.richTable th {
+  text-align: left;
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  background: var(--ink-ecru-10);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-subtle);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+}
+
+.richTable td {
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+  color: var(--ink-font-color-default);
+}
+
+.richTable tr:last-child td {
+  border-bottom: none;
+}
+
+/* Citation link - subtle style */
+.citation {
+  color: var(--ink-font-color-subtle);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  transition: color 150ms ease;
+}
+
+.citation:hover {
+  color: var(--ink-font-color-default);
+}
+
+/* Bullet list in rich message */
+.richList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.richListItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) 0;
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-default);
+}
+
+.richListItem::before {
+  content: '•';
+  color: var(--ink-font-color-subtle);
+}
+
+/* Rich message wrapper for custom rendering */
+.richMessageWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-150);
+  width: 100%;
+}
+
+.richMessageIntro {
+  margin: 0;
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-default);
+  line-height: 1.5;
+}
+
+/* Feedback buttons for AI responses */
+.messageFeedback {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  margin-top: var(--ink-spacing-100);
+}
+
+.messageFeedback button {
+  color: var(--ink-font-color-subtle);
+}
+
+.messageFeedback button:hover {
+  color: var(--ink-font-color-default);
+}
+
+/* ============================================================================
+   Thinking Steps Container
+   ============================================================================ */
+
+.thinkingStepsContainer {
+  margin-bottom: var(--ink-spacing-100);
+}
+
+/* ============================================================================
+   Agent Actions Container
+   ============================================================================ */
+
+.agentActionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-150);
+  margin-top: var(--ink-spacing-200);
+  padding-top: var(--ink-spacing-200);
+  border-top: 1px solid var(--ink-border-color-subtle);
+}
+
+.agentActionsTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  font-family: var(--ink-font-family-display);
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+  margin: 0;
+}
+
+.agentActionsTitle svg {
+  color: var(--ink-orange-60); /* Orange to match thinking steps theme */
+}
+
+.agentActionsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-150);
+}
+
+/* ============================================================================
+   Selected Message - For suggestion-originated messages
+   ============================================================================ */
+
+.selectedMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--ink-spacing-50);
+  width: 100%;
+}
+
+.selectedLabel {
+  font-family: var(--ink-font-family-display);
+  font-size: var(--ink-font-size-xxs);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-subtle);
+  letter-spacing: var(--ink-letter-spacing-open);
+}
+
+.selectedBubble {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: var(--ink-neutral-10);
+  border-radius: 20px 20px 20px 20px;
+  color: var(--ink-font-color-default);
+  font-size: var(--ink-font-size-body-s);
+}
+
+.selectedBubble svg {
+  color: var(--ink-green-100);
+  flex-shrink: 0;
+}
+
+/* ============================================================================
+   Collapsible User Message - For long prompts
+   ============================================================================ */
+
+.collapsibleUserMessage {
+  position: relative;
+  max-width: 85%;
+  margin-left: auto;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  padding-right: 44px; /* Space for icon button */
+  background: var(--ink-bg-color-muted);
+  border-radius: var(--ink-radius-size-m);
+  color: var(--ink-font-color-default);
+  font-size: var(--ink-font-size-body-s);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.collapsibleContent {
+  /* Content wrapper */
+}
+
+.collapsibleContent.collapsed {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.collapsibleContent.expanded {
+  /* Full content shown */
+}
+
+/* Small icon button in top-right corner */
+.expandCollapseButton {
+  position: absolute;
+  top: var(--ink-spacing-100);
+  right: var(--ink-spacing-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+  color: var(--ink-font-color-neutral);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.expandCollapseButton:hover {
+  background: var(--ink-bg-color-neutral-subtle);
+  border-color: var(--ink-border-color-default);
+  color: var(--ink-font-color-default);
+}
+
+/* ============================================================================
+   Document Canvas Wrapper - Handles responsive width
+   ============================================================================ */
+
+.documentCanvasWrapper {
+  position: relative;
+  height: 100%;
+  flex: 0 0 0;
+  max-width: 0;
+  overflow: hidden;
+  transition:
+    flex-basis 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    max-width 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    padding 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+}
+
+/* Wide mode: canvas takes ~65% */
+.documentCanvasWrapperOpen {
+  flex: 0 0 65%;
+  max-width: 65%;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200) var(--ink-spacing-150)
+    var(--ink-spacing-200);
+}
+
+/* Narrow mode: canvas takes full width */
+.documentCanvasWrapperFullWidth {
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+}
+
+/* Hide chat content when canvas is full width */
+.aiPanelContentHidden {
+  display: none;
+}
+
+/* ============================================================================
+   "Go wide!" Resize Discoverability Tooltip
+   ============================================================================ */
+
+.resizeTooltip {
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  transform: translate(-100%, -50%);
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  background: var(--ink-neutral-100);
+  color: var(--ink-neutral-0);
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  border-radius: var(--ink-radius-size-s);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  animation:
+    resizeTooltipFadeIn 0.3s ease-out,
+    resizeTooltipPulse 2s ease-in-out infinite;
+  z-index: 100;
+}
+
+.resizeTooltip::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-left-color: var(--ink-neutral-100);
+}
+
+.resizeTooltipContent {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-semibold);
+}
+
+.resizeTooltipContent svg {
+  animation: resizeTooltipArrow 1s ease-in-out infinite;
+}
+
+.resizeTooltipDismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-left: var(--ink-spacing-50);
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.resizeTooltipDismiss:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes resizeTooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-100%, -50%) translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-100%, -50%) translateX(0);
+  }
+}
+
+@keyframes resizeTooltipPulse {
+  0%,
+  100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  }
+}
+
+@keyframes resizeTooltipArrow {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-3px);
+  }
+}
+
+/* Note: AgreementsSidebar uses its own CSS module for wrapper styles */
+
+/* ============================================================================
+   Shared Element Transition Ghost
+   Simple departure animation - scales slightly and fades out from source
+   while the document canvas slides in from the right
+   ============================================================================ */
+
+.transitionGhost {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  /* Start at source position via CSS vars */
+  top: var(--source-top);
+  left: var(--source-left);
+  width: var(--source-width);
+  height: var(--source-height);
+  animation: ghostDeparture 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes ghostDeparture {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.03) translateX(30px);
+  }
+}
+
+.transitionGhostContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-150);
+  padding: var(--ink-spacing-200);
+  background: var(--ink-neutral-10);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: inherit;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-default);
+  overflow: hidden;
+}
+
+.transitionGhostContent svg {
+  color: var(--ink-red-60);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.transitionGhostContent span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: var(--ink-font-weight-medium);
+}

@@ -19,40 +19,15 @@ interface PrototypeInfo {
 const prototypes: PrototypeInfo[] = [
   {
     id: 'docusign-landing',
-    title: 'DocuSign Landing',
+    title: 'Docusign Landing',
     description:
-      'A landing page experience for the DocuSign app platform with tasks, activity, and quick actions.',
+      'A landing page experience for the Docusign app platform with tasks, activity, and quick actions.',
     path: '/prototypes/docusign-landing',
-  },
-  {
-    id: 'simple-form',
-    title: 'Simple Form',
-    description: 'A basic contact form with text inputs, select dropdown, and validation.',
-    path: '/prototypes/simple-form',
-  },
-  {
-    id: 'parties-view',
-    title: 'Parties View',
-    description: 'View and manage parties with tabbed filtering and search.',
-    path: '/prototypes/parties-view',
-  },
-  {
-    id: 'accordion-wizard',
-    title: 'Accordion Wizard',
-    description: 'Multi-step registration wizard using accordion-style navigation.',
-    path: '/prototypes/accordion-wizard',
-  },
-  {
-    id: 'user-info-form',
-    title: 'User Info Form',
-    description:
-      'Progressive disclosure form using accordions to organize user information collection.',
-    path: '/prototypes/user-info-form',
   },
   {
     id: 'navigator-agreements',
     title: 'Navigator Agreements',
-    description: 'DocuSign Navigator agreements list with DataTable, filters, and pagination.',
+    description: 'Docusign Navigator agreements list with DataTable, filters, and pagination.',
     path: '/prototypes/navigator-agreements',
   },
   {
@@ -69,6 +44,20 @@ const prototypes: PrototypeInfo[] = [
     path: '/prototypes/agreement-studio',
   },
   {
+    id: 'agent-studio',
+    title: 'Agent Studio',
+    description:
+      'Agentic AI demo: Visible reasoning steps, tool call visualization, and proposed actions with approval workflow.',
+    path: '/prototypes/agent-studio',
+  },
+  {
+    id: 'onboarding-agent',
+    title: 'Onboarding Agent',
+    description:
+      'AI-powered onboarding assistant: Home page entry point with AI chat panel for guiding new users through DocuSign setup.',
+    path: '/prototypes/onboarding-agent',
+  },
+  {
     id: 'agreement-studio-fr',
     title: 'Agreement Studio (FR)',
     description:
@@ -76,18 +65,18 @@ const prototypes: PrototypeInfo[] = [
     path: '/prototypes/agreement-studio-fr',
   },
   {
-    id: 'hr-onboarding-wizard',
-    title: 'HR Onboarding Wizard',
-    description:
-      'A workflow builder for creating customized employee onboarding experiences with data collection, ID verification, and policy acceptance.',
-    path: '/prototypes/hr-onboarding-wizard',
-  },
-  {
     id: 'prompt-expansion-demo',
     title: 'Prompt Expansion Demo',
     description:
       'Tab-to-expand interaction with async loading: Inline Hint and Ghost Preview variations.',
     path: '/prototypes/prompt-expansion-demo',
+  },
+  {
+    id: 'agreement-preview',
+    title: 'Agreement Preview',
+    description:
+      'Full-page agreement preview with PDF viewer, toolbar controls, and AI chat panel that pushes content.',
+    path: '/prototypes/agreement-preview',
   },
   // Add more prototypes here as they are created
 ];

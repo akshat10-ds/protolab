@@ -20,6 +20,7 @@ import {
   Checkbox,
   Tooltip,
   Dropdown,
+  List,
 } from '@/design-system';
 
 // Types
@@ -28,6 +29,8 @@ import type {
   Agreement,
   ExtendedSuggestedAction,
   MarkdownResponseData,
+  MatrixResponseData,
+  Prompt,
 } from '../../data/agreement-studio-types';
 
 // Data
@@ -37,6 +40,7 @@ import {
   CHAT_HISTORY,
   STORED_CONVERSATIONS,
   MARKDOWN_RESPONSES,
+  MATRIX_RESPONSES,
 } from '../../data/agreement-studio-data';
 
 // Components
@@ -46,7 +50,10 @@ import { MarkdownMessage } from '../MarkdownMessage';
 import { DocumentCanvas } from '../DocumentCanvas';
 import { AgreementsSidebar } from '../AgreementsSidebar';
 import { DocumentPreviewCard } from '../DocumentPreviewCard';
+import { PromptLibrary } from '../PromptLibrary';
+import { PromptEditor } from '../PromptEditor';
 import { ThinkingSteps } from '../ThinkingSteps';
+import { MatrixView } from '../MatrixView';
 
 import styles from './AIPanel.module.css';
 
@@ -75,6 +82,9 @@ const MIN_PANEL_WIDTH = 360;
 // MAX_PANEL_WIDTH is now calculated dynamically in handleMouseMove to handle window resizes
 const INLINE_HISTORY_THRESHOLD = 800;
 
+// Panel view types for navigation
+type PanelView = 'chat' | 'prompts' | 'prompt-edit';
+
 export const AIPanel: React.FC<AIPanelProps> = ({
   isOpen,
   onClose,
@@ -91,6 +101,13 @@ export const AIPanel: React.FC<AIPanelProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [activeHistoryId, setActiveHistoryId] = useState<string | null>('1');
+
+  // Navigation state for sidebar views
+  const [currentView, setCurrentView] = useState<PanelView>('chat');
+  const [editingPromptId, setEditingPromptId] = useState<string | null>(null);
+
+  // User-created prompts state
+  const [userPrompts, setUserPrompts] = useState<Prompt[]>([]);
   const panelRef = useRef<HTMLDivElement>(null);
   const chatWrapperRef = useRef<HTMLDivElement>(null);
   const savedScrollPositionRef = useRef<number>(0);
@@ -337,6 +354,10 @@ export const AIPanel: React.FC<AIPanelProps> = ({
   const [markdownMessages, setMarkdownMessages] = useState<Map<string, MarkdownResponseData>>(
     new Map()
   );
+  // Matrix message state for cross-document analysis
+  const [matrixMessages, setMatrixMessages] = useState<Map<string, MatrixResponseData>>(
+    new Map()
+  );
   // Track which AI messages are currently streaming (for ThinkingSteps animation)
   const [streamingMessageIds, setStreamingMessageIds] = useState<Set<string>>(new Set());
   // Track partially streamed markdown content for progressive reveal
@@ -358,6 +379,14 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
   // Controlled input state for expanded prompts
   const [chatInputValue, setChatInputValue] = useState('');
+
+  // Slash command menu state
+  const [showSlashMenu, setShowSlashMenu] = useState(false);
+  const [slashFilter, setSlashFilter] = useState('');
+  const [slashSelectedIndex, setSlashSelectedIndex] = useState(0);
+
+  // Dynamic chat title based on content
+  const [chatTitle, setChatTitle] = useState<string>('New Chat');
 
   // Share modal and toast state
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
@@ -601,29 +630,45 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     }, 100);
   }, [docPreviewSource]);
 
+  // Slash command detection - monitor input for "/" prefix
+  useEffect(() => {
+    if (chatInputValue.startsWith('/')) {
+      setShowSlashMenu(true);
+      setSlashFilter(chatInputValue.slice(1).toLowerCase());
+      setSlashSelectedIndex(0); // Reset selection when filter changes
+    } else {
+      setShowSlashMenu(false);
+      setSlashFilter('');
+    }
+  }, [chatInputValue]);
+
+  // Filter prompts based on slash filter
+  const filteredSlashPrompts = useMemo(() => {
+    const allPrompts = QUICK_ACTIONS.map((action) => ({
+      id: action.label.toLowerCase().replace(/\s+/g, '-'),
+      title: action.label,
+      description: action.description || '',
+      icon: action.icon || 'bolt',
+      createdBy: action.createdBy || 'You',
+      isSystem: action.isSystem || false,
+    }));
+
+    if (!slashFilter) {
+      return allPrompts.slice(0, 4); // Show first 4 when no filter
+    }
+
+    return allPrompts
+      .filter(
+        (prompt) =>
+          prompt.title.toLowerCase().includes(slashFilter) ||
+          prompt.description.toLowerCase().includes(slashFilter)
+      )
+      .slice(0, 4); // Max 4 visible
+  }, [slashFilter]);
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't intercept if user is typing in an input/textarea
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-        // Allow Cmd/Ctrl+Enter in input to send message
-        if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-          e.preventDefault();
-          // Trigger send if there's input value
-          if (chatInputValue.trim()) {
-            const inputEl = chatWrapperRef.current?.querySelector('textarea, input[type="text"]');
-            if (inputEl) {
-              // Dispatch a submit event or trigger the send handler
-              const form = inputEl.closest('form');
-              if (form) {
-                form.requestSubmit();
-              }
-            }
-          }
-        }
-        return;
-      }
-
       // Escape key handling
       if (e.key === 'Escape') {
         e.preventDefault();
@@ -656,11 +701,43 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     isDocumentCanvasOpen,
     isHistoryOpen,
     isAgreementsSidebarOpen,
-    chatInputValue,
     handleCloseDocumentCanvas,
     onClose,
     canSkip,
   ]);
+
+  // Generate a chat title from message content
+  const generateChatTitle = useCallback((content: string): string => {
+    // If it's a slash command, use a cleaned up version
+    if (content.startsWith('/')) {
+      const commandName = content.slice(1).split('-').map(word =>
+        word.charAt(0).toUpperCase() + word.slice(1)
+      ).join(' ');
+      return commandName;
+    }
+
+    // For regular messages, take first ~40 chars and clean up
+    let title = content.trim();
+
+    // Remove common question starters for cleaner titles
+    title = title.replace(/^(what|how|can you|please|i need to|help me|show me|find|get|list)\s+/i, '');
+
+    // Capitalize first letter
+    title = title.charAt(0).toUpperCase() + title.slice(1);
+
+    // Truncate if too long
+    if (title.length > 40) {
+      title = title.substring(0, 40).trim();
+      // Try to cut at a word boundary
+      const lastSpace = title.lastIndexOf(' ');
+      if (lastSpace > 25) {
+        title = title.substring(0, lastSpace);
+      }
+      title += '...';
+    }
+
+    return title || 'New Chat';
+  }, []);
 
   const handleSendMessage = useCallback(
     (content: string, fromSuggestion = false) => {
@@ -671,7 +748,15 @@ export const AIPanel: React.FC<AIPanelProps> = ({
         timestamp: new Date(),
         metadata: fromSuggestion ? { fromSuggestion: true } : undefined,
       };
-      setMessages((prev) => [...prev, userMessage]);
+
+      // Generate title from first user message
+      setMessages((prev) => {
+        const isFirstMessage = prev.length === 0;
+        if (isFirstMessage) {
+          setChatTitle(generateChatTitle(content));
+        }
+        return [...prev, userMessage];
+      });
 
       setIsLoading(true);
 
@@ -725,14 +810,26 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
       const markdownResponse = markdownKey ? MARKDOWN_RESPONSES[markdownKey] : undefined;
 
+      // Check for matrix responses (Turn 4 of risk assessment journey)
+      const matrixKey = Object.keys(MATRIX_RESPONSES).find(
+        (key) =>
+          contentLower === key.toLowerCase() ||
+          content.toLowerCase().includes(key.toLowerCase())
+      );
+      const matrixResponse = matrixKey ? MATRIX_RESPONSES[matrixKey] : undefined;
+
       // Check if response has thinking steps (ThinkingSteps serves as loading indicator)
       const hasThinkingSteps =
-        markdownResponse?.thinkingSteps && markdownResponse.thinkingSteps.length > 0;
+        markdownResponse?.thinkingSteps && markdownResponse.thinkingSteps.length > 0 ||
+        matrixResponse?.thinkingSteps && matrixResponse.thinkingSteps.length > 0;
 
       const aiMessageId = `ai-${Date.now()}`;
       let responseText = `I couldn't find a specific answer for that. Could you try rephrasing your question?`;
 
-      if (markdownResponse) {
+      if (matrixResponse) {
+        // For matrix responses, use the introContent or a generic intro
+        responseText = matrixResponse.introContent || `Here's the analysis:`;
+      } else if (markdownResponse) {
         // Determine intro text based on the action
         if (markdownKey === 'Summarize Prevailing Terms') {
           responseText = `I've analyzed all 15 Acme agreements to identify the prevailing terms. Here's what I found:`;
@@ -760,8 +857,12 @@ export const AIPanel: React.FC<AIPanelProps> = ({
         setMessages((prev) => [...prev, aiMessage]);
         setIsLoading(false);
 
-        // Add markdown data immediately so ThinkingSteps renders
-        setMarkdownMessages((prev) => new Map(prev).set(aiMessageId, markdownResponse!));
+        // Add markdown or matrix data immediately so ThinkingSteps renders
+        if (matrixResponse) {
+          setMatrixMessages((prev) => new Map(prev).set(aiMessageId, matrixResponse));
+        } else if (markdownResponse) {
+          setMarkdownMessages((prev) => new Map(prev).set(aiMessageId, markdownResponse));
+        }
         // Mark as streaming for ThinkingSteps animation
         setStreamingMessageIds((prev) => new Set(prev).add(aiMessageId));
         // Start with thinking steps expanded
@@ -775,7 +876,8 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
         // Calculate delay for thinking animation (reduced by ~40% for snappier feel)
         // Each step: ~1.5-2s action + 0.5s result = ~2s average per step
-        const thinkingDuration = markdownResponse!.thinkingSteps!.length * 2000 + 300;
+        const thinkingSteps = matrixResponse?.thinkingSteps || markdownResponse?.thinkingSteps || [];
+        const thinkingDuration = thinkingSteps.length * 2000 + 300;
 
         // Helper to complete streaming immediately (for skip)
         const completeStreaming = () => {
@@ -793,7 +895,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
             return next;
           });
           setCanSkip(false);
-          setLastResponseKey(markdownKey!);
+          setLastResponseKey(matrixKey || markdownKey || null);
           // Stop scroll enforcement when streaming completes
           stopScrollEnforcement();
           scrollToBottom('smooth', true);
@@ -803,6 +905,12 @@ export const AIPanel: React.FC<AIPanelProps> = ({
         setTimeout(() => {
           // Check if skip was requested during thinking
           if (skipRequestedRef.current || stopRequestedRef.current) {
+            completeStreaming();
+            return;
+          }
+
+          // For matrix responses, complete immediately (no markdown to stream)
+          if (matrixResponse) {
             completeStreaming();
             return;
           }
@@ -1023,6 +1131,62 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     [handleSendMessage, generateExpandedPromptText]
   );
 
+  // Handle slash command selection
+  const handleSlashSelect = useCallback(
+    (prompt: { id: string; title: string; description: string; icon: string }) => {
+      const commandText = `/${prompt.id}`;
+      setShowSlashMenu(false);
+      setChatInputValue('');
+      handleSendMessage(commandText, true); // Show /command in chat and run
+    },
+    [handleSendMessage]
+  );
+
+  // Handle input keydown - intercept Enter when slash menu is open
+  const handleInputKeyDown = useCallback(
+    (e: React.KeyboardEvent): boolean => {
+      if (!showSlashMenu || filteredSlashPrompts.length === 0) {
+        return false; // Let AIChat handle it normally
+      }
+
+      // Arrow navigation
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSlashSelectedIndex((prev) => (prev + 1) % filteredSlashPrompts.length);
+        return true;
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSlashSelectedIndex((prev) => (prev - 1 + filteredSlashPrompts.length) % filteredSlashPrompts.length);
+        return true;
+      }
+
+      // Enter to select
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const selectedPrompt = filteredSlashPrompts[slashSelectedIndex];
+        if (selectedPrompt) {
+          const commandText = `/${selectedPrompt.id}`;
+          setShowSlashMenu(false);
+          setChatInputValue('');
+          handleSendMessage(commandText, true);
+        }
+        return true; // Prevent AIChat from also sending
+      }
+
+      // Escape to close
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setChatInputValue('');
+        setShowSlashMenu(false);
+        return true;
+      }
+
+      return false;
+    },
+    [showSlashMenu, filteredSlashPrompts, slashSelectedIndex, handleSendMessage]
+  );
+
   // Skip streaming - jump to final result
   const handleSkip = useCallback(() => {
     skipRequestedRef.current = true;
@@ -1041,10 +1205,11 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     setShowScrollToBottom(false);
   }, [scrollToBottom]);
 
-  // Custom message renderer for markdown messages
+  // Custom message renderer for markdown and matrix messages
   const renderMessage = useCallback(
     (message: ChatMessage) => {
       const markdownData = markdownMessages.get(message.id);
+      const matrixData = matrixMessages.get(message.id);
 
       if (message.role === 'assistant') {
         // Feedback buttons component for AI responses
@@ -1076,6 +1241,53 @@ export const AIPanel: React.FC<AIPanelProps> = ({
             </Tooltip>
           </div>
         );
+
+        // Render matrix message (Risk Assessment Matrix - Turn 4)
+        if (matrixData) {
+          const isMessageStreaming = streamingMessageIds.has(message.id);
+
+          return (
+            <div className={styles.richMessageWrapper}>
+              {matrixData.thinkingSteps && matrixData.thinkingSteps.length > 0 && (
+                <ThinkingSteps
+                  steps={matrixData.thinkingSteps}
+                  isStreaming={isMessageStreaming}
+                  isExpanded={thinkingExpandedState.get(message.id) ?? !isMessageStreaming}
+                  onExpandedChange={(expanded) => {
+                    setThinkingExpandedState((prev) => new Map(prev).set(message.id, expanded));
+                  }}
+                  onStepChange={() => {
+                    // Don't auto-scroll during thinking - keep user message at top (Gemini pattern)
+                  }}
+                  onAnswerNow={handleSkip}
+                />
+              )}
+              {/* Show intro text */}
+              {message.content && (
+                <p className={styles.richMessageIntro}>
+                  {message.content}
+                </p>
+              )}
+              {/* Show matrix after streaming completes */}
+              {!isMessageStreaming && (
+                <>
+                  <MatrixView
+                    data={matrixData.matrix}
+                    citations={matrixData.citations}
+                    onCitationClick={handleCitationClick}
+                  />
+                  {/* Summary content below matrix */}
+                  {matrixData.summaryContent && (
+                    <p className={styles.matrixSummary}>
+                      {matrixData.summaryContent}
+                    </p>
+                  )}
+                </>
+              )}
+              {!isMessageStreaming && feedbackButtons}
+            </div>
+          );
+        }
 
         // Render markdown message (Prevailing Terms or Conflicts)
         if (markdownData) {
@@ -1227,6 +1439,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     },
     [
       markdownMessages,
+      matrixMessages,
       handleCitationClick,
       expandedUserMessages,
       streamingMessageIds,
@@ -1287,23 +1500,29 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     // Clear current conversation and start fresh
     setMessages([]);
     setMarkdownMessages(new Map());
+    setMatrixMessages(new Map());
     setActiveHistoryId(null);
     setIsDocumentCanvasOpen(false);
+    setCurrentView('chat'); // Return to chat view
     // Increment key to replay welcome animations
     setWelcomeKey((k) => k + 1);
     setActiveCitation(null);
+    setChatTitle('New Chat'); // Reset title for new chat
   }, []);
 
   const handleHistoryItemClick = useCallback(
-    (id: string) => {
+    (id: string, title: string) => {
       setActiveHistoryId(id);
+      setCurrentView('chat'); // Return to chat view when clicking history item
+      setChatTitle(title); // Set the chat title from history
 
       // Load stored conversation for this history item
       const storedMessages = STORED_CONVERSATIONS[id];
       if (storedMessages) {
         setMessages(storedMessages);
-        // Clear markdown messages when switching conversations
+        // Clear markdown and matrix messages when switching conversations
         setMarkdownMessages(new Map());
+        setMatrixMessages(new Map());
       }
 
       if (!useInlineHistory) {
@@ -1348,84 +1567,119 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     .filter(Boolean)
     .join(' ');
 
+  // Handle prompt library navigation
+  const handleNavigateToPrompts = useCallback(() => {
+    setCurrentView('prompts');
+    if (!useInlineHistory) {
+      setIsHistoryOpen(false);
+    }
+  }, [useInlineHistory]);
+
+  // Handle prompt edit navigation
+  const handleEditPrompt = useCallback((promptId: string) => {
+    setEditingPromptId(promptId);
+    setCurrentView('prompt-edit');
+    if (!useInlineHistory) {
+      setIsHistoryOpen(false);
+    }
+  }, [useInlineHistory]);
+
+  // Handle prompt creation
+  const handleCreatePrompt = useCallback(() => {
+    setEditingPromptId(null); // null means creating new
+    setCurrentView('prompt-edit');
+    if (!useInlineHistory) {
+      setIsHistoryOpen(false);
+    }
+  }, [useInlineHistory]);
+
+  // Handle back from prompt editor
+  const handleBackFromEditor = useCallback(() => {
+    setCurrentView('prompts');
+    setEditingPromptId(null);
+  }, []);
+
+  // Handle saving a prompt (create or update)
+  const handleSavePrompt = useCallback(
+    (promptData: Omit<Prompt, 'id'> & { id?: string }) => {
+      if (promptData.id) {
+        // Update existing prompt
+        setUserPrompts((prev) =>
+          prev.map((p) => (p.id === promptData.id ? { ...p, ...promptData } : p))
+        );
+      } else {
+        // Create new prompt with unique ID
+        const newPrompt: Prompt = {
+          ...promptData,
+          id: `custom-${Date.now()}`,
+        };
+        setUserPrompts((prev) => [...prev, newPrompt]);
+      }
+      // Return to library after save
+      setCurrentView('prompts');
+      setEditingPromptId(null);
+    },
+    []
+  );
+
+  // Find the prompt being edited
+  const editingPrompt = useMemo(() => {
+    if (!editingPromptId) return null;
+    return userPrompts.find((p) => p.id === editingPromptId) || null;
+  }, [editingPromptId, userPrompts]);
+
+  // Handle selecting a prompt from the library (runs it)
+  const handleSelectPrompt = useCallback(
+    (prompt: Prompt) => {
+      setCurrentView('chat');
+      // Send the prompt as a message
+      handleSendMessage(prompt.title);
+    },
+    [handleSendMessage]
+  );
+
   const renderHistoryContent = () => (
     <>
       <div className={styles.historyHeader}>
-        <h3 className={styles.historyTitle}>Chat History</h3>
+        <h3 className={styles.historyTitle}>Menu</h3>
         <IconButton
           icon="close"
           size="small"
           kind="tertiary"
           onClick={() => setIsHistoryOpen(false)}
-          aria-label="Close history"
+          aria-label="Close menu"
         />
       </div>
+
+      {/* Navigation Section */}
+      <div className={styles.sidebarNav}>
+        <button
+          type="button"
+          className={`${styles.sidebarNavItem} ${currentView === 'prompts' ? styles.sidebarNavItemActive : ''}`}
+          onClick={handleNavigateToPrompts}
+        >
+          <Icon name="document-stack" size={16} />
+          <span>Prompts</span>
+          <Icon name="chevron-right" size={14} className={styles.sidebarNavChevron} />
+        </button>
+      </div>
+
+      {/* Divider */}
+      <div className={styles.sidebarDivider} />
+
       <div className={styles.historyList}>
-        <div className={styles.historyGroup}>
-          <div className={styles.historyGroupLabel}>Today</div>
-          {CHAT_HISTORY.today.map((item) => (
-            <button
+        <List size="small" hoverable className={styles.historyListComponent}>
+          {[...CHAT_HISTORY.today, ...CHAT_HISTORY.yesterday, ...CHAT_HISTORY.lastWeek].map((item) => (
+            <List.Item
               key={item.id}
-              type="button"
-              className={`${styles.historyItem} ${activeHistoryId === item.id ? styles.historyItemActive : ''}`}
-              onClick={() => handleHistoryItemClick(item.id)}
+              clickable
+              selected={activeHistoryId === item.id}
+              onClick={() => handleHistoryItemClick(item.id, item.title)}
             >
-              <span className={styles.historyItemIcon}>
-                <Icon name="comment" size={16} />
-              </span>
-              <div className={styles.historyItemContent}>
-                <p className={styles.historyItemTitle}>{item.title}</p>
-                <span className={styles.historyItemMeta}>
-                  {item.time} · {item.messages} messages
-                </span>
-              </div>
-            </button>
+              {item.title}
+            </List.Item>
           ))}
-        </div>
-
-        <div className={styles.historyGroup}>
-          <div className={styles.historyGroupLabel}>Yesterday</div>
-          {CHAT_HISTORY.yesterday.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={`${styles.historyItem} ${activeHistoryId === item.id ? styles.historyItemActive : ''}`}
-              onClick={() => handleHistoryItemClick(item.id)}
-            >
-              <span className={styles.historyItemIcon}>
-                <Icon name="comment" size={16} />
-              </span>
-              <div className={styles.historyItemContent}>
-                <p className={styles.historyItemTitle}>{item.title}</p>
-                <span className={styles.historyItemMeta}>
-                  {item.time} · {item.messages} messages
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
-
-        <div className={styles.historyGroup}>
-          <div className={styles.historyGroupLabel}>Last 7 Days</div>
-          {CHAT_HISTORY.lastWeek.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={`${styles.historyItem} ${activeHistoryId === item.id ? styles.historyItemActive : ''}`}
-              onClick={() => handleHistoryItemClick(item.id)}
-            >
-              <span className={styles.historyItemIcon}>
-                <Icon name="comment" size={16} />
-              </span>
-              <div className={styles.historyItemContent}>
-                <p className={styles.historyItemTitle}>{item.title}</p>
-                <span className={styles.historyItemMeta}>
-                  {item.time} · {item.messages} messages
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
+        </List>
       </div>
     </>
   );
@@ -1462,19 +1716,43 @@ export const AIPanel: React.FC<AIPanelProps> = ({
       {/* Shared Header - spans full width */}
       <div className={styles.sharedHeader}>
         <div className={styles.sharedHeaderLeft}>
-          <Tooltip content="History">
-            <IconButton
-              icon="menu"
-              size="small"
-              kind="tertiary"
-              onClick={handleToggleHistory}
-              aria-label="Show history"
-            />
-          </Tooltip>
+          {currentView === 'prompt-edit' ? (
+            // Back button for prompt editor
+            <Tooltip content="Back to Prompts">
+              <IconButton
+                icon="arrow-left"
+                size="small"
+                kind="tertiary"
+                onClick={handleBackFromEditor}
+                aria-label="Back to Prompts"
+              />
+            </Tooltip>
+          ) : (
+            <Tooltip content="Menu">
+              <IconButton
+                icon="menu"
+                size="small"
+                kind="tertiary"
+                onClick={handleToggleHistory}
+                aria-label="Show menu"
+              />
+            </Tooltip>
+          )}
         </div>
-        {messages.length > 0 && (
+        {/* Show title based on current view */}
+        {currentView === 'prompts' && (
           <div className={styles.sharedHeaderCenter}>
-            <h2 className={styles.sharedHeaderTitle}>Acme Renewal Prep</h2>
+            <h2 className={styles.sharedHeaderTitle}>Prompt Library</h2>
+          </div>
+        )}
+        {currentView === 'prompt-edit' && (
+          <div className={styles.sharedHeaderCenter}>
+            <h2 className={styles.sharedHeaderTitle}>{editingPromptId ? 'Edit Prompt' : 'New Prompt'}</h2>
+          </div>
+        )}
+        {currentView === 'chat' && messages.length > 0 && (
+          <div className={styles.sharedHeaderCenter}>
+            <h2 className={styles.sharedHeaderTitle}>{chatTitle}</h2>
           </div>
         )}
         <div className={styles.sharedHeaderRight}>
@@ -1567,54 +1845,105 @@ export const AIPanel: React.FC<AIPanelProps> = ({
           )}
 
           <div ref={chatWrapperRef} className={contentWrapperClasses}>
-            <AIChat
-              key={welcomeKey}
-              messages={messages}
-              onSendMessage={handleSendMessage}
-              isLoading={isLoading}
-              userName={userName}
-              assistantName="Docusign AI"
-              welcomeTitle="What would you like to know?"
-              suggestedActions={QUICK_ACTIONS}
-              suggestedQuestions={SUGGESTED_QUESTIONS}
-              onSuggestionClick={handleSuggestionClick}
-              placeholder="Ask anything about selected agreements..."
-              showHeader={false}
-              onClose={onClose}
-              onShowHistory={handleToggleHistory}
-              onNewChat={handleNewChat}
-              onMaximize={handleToggleExpand}
-              maxHeight="100%"
-              className={styles.aiChatContainer}
-              renderMessage={renderMessage}
-              contextSource={
-                agreements.length > 0
-                  ? {
-                      count: selectedAgreementIds.size,
-                      label: 'agreements',
-                      onClick: handleOpenAgreementsSidebar,
-                    }
-                  : undefined
-              }
-              showContextAttention={showContextAttention}
-              showInputAttention={showInputAttention}
-              inputValue={chatInputValue}
-              onInputChange={setChatInputValue}
-              isStreaming={canSkip}
-              onStop={handleStop}
-              disableAutoScroll={true}
-            />
+            {/* Chat View */}
+            {currentView === 'chat' && (
+              <>
+                <AIChat
+                  key={welcomeKey}
+                  messages={messages}
+                  onSendMessage={handleSendMessage}
+                  isLoading={isLoading}
+                  userName={userName}
+                  assistantName="Docusign AI"
+                  welcomeTitle="What would you like to know?"
+                  suggestedActions={QUICK_ACTIONS}
+                  onSuggestedActionsHeaderClick={handleNavigateToPrompts}
+                  suggestedQuestions={SUGGESTED_QUESTIONS}
+                  onSuggestionClick={handleSuggestionClick}
+                  placeholder="Ask anything about selected agreements..."
+                  showHeader={false}
+                  onClose={onClose}
+                  onShowHistory={handleToggleHistory}
+                  onNewChat={handleNewChat}
+                  onMaximize={handleToggleExpand}
+                  maxHeight="100%"
+                  className={styles.aiChatContainer}
+                  renderMessage={renderMessage}
+                  contextSource={
+                    agreements.length > 0
+                      ? {
+                          count: selectedAgreementIds.size,
+                          label: 'agreements',
+                          onClick: handleOpenAgreementsSidebar,
+                        }
+                      : undefined
+                  }
+                  showContextAttention={showContextAttention}
+                  showInputAttention={showInputAttention}
+                  inputValue={chatInputValue}
+                  onInputChange={setChatInputValue}
+                  isStreaming={canSkip}
+                  onStop={handleStop}
+                  disableAutoScroll={true}
+                  onInputKeyDown={handleInputKeyDown}
+                />
 
-            {/* Scroll to bottom button - appears when user scrolls up during streaming */}
-            {showScrollToBottom && (
-              <button
-                type="button"
-                className={styles.scrollToBottomButton}
-                onClick={handleScrollToBottomClick}
-              >
-                <Icon name="arrow-down" size={14} />
-                New content
-              </button>
+                {/* Slash Command Menu - positioned above input */}
+                {showSlashMenu && filteredSlashPrompts.length > 0 && (
+                  <div className={styles.slashMenuWrapper}>
+                    <div className={styles.slashMenu}>
+                      {filteredSlashPrompts.map((prompt, index) => (
+                        <button
+                          key={prompt.id}
+                          type="button"
+                          className={`${styles.slashMenuItem} ${index === slashSelectedIndex ? styles.slashMenuItemSelected : ''}`}
+                          onClick={() => handleSlashSelect(prompt)}
+                          onMouseEnter={() => setSlashSelectedIndex(index)}
+                        >
+                          <span className={styles.slashMenuItemCommand}>/{prompt.id}</span>
+                          <span className={styles.slashMenuItemMeta}>
+                            {prompt.description}
+                            <span className={styles.slashMenuItemDot}>·</span>
+                            {prompt.createdBy}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Scroll to bottom button - appears when user scrolls up during streaming */}
+                {showScrollToBottom && (
+                  <button
+                    type="button"
+                    className={styles.scrollToBottomButton}
+                    onClick={handleScrollToBottomClick}
+                  >
+                    <Icon name="arrow-down" size={14} />
+                    New content
+                  </button>
+                )}
+              </>
+            )}
+
+            {/* Prompt Library View */}
+            {currentView === 'prompts' && (
+              <PromptLibrary
+                onSelectPrompt={handleSelectPrompt}
+                onEditPrompt={handleEditPrompt}
+                onCreatePrompt={handleCreatePrompt}
+                userPrompts={userPrompts}
+              />
+            )}
+
+            {/* Prompt Editor View */}
+            {currentView === 'prompt-edit' && (
+              <PromptEditor
+                promptId={editingPromptId}
+                existingPrompt={editingPrompt}
+                onSave={handleSavePrompt}
+                onCancel={handleBackFromEditor}
+              />
             )}
           </div>
         </div>

@@ -7,27 +7,23 @@
 
 import { useParams, Navigate } from 'react-router-dom';
 import styles from './FullscreenPrototype.module.css';
-import { SimpleForm } from './SimpleForm';
-import { PartiesView } from './PartiesView';
 import { DocuSignLanding } from './DocuSignLanding';
-import { AccordionWizard } from './AccordionWizard';
-import { UserInfoForm } from './UserInfoForm';
 import { NavigatorAgreements } from './NavigatorAgreements';
 import { NavigatorAgreementsAIChat } from './NavigatorAgreementsAIChat';
 import { AgreementStudio } from './agreement-studio';
 import { AgreementStudioFR } from './AgreementStudioFR';
+import { AgentStudio } from './agent-studio';
+import { OnboardingAgent } from './onboarding-agent';
 
 // Map route names to prototype components
 const PROTOTYPE_MAP: Record<string, React.ComponentType> = {
-  'simple-form': SimpleForm,
-  'parties-view': PartiesView,
   'docusign-landing': DocuSignLanding,
-  'accordion-wizard': AccordionWizard,
-  'user-info-form': UserInfoForm,
   'navigator-agreements': NavigatorAgreements,
   'navigator-agreements-ai-chat': NavigatorAgreementsAIChat,
   'agreement-studio': AgreementStudio,
   'agreement-studio-fr': AgreementStudioFR,
+  'agent-studio': AgentStudio,
+  'onboarding-agent': OnboardingAgent,
 };
 
 export function FullscreenPrototype() {

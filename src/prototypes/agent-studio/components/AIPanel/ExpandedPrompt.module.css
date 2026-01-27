@@ -1,0 +1,112 @@
+/**
+ * ExpandedPrompt Component Styles
+ */
+
+@import '../../../../design-system/1-tokens/tokens.css';
+
+.expandedPromptOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--ink-neutral-fade-40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  padding: var(--ink-spacing-300);
+}
+
+.expandedPrompt {
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-m);
+  overflow: hidden;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 8px 32px var(--ink-neutral-fade-20);
+}
+
+.expandedPromptHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: var(--ink-cobalt-10);
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+}
+
+.expandedPromptTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  font-size: var(--ink-font-size-body-m);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-cobalt-140);
+}
+
+.expandedPromptContent {
+  padding: var(--ink-spacing-200);
+}
+
+.expandedPromptLabel {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  margin: 0 0 var(--ink-spacing-150);
+}
+
+.expandedPromptSteps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--ink-spacing-200);
+}
+
+.expandedPromptSteps li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) 0;
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-default);
+}
+
+.expandedPromptSteps li svg {
+  flex-shrink: 0;
+  color: var(--ink-green-100);
+  margin-top: 2px;
+}
+
+.expandedPromptMeta {
+  display: flex;
+  gap: var(--ink-spacing-200);
+  padding-top: var(--ink-spacing-150);
+  border-top: 1px solid var(--ink-border-color-subtle);
+}
+
+.expandedPromptMetaItem {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+}
+
+.expandedPromptMetaItem svg {
+  color: var(--ink-font-color-subtle);
+}
+
+.expandedPromptActions {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--ink-spacing-150) var(--ink-spacing-200);
+  background: var(--ink-ecru-10);
+  border-top: 1px solid var(--ink-border-color-subtle);
+}
+
+.expandedPromptActions button {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+}

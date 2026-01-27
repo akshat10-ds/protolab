@@ -11,7 +11,7 @@ export function NavigatorAgreementsPage() {
   return (
     <PrototypeWrapper
       title="Navigator Agreements"
-      description="DocuSign Navigator agreements list with DataTable, filters, and pagination."
+      description="Docusign Navigator agreements list with DataTable, filters, and pagination."
     >
       <NavigatorAgreements />
     </PrototypeWrapper>

@@ -100,6 +100,33 @@ export interface ExpandedPromptDetails {
 
 export interface ExtendedSuggestedAction extends SuggestedAction {
   expansion?: ExpandedPromptDetails;
+  /** Who created this prompt (e.g., "DocuSign", "You", or user name) */
+  createdBy?: string;
+  /** Whether this is a system/built-in prompt from DocuSign */
+  isSystem?: boolean;
+}
+
+// =============================================================================
+// Prompt Library Types
+// =============================================================================
+
+export interface Prompt {
+  id: string;
+  title: string;
+  description: string;
+  instructions?: string;
+  icon?: string;
+  isCustom?: boolean;
+  /** Who created this prompt (e.g., "DocuSign", "You", or user name) */
+  createdBy?: string;
+  /** Whether this is a system/built-in prompt from DocuSign */
+  isSystem?: boolean;
+}
+
+export interface PromptCategory {
+  id: string;
+  title: string;
+  prompts: Prompt[];
 }
 
 // =============================================================================
@@ -173,6 +200,82 @@ export interface MarkdownResponseData {
   citations: Record<string, CitationData>;
   /** Optional document preview card data */
   documentPreview?: DocumentPreviewData;
+  /** Optional thinking steps shown before content */
+  thinkingSteps?: ThinkingStep[];
+}
+
+// =============================================================================
+// Matrix View Types - Cross-document analysis grid
+// =============================================================================
+
+/** Cell status in the matrix */
+export type MatrixCellStatus = 'found' | 'not_found' | 'warning' | 'uncertain' | 'loading';
+
+/** Risk level for a row */
+export type RiskLevel = 'high' | 'medium' | 'low';
+
+/** Individual cell in the matrix */
+export interface MatrixCell {
+  /** Extracted value (null if not found) */
+  value: string | null;
+  /** Status indicator for the cell */
+  status: MatrixCellStatus;
+  /** Citation data for the source (optional) */
+  citation?: CitationData;
+  /** Additional note for warnings/uncertain status */
+  note?: string;
+}
+
+/** Column definition for the matrix */
+export interface MatrixColumn {
+  /** Unique column identifier */
+  id: string;
+  /** Column header text */
+  header: string;
+  /** Natural language description of what to extract */
+  query: string;
+  /** Optional column width */
+  width?: string;
+}
+
+/** Row in the matrix (one document) */
+export interface MatrixRow {
+  /** Document identifier */
+  documentId: string;
+  /** Document title (shown in first column) */
+  documentTitle: string;
+  /** Map of column ID to cell data */
+  cells: Record<string, MatrixCell>;
+  /** Optional risk level for the row */
+  riskLevel?: RiskLevel;
+  /** Reason for the risk level */
+  riskReason?: string;
+}
+
+/** Complete matrix data structure */
+export interface MatrixData {
+  /** Unique matrix identifier */
+  id: string;
+  /** Matrix title */
+  title: string;
+  /** Column definitions */
+  columns: MatrixColumn[];
+  /** Row data (one per document) */
+  rows: MatrixRow[];
+  /** Whether the matrix is still loading */
+  isLoading?: boolean;
+}
+
+/** Matrix response data for AI responses */
+export interface MatrixResponseData {
+  /** Optional intro text above the matrix */
+  introContent?: string;
+  /** The matrix data */
+  matrix: MatrixData;
+  /** Optional summary text below the matrix */
+  summaryContent?: string;
+  /** Map of citation IDs to citation data */
+  citations: Record<string, CitationData>;
   /** Optional thinking steps shown before content */
   thinkingSteps?: ThinkingStep[];
 }

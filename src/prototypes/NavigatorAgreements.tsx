@@ -12,6 +12,7 @@
  */
 
 import React, { useState, useMemo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   DocuSignShell,
   AgreementTableView,
@@ -170,6 +171,8 @@ const DocuSignLogo = () => (
 // =============================================================================
 
 export function NavigatorAgreements() {
+  const navigate = useNavigate();
+
   // Banner state
   const [showBanner, setShowBanner] = useState(true);
 
@@ -263,15 +266,22 @@ export function NavigatorAgreements() {
         className: dataTableStyles.columnBorderRight,
         cell: (row) => (
           <div className={dataTableStyles.cellContent}>
-            <Link discrete size="small" href="#" className={dataTableStyles.cellPrimary}>
+            <button
+              type="button"
+              className={`${dataTableStyles.cellPrimary} ${dataTableStyles.cellLinkButton}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate('/prototypes/agreement-preview');
+              }}
+            >
               {row.fileName}
-            </Link>
+            </button>
             <span className={dataTableStyles.cellSecondary}>
               {row.fileStatus === 'uploaded' ? '↑' : '✓'}{' '}
               {row.fileStatus === 'uploaded' ? 'Uploaded: ' : 'Completed envelope: '}
-              <Link kind="subtle" size="xs" href="#">
+              <span className={dataTableStyles.cellSecondaryLink}>
                 {row.fileStatusDetail}
-              </Link>
+              </span>
             </span>
           </div>
         ),
@@ -360,7 +370,7 @@ export function NavigatorAgreements() {
         cell: (row) => <span className={dataTableStyles.agreementId}>{row.agreementId}</span>,
       },
     ],
-    []
+    [navigate]
   );
 
   // =============================================================================
@@ -434,6 +444,14 @@ export function NavigatorAgreements() {
       setSortDirection(direction);
     },
     []
+  );
+
+  // Navigate to agreement preview on row click
+  const handleRowClick = useCallback(
+    (row: Agreement) => {
+      navigate('/prototypes/agreement-preview');
+    },
+    [navigate]
   );
 
   // =============================================================================
@@ -585,6 +603,7 @@ export function NavigatorAgreements() {
           renderRowActions={renderRowActions}
           rowHeight="tall"
           stickyHeader
+          onRowClick={handleRowClick}
         />
       </AgreementTableView>
     </DocuSignShell>

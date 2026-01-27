@@ -1,0 +1,650 @@
+/**
+ * ToolUI Component Styles
+ * Tool call card pattern for onboarding UIs
+ * Based on ConflictView pattern from agreement-studio
+ */
+
+@import '../../../../design-system/1-tokens/tokens.css';
+
+/* =============================================================================
+ * TOOL CALL CARD PATTERN (Shared)
+ * ============================================================================= */
+
+.toolCard {
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-m);
+  overflow: hidden;
+  padding: var(--ink-spacing-100) var(--ink-spacing-200) var(--ink-spacing-200);
+}
+
+.toolCardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: 0;
+  min-height: 32px;
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.toolCardTitle {
+  flex: 1;
+  font-family: var(--ink-font-family-display);
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+  letter-spacing: var(--ink-letter-spacing-open);
+  margin: 0;
+}
+
+.toolCardSubtitle {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+}
+
+.toolCardHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+}
+
+/* Tool Content Area */
+.toolCardContent {
+  background: var(--ink-bg-color-default);
+  border-radius: var(--ink-radius-size-s);
+  overflow: hidden;
+}
+
+/* Tool Footer with action buttons */
+.toolCardFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--ink-spacing-100);
+  margin-top: var(--ink-spacing-150);
+  padding-top: var(--ink-spacing-150);
+  border-top: 1px solid var(--ink-border-color-subtle);
+}
+
+/* =============================================================================
+ * PROFILE FORM STYLES
+ * ============================================================================= */
+
+/* Detected info banner */
+.detectedInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  background: var(--ink-ecru-10);
+  border-radius: var(--ink-radius-size-xs);
+  margin-bottom: var(--ink-spacing-150);
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-subtle);
+}
+
+.detectedInfo svg {
+  flex-shrink: 0;
+  color: var(--ink-font-color-default);
+}
+
+.detectedInfo strong {
+  color: var(--ink-font-color-default);
+  font-weight: var(--ink-font-weight-semibold);
+}
+
+/* Step question text */
+.stepQuestion {
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-subtle);
+  margin: 0 0 var(--ink-spacing-150);
+}
+
+/* Options list for radio buttons */
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-50);
+}
+
+.optionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-100);
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+  cursor: pointer;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.optionItem:hover {
+  border-color: var(--ink-border-color-default);
+  background-color: var(--ink-bg-color-subtle);
+}
+
+.optionItem:has(.optionRadio:checked) {
+  border-color: var(--ink-border-color-brand);
+  background-color: var(--ink-bg-color-subtle);
+}
+
+.optionRadio {
+  margin: 2px 0 0 0;
+  accent-color: var(--ink-brand-default);
+}
+
+.optionContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-25);
+}
+
+.optionLabel {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+}
+
+.optionDescription {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+}
+
+/* Summary list for confirmation */
+.summaryList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  background: var(--ink-bg-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+}
+
+.summaryLabel {
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-subtle);
+}
+
+.summaryValue {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+}
+
+/* =============================================================================
+ * BRANDING TOOL STYLES
+ * ============================================================================= */
+
+/* Detected colors section */
+.detectedColors {
+  margin-bottom: var(--ink-spacing-200);
+}
+
+.detectedColorsLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-subtle);
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.detectedColorsLabel svg {
+  color: var(--ink-font-color-default);
+}
+
+.colorSwatches {
+  display: flex;
+  gap: var(--ink-spacing-150);
+}
+
+.colorSwatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+}
+
+.colorSwatchBox {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--ink-radius-size-xs);
+  border: 1px solid var(--ink-border-color-subtle);
+}
+
+.colorSwatchLabel {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+}
+
+/* Color picker inputs */
+.colorInputs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-150);
+  margin-bottom: var(--ink-spacing-200);
+}
+
+.colorInputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-50);
+}
+
+.colorInputLabel {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+}
+
+.colorInputRow {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+}
+
+.colorPickerInput {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+  cursor: pointer;
+}
+
+.colorHexInput {
+  flex: 1;
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+  font-size: var(--ink-font-size-body-s);
+  font-family: var(--ink-font-family-mono);
+  color: var(--ink-font-color-default);
+  background: var(--ink-bg-color-default);
+}
+
+.colorHexInput:focus {
+  outline: none;
+  border-color: var(--ink-border-color-brand);
+}
+
+/* Preview section */
+.previewSection {
+  padding: var(--ink-spacing-150);
+  background: var(--ink-bg-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+}
+
+.previewLabel {
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-subtle);
+  letter-spacing: var(--ink-letter-spacing-open);
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.previewCard {
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+  padding: var(--ink-spacing-150);
+}
+
+.previewCardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  margin-bottom: var(--ink-spacing-100);
+  padding-bottom: var(--ink-spacing-100);
+  border-bottom: 2px solid;
+}
+
+.previewCardLogo {
+  width: 80px;
+  height: 24px;
+  border-radius: var(--ink-radius-size-xs);
+}
+
+.previewCardText {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+}
+
+.previewCardButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ink-spacing-50) var(--ink-spacing-150);
+  border-radius: var(--ink-radius-size-xs);
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-neutral-100);
+  border: none;
+  cursor: pointer;
+  margin-top: var(--ink-spacing-100);
+}
+
+/* =============================================================================
+ * AGENT DELEGATION STYLES
+ * ============================================================================= */
+
+.delegationInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-150);
+}
+
+.delegationTarget {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-150);
+  padding: var(--ink-spacing-150);
+  background: var(--ink-bg-color-subtle);
+  border-radius: var(--ink-radius-size-xs);
+}
+
+.delegationTargetIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--ink-brand-default);
+  border-radius: var(--ink-radius-size-xs);
+  color: var(--ink-neutral-100);
+}
+
+.delegationTargetInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-25);
+}
+
+.delegationTargetName {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+}
+
+.delegationTargetDescription {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+}
+
+.delegationCapabilities {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-50);
+}
+
+.delegationCapabilitiesLabel {
+  font-size: var(--ink-font-size-detail-xs);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-subtle);
+  letter-spacing: var(--ink-letter-spacing-open);
+  margin-bottom: var(--ink-spacing-50);
+}
+
+.delegationCapabilityItem {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  font-size: var(--ink-font-size-body-s);
+  color: var(--ink-font-color-default);
+}
+
+.delegationCapabilityItem svg {
+  flex-shrink: 0;
+  color: var(--ink-font-color-success);
+}
+
+/* =============================================================================
+ * ACCORDION PATTERN (for ProfileForm) - Simple Clean Style
+ * ============================================================================= */
+
+.accordionContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.accordionSection {
+  border-bottom: 1px solid var(--ink-border-color-subtle);
+}
+
+.accordionSection:last-child {
+  border-bottom: none;
+}
+
+.accordionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--ink-spacing-150) 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 200ms ease;
+  text-align: left;
+}
+
+.accordionHeader:hover:not(:disabled) .accordionLabel {
+  color: var(--ink-font-color-brand);
+}
+
+.accordionHeader:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.accordionHeaderExpanded {
+  /* No special styles needed */
+}
+
+.accordionHeaderContent {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+}
+
+.accordionLabel {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  transition: color 200ms ease;
+}
+
+/* Selected value shown inline */
+.accordionValue {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-regular);
+  color: var(--ink-font-color-subtle);
+}
+
+/* Chevron icon styling */
+.accordionChevron {
+  color: var(--ink-font-color-subtle);
+  transition: transform 250ms ease, color 200ms ease;
+}
+
+.accordionHeader:hover:not(:disabled) .accordionChevron {
+  color: var(--ink-font-color-default);
+}
+
+.accordionChevronExpanded {
+  transform: rotate(180deg);
+}
+
+.accordionContent {
+  padding: 0 0 var(--ink-spacing-150) 0;
+  background: transparent;
+  animation: accordionSlideIn 200ms ease;
+}
+
+@keyframes accordionSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Legacy step indicator classes - kept for compatibility but hidden */
+.accordionStepIndicator,
+.accordionStepIndicatorActive,
+.accordionStepIndicatorComplete {
+  display: none;
+}
+
+/* =============================================================================
+ * OPTION CHIPS - Elevated Pill Style
+ * ============================================================================= */
+
+.optionChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ink-spacing-100);
+}
+
+.optionChip {
+  padding: var(--ink-spacing-75) var(--ink-spacing-150);
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-full);
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  cursor: pointer;
+  transition: all 200ms ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.optionChip:hover {
+  border-color: var(--ink-border-color-default);
+  background: var(--ink-bg-color-default);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.optionChip:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.optionChipSelected {
+  border-color: var(--ink-green-70);
+  background: var(--ink-green-10);
+  color: var(--ink-green-90);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), inset 0 0 0 1px var(--ink-green-30);
+}
+
+.optionChipSelected:hover {
+  background: var(--ink-green-10);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 0 0 1px var(--ink-green-30);
+}
+
+/* =============================================================================
+ * ROLE OPTIONS - Card Style with Refined Interaction
+ * ============================================================================= */
+
+.roleOptions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+}
+
+.roleOption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-25);
+  padding: var(--ink-spacing-150);
+  background: var(--ink-bg-color-default);
+  border: 1px solid var(--ink-border-color-subtle);
+  border-radius: var(--ink-radius-size-s);
+  cursor: pointer;
+  transition: all 200ms ease;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.roleOption:hover {
+  border-color: var(--ink-border-color-default);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.roleOption:active {
+  transform: translateY(0);
+}
+
+.roleOptionSelected {
+  border-color: var(--ink-green-70);
+  background: var(--ink-green-5);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), inset 0 0 0 1px var(--ink-green-30);
+}
+
+.roleOptionSelected:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 0 0 1px var(--ink-green-30);
+}
+
+.roleOptionLabel {
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-semibold);
+  color: var(--ink-font-color-default);
+}
+
+.roleOptionDescription {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+  line-height: 1.4;
+}
+
+/* =============================================================================
+ * RADIO GROUP STYLES (for ProfileForm)
+ * ============================================================================= */
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+}
+
+.radioItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-100);
+}
+
+.otherInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  margin-left: var(--ink-spacing-300);
+  margin-top: var(--ink-spacing-50);
+}
+
+.otherInputWrapper input {
+  flex: 1;
+}
+
+.otherInputRow {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-100);
+  margin-top: var(--ink-spacing-150);
+  animation: accordionSlideIn 200ms ease;
+}
+
+.otherInputRow input {
+  flex: 1;
+  border-radius: var(--ink-radius-full);
+}

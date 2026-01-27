@@ -1,0 +1,64 @@
+/**
+ * PromptEditor Component Styles
+ *
+ * Styles for the Prompt Editor form including:
+ * - Form layout
+ * - Field styling
+ * - Action buttons
+ */
+
+@import '../../../../design-system/1-tokens/tokens.css';
+
+/* ============================================================================
+   Prompt Editor Container
+   ============================================================================ */
+
+.promptEditor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.promptEditorContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--ink-spacing-200);
+}
+
+/* ============================================================================
+   Form Fields
+   ============================================================================ */
+
+.formField {
+  margin-bottom: var(--ink-spacing-250);
+}
+
+.fieldLabel {
+  display: block;
+  font-size: var(--ink-font-size-body-s);
+  font-weight: var(--ink-font-weight-medium);
+  color: var(--ink-font-color-default);
+  margin-bottom: var(--ink-spacing-100);
+}
+
+.fieldHint {
+  font-size: var(--ink-font-size-detail-xs);
+  color: var(--ink-font-color-subtle);
+  margin-top: var(--ink-spacing-100);
+  line-height: 1.4;
+}
+
+/* ============================================================================
+   Actions
+   ============================================================================ */
+
+.promptEditorActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--ink-spacing-150);
+  padding: var(--ink-spacing-200);
+  border-top: 1px solid var(--ink-border-color-subtle);
+  background: var(--ink-bg-color-default);
+  flex-shrink: 0;
+}

@@ -1,0 +1,107 @@
+/**
+ * ShareModal Component Styles
+ *
+ * Google Docs-inspired share dialog styling with:
+ * - Clear visual hierarchy
+ * - Subtle backgrounds for input fields
+ * - Proper spacing and alignment
+ */
+
+@import '../../../../design-system/1-tokens/tokens.css';
+
+/* Main content container */
+.shareModalContent {
+  padding: var(--ink-spacing-50) 0;
+}
+
+/* Section styling */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-200);
+}
+
+/* Section header with icon and title */
+.sectionHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ink-spacing-150);
+}
+
+.sectionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--ink-radius-size-xs);
+  background: var(--ink-bg-color-muted);
+  color: var(--ink-font-color-subtle);
+  flex-shrink: 0;
+}
+
+.sectionTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ink-spacing-25);
+  padding-top: var(--ink-spacing-50);
+}
+
+/* Link input group - horizontal layout */
+.linkInputGroup {
+  display: flex;
+  align-items: stretch;
+  gap: var(--ink-spacing-100);
+}
+
+.linkInputWrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Style the readonly link input */
+.linkInput {
+  width: 100%;
+}
+
+.linkInput input {
+  background: var(--ink-bg-color-muted) !important;
+  color: var(--ink-font-color-subtle);
+  font-family: var(--ink-font-family-mono);
+  font-size: var(--ink-font-size-xs);
+}
+
+/* Email input group - horizontal layout */
+.emailInputGroup {
+  display: flex;
+  align-items: stretch;
+  gap: var(--ink-spacing-100);
+}
+
+.emailInputWrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.emailInput {
+  width: 100%;
+}
+
+/* Permission dropdown button - consistent width */
+.permissionButton {
+  min-width: 120px;
+  justify-content: space-between;
+}
+
+/* Copy link button - full width for emphasis */
+.copyButton {
+  align-self: flex-start;
+}
+
+/* Divider between sections */
+.divider {
+  border: none;
+  height: 1px;
+  background: var(--ink-border-color-subtle);
+  margin: var(--ink-spacing-100) 0;
+}
