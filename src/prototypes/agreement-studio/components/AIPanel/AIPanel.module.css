@@ -368,7 +368,7 @@
   width: 280px;
   height: 100%;
   z-index: 20;
-  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.15);
+  box-shadow: none;
   background: var(--ink-white-100);
   border-right: 1px solid var(--ink-border-color-subtle);
   transform: translateX(-100%);
