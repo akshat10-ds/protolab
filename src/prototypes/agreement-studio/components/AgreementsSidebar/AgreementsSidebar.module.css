@@ -245,3 +245,11 @@
 .agreementsSidebarCheckbox label:active > span::before {
   background-color: transparent !important;
 }
+
+.agreementsSidebarFooter {
+  padding: var(--ink-spacing-200);
+  border-top: 1px solid var(--ink-border-color-subtle);
+  background: var(--ink-bg-color-default);
+  flex-shrink: 0;
+  animation: sidebarContentFadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 250ms both;
+}

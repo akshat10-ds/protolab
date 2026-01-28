@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { Icon, IconButton, Dropdown } from '@/design-system';
+import { Icon, IconButton, Dropdown, Button } from '@/design-system';
 import type { Prompt, PromptCategory } from '../../data/agreement-studio-types';
 import { PROMPT_LIBRARY, USER_PROMPTS } from '../../data/agreement-studio-data';
 import styles from './PromptLibrary.module.css';
@@ -103,14 +103,10 @@ export const PromptLibrary: React.FC<PromptLibraryProps> = ({
       {/* Page Header */}
       <div className={styles.pageHeader}>
         <h2 className={styles.pageTitle}>Prompts</h2>
-        <button
-          type="button"
-          className={styles.newPromptButton}
-          onClick={onCreatePrompt}
-        >
+        <Button size="small" kind="secondary" onClick={onCreatePrompt}>
           <Icon name="plus" size={14} />
-          <span>New</span>
-        </button>
+          New
+        </Button>
       </div>
 
       <div className={styles.promptLibraryContent}>

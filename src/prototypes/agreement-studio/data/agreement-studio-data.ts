@@ -322,56 +322,6 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
     },
   },
   {
-    label: 'Analyze Financial Terms',
-    description: 'Extract pricing, payment terms, and contract values',
-    icon: 'currency-dollar',
-    createdBy: 'Docusign',
-    isSystem: true,
-    expansion: {
-      steps: [
-        'ROLE: You are a Financial Analyst and Contract Negotiation Specialist with deep expertise in SaaS pricing models and commercial terms.',
-        'TASK: Extract, analyze, and synthesize all financial provisions across the MSA, Order Forms (2022-2024), and Amendments to create a complete picture of the commercial relationship.',
-        'OBJECTIVE: Provide the procurement team with actionable intelligence on pricing trends, commitment obligations, and negotiation leverage for the upcoming renewal.',
-        'INSTRUCTIONS:',
-        '1. Pricing Analysis:\n   • Extract current unit pricing ($150/unit from OF-2024)\n   • Document volume discount tiers (5% at 10K, 10% at 25K, 15% at 50K+)\n   • Calculate year-over-year price changes across OF-2022 ($1.2M), OF-2023 ($1.5M), OF-2024 ($1.8M)',
-        '2. Commitment Review:\n   • Identify minimum annual commitment ($500K per MSA §4.2)\n   • Document shortfall penalty terms and true-up calculations\n   • Note any "use it or lose it" provisions',
-        '3. Payment Terms:\n   • Confirm Net 30 payment terms and late payment penalties (1.5%/month)\n   • Check for early payment discounts or alternative payment options\n   • Verify billing frequency (monthly in arrears)',
-        '4. Price Protection:\n   • Identify CPI adjustment caps and escalation limitations\n   • Look for "most favored nation" or price parity clauses\n   • Note any price lock periods or guarantees',
-        'OUTPUT FORMAT:',
-        '• Financial Summary: Key numbers at a glance (TCV, ACV, unit price, growth rate)',
-        '• Pricing Trend Chart: Year-over-year comparison with % changes',
-        '• Commitment Tracker: Current vs. required spend with gap analysis',
-        '• Negotiation Points: Specific clauses that offer leverage for renewal discussions',
-      ],
-      estimatedTime: '~25 seconds',
-      documentsToAnalyze: 15,
-    },
-  },
-  {
-    label: 'Review Risk & Liability',
-    description: 'Identify liability caps, indemnification, and IP terms',
-    icon: 'shield',
-    createdBy: 'Docusign',
-    isSystem: true,
-    expansion: {
-      steps: [
-        'ROLE: You are a Risk Management Attorney and Compliance Officer specializing in technology contracts and data protection regulations.',
-        'TASK: Conduct a comprehensive risk assessment across all contractual documents to identify exposure points, liability boundaries, and compliance obligations.',
-        'OBJECTIVE: Deliver a risk matrix that quantifies exposure and provides specific recommendations for risk mitigation in the renewal negotiation.',
-        'INSTRUCTIONS:',
-        '1. Liability Analysis:\n   • Document aggregate cap ($2M per MSA §8.1) and per-incident limits\n   • Identify super-cap exclusions (confidentiality breach, indemnification, gross negligence)\n   • Note any unlimited liability scenarios',
-        '2. Indemnification Review:\n   • Map mutual indemnification scope from MSA §9\n   • Identify IP infringement coverage and limitations\n   • Document data breach notification and response obligations from DPA',
-        '3. IP & Data Ownership:\n   • Resolve conflict between MSA §7.1 (Provider owns) vs SOW §5.3 (Customer owns custom work)\n   • Clarify background IP vs. foreground IP treatment\n   • Document data return/destruction obligations post-termination',
-        '4. Insurance Verification:\n   • Cross-reference MSA requirements with Certificate INS-2024-001\n   • Confirm CGL, E&O, and Cyber coverage meets minimums\n   • Note any gaps or upcoming renewal dates',
-        '5. Compliance Assessment:\n   • Review GDPR obligations in DPA-2022-001\n   • Check SOC2 requirements from Security Addendum SEC-2024-001\n   • Document audit rights and cooperation obligations',
-        'OUTPUT FORMAT:',
-        '• Risk Heat Map: Visual matrix of exposure areas (High/Medium/Low)\n• Liability Summary: Cap structure with carve-outs and exceptions\n• IP Ownership Table: Clear delineation of who owns what\n• Compliance Checklist: Current status against contractual requirements\n• Recommended Actions: Specific terms to address in renewal',
-      ],
-      estimatedTime: '~35 seconds',
-      documentsToAnalyze: 15,
-    },
-  },
-  {
     label: 'Check for Conflicts',
     description: 'Find conflicting terms across agreements',
     icon: 'status-warn',
@@ -410,27 +360,51 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
       documentsToAnalyze: 12,
     },
   },
-  {
-    label: 'Extract Renewal Dates',
-    description: 'Find all auto-renewal and termination notice deadlines',
-    icon: 'calendar',
-    createdBy: 'bill@tally.com',
-    isSystem: false,
-    expansion: {
-      steps: [
-        'TASK: Extract all renewal-related dates from agreements',
-        'OBJECTIVE: Create a calendar of upcoming deadlines',
-      ],
-      estimatedTime: '~20 seconds',
-      documentsToAnalyze: 15,
-    },
-  },
 ];
 
 export const SUGGESTED_QUESTIONS = [
   'What is the current unit price for Acme?',
   'When does the Acme contract expire?',
   'Are there any conflicting terms across agreements?',
+];
+
+// =============================================================================
+// No Sources State - Support Actions & Questions
+// =============================================================================
+
+/** Actions shown when no agreements are loaded */
+export const SUPPORT_ACTIONS: ExtendedSuggestedAction[] = [
+  {
+    label: 'Learn about upcoming renewals',
+    description: 'View agreements expiring soon and key renewal terms',
+    icon: 'calendar',
+    createdBy: 'Docusign',
+    isSystem: true,
+    actionType: 'auto-load-renewals', // Will auto-add renewal agreements as source
+  },
+  {
+    label: 'Summarize agreements',
+    description: 'Get a summary of selected contract terms',
+    icon: 'document-stack',
+    createdBy: 'Docusign',
+    isSystem: true,
+    actionType: 'select-source', // Will prompt user to select agreements
+  },
+  {
+    label: 'What can Agreement Studio do?',
+    description: 'Learn about AI-powered contract analysis',
+    icon: 'lightbulb',
+    createdBy: 'Docusign',
+    isSystem: true,
+    actionType: 'help',
+  },
+];
+
+/** Questions shown when no agreements are loaded */
+export const SUPPORT_QUESTIONS = [
+  'How do I add agreements to analyze?',
+  'What types of documents can I upload?',
+  'Can I compare terms across multiple contracts?',
 ];
 
 // =============================================================================
@@ -1565,7 +1539,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Initech Cloud Services Agreement',
         section: '§12.3 Liability',
         excerpt:
-          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+          "Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.",
       },
     },
   },
@@ -1605,7 +1579,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Initech Cloud Services Agreement',
         section: '§12.3 Liability',
         excerpt:
-          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+          "Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.",
       },
     },
   },
@@ -1649,7 +1623,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Initech Cloud Services Agreement',
         section: '§12.3 Liability',
         excerpt:
-          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+          "Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.",
       },
       '3': {
         id: 'cit-table-3',
@@ -1657,7 +1631,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Acme Corp - Master Services Agreement',
         section: '§8.1 Limitation of Liability',
         excerpt:
-          'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.',
+          "Neither party's aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.",
       },
       '4': {
         id: 'cit-table-4',
@@ -1681,7 +1655,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'DataCorp - Statement of Work',
         section: '§9.1 Aggregate Cap',
         excerpt:
-          'Provider\'s total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+          "Provider's total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.",
       },
     },
   },
@@ -1725,7 +1699,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Initech Cloud Services Agreement',
         section: '§12.3 Liability',
         excerpt:
-          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+          "Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.",
       },
       '3': {
         id: 'cit-table-3',
@@ -1733,7 +1707,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Acme Corp - Master Services Agreement',
         section: '§8.1 Limitation of Liability',
         excerpt:
-          'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.',
+          "Neither party's aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.",
       },
       '4': {
         id: 'cit-table-4',
@@ -1757,7 +1731,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'DataCorp - Statement of Work',
         section: '§9.1 Aggregate Cap',
         excerpt:
-          'Provider\'s total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+          "Provider's total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.",
       },
     },
   },
@@ -1802,7 +1776,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Initech Cloud Services Agreement',
         section: '§12.3 Liability',
         excerpt:
-          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+          "Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.",
       },
       '3': {
         id: 'cit-table-3',
@@ -1810,7 +1784,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Acme Corp - Master Services Agreement',
         section: '§8.1 Limitation of Liability',
         excerpt:
-          'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.',
+          "Neither party's aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.",
       },
       '4': {
         id: 'cit-table-4',
@@ -1834,7 +1808,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'DataCorp - Statement of Work',
         section: '§9.1 Aggregate Cap',
         excerpt:
-          'Provider\'s total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+          "Provider's total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.",
       },
       '7': {
         id: 'cit-indem-1',
@@ -1842,7 +1816,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Globex SaaS Agreement',
         section: '§9.1 Indemnification',
         excerpt:
-          'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims arising from Customer\'s use of the Services. Provider makes no reciprocal indemnification commitment.',
+          "Customer shall indemnify, defend, and hold harmless Provider from any third-party claims arising from Customer's use of the Services. Provider makes no reciprocal indemnification commitment.",
       },
       '8': {
         id: 'cit-indem-2',
@@ -1927,7 +1901,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Initech Cloud Services Agreement',
         section: '§12.3 Liability',
         excerpt:
-          'Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+          "Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.",
       },
       '3': {
         id: 'cit-table-3',
@@ -1935,7 +1909,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Acme Corp - Master Services Agreement',
         section: '§8.1 Limitation of Liability',
         excerpt:
-          'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.',
+          "Neither party's aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.",
       },
       '4': {
         id: 'cit-table-4',
@@ -1959,7 +1933,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'DataCorp - Statement of Work',
         section: '§9.1 Aggregate Cap',
         excerpt:
-          'Provider\'s total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+          "Provider's total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.",
       },
       '7': {
         id: 'cit-indem-1',
@@ -1967,7 +1941,7 @@ These represent significant risk as there's no ceiling on potential damages.
         documentTitle: 'Globex SaaS Agreement',
         section: '§9.1 Indemnification',
         excerpt:
-          'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims arising from Customer\'s use of the Services. Provider makes no reciprocal indemnification commitment.',
+          "Customer shall indemnify, defend, and hold harmless Provider from any third-party claims arising from Customer's use of the Services. Provider makes no reciprocal indemnification commitment.",
       },
       '8': {
         id: 'cit-indem-2',
@@ -2020,13 +1994,17 @@ These represent significant risk as there's no ceiling on potential damages.
 export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
   // Turn 4: Full risk assessment matrix
   'Full risk assessment': {
-    introContent: 'I\'ve analyzed all 6 vendor contracts for a comprehensive risk assessment.',
+    introContent: "I've analyzed all 6 vendor contracts for a comprehensive risk assessment.",
     matrix: {
       id: 'risk-matrix-1',
       title: 'Risk Assessment Matrix',
       columns: [
         { id: 'liability', header: 'Liability Cap', query: 'What is the liability cap?' },
-        { id: 'indemnity', header: 'Indemnification', query: 'What are the indemnification terms?' },
+        {
+          id: 'indemnity',
+          header: 'Indemnification',
+          query: 'What are the indemnification terms?',
+        },
         { id: 'insurance', header: 'Insurance', query: 'What are the insurance requirements?' },
       ],
       rows: [
@@ -2043,7 +2021,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'globex-saas',
                 documentTitle: 'Globex SaaS Agreement',
                 section: '§8.1 Limitation of Liability',
-                excerpt: 'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+                excerpt:
+                  'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
               },
             },
             indemnity: {
@@ -2055,7 +2034,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'globex-saas',
                 documentTitle: 'Globex SaaS Agreement',
                 section: '§9.1 Indemnification',
-                excerpt: 'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
+                excerpt:
+                  'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
               },
             },
             insurance: {
@@ -2065,7 +2045,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
             },
           },
           riskLevel: 'high',
-          riskReason: 'Uncapped liability with one-way indemnification and no insurance requirements',
+          riskReason:
+            'Uncapped liability with one-way indemnification and no insurance requirements',
         },
         {
           documentId: 'initech-cloud',
@@ -2080,7 +2061,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'initech-cloud',
                 documentTitle: 'Initech Cloud Services Agreement',
                 section: '§12.3 Liability',
-                excerpt: 'Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+                excerpt:
+                  "Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.",
               },
             },
             indemnity: {
@@ -2092,7 +2074,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'initech-cloud',
                 documentTitle: 'Initech Cloud Services Agreement',
                 section: '§13 Indemnification',
-                excerpt: 'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
+                excerpt:
+                  'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
               },
             },
             insurance: {
@@ -2103,7 +2086,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'initech-cloud',
                 documentTitle: 'Initech Cloud Services Agreement',
                 section: '§14 Insurance',
-                excerpt: 'Provider maintains commercial general liability insurance with limits of at least $1,000,000 per occurrence.',
+                excerpt:
+                  'Provider maintains commercial general liability insurance with limits of at least $1,000,000 per occurrence.',
               },
             },
           },
@@ -2122,7 +2106,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: '1',
                 documentTitle: 'Acme Corp - Master Services Agreement',
                 section: '§8.1 Limitation of Liability',
-                excerpt: 'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid under this Agreement.',
+                excerpt:
+                  "Neither party's aggregate liability shall exceed two times (2x) the annual fees paid under this Agreement.",
               },
             },
             indemnity: {
@@ -2133,7 +2118,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: '1',
                 documentTitle: 'Acme Corp - Master Services Agreement',
                 section: '§9 Indemnification',
-                excerpt: 'Each party shall indemnify, defend, and hold harmless the other party from any third-party claims.',
+                excerpt:
+                  'Each party shall indemnify, defend, and hold harmless the other party from any third-party claims.',
               },
             },
             insurance: {
@@ -2144,7 +2130,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: '1',
                 documentTitle: 'Acme Corp - Master Services Agreement',
                 section: '§10 Insurance',
-                excerpt: 'Provider shall maintain commercial general liability insurance of at least $2,000,000 per occurrence.',
+                excerpt:
+                  'Provider shall maintain commercial general liability insurance of at least $2,000,000 per occurrence.',
               },
             },
           },
@@ -2163,7 +2150,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'umbrella-dpa',
                 documentTitle: 'Umbrella Corp - Data Processing Agreement',
                 section: '§7.2 Liability Cap',
-                excerpt: 'The total aggregate liability shall not exceed Five Hundred Thousand Dollars ($500,000.00 USD).',
+                excerpt:
+                  'The total aggregate liability shall not exceed Five Hundred Thousand Dollars ($500,000.00 USD).',
               },
             },
             indemnity: {
@@ -2174,7 +2162,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'umbrella-dpa',
                 documentTitle: 'Umbrella Corp - Data Processing Agreement',
                 section: '§8 Mutual Indemnification',
-                excerpt: 'Each party agrees to indemnify the other against claims arising from its own negligence or breach.',
+                excerpt:
+                  'Each party agrees to indemnify the other against claims arising from its own negligence or breach.',
               },
             },
             insurance: {
@@ -2185,7 +2174,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'umbrella-dpa',
                 documentTitle: 'Umbrella Corp - Data Processing Agreement',
                 section: '§9 Insurance Requirements',
-                excerpt: 'Provider shall maintain cyber liability insurance with limits of at least $5,000,000.',
+                excerpt:
+                  'Provider shall maintain cyber liability insurance with limits of at least $5,000,000.',
               },
             },
           },
@@ -2204,7 +2194,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'techventure-nda',
                 documentTitle: 'TechVenture Inc - NDA',
                 section: '§6 Limitation of Liability',
-                excerpt: 'Maximum aggregate liability shall be One Million Dollars ($1,000,000.00 USD).',
+                excerpt:
+                  'Maximum aggregate liability shall be One Million Dollars ($1,000,000.00 USD).',
               },
             },
             indemnity: {
@@ -2215,7 +2206,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'techventure-nda',
                 documentTitle: 'TechVenture Inc - NDA',
                 section: '§7 Indemnification',
-                excerpt: 'Each party shall indemnify the other for any breach of confidentiality obligations.',
+                excerpt:
+                  'Each party shall indemnify the other for any breach of confidentiality obligations.',
               },
             },
             insurance: {
@@ -2226,7 +2218,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'techventure-nda',
                 documentTitle: 'TechVenture Inc - NDA',
                 section: '§8 Insurance',
-                excerpt: 'Both parties shall maintain professional liability insurance of at least $3,000,000.',
+                excerpt:
+                  'Both parties shall maintain professional liability insurance of at least $3,000,000.',
               },
             },
           },
@@ -2245,7 +2238,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'datacorp-sow',
                 documentTitle: 'DataCorp - Statement of Work',
                 section: '§9.1 Aggregate Cap',
-                excerpt: 'Provider\'s total liability shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+                excerpt:
+                  "Provider's total liability shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.",
               },
             },
             indemnity: {
@@ -2257,7 +2251,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'datacorp-sow',
                 documentTitle: 'DataCorp - Statement of Work',
                 section: '§10 Limited Indemnification',
-                excerpt: 'Each party indemnifies the other for IP infringement claims only. General indemnification is limited.',
+                excerpt:
+                  'Each party indemnifies the other for IP infringement claims only. General indemnification is limited.',
               },
             },
             insurance: {
@@ -2268,7 +2263,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'datacorp-sow',
                 documentTitle: 'DataCorp - Statement of Work',
                 section: '§11 Insurance',
-                excerpt: 'Provider maintains errors and omissions insurance with limits of $2,000,000.',
+                excerpt:
+                  'Provider maintains errors and omissions insurance with limits of $2,000,000.',
               },
             },
           },
@@ -2277,7 +2273,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
         },
       ],
     },
-    summaryContent: '⚠️ **Globex and Initech need immediate renegotiation** — both have uncapped liability combined with one-way indemnification.',
+    summaryContent:
+      '⚠️ **Globex and Initech need immediate renegotiation** — both have uncapped liability combined with one-way indemnification.',
     thinkingSteps: [
       {
         id: '1',
@@ -2287,7 +2284,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
       {
         id: '2',
         action: 'Extracting indemnification terms from each agreement',
-        result: '4 contracts have mutual indemnification, 2 have one-way terms favoring the vendor.',
+        result:
+          '4 contracts have mutual indemnification, 2 have one-way terms favoring the vendor.',
       },
       {
         id: '3',
@@ -2297,7 +2295,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
       {
         id: '4',
         action: 'Computing aggregate risk scores',
-        result: 'Identified 2 high-risk, 1 medium-risk, and 3 low-risk contracts based on combined factors.',
+        result:
+          'Identified 2 high-risk, 1 medium-risk, and 3 low-risk contracts based on combined factors.',
       },
     ],
     citations: {
@@ -2306,41 +2305,49 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
         documentId: 'globex-saas',
         documentTitle: 'Globex SaaS Agreement',
         section: '§8.1 Limitation of Liability',
-        excerpt: 'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+        excerpt:
+          'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
       },
       '2': {
         id: 'cit-matrix-2',
         documentId: 'globex-saas',
         documentTitle: 'Globex SaaS Agreement',
         section: '§9.1 Indemnification',
-        excerpt: 'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
+        excerpt:
+          'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
       },
       '3': {
         id: 'cit-matrix-3',
         documentId: 'initech-cloud',
         documentTitle: 'Initech Cloud Services Agreement',
         section: '§12.3 Liability',
-        excerpt: 'Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+        excerpt:
+          "Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.",
       },
       '4': {
         id: 'cit-matrix-4',
         documentId: 'initech-cloud',
         documentTitle: 'Initech Cloud Services Agreement',
         section: '§13 Indemnification',
-        excerpt: 'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
+        excerpt:
+          'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
       },
     },
   },
 
   // Alias
   'full risk picture': {
-    introContent: 'I\'ve analyzed all 6 vendor contracts for a comprehensive risk assessment.',
+    introContent: "I've analyzed all 6 vendor contracts for a comprehensive risk assessment.",
     matrix: {
       id: 'risk-matrix-1',
       title: 'Risk Assessment Matrix',
       columns: [
         { id: 'liability', header: 'Liability Cap', query: 'What is the liability cap?' },
-        { id: 'indemnity', header: 'Indemnification', query: 'What are the indemnification terms?' },
+        {
+          id: 'indemnity',
+          header: 'Indemnification',
+          query: 'What are the indemnification terms?',
+        },
         { id: 'insurance', header: 'Insurance', query: 'What are the insurance requirements?' },
       ],
       rows: [
@@ -2357,7 +2364,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'globex-saas',
                 documentTitle: 'Globex SaaS Agreement',
                 section: '§8.1 Limitation of Liability',
-                excerpt: 'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+                excerpt:
+                  'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
               },
             },
             indemnity: {
@@ -2369,7 +2377,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'globex-saas',
                 documentTitle: 'Globex SaaS Agreement',
                 section: '§9.1 Indemnification',
-                excerpt: 'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
+                excerpt:
+                  'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
               },
             },
             insurance: {
@@ -2379,7 +2388,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
             },
           },
           riskLevel: 'high',
-          riskReason: 'Uncapped liability with one-way indemnification and no insurance requirements',
+          riskReason:
+            'Uncapped liability with one-way indemnification and no insurance requirements',
         },
         {
           documentId: 'initech-cloud',
@@ -2394,7 +2404,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'initech-cloud',
                 documentTitle: 'Initech Cloud Services Agreement',
                 section: '§12.3 Liability',
-                excerpt: 'Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+                excerpt:
+                  "Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.",
               },
             },
             indemnity: {
@@ -2406,7 +2417,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'initech-cloud',
                 documentTitle: 'Initech Cloud Services Agreement',
                 section: '§13 Indemnification',
-                excerpt: 'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
+                excerpt:
+                  'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
               },
             },
             insurance: {
@@ -2417,7 +2429,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'initech-cloud',
                 documentTitle: 'Initech Cloud Services Agreement',
                 section: '§14 Insurance',
-                excerpt: 'Provider maintains commercial general liability insurance with limits of at least $1,000,000 per occurrence.',
+                excerpt:
+                  'Provider maintains commercial general liability insurance with limits of at least $1,000,000 per occurrence.',
               },
             },
           },
@@ -2436,7 +2449,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: '1',
                 documentTitle: 'Acme Corp - Master Services Agreement',
                 section: '§8.1 Limitation of Liability',
-                excerpt: 'Neither party\'s aggregate liability shall exceed two times (2x) the annual fees paid under this Agreement.',
+                excerpt:
+                  "Neither party's aggregate liability shall exceed two times (2x) the annual fees paid under this Agreement.",
               },
             },
             indemnity: {
@@ -2447,7 +2461,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: '1',
                 documentTitle: 'Acme Corp - Master Services Agreement',
                 section: '§9 Indemnification',
-                excerpt: 'Each party shall indemnify, defend, and hold harmless the other party from any third-party claims.',
+                excerpt:
+                  'Each party shall indemnify, defend, and hold harmless the other party from any third-party claims.',
               },
             },
             insurance: {
@@ -2458,7 +2473,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: '1',
                 documentTitle: 'Acme Corp - Master Services Agreement',
                 section: '§10 Insurance',
-                excerpt: 'Provider shall maintain commercial general liability insurance of at least $2,000,000 per occurrence.',
+                excerpt:
+                  'Provider shall maintain commercial general liability insurance of at least $2,000,000 per occurrence.',
               },
             },
           },
@@ -2477,7 +2493,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'umbrella-dpa',
                 documentTitle: 'Umbrella Corp - Data Processing Agreement',
                 section: '§7.2 Liability Cap',
-                excerpt: 'The total aggregate liability shall not exceed Five Hundred Thousand Dollars ($500,000.00 USD).',
+                excerpt:
+                  'The total aggregate liability shall not exceed Five Hundred Thousand Dollars ($500,000.00 USD).',
               },
             },
             indemnity: {
@@ -2488,7 +2505,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'umbrella-dpa',
                 documentTitle: 'Umbrella Corp - Data Processing Agreement',
                 section: '§8 Mutual Indemnification',
-                excerpt: 'Each party agrees to indemnify the other against claims arising from its own negligence or breach.',
+                excerpt:
+                  'Each party agrees to indemnify the other against claims arising from its own negligence or breach.',
               },
             },
             insurance: {
@@ -2499,7 +2517,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'umbrella-dpa',
                 documentTitle: 'Umbrella Corp - Data Processing Agreement',
                 section: '§9 Insurance Requirements',
-                excerpt: 'Provider shall maintain cyber liability insurance with limits of at least $5,000,000.',
+                excerpt:
+                  'Provider shall maintain cyber liability insurance with limits of at least $5,000,000.',
               },
             },
           },
@@ -2518,7 +2537,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'techventure-nda',
                 documentTitle: 'TechVenture Inc - NDA',
                 section: '§6 Limitation of Liability',
-                excerpt: 'Maximum aggregate liability shall be One Million Dollars ($1,000,000.00 USD).',
+                excerpt:
+                  'Maximum aggregate liability shall be One Million Dollars ($1,000,000.00 USD).',
               },
             },
             indemnity: {
@@ -2529,7 +2549,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'techventure-nda',
                 documentTitle: 'TechVenture Inc - NDA',
                 section: '§7 Indemnification',
-                excerpt: 'Each party shall indemnify the other for any breach of confidentiality obligations.',
+                excerpt:
+                  'Each party shall indemnify the other for any breach of confidentiality obligations.',
               },
             },
             insurance: {
@@ -2540,7 +2561,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'techventure-nda',
                 documentTitle: 'TechVenture Inc - NDA',
                 section: '§8 Insurance',
-                excerpt: 'Both parties shall maintain professional liability insurance of at least $3,000,000.',
+                excerpt:
+                  'Both parties shall maintain professional liability insurance of at least $3,000,000.',
               },
             },
           },
@@ -2559,7 +2581,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'datacorp-sow',
                 documentTitle: 'DataCorp - Statement of Work',
                 section: '§9.1 Aggregate Cap',
-                excerpt: 'Provider\'s total liability shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.',
+                excerpt:
+                  "Provider's total liability shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.",
               },
             },
             indemnity: {
@@ -2571,7 +2594,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'datacorp-sow',
                 documentTitle: 'DataCorp - Statement of Work',
                 section: '§10 Limited Indemnification',
-                excerpt: 'Each party indemnifies the other for IP infringement claims only. General indemnification is limited.',
+                excerpt:
+                  'Each party indemnifies the other for IP infringement claims only. General indemnification is limited.',
               },
             },
             insurance: {
@@ -2582,7 +2606,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
                 documentId: 'datacorp-sow',
                 documentTitle: 'DataCorp - Statement of Work',
                 section: '§11 Insurance',
-                excerpt: 'Provider maintains errors and omissions insurance with limits of $2,000,000.',
+                excerpt:
+                  'Provider maintains errors and omissions insurance with limits of $2,000,000.',
               },
             },
           },
@@ -2591,7 +2616,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
         },
       ],
     },
-    summaryContent: '⚠️ **Globex and Initech need immediate renegotiation** — both have uncapped liability combined with one-way indemnification.',
+    summaryContent:
+      '⚠️ **Globex and Initech need immediate renegotiation** — both have uncapped liability combined with one-way indemnification.',
     thinkingSteps: [
       {
         id: '1',
@@ -2601,7 +2627,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
       {
         id: '2',
         action: 'Extracting indemnification terms from each agreement',
-        result: '4 contracts have mutual indemnification, 2 have one-way terms favoring the vendor.',
+        result:
+          '4 contracts have mutual indemnification, 2 have one-way terms favoring the vendor.',
       },
       {
         id: '3',
@@ -2611,7 +2638,8 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
       {
         id: '4',
         action: 'Computing aggregate risk scores',
-        result: 'Identified 2 high-risk, 1 medium-risk, and 3 low-risk contracts based on combined factors.',
+        result:
+          'Identified 2 high-risk, 1 medium-risk, and 3 low-risk contracts based on combined factors.',
       },
     ],
     citations: {
@@ -2620,28 +2648,32 @@ export const MATRIX_RESPONSES: Record<string, MatrixResponseData> = {
         documentId: 'globex-saas',
         documentTitle: 'Globex SaaS Agreement',
         section: '§8.1 Limitation of Liability',
-        excerpt: 'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
+        excerpt:
+          'Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.',
       },
       '2': {
         id: 'cit-matrix-2',
         documentId: 'globex-saas',
         documentTitle: 'Globex SaaS Agreement',
         section: '§9.1 Indemnification',
-        excerpt: 'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
+        excerpt:
+          'Customer shall indemnify, defend, and hold harmless Provider from any third-party claims. Provider makes no reciprocal indemnification commitment.',
       },
       '3': {
         id: 'cit-matrix-3',
         documentId: 'initech-cloud',
         documentTitle: 'Initech Cloud Services Agreement',
         section: '§12.3 Liability',
-        excerpt: 'Customer acknowledges that Provider\'s liability shall be unlimited for breaches of this Agreement.',
+        excerpt:
+          "Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.",
       },
       '4': {
         id: 'cit-matrix-4',
         documentId: 'initech-cloud',
         documentTitle: 'Initech Cloud Services Agreement',
         section: '§13 Indemnification',
-        excerpt: 'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
+        excerpt:
+          'Customer agrees to indemnify and hold Provider harmless from all claims. This indemnification is one-way.',
       },
     },
   },

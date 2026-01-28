@@ -69,8 +69,10 @@ export interface ContextSource {
   label: string;
   /** Count of items in context */
   count: number;
-  /** Click handler for the context pill */
+  /** Click handler for the context pill (opens sidebar) */
   onClick?: () => void;
+  /** Click handler for dismissing/clearing the source */
+  onClear?: () => void;
 }
 
 export type FeedbackType = 'positive' | 'negative' | null;
@@ -468,18 +470,32 @@ const InputArea: React.FC<InputAreaProps> = ({
         </div>
         <div className={styles.inputActions}>
           {contextSource ? (
-            <button
-              type="button"
+            <div
               className={`${styles.contextSourcePill}${showContextAttention ? ` ${styles.contextSourcePillAttention}` : ''}`}
-              onClick={contextSource.onClick}
-              disabled={disabled}
             >
-              <Icon name="document-stack" size="small" />
-              <span>
-                {contextSource.count} {contextSource.label}
-              </span>
-              <Icon name="chevron-down" size="small" />
-            </button>
+              <button
+                type="button"
+                className={styles.contextSourcePillMain}
+                onClick={contextSource.onClick}
+                disabled={disabled}
+              >
+                <Icon name="document-stack" size="small" />
+                <span>
+                  {contextSource.count} {contextSource.label}
+                </span>
+              </button>
+              {contextSource.onClear && (
+                <button
+                  type="button"
+                  className={styles.contextSourcePillClear}
+                  onClick={contextSource.onClear}
+                  disabled={disabled}
+                  aria-label="Clear source"
+                >
+                  <Icon name="close" size="small" />
+                </button>
+              )}
+            </div>
           ) : showAddSource ? (
             <button
               type="button"
@@ -592,8 +608,13 @@ const Welcome: React.FC<WelcomeProps> = ({
                     onClick={() => onSuggestionClick?.(action.label)}
                     disabled={action.completed}
                   >
-                    <div className={`${styles.suggestionIcon} ${action.completed ? styles.suggestionIconCompleted : ''}`}>
-                      <Icon name={action.completed ? 'check' : ((action.icon as any) || 'bolt')} size="medium" />
+                    <div
+                      className={`${styles.suggestionIcon} ${action.completed ? styles.suggestionIconCompleted : ''}`}
+                    >
+                      <Icon
+                        name={action.completed ? 'check' : (action.icon as any) || 'bolt'}
+                        size="medium"
+                      />
                     </div>
                     <div className={styles.suggestionContent}>
                       <Text variant="body" weight="medium">

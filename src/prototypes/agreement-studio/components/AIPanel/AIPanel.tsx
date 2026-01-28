@@ -36,11 +36,12 @@ import type {
 // Data
 import {
   QUICK_ACTIONS,
-  SUGGESTED_QUESTIONS,
   CHAT_HISTORY,
   STORED_CONVERSATIONS,
   MARKDOWN_RESPONSES,
   MATRIX_RESPONSES,
+  SUPPORT_ACTIONS,
+  SUPPORT_QUESTIONS,
 } from '../../data/agreement-studio-data';
 
 // Components
@@ -61,6 +62,8 @@ import styles from './AIPanel.module.css';
 const NARROW_BREAKPOINT = 700;
 // Breakpoint for showing header icons in overflow menu
 const OVERFLOW_THRESHOLD = 420;
+// Breakpoint for sidebar to become inline (side-by-side) vs overlay
+const SIDEBAR_INLINE_THRESHOLD = 600;
 
 export interface AIPanelProps {
   isOpen: boolean;
@@ -355,9 +358,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     new Map()
   );
   // Matrix message state for cross-document analysis
-  const [matrixMessages, setMatrixMessages] = useState<Map<string, MatrixResponseData>>(
-    new Map()
-  );
+  const [matrixMessages, setMatrixMessages] = useState<Map<string, MatrixResponseData>>(new Map());
   // Track which AI messages are currently streaming (for ThinkingSteps animation)
   const [streamingMessageIds, setStreamingMessageIds] = useState<Set<string>>(new Set());
   // Track partially streamed markdown content for progressive reveal
@@ -417,7 +418,13 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     setSelectedAgreementIds(new Set(agreements.map((a) => a.id)));
   }, [agreements]);
 
-  const useInlineHistory = panelWidth >= INLINE_HISTORY_THRESHOLD;
+  // Sidebar mode: inline (side-by-side) when wide enough, otherwise overlay
+  const useSidebarInline = panelWidth >= SIDEBAR_INLINE_THRESHOLD;
+  // For backwards compatibility
+  const useInlineHistory = useSidebarInline;
+
+  // Sidebar uses overlay mode when narrow (slides over content with shadow)
+  const useSidebarOverlay = !useSidebarInline;
 
   // Generate full prompt text from quick action with readable formatting
   const generateExpandedPromptText = useCallback((action: ExtendedSuggestedAction): string => {
@@ -520,6 +527,11 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
   const handleCloseAgreementsSidebar = useCallback(() => {
     setIsAgreementsSidebarOpen(false);
+  }, []);
+
+  // Clear all selected agreements (dismisses the source filter)
+  const handleClearAgreements = useCallback(() => {
+    setSelectedAgreementIds(new Set());
   }, []);
 
   // Shared element transition state
@@ -710,9 +722,11 @@ export const AIPanel: React.FC<AIPanelProps> = ({
   const generateChatTitle = useCallback((content: string): string => {
     // If it's a slash command, use a cleaned up version
     if (content.startsWith('/')) {
-      const commandName = content.slice(1).split('-').map(word =>
-        word.charAt(0).toUpperCase() + word.slice(1)
-      ).join(' ');
+      const commandName = content
+        .slice(1)
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
       return commandName;
     }
 
@@ -720,7 +734,10 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     let title = content.trim();
 
     // Remove common question starters for cleaner titles
-    title = title.replace(/^(what|how|can you|please|i need to|help me|show me|find|get|list)\s+/i, '');
+    title = title.replace(
+      /^(what|how|can you|please|i need to|help me|show me|find|get|list)\s+/i,
+      ''
+    );
 
     // Capitalize first letter
     title = title.charAt(0).toUpperCase() + title.slice(1);
@@ -813,15 +830,14 @@ export const AIPanel: React.FC<AIPanelProps> = ({
       // Check for matrix responses (Turn 4 of risk assessment journey)
       const matrixKey = Object.keys(MATRIX_RESPONSES).find(
         (key) =>
-          contentLower === key.toLowerCase() ||
-          content.toLowerCase().includes(key.toLowerCase())
+          contentLower === key.toLowerCase() || content.toLowerCase().includes(key.toLowerCase())
       );
       const matrixResponse = matrixKey ? MATRIX_RESPONSES[matrixKey] : undefined;
 
       // Check if response has thinking steps (ThinkingSteps serves as loading indicator)
       const hasThinkingSteps =
-        markdownResponse?.thinkingSteps && markdownResponse.thinkingSteps.length > 0 ||
-        matrixResponse?.thinkingSteps && matrixResponse.thinkingSteps.length > 0;
+        (markdownResponse?.thinkingSteps && markdownResponse.thinkingSteps.length > 0) ||
+        (matrixResponse?.thinkingSteps && matrixResponse.thinkingSteps.length > 0);
 
       const aiMessageId = `ai-${Date.now()}`;
       let responseText = `I couldn't find a specific answer for that. Could you try rephrasing your question?`;
@@ -876,7 +892,8 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
         // Calculate delay for thinking animation (reduced by ~40% for snappier feel)
         // Each step: ~1.5-2s action + 0.5s result = ~2s average per step
-        const thinkingSteps = matrixResponse?.thinkingSteps || markdownResponse?.thinkingSteps || [];
+        const thinkingSteps =
+          matrixResponse?.thinkingSteps || markdownResponse?.thinkingSteps || [];
         const thinkingDuration = thinkingSteps.length * 2000 + 300;
 
         // Helper to complete streaming immediately (for skip)
@@ -1114,7 +1131,37 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
   const handleSuggestionClick = useCallback(
     (suggestion: string) => {
-      // Find if this is an action with expansion details
+      // First check if this is a support action (no sources state)
+      const supportAction = SUPPORT_ACTIONS.find((a) => a.label === suggestion);
+      if (supportAction?.actionType) {
+        switch (supportAction.actionType) {
+          case 'auto-load-renewals': {
+            // Auto-load agreements with upcoming renewals and start the flow
+            // For demo: select first 5 agreements as "renewal" agreements
+            const renewalAgreements = agreements.slice(0, 5);
+            const renewalIds = new Set(renewalAgreements.map((a) => a.id));
+            setSelectedAgreementIds(renewalIds);
+            // Show attention on the context source
+            setShowContextAttention(true);
+            setTimeout(() => setShowContextAttention(false), 800);
+            // Send the renewal analysis request
+            setTimeout(() => {
+              handleSendMessage('Show me upcoming renewal dates and key terms', true);
+            }, 300);
+            return;
+          }
+          case 'select-source':
+            // Open the agreements sidebar to let user select agreements
+            handleOpenAgreementsSidebar();
+            return;
+          case 'help':
+            // Send help message
+            handleSendMessage(suggestion, true);
+            return;
+        }
+      }
+
+      // Find if this is an action with expansion details (prompts state)
       const action = QUICK_ACTIONS.find((a) => a.label === suggestion);
       if (action?.expansion) {
         // Populate input field with expanded prompt for user to edit before submitting
@@ -1128,7 +1175,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
         handleSendMessage(suggestion, true);
       }
     },
-    [handleSendMessage, generateExpandedPromptText]
+    [handleSendMessage, generateExpandedPromptText, agreements, handleOpenAgreementsSidebar]
   );
 
   // Handle slash command selection
@@ -1157,7 +1204,9 @@ export const AIPanel: React.FC<AIPanelProps> = ({
       }
       if (e.key === 'ArrowUp') {
         e.preventDefault();
-        setSlashSelectedIndex((prev) => (prev - 1 + filteredSlashPrompts.length) % filteredSlashPrompts.length);
+        setSlashSelectedIndex(
+          (prev) => (prev - 1 + filteredSlashPrompts.length) % filteredSlashPrompts.length
+        );
         return true;
       }
 
@@ -1263,11 +1312,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
                 />
               )}
               {/* Show intro text */}
-              {message.content && (
-                <p className={styles.richMessageIntro}>
-                  {message.content}
-                </p>
-              )}
+              {message.content && <p className={styles.richMessageIntro}>{message.content}</p>}
               {/* Show matrix after streaming completes */}
               {!isMessageStreaming && (
                 <>
@@ -1278,9 +1323,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
                   />
                   {/* Summary content below matrix */}
                   {matrixData.summaryContent && (
-                    <p className={styles.matrixSummary}>
-                      {matrixData.summaryContent}
-                    </p>
+                    <p className={styles.matrixSummary}>{matrixData.summaryContent}</p>
                   )}
                 </>
               )}
@@ -1550,7 +1593,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
     .filter(Boolean)
     .join(' ');
 
-  const historyPanelClasses = useInlineHistory
+  const historyPanelClasses = useSidebarInline
     ? [
         styles.historyPanel,
         styles.historyPanelInline,
@@ -1558,7 +1601,13 @@ export const AIPanel: React.FC<AIPanelProps> = ({
       ]
         .filter(Boolean)
         .join(' ')
-    : [styles.historyPanel, isHistoryOpen ? styles.historyPanelOpen : ''].filter(Boolean).join(' ');
+    : [
+        styles.historyPanel,
+        styles.historyPanelOverlay,
+        isHistoryOpen ? styles.historyPanelOpen : '',
+      ]
+        .filter(Boolean)
+        .join(' ');
 
   const historyOverlayClasses = [
     styles.historyOverlay,
@@ -1570,19 +1619,23 @@ export const AIPanel: React.FC<AIPanelProps> = ({
   // Handle prompt library navigation
   const handleNavigateToPrompts = useCallback(() => {
     setCurrentView('prompts');
+    setActiveHistoryId(null); // Clear history selection when navigating to prompts
     if (!useInlineHistory) {
       setIsHistoryOpen(false);
     }
   }, [useInlineHistory]);
 
   // Handle prompt edit navigation
-  const handleEditPrompt = useCallback((promptId: string) => {
-    setEditingPromptId(promptId);
-    setCurrentView('prompt-edit');
-    if (!useInlineHistory) {
-      setIsHistoryOpen(false);
-    }
-  }, [useInlineHistory]);
+  const handleEditPrompt = useCallback(
+    (promptId: string) => {
+      setEditingPromptId(promptId);
+      setCurrentView('prompt-edit');
+      if (!useInlineHistory) {
+        setIsHistoryOpen(false);
+      }
+    },
+    [useInlineHistory]
+  );
 
   // Handle prompt creation
   const handleCreatePrompt = useCallback(() => {
@@ -1600,27 +1653,24 @@ export const AIPanel: React.FC<AIPanelProps> = ({
   }, []);
 
   // Handle saving a prompt (create or update)
-  const handleSavePrompt = useCallback(
-    (promptData: Omit<Prompt, 'id'> & { id?: string }) => {
-      if (promptData.id) {
-        // Update existing prompt
-        setUserPrompts((prev) =>
-          prev.map((p) => (p.id === promptData.id ? { ...p, ...promptData } : p))
-        );
-      } else {
-        // Create new prompt with unique ID
-        const newPrompt: Prompt = {
-          ...promptData,
-          id: `custom-${Date.now()}`,
-        };
-        setUserPrompts((prev) => [...prev, newPrompt]);
-      }
-      // Return to library after save
-      setCurrentView('prompts');
-      setEditingPromptId(null);
-    },
-    []
-  );
+  const handleSavePrompt = useCallback((promptData: Omit<Prompt, 'id'> & { id?: string }) => {
+    if (promptData.id) {
+      // Update existing prompt
+      setUserPrompts((prev) =>
+        prev.map((p) => (p.id === promptData.id ? { ...p, ...promptData } : p))
+      );
+    } else {
+      // Create new prompt with unique ID
+      const newPrompt: Prompt = {
+        ...promptData,
+        id: `custom-${Date.now()}`,
+      };
+      setUserPrompts((prev) => [...prev, newPrompt]);
+    }
+    // Return to library after save
+    setCurrentView('prompts');
+    setEditingPromptId(null);
+  }, []);
 
   // Find the prompt being edited
   const editingPrompt = useMemo(() => {
@@ -1640,15 +1690,16 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
   const renderHistoryContent = () => (
     <>
-      <div className={styles.historyHeader}>
-        <h3 className={styles.historyTitle}>Menu</h3>
-        <IconButton
-          icon="close"
-          size="small"
-          kind="tertiary"
-          onClick={() => setIsHistoryOpen(false)}
-          aria-label="Close menu"
-        />
+      <div className={styles.sidebarHeader}>
+        <Tooltip content="Close menu">
+          <IconButton
+            icon="menu"
+            size="small"
+            kind="tertiary"
+            onClick={() => setIsHistoryOpen(false)}
+            aria-label="Close menu"
+          />
+        </Tooltip>
       </div>
 
       {/* Navigation Section */}
@@ -1658,8 +1709,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
           className={`${styles.sidebarNavItem} ${currentView === 'prompts' ? styles.sidebarNavItemActive : ''}`}
           onClick={handleNavigateToPrompts}
         >
-          <Icon name="document-stack" size={16} />
-          <span>Prompts</span>
+          <span>Prompt Library</span>
           <Icon name="chevron-right" size={14} className={styles.sidebarNavChevron} />
         </button>
       </div>
@@ -1669,16 +1719,18 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
       <div className={styles.historyList}>
         <List size="small" hoverable className={styles.historyListComponent}>
-          {[...CHAT_HISTORY.today, ...CHAT_HISTORY.yesterday, ...CHAT_HISTORY.lastWeek].map((item) => (
-            <List.Item
-              key={item.id}
-              clickable
-              selected={activeHistoryId === item.id}
-              onClick={() => handleHistoryItemClick(item.id, item.title)}
-            >
-              {item.title}
-            </List.Item>
-          ))}
+          {[...CHAT_HISTORY.today, ...CHAT_HISTORY.yesterday, ...CHAT_HISTORY.lastWeek].map(
+            (item) => (
+              <List.Item
+                key={item.id}
+                clickable
+                selected={activeHistoryId === item.id}
+                onClick={() => handleHistoryItemClick(item.id, item.title)}
+              >
+                {item.title}
+              </List.Item>
+            )
+          )}
         </List>
       </div>
     </>
@@ -1713,259 +1765,268 @@ export const AIPanel: React.FC<AIPanelProps> = ({
         </div>
       )}
 
-      {/* Shared Header - spans full width */}
-      <div className={styles.sharedHeader}>
-        <div className={styles.sharedHeaderLeft}>
-          {currentView === 'prompt-edit' ? (
-            // Back button for prompt editor
-            <Tooltip content="Back to Prompts">
-              <IconButton
-                icon="arrow-left"
-                size="small"
-                kind="tertiary"
-                onClick={handleBackFromEditor}
-                aria-label="Back to Prompts"
-              />
-            </Tooltip>
-          ) : (
-            <Tooltip content="Menu">
-              <IconButton
-                icon="menu"
-                size="small"
-                kind="tertiary"
-                onClick={handleToggleHistory}
-                aria-label="Show menu"
-              />
-            </Tooltip>
-          )}
-        </div>
-        {/* Show title based on current view */}
-        {currentView === 'prompts' && (
-          <div className={styles.sharedHeaderCenter}>
-            <h2 className={styles.sharedHeaderTitle}>Prompt Library</h2>
-          </div>
-        )}
-        {currentView === 'prompt-edit' && (
-          <div className={styles.sharedHeaderCenter}>
-            <h2 className={styles.sharedHeaderTitle}>{editingPromptId ? 'Edit Prompt' : 'New Prompt'}</h2>
-          </div>
-        )}
-        {currentView === 'chat' && messages.length > 0 && (
-          <div className={styles.sharedHeaderCenter}>
-            <h2 className={styles.sharedHeaderTitle}>{chatTitle}</h2>
-          </div>
-        )}
-        <div className={styles.sharedHeaderRight}>
-          {/* Show all icons when panel is wide enough */}
-          {panelWidth >= OVERFLOW_THRESHOLD ? (
-            <>
-              <Tooltip content="Share">
-                <IconButton
-                  icon="share-web"
-                  size="small"
-                  kind="tertiary"
-                  onClick={handleOpenShareModal}
-                  aria-label="Share"
-                />
-              </Tooltip>
-              <Tooltip content="New chat">
-                <IconButton
-                  icon="plus"
-                  size="small"
-                  kind="tertiary"
-                  onClick={handleNewChat}
-                  aria-label="New chat"
-                />
-              </Tooltip>
-              <Tooltip content="Maximize">
-                <IconButton
-                  icon="container-enlarge"
-                  size="small"
-                  kind="tertiary"
-                  onClick={handleToggleExpand}
-                  aria-label="Maximize"
-                />
-              </Tooltip>
-            </>
-          ) : (
-            /* Overflow menu for narrow panel */
-            <Dropdown
-              items={[
-                {
-                  label: 'Share',
-                  icon: <Icon name="share-web" size="small" />,
-                  onClick: handleOpenShareModal,
-                },
-                {
-                  label: 'New chat',
-                  icon: <Icon name="plus" size="small" />,
-                  onClick: handleNewChat,
-                },
-                {
-                  label: 'Maximize',
-                  icon: <Icon name="container-enlarge" size="small" />,
-                  onClick: handleToggleExpand,
-                },
-              ]}
-              position="bottom"
-              align="end"
-            >
-              <IconButton
-                icon="overflow-horizontal"
-                size="small"
-                kind="tertiary"
-                aria-label="More options"
-              />
-            </Dropdown>
-          )}
-          {/* Close button always visible */}
-          <Tooltip content="Close">
-            <IconButton
-              icon="close"
-              size="small"
-              kind="tertiary"
-              onClick={onClose}
-              aria-label="Close"
-            />
-          </Tooltip>
-        </div>
-      </div>
-
+      {/* Main Layout - Sidebar and Content as siblings, each with own header */}
       <div className={styles.aiPanelLayout}>
-        {useInlineHistory && <div className={historyPanelClasses}>{renderHistoryContent()}</div>}
+        {/* Sidebar - inline when wide, overlay when narrow */}
+        <div className={historyPanelClasses}>{renderHistoryContent()}</div>
 
-        <div
-          className={`${styles.aiPanelContent} ${isNarrowMode && isDocumentCanvasOpen ? styles.aiPanelContentHidden : ''}`}
-        >
-          {!useInlineHistory && (
-            <>
-              <div className={historyOverlayClasses} onClick={() => setIsHistoryOpen(false)} />
-              <div className={historyPanelClasses}>{renderHistoryContent()}</div>
-            </>
-          )}
+        {/* Overlay backdrop - only for overlay mode */}
+        <div className={historyOverlayClasses} onClick={() => setIsHistoryOpen(false)} />
 
-          <div ref={chatWrapperRef} className={contentWrapperClasses}>
-            {/* Chat View */}
-            {currentView === 'chat' && (
-              <>
-                <AIChat
-                  key={welcomeKey}
-                  messages={messages}
-                  onSendMessage={handleSendMessage}
-                  isLoading={isLoading}
-                  userName={userName}
-                  assistantName="Docusign AI"
-                  welcomeTitle="What would you like to know?"
-                  suggestedActions={QUICK_ACTIONS}
-                  onSuggestedActionsHeaderClick={handleNavigateToPrompts}
-                  suggestedQuestions={SUGGESTED_QUESTIONS}
-                  onSuggestionClick={handleSuggestionClick}
-                  placeholder="Ask anything about selected agreements..."
-                  showHeader={false}
-                  onClose={onClose}
-                  onShowHistory={handleToggleHistory}
-                  onNewChat={handleNewChat}
-                  onMaximize={handleToggleExpand}
-                  maxHeight="100%"
-                  className={styles.aiChatContainer}
-                  renderMessage={renderMessage}
-                  contextSource={
-                    agreements.length > 0
-                      ? {
-                          count: selectedAgreementIds.size,
-                          label: 'agreements',
-                          onClick: handleOpenAgreementsSidebar,
-                        }
-                      : undefined
-                  }
-                  showContextAttention={showContextAttention}
-                  showInputAttention={showInputAttention}
-                  inputValue={chatInputValue}
-                  onInputChange={setChatInputValue}
-                  isStreaming={canSkip}
-                  onStop={handleStop}
-                  disableAutoScroll={true}
-                  onInputKeyDown={handleInputKeyDown}
+        {/* Main content area - contains shared header + content body */}
+        <div className={styles.aiPanelContent}>
+          {/* Content Header - shared across chat, sidebar, and doc canvas */}
+          <div className={styles.contentHeader}>
+            <div className={styles.contentHeaderLeft}>
+              {currentView === 'prompt-edit' ? (
+                <Tooltip content="Back to Prompts">
+                  <IconButton
+                    icon="arrow-left"
+                    size="small"
+                    kind="tertiary"
+                    onClick={handleBackFromEditor}
+                    aria-label="Back to Prompts"
+                  />
+                </Tooltip>
+              ) : !isHistoryOpen ? (
+                <Tooltip content="Menu">
+                  <IconButton
+                    icon="menu"
+                    size="small"
+                    kind="tertiary"
+                    onClick={handleToggleHistory}
+                    aria-label="Show menu"
+                  />
+                </Tooltip>
+              ) : null}
+            </div>
+            <div className={styles.contentHeaderCenter}>
+              {currentView === 'prompts' && (
+                <h2 className={styles.contentHeaderTitle}>Prompt Library</h2>
+              )}
+              {currentView === 'prompt-edit' && (
+                <h2 className={styles.contentHeaderTitle}>
+                  {editingPromptId ? 'Edit Prompt' : 'New Prompt'}
+                </h2>
+              )}
+              {currentView === 'chat' && messages.length > 0 && (
+                <h2 className={styles.contentHeaderTitle}>{chatTitle}</h2>
+              )}
+            </div>
+            <div className={styles.contentHeaderRight}>
+              {panelWidth >= OVERFLOW_THRESHOLD ? (
+                <>
+                  <Tooltip content="New chat">
+                    <IconButton
+                      icon="plus"
+                      size="small"
+                      kind="tertiary"
+                      onClick={handleNewChat}
+                      aria-label="New chat"
+                    />
+                  </Tooltip>
+                  <Tooltip content="Maximize">
+                    <IconButton
+                      icon="container-enlarge"
+                      size="small"
+                      kind="tertiary"
+                      onClick={handleToggleExpand}
+                      aria-label="Maximize"
+                    />
+                  </Tooltip>
+                </>
+              ) : (
+                <Dropdown
+                  items={[
+                    {
+                      label: 'New chat',
+                      icon: <Icon name="plus" size="small" />,
+                      onClick: handleNewChat,
+                    },
+                    {
+                      label: 'Maximize',
+                      icon: <Icon name="container-enlarge" size="small" />,
+                      onClick: handleToggleExpand,
+                    },
+                  ]}
+                  position="bottom"
+                  align="end"
+                >
+                  <IconButton
+                    icon="overflow-horizontal"
+                    size="small"
+                    kind="tertiary"
+                    aria-label="More options"
+                  />
+                </Dropdown>
+              )}
+              <Tooltip content="Close">
+                <IconButton
+                  icon="close"
+                  size="small"
+                  kind="tertiary"
+                  onClick={onClose}
+                  aria-label="Close"
                 />
+              </Tooltip>
+            </div>
+          </div>
 
-                {/* Slash Command Menu - positioned above input */}
-                {showSlashMenu && filteredSlashPrompts.length > 0 && (
-                  <div className={styles.slashMenuWrapper}>
-                    <div className={styles.slashMenu}>
-                      {filteredSlashPrompts.map((prompt, index) => (
-                        <button
-                          key={prompt.id}
-                          type="button"
-                          className={`${styles.slashMenuItem} ${index === slashSelectedIndex ? styles.slashMenuItemSelected : ''}`}
-                          onClick={() => handleSlashSelect(prompt)}
-                          onMouseEnter={() => setSlashSelectedIndex(index)}
-                        >
-                          <span className={styles.slashMenuItemCommand}>/{prompt.id}</span>
-                          <span className={styles.slashMenuItemMeta}>
-                            {prompt.description}
-                            <span className={styles.slashMenuItemDot}>·</span>
-                            {prompt.createdBy}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
+          {/* Content Body - flex row containing chat, sidebar, and doc canvas */}
+          <div className={styles.contentBody}>
+            {/* Chat Area */}
+            <div
+              className={`${styles.chatArea} ${isNarrowMode && isDocumentCanvasOpen ? styles.chatAreaHidden : ''}`}
+            >
+              <div ref={chatWrapperRef} className={contentWrapperClasses}>
+                {/* Chat View */}
+                {currentView === 'chat' && (
+                  <div
+                    key="chat-view"
+                    className={styles.viewTransition}
+                    style={{ display: 'contents' }}
+                  >
+                    <AIChat
+                      key={welcomeKey}
+                      messages={messages}
+                      onSendMessage={handleSendMessage}
+                      isLoading={isLoading}
+                      userName={userName}
+                      assistantName="Docusign AI"
+                      welcomeTitle={
+                        selectedAgreementIds.size > 0
+                          ? 'What would you like to know?'
+                          : 'How can I help you today?'
+                      }
+                      suggestedActions={
+                        selectedAgreementIds.size > 0 ? QUICK_ACTIONS : SUPPORT_ACTIONS
+                      }
+                      suggestedActionsTitle={selectedAgreementIds.size > 0 ? 'Prompts' : 'Actions'}
+                      onSuggestedActionsHeaderClick={
+                        selectedAgreementIds.size > 0 ? handleNavigateToPrompts : undefined
+                      }
+                      suggestedQuestions={
+                        selectedAgreementIds.size > 0 ? undefined : SUPPORT_QUESTIONS
+                      }
+                      suggestedQuestionsTitle="Questions you can ask"
+                      onSuggestionClick={handleSuggestionClick}
+                      placeholder={
+                        selectedAgreementIds.size > 0
+                          ? 'Ask anything about selected agreements...'
+                          : 'Ask a question or search for agreements...'
+                      }
+                      showHeader={false}
+                      onClose={onClose}
+                      onShowHistory={handleToggleHistory}
+                      onNewChat={handleNewChat}
+                      onMaximize={handleToggleExpand}
+                      maxHeight="100%"
+                      className={styles.aiChatContainer}
+                      renderMessage={renderMessage}
+                      contextSource={
+                        agreements.length > 0 && selectedAgreementIds.size > 0
+                          ? {
+                              count: selectedAgreementIds.size,
+                              label: 'agreements',
+                              onClick: handleOpenAgreementsSidebar,
+                              onClear: handleClearAgreements,
+                            }
+                          : undefined
+                      }
+                      showContextAttention={showContextAttention}
+                      showInputAttention={showInputAttention}
+                      inputValue={chatInputValue}
+                      onInputChange={setChatInputValue}
+                      isStreaming={canSkip}
+                      onStop={handleStop}
+                      disableAutoScroll={true}
+                      onInputKeyDown={handleInputKeyDown}
+                    />
+
+                    {/* Slash Command Menu - positioned above input */}
+                    {showSlashMenu && filteredSlashPrompts.length > 0 && (
+                      <div className={styles.slashMenuWrapper}>
+                        <div className={styles.slashMenu}>
+                          {filteredSlashPrompts.map((prompt, index) => (
+                            <button
+                              key={prompt.id}
+                              type="button"
+                              className={`${styles.slashMenuItem} ${index === slashSelectedIndex ? styles.slashMenuItemSelected : ''}`}
+                              onClick={() => handleSlashSelect(prompt)}
+                              onMouseEnter={() => setSlashSelectedIndex(index)}
+                            >
+                              <span className={styles.slashMenuItemCommand}>/{prompt.id}</span>
+                              <span className={styles.slashMenuItemMeta}>
+                                {prompt.description}
+                                <span className={styles.slashMenuItemDot}>·</span>
+                                {prompt.createdBy}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Scroll to bottom button - appears when user scrolls up during streaming */}
+                    {showScrollToBottom && (
+                      <button
+                        type="button"
+                        className={styles.scrollToBottomButton}
+                        onClick={handleScrollToBottomClick}
+                      >
+                        <Icon name="arrow-down" size={14} />
+                        New content
+                      </button>
+                    )}
                   </div>
                 )}
 
-                {/* Scroll to bottom button - appears when user scrolls up during streaming */}
-                {showScrollToBottom && (
-                  <button
-                    type="button"
-                    className={styles.scrollToBottomButton}
-                    onClick={handleScrollToBottomClick}
-                  >
-                    <Icon name="arrow-down" size={14} />
-                    New content
-                  </button>
+                {/* Prompt Library View */}
+                {currentView === 'prompts' && (
+                  <div key="prompts-view" className={styles.viewTransition}>
+                    <PromptLibrary
+                      onSelectPrompt={handleSelectPrompt}
+                      onEditPrompt={handleEditPrompt}
+                      onCreatePrompt={handleCreatePrompt}
+                      userPrompts={userPrompts}
+                    />
+                  </div>
                 )}
-              </>
-            )}
 
-            {/* Prompt Library View */}
-            {currentView === 'prompts' && (
-              <PromptLibrary
-                onSelectPrompt={handleSelectPrompt}
-                onEditPrompt={handleEditPrompt}
-                onCreatePrompt={handleCreatePrompt}
-                userPrompts={userPrompts}
-              />
-            )}
+                {/* Prompt Editor View */}
+                {currentView === 'prompt-edit' && (
+                  <div key="prompt-edit-view" className={styles.viewTransition}>
+                    <PromptEditor
+                      promptId={editingPromptId}
+                      existingPrompt={editingPrompt}
+                      onSave={handleSavePrompt}
+                      onCancel={handleBackFromEditor}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
 
-            {/* Prompt Editor View */}
-            {currentView === 'prompt-edit' && (
-              <PromptEditor
-                promptId={editingPromptId}
-                existingPrompt={editingPrompt}
-                onSave={handleSavePrompt}
-                onCancel={handleBackFromEditor}
-              />
-            )}
+            {/* Agreements Sidebar - Shows loaded agreements in context */}
+            <AgreementsSidebar
+              isOpen={isAgreementsSidebarOpen}
+              onClose={handleCloseAgreementsSidebar}
+              agreements={agreements}
+              onAgreementClick={handleAgreementClick}
+              selectedIds={selectedAgreementIds}
+              onSelectionChange={setSelectedAgreementIds}
+            />
+
+            {/* Document Canvas - Gemini-style split view when citation clicked */}
+            <DocumentCanvas
+              isOpen={isDocumentCanvasOpen}
+              citation={activeCitation}
+              onClose={handleCloseDocumentCanvas}
+              isNarrowMode={isNarrowMode}
+              isLoading={isDocumentLoading}
+            />
           </div>
         </div>
-
-        {/* Agreements Sidebar - Shows loaded agreements in context */}
-        <AgreementsSidebar
-          isOpen={isAgreementsSidebarOpen}
-          onClose={handleCloseAgreementsSidebar}
-          agreements={agreements}
-          onAgreementClick={handleAgreementClick}
-          selectedIds={selectedAgreementIds}
-          onSelectionChange={setSelectedAgreementIds}
-        />
-
-        {/* Document Canvas - Gemini-style split view when citation clicked */}
-        <DocumentCanvas
-          isOpen={isDocumentCanvasOpen}
-          citation={activeCitation}
-          onClose={handleCloseDocumentCanvas}
-          isNarrowMode={isNarrowMode}
-          isLoading={isDocumentLoading}
-        />
       </div>
 
       {/* Share Modal */}

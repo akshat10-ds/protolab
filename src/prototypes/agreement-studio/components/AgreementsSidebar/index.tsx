@@ -6,10 +6,11 @@
  * - Select all/individual agreement checkboxes
  * - Ripple animation on checkbox interaction
  * - Click to preview document
+ * - Pending selection state - only commits on "Chat" button click
  */
 
-import React, { useState, useCallback, useRef } from 'react';
-import { Icon, IconButton, Checkbox } from '@/design-system';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { Icon, IconButton, Checkbox, Button } from '@/design-system';
 import type { Agreement } from '../../data/agreement-studio-types';
 import styles from './AgreementsSidebar.module.css';
 
@@ -20,7 +21,7 @@ export interface AgreementsSidebarProps {
   onAgreementClick: (agreement: Agreement, itemRect: DOMRect | null) => void;
   /** Selected agreement IDs (controlled state from parent) */
   selectedIds: Set<string>;
-  /** Callback when selection changes */
+  /** Callback when selection is confirmed via Chat button */
   onSelectionChange: (selectedIds: Set<string>) => void;
 }
 
@@ -35,7 +36,19 @@ export const AgreementsSidebar: React.FC<AgreementsSidebarProps> = ({
   const itemRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
   const [rippleId, setRippleId] = useState<string | null>(null);
 
-  const allSelected = selectedIds.size === agreements.length;
+  // Pending selection state - only committed when user clicks Chat
+  const [pendingIds, setPendingIds] = useState<Set<string>>(new Set(selectedIds));
+
+  // Sync pending state when sidebar opens or selectedIds changes externally
+  useEffect(() => {
+    if (isOpen) {
+      setPendingIds(new Set(selectedIds));
+    }
+  }, [isOpen, selectedIds]);
+
+  const allSelected = pendingIds.size === agreements.length;
+  const hasChanges =
+    pendingIds.size !== selectedIds.size || ![...pendingIds].every((id) => selectedIds.has(id));
 
   // Trigger ripple animation on a checkbox
   const triggerRipple = useCallback((id: string) => {
@@ -46,26 +59,32 @@ export const AgreementsSidebar: React.FC<AgreementsSidebarProps> = ({
   const handleSelectAll = useCallback(() => {
     triggerRipple('select-all');
     if (allSelected) {
-      onSelectionChange(new Set());
+      setPendingIds(new Set());
     } else {
-      onSelectionChange(new Set(agreements.map((a) => a.id)));
+      setPendingIds(new Set(agreements.map((a) => a.id)));
     }
-  }, [allSelected, agreements, onSelectionChange, triggerRipple]);
+  }, [allSelected, agreements, triggerRipple]);
 
   // Simple toggle function for checkbox onChange
   const toggleItem = useCallback(
     (id: string) => {
       triggerRipple(id);
-      const next = new Set(selectedIds);
+      const next = new Set(pendingIds);
       if (next.has(id)) {
         next.delete(id);
       } else {
         next.add(id);
       }
-      onSelectionChange(next);
+      setPendingIds(next);
     },
-    [selectedIds, onSelectionChange, triggerRipple]
+    [pendingIds, triggerRipple]
   );
+
+  // Commit selection and close sidebar
+  const handleConfirmSelection = useCallback(() => {
+    onSelectionChange(pendingIds);
+    onClose();
+  }, [pendingIds, onSelectionChange, onClose]);
 
   const handleItemClick = useCallback(
     (agreement: Agreement) => {
@@ -126,7 +145,7 @@ export const AgreementsSidebar: React.FC<AgreementsSidebarProps> = ({
         {/* Agreement List */}
         <div className={styles.agreementsSidebarList}>
           {agreements.map((agreement) => {
-            const isSelected = selectedIds.has(agreement.id);
+            const isSelected = pendingIds.has(agreement.id);
             return (
               <button
                 key={agreement.id}
@@ -163,6 +182,19 @@ export const AgreementsSidebar: React.FC<AgreementsSidebarProps> = ({
               </button>
             );
           })}
+        </div>
+
+        {/* Footer with Chat button */}
+        <div className={styles.agreementsSidebarFooter}>
+          <Button
+            variant="brand"
+            size="medium"
+            onClick={handleConfirmSelection}
+            disabled={pendingIds.size === 0}
+            fullWidth
+          >
+            Chat with {pendingIds.size} {pendingIds.size === 1 ? 'agreement' : 'agreements'}
+          </Button>
         </div>
       </div>
     </div>

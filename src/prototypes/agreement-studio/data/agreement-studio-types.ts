@@ -104,6 +104,8 @@ export interface ExtendedSuggestedAction extends SuggestedAction {
   createdBy?: string;
   /** Whether this is a system/built-in prompt from DocuSign */
   isSystem?: boolean;
+  /** Action type for special behaviors (auto-load-renewals, select-source, help) */
+  actionType?: 'auto-load-renewals' | 'select-source' | 'help';
 }
 
 // =============================================================================

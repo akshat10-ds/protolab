@@ -421,26 +421,62 @@
 .contextSourcePill {
   display: flex;
   align-items: center;
-  gap: var(--ink-spacing-50);
-  padding: var(--ink-spacing-100) var(--ink-spacing-150);
   background: var(--ink-neutral-10);
   border: none;
   border-radius: var(--ink-radius-full);
-  cursor: pointer;
   font-family: var(--ink-font-family-default);
   font-size: var(--ink-font-size-xs);
   font-weight: var(--ink-font-weight-medium);
   color: var(--ink-font-color-default);
-  transition:
-    background 150ms ease,
-    box-shadow 300ms ease;
+  overflow: hidden;
+  transition: box-shadow 300ms ease;
 }
 
-.contextSourcePill:hover:not(:disabled) {
+.contextSourcePillMain {
+  display: flex;
+  align-items: center;
+  gap: var(--ink-spacing-50);
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  transition: background 150ms ease;
+}
+
+.contextSourcePillMain:hover:not(:disabled) {
   background: var(--ink-neutral-20);
 }
 
-.contextSourcePill:disabled {
+.contextSourcePillMain:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.contextSourcePillClear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ink-spacing-100) var(--ink-spacing-150);
+  background: transparent;
+  border: none;
+  border-left: 2px solid var(--ink-white-100);
+  cursor: pointer;
+  color: var(--ink-font-color-secondary);
+  transition:
+    background 150ms ease,
+    color 150ms ease;
+}
+
+.contextSourcePillClear:hover:not(:disabled) {
+  background: var(--ink-neutral-20);
+  color: var(--ink-font-color-default);
+}
+
+.contextSourcePillClear:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
