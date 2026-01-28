@@ -3,22 +3,44 @@
  *
  * Full canvas view for documents with Gemini-style layout.
  * Features:
- * - Page thumbnails sidebar
- * - Citation highlighting
+ * - PDF rendering via react-pdf (PDF.js)
+ * - Citation highlight overlay
+ * - Page navigation and zoom controls
  * - Responsive layout (full-width in narrow mode)
- * - Jump to citation functionality
  *
  * This component is a candidate for design system extraction.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 import { IconButton, Tooltip, Skeleton, Input, Divider, ComboButton } from '@/design-system';
 import type { CitationData } from '../../data/agreement-studio-types';
-import { DOCUMENT_PAGES } from '../../data/agreement-studio-data';
 import styles from './DocumentCanvas.module.css';
 
-// Default total pages for the PDF (can be made dynamic later)
-const DEFAULT_TOTAL_PAGES = 1;
+// Set up PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
+// Fake highlight positions for demo (percentage-based for responsiveness)
+// Each citation maps to a specific page and highlight area
+interface HighlightConfig {
+  page: number;
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+}
+
+const DEMO_HIGHLIGHTS: Record<string, HighlightConfig> = {
+  'cit-1': { page: 1, top: 32, left: 8, width: 84, height: 6 },
+  'cit-2': { page: 1, top: 55, left: 8, width: 84, height: 8 },
+  'cit-3': { page: 2, top: 20, left: 8, width: 84, height: 10 },
+  'cit-4': { page: 2, top: 45, left: 8, width: 84, height: 6 },
+  'cit-5': { page: 3, top: 25, left: 8, width: 84, height: 8 },
+  'cit-6': { page: 3, top: 60, left: 8, width: 84, height: 6 },
+  default: { page: 1, top: 40, left: 8, width: 84, height: 8 },
+};
 
 export interface DocumentCanvasProps {
   isOpen: boolean;
@@ -35,23 +57,42 @@ export const DocumentCanvas: React.FC<DocumentCanvasProps> = ({
   isNarrowMode,
   isLoading = false,
 }) => {
-  const pageData = citation ? DOCUMENT_PAGES[citation.id] : null;
   const [selectedPage, setSelectedPage] = useState(1);
   const [zoomLevel, setZoomLevel] = useState(100);
   const [pageInputValue, setPageInputValue] = useState('1');
+  const [numPages, setNumPages] = useState<number | null>(null);
+  const [pdfError, setPdfError] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(600);
 
-  // Reset to citation page when citation changes
+  // Reset page when citation changes - use page from highlight config
   useEffect(() => {
-    if (pageData) {
-      setSelectedPage(pageData.pageNumber);
-      setPageInputValue(String(pageData.pageNumber));
+    if (citation) {
+      const config = DEMO_HIGHLIGHTS[citation.id] || DEMO_HIGHLIGHTS.default;
+      const targetPage = Math.min(config.page, numPages || config.page);
+      setSelectedPage(targetPage);
+      setPageInputValue(String(targetPage));
     }
-  }, [pageData]);
+  }, [citation, numPages]);
 
   // Sync page input with selected page
   useEffect(() => {
     setPageInputValue(String(selectedPage));
   }, [selectedPage]);
+
+  // Track container width for responsive PDF sizing
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width - 64);
+      }
+    });
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [isOpen]);
 
   const handlePageInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPageInputValue(e.target.value);
@@ -59,7 +100,7 @@ export const DocumentCanvas: React.FC<DocumentCanvasProps> = ({
 
   const handlePageInputBlur = () => {
     const page = parseInt(pageInputValue, 10);
-    if (!isNaN(page) && page >= 1 && page <= (totalPages)) {
+    if (!isNaN(page) && page >= 1 && page <= (numPages || 1)) {
       setSelectedPage(page);
     } else {
       setPageInputValue(String(selectedPage));
@@ -80,10 +121,22 @@ export const DocumentCanvas: React.FC<DocumentCanvasProps> = ({
     setZoomLevel((prev) => Math.max(prev - 25, 50));
   };
 
-  // Get total pages (from pageData or default)
-  const totalPages = pageData?.totalPages || DEFAULT_TOTAL_PAGES;
+  const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
+    setPdfError(null);
+  }, []);
 
-  // Wrapper classes for animation and responsive layout
+  const onDocumentLoadError = useCallback((error: Error) => {
+    console.error('PDF load error:', error);
+    setPdfError('Failed to load PDF document');
+  }, []);
+
+  const totalPages = numPages || 1;
+  const pageWidth = Math.min(containerWidth, 800) * (zoomLevel / 100);
+
+  // Get highlight position for current citation
+  const highlight = citation ? DEMO_HIGHLIGHTS[citation.id] || DEMO_HIGHLIGHTS.default : null;
+
   const wrapperClasses = [
     styles.documentCanvasWrapper,
     isOpen ? styles.documentCanvasWrapperOpen : '',
@@ -92,12 +145,10 @@ export const DocumentCanvas: React.FC<DocumentCanvasProps> = ({
     .filter(Boolean)
     .join(' ');
 
-  const canvasClasses = styles.documentCanvas;
-
   return (
     <div className={wrapperClasses}>
-      <div className={canvasClasses}>
-        {/* Canvas Header - Document Navigation */}
+      <div className={styles.documentCanvas}>
+        {/* Canvas Header */}
         <div className={styles.canvasHeader}>
           <div className={styles.canvasHeaderLeft}>
             <Tooltip content="Previous document">
@@ -140,10 +191,9 @@ export const DocumentCanvas: React.FC<DocumentCanvasProps> = ({
           </div>
         </div>
 
-        {/* Secondary Toolbar - Page & Zoom Controls */}
+        {/* Secondary Toolbar */}
         <div className={styles.secondaryToolbar}>
           <div className={styles.toolbarCenter}>
-            {/* Page Navigation */}
             <div className={styles.pageNavGroup}>
               <Input
                 label="Page number"
@@ -172,7 +222,7 @@ export const DocumentCanvas: React.FC<DocumentCanvasProps> = ({
                     icon="chevron-down"
                     size="small"
                     kind="tertiary"
-                    disabled={selectedPage >= (totalPages)}
+                    disabled={selectedPage >= totalPages}
                     onClick={() => setSelectedPage((p) => p + 1)}
                     aria-label="Next page"
                   />
@@ -182,7 +232,6 @@ export const DocumentCanvas: React.FC<DocumentCanvasProps> = ({
 
             <Divider orientation="vertical" className={styles.toolbarDivider} />
 
-            {/* Zoom Controls */}
             <div className={styles.zoomGroup}>
               <Tooltip content="Zoom in">
                 <IconButton
@@ -221,21 +270,58 @@ export const DocumentCanvas: React.FC<DocumentCanvasProps> = ({
         </div>
 
         {/* Canvas Body - PDF Viewer */}
-        <div className={styles.canvasBody}>
+        <div className={styles.canvasBody} ref={containerRef}>
           <div className={styles.pdfContainer}>
             {isLoading ? (
               <div className={styles.skeletonDocument}>
                 <Skeleton variant="rectangular" className={styles.skeletonPdf} />
               </div>
+            ) : pdfError ? (
+              <div className={styles.pdfError}>
+                <p>{pdfError}</p>
+                <a href="/documents/salesforce-msa-section-24.pdf" download>
+                  Download PDF instead
+                </a>
+              </div>
             ) : (
-              <object
-                data={`/documents/salesforce-msa-section-24.pdf#toolbar=0&navpanes=0&page=${selectedPage}`}
-                type="application/pdf"
-                className={styles.pdfViewer}
-                aria-label={citation?.documentTitle || 'Document'}
-              >
-                <p>Unable to display PDF. <a href="/documents/salesforce-msa-section-24.pdf">Download</a> instead.</p>
-              </object>
+              <div className={styles.pdfWrapper}>
+                <Document
+                  file="/documents/salesforce-msa-section-24.pdf"
+                  onLoadSuccess={onDocumentLoadSuccess}
+                  onLoadError={onDocumentLoadError}
+                  loading={
+                    <div className={styles.skeletonDocument}>
+                      <Skeleton variant="rectangular" className={styles.skeletonPdf} />
+                    </div>
+                  }
+                  className={styles.pdfDocument}
+                >
+                  <Page
+                    pageNumber={selectedPage}
+                    width={pageWidth}
+                    renderTextLayer={true}
+                    renderAnnotationLayer={true}
+                    className={styles.pdfPage}
+                    loading={<Skeleton variant="rectangular" className={styles.skeletonPdf} />}
+                  />
+                </Document>
+                {/* Highlight overlay positioned over PDF using calculated pixels */}
+                {(() => {
+                  const pageHeight = pageWidth * 1.414; // A4 aspect ratio
+                  const h = highlight || DEMO_HIGHLIGHTS.default;
+                  return (
+                    <div
+                      className={styles.highlightOverlay}
+                      style={{
+                        top: (h.top / 100) * pageHeight,
+                        left: (h.left / 100) * pageWidth,
+                        width: (h.width / 100) * pageWidth,
+                        height: (h.height / 100) * pageHeight,
+                      }}
+                    />
+                  );
+                })()}
+              </div>
             )}
           </div>
         </div>

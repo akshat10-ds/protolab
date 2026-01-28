@@ -825,7 +825,48 @@ export const AIPanel: React.FC<AIPanelProps> = ({
         );
       }
 
-      const markdownResponse = markdownKey ? MARKDOWN_RESPONSES[markdownKey] : undefined;
+      let markdownResponse = markdownKey ? MARKDOWN_RESPONSES[markdownKey] : undefined;
+
+      // Handle /email-report command with recipient parameter
+      // Format: /email-report Sarah Chen, VP Procurement
+      if (contentLower.startsWith('/email-report') && !markdownResponse) {
+        // The key lookup may have failed because the full command includes the recipient
+        // Try to get the base email-report response
+        markdownResponse = MARKDOWN_RESPONSES['/email-report'];
+        markdownKey = '/email-report';
+      }
+
+      // If we have an email-report response, parse recipient info and replace placeholders
+      if (markdownKey === '/email-report' && markdownResponse) {
+        const recipientPart = content.replace(/^\/email-report\s*/i, '').trim();
+        let recipientName = 'Stakeholder';
+        let recipientTitle = 'Team Lead';
+        let recipientFirst = 'Team';
+
+        if (recipientPart) {
+          // Parse "Sarah Chen, VP Procurement" format
+          const parts = recipientPart.split(',').map((p) => p.trim());
+          if (parts[0]) {
+            recipientName = parts[0];
+            recipientFirst = parts[0].split(' ')[0]; // First word is first name
+          }
+          if (parts[1]) {
+            recipientTitle = parts[1];
+          }
+        }
+
+        // Replace placeholders in content
+        const updatedContent = markdownResponse.content
+          .replace(/\{\{RECIPIENT_NAME\}\}/g, recipientName)
+          .replace(/\{\{RECIPIENT_TITLE\}\}/g, recipientTitle)
+          .replace(/\{\{RECIPIENT_FIRST\}\}/g, recipientFirst);
+
+        // Create a new response object with updated content
+        markdownResponse = {
+          ...markdownResponse,
+          content: updatedContent,
+        };
+      }
 
       // Check for matrix responses (Turn 4 of risk assessment journey)
       const matrixKey = Object.keys(MATRIX_RESPONSES).find(

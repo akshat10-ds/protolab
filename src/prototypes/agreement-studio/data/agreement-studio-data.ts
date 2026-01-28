@@ -360,6 +360,22 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
       documentsToAnalyze: 12,
     },
   },
+  {
+    label: 'Email Report',
+    description: 'Generate a stakeholder email summarizing the analysis',
+    icon: 'envelope',
+    createdBy: 'Docusign',
+    isSystem: true,
+    expansion: {
+      steps: [
+        'ROLE: Executive Communications Specialist',
+        'TASK: Generate a professional email summarizing the contract analysis',
+        'OBJECTIVE: Create a ready-to-send email for stakeholders',
+      ],
+      estimatedTime: '~10 seconds',
+      documentsToAnalyze: 0,
+    },
+  },
 ];
 
 export const SUGGESTED_QUESTIONS = [
@@ -1984,6 +2000,76 @@ These represent significant risk as there's no ceiling on potential damages.
           'Each party indemnifies the other for IP infringement claims only. General indemnification is limited to direct damages up to the contract value.',
       },
     },
+  },
+  '/email-report': {
+    // Note: {{RECIPIENT_NAME}}, {{RECIPIENT_TITLE}}, and {{RECIPIENT_FIRST}} are replaced at runtime
+    content: `## 📧 Email Draft
+
+---
+
+**To:** {{RECIPIENT_NAME}}, {{RECIPIENT_TITLE}}
+**Cc:** Legal Team, Finance
+**Subject:** Acme Corp Contract Analysis - Prevailing Terms Summary
+
+---
+
+Hi {{RECIPIENT_FIRST}},
+
+I've completed the analysis of our Acme Corp agreements. Here are the key findings:
+
+### Executive Summary
+
+Our relationship with Acme is governed by 15 documents with the MSA as the foundational agreement. Three amendments have modified key terms, and the Order of Precedence (MSA §2.1) establishes that amendments supersede the base agreement.
+
+### Key Prevailing Terms
+
+| Category | Current Term | Source |
+|----------|--------------|--------|
+| Unit Price | $150/unit | Order Form 2024 §3.1 |
+| Annual Minimum | $500,000 | MSA §4.2 |
+| Liability Cap | $2M aggregate | MSA §8.1 |
+| SLA Uptime | 99.9% | Amendment #3 §2 |
+| Support | 24x7 | Amendment #3 §3 |
+| Termination Notice | 120 days | Amendment #2 §4 |
+
+### Conflicts Identified
+
+1. **IP Ownership** - MSA assigns to Provider, but SOW §5.3 assigns custom work to us. *Resolution: SOW prevails per Order of Precedence.*
+
+2. **Termination Period** - MSA says 90 days, Amendment #2 changed to 120 days. *Resolution: Amendment prevails—120 days required.*
+
+### Recommended Actions
+
+- Review IP ownership clause before next SOW
+- Calendar the 120-day termination notice window
+- Confirm SLA credits are being applied per Amendment #3
+
+Let me know if you need any additional details or want to schedule a review meeting.
+
+Best regards,
+Akshat
+
+---
+
+*Generated from analysis of 15 Acme Corp agreements with Docusign*`,
+    thinkingSteps: [
+      {
+        id: '1',
+        action: 'Reviewing previous analysis results',
+        result: 'Found prevailing terms summary from earlier in this conversation.',
+      },
+      {
+        id: '2',
+        action: 'Formatting email for executive audience',
+        result: 'Structuring key findings with actionable recommendations.',
+      },
+      {
+        id: '3',
+        action: 'Adding context and citations',
+        result: 'Email draft ready for review.',
+      },
+    ],
+    citations: {},
   },
 };
 
