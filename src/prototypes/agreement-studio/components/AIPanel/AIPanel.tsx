@@ -827,13 +827,8 @@ export const AIPanel: React.FC<AIPanelProps> = ({
       ].includes(contentLower);
 
       if (isAffirmative && lastResponseKey) {
-        // Advance to next step based on last response
-        // Step 1 → Step 2: After analysis, show calculation
-        if (lastResponseKey === 'Calculate Price Adjustment') {
-          markdownKey = 'yes'; // Show calculation
-        }
-        // Step 2 → Step 3: After calculation (any variant), show draft
-        else if (
+        // 2-step flow: After calculation, show draft
+        if (
           lastResponseKey === 'yes' ||
           lastResponseKey === 'sure' ||
           lastResponseKey === 'search' ||
@@ -852,6 +847,11 @@ export const AIPanel: React.FC<AIPanelProps> = ({
             content.startsWith(`${key}:`) ||
             content.includes(`[Action: ${key}]`)
         );
+      }
+
+      // For "Calculate Price Adjustment", skip analysis and show calculation directly (2-step flow)
+      if (markdownKey === 'Calculate Price Adjustment') {
+        markdownKey = 'yes'; // Show calculation directly
       }
 
       let markdownResponse = markdownKey ? MARKDOWN_RESPONSES[markdownKey] : undefined;
