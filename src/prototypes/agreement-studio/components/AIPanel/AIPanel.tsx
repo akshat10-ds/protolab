@@ -828,18 +828,19 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
       if (isAffirmative && lastResponseKey) {
         // Advance to next step based on last response
+        // Step 1 → Step 2: After analysis, show calculation
         if (lastResponseKey === 'Calculate Price Adjustment') {
-          markdownKey = 'yes'; // Show pricing history
-        } else if (lastResponseKey === 'yes' || lastResponseKey === 'Show pricing history') {
-          markdownKey = 'sure'; // Show calculation
-        } else if (
+          markdownKey = 'yes'; // Show calculation
+        }
+        // Step 2 → Step 3: After calculation (any variant), show draft
+        else if (
+          lastResponseKey === 'yes' ||
           lastResponseKey === 'sure' ||
           lastResponseKey === 'search' ||
-          lastResponseKey === 'calculate'
+          lastResponseKey === 'calculate' ||
+          lastResponseKey === 'Show pricing history'
         ) {
-          markdownKey = 'draft'; // Show draft amendment
-        } else if (lastResponseKey === 'draft') {
-          markdownKey = 'create ticket'; // Create ticket after draft
+          markdownKey = 'draft'; // Show draft amendment + ticket
         }
       }
 
