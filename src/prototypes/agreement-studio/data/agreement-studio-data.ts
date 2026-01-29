@@ -1746,9 +1746,8 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
   },
   // Step 3: Draft Amendment + Create Ticket (combined)
   draft: {
-    content: `I've prepared a draft amendment and created a ticket to track this request.
-
-## Ticket Created
+    content: `I've prepared a draft amendment and created a ticket to track this request.`,
+    afterContent: `## Ticket Created
 
 **PROC-2026-0142** — Acme Corp Annual Price Adjustment (2026)
 

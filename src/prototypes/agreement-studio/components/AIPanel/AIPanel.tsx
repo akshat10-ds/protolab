@@ -1486,7 +1486,16 @@ export const AIPanel: React.FC<AIPanelProps> = ({
                   }}
                 />
               )}
-              {/* Custom action button - shown after main content/table */}
+              {/* After content - shown after document preview */}
+              {!isMessageStreaming && markdownData.afterContent && (
+                <MarkdownMessage
+                  content={markdownData.afterContent}
+                  citations={{}}
+                  onCitationClick={handleCitationClick}
+                  hideCopyButton={!!markdownData.customAction}
+                />
+              )}
+              {/* Custom action button - shown after afterContent */}
               {!isMessageStreaming && markdownData.customAction && (
                 <div className={styles.customActionWrapper}>
                   <Button
@@ -1516,14 +1525,6 @@ export const AIPanel: React.FC<AIPanelProps> = ({
                     {markdownData.customAction.label}
                   </Button>
                 </div>
-              )}
-              {/* After content - shown after custom action */}
-              {!isMessageStreaming && markdownData.afterContent && (
-                <MarkdownMessage
-                  content={markdownData.afterContent}
-                  citations={{}}
-                  onCitationClick={handleCitationClick}
-                />
               )}
               {!isMessageStreaming && feedbackButtons}
             </div>
