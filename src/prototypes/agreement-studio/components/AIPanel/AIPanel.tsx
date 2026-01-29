@@ -817,6 +817,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
         'go ahead',
         'search',
         'calculate',
+        'draft',
       ].includes(contentLower);
 
       if (isAffirmative && lastResponseKey) {
