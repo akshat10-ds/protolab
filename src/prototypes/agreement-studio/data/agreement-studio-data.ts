@@ -1744,33 +1744,44 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
       },
     },
   },
-  // Step 3: Draft Amendment - triggered after calculation results
+  // Step 3: Draft Amendment + Create Ticket (combined)
   draft: {
-    content: `I've prepared a draft amendment incorporating the 2026 pricing adjustment. The document includes all required terms based on your existing agreements.`,
+    content: `I've prepared a draft amendment and created a ticket to track this request.
+
+## Ticket Created
+
+**PROC-2026-0142** — Acme Corp Annual Price Adjustment (2026)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Open |
+| **Priority** | Medium |
+| **Assignee** | Akshat Mishra |
+| **Due Date** | January 10, 2026 |
+| **Related Agreement** | MSA-2022-001 |`,
     thinkingSteps: [
       {
         id: '1',
         action: 'Loading Amendment template',
         result:
-          'Using the Acme Corp standard amendment format, which includes required sections for pricing, effective dates, and signature blocks.',
+          'Using the Acme Corp standard amendment format with sections for pricing, effective dates, and signature blocks.',
       },
       {
         id: '2',
-        action: 'Linking to parent agreement',
+        action: 'Applying pricing terms',
         result:
-          'Established reference to Master Services Agreement MSA-2022-001 and all prior amendments to maintain the amendment chain.',
+          'Populated pricing section with new unit price of $1.234 (2.8% increase per PPI methodology) effective January 15, 2026.',
       },
       {
         id: '3',
-        action: 'Applying pricing terms',
-        result:
-          'Populated pricing section with new unit price of $1.234 (2.8% increase per PPI methodology) effective January 1, 2026.',
+        action: 'Generating PDF preview',
+        result: 'Amendment #4 is ready for review and can be sent for signature once approved.',
       },
       {
         id: '4',
-        action: 'Generating PDF preview',
+        action: 'Creating ticket in Agreement Desk',
         result:
-          'Amendment #4 is ready for review. The document follows your standard format and can be sent for signature once approved.',
+          'Generated ticket PROC-2026-0142 with due date January 10, 2026. Assigned to Akshat Mishra.',
       },
     ],
     citations: {},
@@ -1786,105 +1797,6 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
       ],
       documentId: 'draft-amendment-4',
     },
-    afterContent: `*Would you like me to create a ticket to track this price adjustment request?*`,
-  },
-
-  // Step 5: Create Ticket - triggered when user confirms ticket creation
-  'create ticket': {
-    content: `Done! I've created a ticket to track this price adjustment request.
-
-## Ticket Created
-
-**PROC-2026-0142** — Acme Corp Annual Price Adjustment (2026)
-
-| Field | Value |
-|-------|-------|
-| **Status** | Open |
-| **Priority** | Medium |
-| **Assignee** | Akshat Mishra |
-| **Due Date** | January 10, 2026 |
-| **Related Agreement** | MSA-2022-001 |`,
-    afterContent: `### Description
-Annual price adjustment for Acme Corp per Amendment #2 §4.1. New unit price of $1.234/unit (2.8% increase) effective January 15, 2026. Draft amendment prepared and ready for review.
-
-### Attachments
-- Amendment #4 - Price Adjustment (2026) [Draft]
-- Price Calculation Worksheet`,
-    thinkingSteps: [
-      {
-        id: '1',
-        action: 'Creating ticket in Agreement Desk',
-        result: 'Generated ticket ID PROC-2026-0142 with standard Agreement Desk workflow.',
-      },
-      {
-        id: '2',
-        action: 'Linking related documents',
-        result: 'Attached draft Amendment #4 and price calculation details to the ticket.',
-      },
-      {
-        id: '3',
-        action: 'Setting due date',
-        result:
-          'Due date set to January 10, 2026 (5 days before effective date) to allow time for signatures.',
-      },
-      {
-        id: '4',
-        action: 'Assigning ticket',
-        result: 'Assigned to Akshat Mishra based on agreement ownership in the system.',
-      },
-    ],
-    citations: {},
-    customAction: {
-      label: 'Open Ticket',
-      icon: 'arrow-external',
-    },
-  },
-
-  // Alias for "yes" response to ticket creation
-  'yes create ticket': {
-    content: `Done! I've created a ticket to track this price adjustment request.
-
-## Ticket Created
-
-**PROC-2026-0142** — Acme Corp Annual Price Adjustment (2026)
-
-| Field | Value |
-|-------|-------|
-| **Status** | Open |
-| **Priority** | Medium |
-| **Assignee** | Akshat Mishra |
-| **Due Date** | January 10, 2026 |
-| **Related Agreement** | MSA-2022-001 |`,
-    afterContent: `### Description
-Annual price adjustment for Acme Corp per Amendment #2 §4.1. New unit price of $1.234/unit (2.8% increase) effective January 15, 2026. Draft amendment prepared and ready for review.
-
-### Attachments
-- Amendment #4 - Price Adjustment (2026) [Draft]
-- Price Calculation Worksheet`,
-    thinkingSteps: [
-      {
-        id: '1',
-        action: 'Creating ticket in Agreement Desk',
-        result: 'Generated ticket ID PROC-2026-0142 with standard Agreement Desk workflow.',
-      },
-      {
-        id: '2',
-        action: 'Linking related documents',
-        result: 'Attached draft Amendment #4 and price calculation details to the ticket.',
-      },
-      {
-        id: '3',
-        action: 'Setting due date',
-        result:
-          'Due date set to January 10, 2026 (5 days before effective date) to allow time for signatures.',
-      },
-      {
-        id: '4',
-        action: 'Assigning ticket',
-        result: 'Assigned to Akshat Mishra based on agreement ownership in the system.',
-      },
-    ],
-    citations: {},
     customAction: {
       label: 'Open Ticket',
       icon: 'arrow-external',
