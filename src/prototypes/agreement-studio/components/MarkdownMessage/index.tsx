@@ -78,6 +78,7 @@ const CitationWithTooltip: React.FC<CitationWithTooltipProps> = ({
               : citation.excerpt}
             "
           </span>
+          {citation.url && <span className={styles.citationTooltipUrl}>{citation.url}</span>}
         </span>,
         document.body
       )

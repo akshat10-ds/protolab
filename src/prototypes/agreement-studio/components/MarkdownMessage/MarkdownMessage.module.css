@@ -241,3 +241,11 @@
   line-height: 1.5;
   font-style: italic;
 }
+
+.citationTooltipUrl {
+  display: block;
+  font-size: var(--ink-font-size-caption);
+  color: var(--ink-color-blue-500);
+  margin-top: var(--ink-spacing-100);
+  word-break: break-all;
+}
