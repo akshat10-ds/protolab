@@ -588,6 +588,12 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
   const handleCitationClick = useCallback(
     (citation: CitationData) => {
+      // For external URLs, open in new tab instead of document canvas
+      if (citation.url) {
+        window.open(citation.url, '_blank', 'noopener,noreferrer');
+        return;
+      }
+
       // Save scroll position before opening document canvas
       if (chatWrapperRef.current) {
         const scrollContainer = chatWrapperRef.current.querySelector(

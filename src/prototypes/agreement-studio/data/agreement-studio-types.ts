@@ -39,6 +39,8 @@ export interface CitationData {
   documentTitle: string;
   section: string;
   excerpt: string;
+  /** Optional URL for external citations - opens in new tab instead of document canvas */
+  url?: string;
 }
 
 export interface RichMessageData {

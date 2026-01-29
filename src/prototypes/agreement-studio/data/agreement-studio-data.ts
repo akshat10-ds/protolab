@@ -1585,7 +1585,8 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
         documentTitle: 'Bureau of Labor Statistics',
         section: 'Producer Price Index — December 2025',
         excerpt:
-          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025. Source: bls.gov/ppi',
+          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025.',
+        url: 'https://www.bls.gov/ppi/',
       },
     },
   },
@@ -1639,7 +1640,8 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
         documentTitle: 'Bureau of Labor Statistics',
         section: 'Producer Price Index — December 2025',
         excerpt:
-          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025. Source: bls.gov/ppi',
+          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025.',
+        url: 'https://www.bls.gov/ppi/',
       },
     },
   },
@@ -1692,7 +1694,8 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
         documentTitle: 'Bureau of Labor Statistics',
         section: 'Producer Price Index — December 2025',
         excerpt:
-          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025. Source: bls.gov/ppi',
+          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025.',
+        url: 'https://www.bls.gov/ppi/',
       },
     },
   },
@@ -1772,7 +1775,8 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
         documentTitle: 'Bureau of Labor Statistics',
         section: 'Producer Price Index — December 2025',
         excerpt:
-          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025. Source: bls.gov/ppi',
+          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025.',
+        url: 'https://www.bls.gov/ppi/',
       },
     },
   },
