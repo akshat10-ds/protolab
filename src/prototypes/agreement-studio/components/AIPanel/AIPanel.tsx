@@ -827,12 +827,12 @@ export const AIPanel: React.FC<AIPanelProps> = ({
       ].includes(contentLower);
 
       if (isAffirmative && lastResponseKey) {
-        // 3-step flow for Calculate Price Adjustment scenario
-        // Step 1 → Step 2: After analysis, show BLS calculation
+        // 3-step flow: Pricing History → BLS Calculation → Draft
+        // Step 1 → Step 2: After pricing history, show BLS calculation
         if (lastResponseKey === 'Calculate Price Adjustment') {
           markdownKey = 'yes'; // Show BLS calculation
         }
-        // Step 2 → Step 3: After calculation, show draft + ticket
+        // Step 2 → Step 3: After BLS calculation, show draft + ticket
         else if (
           lastResponseKey === 'yes' ||
           lastResponseKey === 'sure' ||
