@@ -1515,7 +1515,7 @@ Per Amendment 2, price adjustments are calculated as the **minimum** of:
 
 *Based on current economic indices (as of January 2026)*
 
-I found the latest rates from the Bureau of Labor Statistics:
+I found the latest rates from the [Bureau of Labor Statistics]⁸:
 - **CPI-U Annual Change:** 3.2%
 - **BLS Producer Price Index:** 2.8%
 - **Fixed Tariff Cap:** 5.0% (per Amendment 2)
@@ -1578,6 +1578,14 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
         section: '§4.1 Price Adjustments',
         excerpt:
           'Annual price adjustments shall be calculated as the lesser of: (i) the annual percentage change in the Consumer Price Index for All Urban Consumers (CPI-U), (ii) five percent (5%), or (iii) the annual percentage change in the Bureau of Labor Statistics Producer Price Index.',
+      },
+      '8': {
+        id: 'cit-bls-1',
+        documentId: 'bls-ppi-dec-2025',
+        documentTitle: 'Bureau of Labor Statistics',
+        section: 'Producer Price Index — December 2025',
+        excerpt:
+          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025. Source: bls.gov/ppi',
       },
     },
   },
@@ -1587,7 +1595,7 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
 
 *Based on current economic indices (as of January 2026)*
 
-I found the latest rates from the Bureau of Labor Statistics:
+I found the latest rates from the [Bureau of Labor Statistics]⁸:
 - **CPI-U Annual Change:** 3.2%
 - **BLS Producer Price Index:** 2.8%
 - **Fixed Tariff Cap:** 5.0% (per Amendment 2)
@@ -1625,6 +1633,14 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
         excerpt:
           'Annual price adjustments shall be calculated as the lesser of: (i) the annual percentage change in the Consumer Price Index for All Urban Consumers (CPI-U), (ii) five percent (5%), or (iii) the annual percentage change in the Bureau of Labor Statistics Producer Price Index.',
       },
+      '8': {
+        id: 'cit-bls-1',
+        documentId: 'bls-ppi-dec-2025',
+        documentTitle: 'Bureau of Labor Statistics',
+        section: 'Producer Price Index — December 2025',
+        excerpt:
+          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025. Source: bls.gov/ppi',
+      },
     },
   },
   calculate: {
@@ -1632,7 +1648,7 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
 
 *Based on current economic indices (as of January 2026)*
 
-I found the latest rates from the Bureau of Labor Statistics:
+I found the latest rates from the [Bureau of Labor Statistics]⁸:
 - **CPI-U Annual Change:** 3.2%
 - **BLS Producer Price Index:** 2.8%
 - **Fixed Tariff Cap:** 5.0% (per Amendment 2)
@@ -1669,6 +1685,14 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
         section: '§4.1 Price Adjustments',
         excerpt:
           'Annual price adjustments shall be calculated as the lesser of: (i) the annual percentage change in the Consumer Price Index for All Urban Consumers (CPI-U), (ii) five percent (5%), or (iii) the annual percentage change in the Bureau of Labor Statistics Producer Price Index.',
+      },
+      '8': {
+        id: 'cit-bls-1',
+        documentId: 'bls-ppi-dec-2025',
+        documentTitle: 'Bureau of Labor Statistics',
+        section: 'Producer Price Index — December 2025',
+        excerpt:
+          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025. Source: bls.gov/ppi',
       },
     },
   },
@@ -1678,7 +1702,7 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
 
 *Based on current economic indices (as of January 2026)*
 
-I found the latest rates from the Bureau of Labor Statistics:
+I found the latest rates from the [Bureau of Labor Statistics]⁸:
 - **CPI-U Annual Change:** 3.2%
 - **BLS Producer Price Index:** 2.8%
 - **Fixed Tariff Cap:** 5.0% (per Amendment 2)
@@ -1741,6 +1765,14 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
         section: '§4.1 Price Adjustments',
         excerpt:
           'Annual price adjustments shall be calculated as the lesser of: (i) the annual percentage change in the Consumer Price Index for All Urban Consumers (CPI-U), (ii) five percent (5%), or (iii) the annual percentage change in the Bureau of Labor Statistics Producer Price Index.',
+      },
+      '8': {
+        id: 'cit-bls-1',
+        documentId: 'bls-ppi-dec-2025',
+        documentTitle: 'Bureau of Labor Statistics',
+        section: 'Producer Price Index — December 2025',
+        excerpt:
+          'The Producer Price Index for final demand increased 2.8 percent for the 12 months ended December 2025. Source: bls.gov/ppi',
       },
     },
   },
