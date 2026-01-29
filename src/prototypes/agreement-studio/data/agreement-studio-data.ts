@@ -1437,9 +1437,9 @@ Per Amendment 2, price adjustments are calculated as the **minimum** of:
 
 | Order Form | Year | Unit Price | Volume | Total Value |
 |------------|------|------------|--------|-------------|
-| [OF-2022]³ | 2022 | $1.00 | 1.2M units | $1,200,000 |
-| [OF-2023]⁴ | 2023 | $1.10 | 1.36M units | $1,500,000 |
-| [OF-2024]⁵ | 2024 | $1.20 | 1.5M units | $1,800,000 |
+| [OF-2023]³ | 2023 | $1.00 | 1.2M units | $1,200,000 |
+| [OF-2024]⁴ | 2024 | $1.10 | 1.36M units | $1,500,000 |
+| [OF-2025]⁵ | 2025 | $1.20 | 1.5M units | $1,800,000 |
 
 **Current Base Price:** $1.20/unit • **3-Year Growth:** +20% ($1.00 → $1.20)
 
@@ -1451,7 +1451,7 @@ Per Amendment 2, price adjustments are calculated as the **minimum** of:
         id: '1',
         action: 'Scanning 15 Acme Corp agreements for pricing clauses',
         result:
-          'Found 4 documents with pricing terms: Master Services Agreement, Amendment #2, and Order Forms from 2022-2024.',
+          'Found 4 documents with pricing terms: Master Services Agreement, Amendment #2, and Order Forms from 2023-2025.',
       },
       {
         id: '2',
@@ -1463,7 +1463,7 @@ Per Amendment 2, price adjustments are calculated as the **minimum** of:
         id: '3',
         action: 'Extracting pricing history from Order Forms',
         result:
-          'Compiled 3-year pricing trend: $1.00 (2022) → $1.10 (2023) → $1.20 (2024). Current rate is $1.20/unit with 1.5M annual volume.',
+          'Compiled 3-year pricing trend: $1.00 (2023) → $1.10 (2024) → $1.20 (2025). Current rate is $1.20/unit with 1.5M annual volume.',
       },
     ],
     citations: {
@@ -1486,26 +1486,26 @@ Per Amendment 2, price adjustments are calculated as the **minimum** of:
       '3': {
         id: 'cit-ph-1',
         documentId: '13',
-        documentTitle: 'Acme Corp - Order Form 2022',
+        documentTitle: 'Acme Corp - Order Form 2023',
         section: '§3.1 Unit Pricing',
         excerpt:
-          'Unit price for Services shall be $1.00 per unit for the 2022 contract year. Customer commits to ordering a minimum of 1,200,000 units.',
+          'Unit price for Services shall be $1.00 per unit for the 2023 contract year. Customer commits to ordering a minimum of 1,200,000 units.',
       },
       '4': {
         id: 'cit-ph-2',
         documentId: '9',
-        documentTitle: 'Acme Corp - Order Form 2023',
+        documentTitle: 'Acme Corp - Order Form 2024',
         section: '§3.1 Unit Pricing',
         excerpt:
-          'Unit price for Services shall be $1.10 per unit for the 2023 contract year. Customer commits to ordering a minimum of 1,360,000 units.',
+          'Unit price for Services shall be $1.10 per unit for the 2024 contract year. Customer commits to ordering a minimum of 1,360,000 units.',
       },
       '5': {
         id: 'cit-ph-3',
         documentId: '2',
-        documentTitle: 'Acme Corp - Order Form 2024',
+        documentTitle: 'Acme Corp - Order Form 2025',
         section: '§3.1 Unit Pricing',
         excerpt:
-          'Unit price for Services shall be $1.20 per unit for the 2024 contract year. Customer commits to ordering a minimum of 1,500,000 units.',
+          'Unit price for Services shall be $1.20 per unit for the 2025 contract year. Customer commits to ordering a minimum of 1,500,000 units.',
       },
     },
   },
