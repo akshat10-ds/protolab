@@ -1416,7 +1416,7 @@ export const MARKDOWN_RESPONSES: Record<string, MarkdownResponseData> = {
     },
   },
   'Calculate Price Adjustment': {
-    content: `## Acme Corp - Renewal Summary
+    content: `## Acme Corp - Renewal Pricing Analysis
 
 *Analysis of 12 agreements for pricing and renewal terms*
 
@@ -1424,7 +1424,6 @@ export const MARKDOWN_RESPONSES: Record<string, MarkdownResponseData> = {
 
 - **Price Increase Provisions:** Amendment 2 §4.1 establishes a "minimum of three indices" methodology [¹]
 - **Renewal Dates:** Auto-renewal on January 15 annually per MSA §11.2 [²]
-- **Current Base Price:** $1.20/unit per Order Form #4 §3.1 [³]
 - **Volume Commitment:** 1,500,000 units annually
 
 ### Pricing Methodology
@@ -1434,33 +1433,37 @@ Per Amendment 2, price adjustments are calculated as the **minimum** of:
 2. 5% fixed tariff
 3. BLS Producer Price Index
 
+### Pricing History
+
+| Order Form | Year | Unit Price | Volume | Total Value |
+|------------|------|------------|--------|-------------|
+| [OF-2022]³ | 2022 | $1.00 | 1.2M units | $1,200,000 |
+| [OF-2023]⁴ | 2023 | $1.10 | 1.36M units | $1,500,000 |
+| [OF-2024]⁵ | 2024 | $1.20 | 1.5M units | $1,800,000 |
+
+**Current Base Price:** $1.20/unit • **3-Year Growth:** +20% ($1.00 → $1.20)
+
 ---
 
-*Want me to show the pricing history and calculate the adjustment for your upcoming renewal?*`,
+*Would you like me to fetch the current CPI-U and BLS Producer Price Index rates to calculate the 2026 adjustment?*`,
     thinkingSteps: [
       {
         id: '1',
         action: 'Scanning 15 Acme Corp agreements for pricing clauses',
         result:
-          'I found 4 documents containing pricing-related terms: the Master Services Agreement, Amendment #2, and Order Forms from 2023 and 2024.',
+          'Found 4 documents with pricing terms: Master Services Agreement, Amendment #2, and Order Forms from 2022-2024.',
       },
       {
         id: '2',
-        action: 'Reading MSA-2022-001 §11 Pricing',
-        result:
-          'The MSA establishes base pricing terms but defers adjustment methodology to Amendment #2, which governs all annual price changes.',
-      },
-      {
-        id: '3',
         action: 'Checking Amendment #2 §4.1',
         result:
           'This section specifies a "minimum of three indices" formula—the adjustment must be the lesser of CPI-U, a 5% cap, or the BLS Producer Price Index.',
       },
       {
-        id: '4',
-        action: 'Extracting current rate from Order Form 2024',
+        id: '3',
+        action: 'Extracting pricing history from Order Forms',
         result:
-          'The current unit price is $1.20, established in January 2024 with an annual volume of 1.5M units.',
+          'Compiled 3-year pricing trend: $1.00 (2022) → $1.10 (2023) → $1.20 (2024). Current rate is $1.20/unit with 1.5M annual volume.',
       },
     ],
     citations: {
@@ -1481,36 +1484,6 @@ Per Amendment 2, price adjustments are calculated as the **minimum** of:
           'This Agreement shall automatically renew on January 15 of each year unless terminated with 90 days written notice.',
       },
       '3': {
-        id: 'cit-pa-3',
-        documentId: '2',
-        documentTitle: 'Acme Corp - Order Form 2024',
-        section: '§3.1 Unit Pricing',
-        excerpt: 'Unit price for Services shall be $1.20 per unit for the 2024 contract year.',
-      },
-    },
-  },
-  'Show pricing history': {
-    content: `## Pricing History
-
-*Extracted from Order Forms 2022-2024*
-
-| Order Form | Year | Unit Price | Volume | Total Value |
-|------------|------|------------|--------|-------------|
-| [OF-2022]⁴ | 2022 | $1.00 | 1.2M units | $1,200,000 |
-| [OF-2023]⁵ | 2023 | $1.10 | 1.36M units | $1,500,000 |
-| [OF-2024]⁶ | 2024 | $1.20 | 1.5M units | $1,800,000 |
-
-### Summary
-
-- **Current Base Price:** $1.20/unit
-- **3-Year Growth:** +20% ($1.00 → $1.20)
-- **Average Annual Increase:** 6.7%
-
----
-
-*I have the base price and tariff rate from your agreements. To calculate the 2025 price, I need the current CPI-U and BLS Producer Price Index rates. Would you like me to search the web for these, or do you have them available?*`,
-    citations: {
-      '4': {
         id: 'cit-ph-1',
         documentId: '13',
         documentTitle: 'Acme Corp - Order Form 2022',
@@ -1518,81 +1491,7 @@ Per Amendment 2, price adjustments are calculated as the **minimum** of:
         excerpt:
           'Unit price for Services shall be $1.00 per unit for the 2022 contract year. Customer commits to ordering a minimum of 1,200,000 units.',
       },
-      '5': {
-        id: 'cit-ph-2',
-        documentId: '9',
-        documentTitle: 'Acme Corp - Order Form 2023',
-        section: '§3.1 Unit Pricing',
-        excerpt:
-          'Unit price for Services shall be $1.10 per unit for the 2023 contract year. Customer commits to ordering a minimum of 1,360,000 units.',
-      },
-      '6': {
-        id: 'cit-ph-3',
-        documentId: '2',
-        documentTitle: 'Acme Corp - Order Form 2024',
-        section: '§3.1 Unit Pricing',
-        excerpt:
-          'Unit price for Services shall be $1.20 per unit for the 2024 contract year. Customer commits to ordering a minimum of 1,500,000 units.',
-      },
-    },
-  },
-  // Alias "yes" to trigger the same pricing history response
-  yes: {
-    content: `## Pricing History
-
-*Extracted from Order Forms 2022-2024*
-
-| Order Form | Year | Unit Price | Volume | Total Value |
-|------------|------|------------|--------|-------------|
-| [OF-2022]⁴ | 2022 | $1.00 | 1.2M units | $1,200,000 |
-| [OF-2023]⁵ | 2023 | $1.10 | 1.36M units | $1,500,000 |
-| [OF-2024]⁶ | 2024 | $1.20 | 1.5M units | $1,800,000 |
-
-### Summary
-
-- **Current Base Price:** $1.20/unit
-- **3-Year Growth:** +20% ($1.00 → $1.20)
-- **Average Annual Increase:** 6.7%
-
----
-
-*I have the base price and tariff rate from your agreements. To calculate the 2025 price, I need the current CPI-U and BLS Producer Price Index rates. Would you like me to search the web for these, or do you have them available?*`,
-    thinkingSteps: [
-      {
-        id: '1',
-        action: 'Opening Order Form 2022 (OF-2022-001)',
-        result:
-          'Initial contract pricing was $1.00/unit with a commitment of 1.2M units annually. This was the baseline established at contract signing.',
-      },
-      {
-        id: '2',
-        action: 'Opening Order Form 2023 (OF-2023-001)',
-        result:
-          'Price increased to $1.10/unit (10% increase) with volume growing to 1.36M units. The increase was based on CPI-U at that time.',
-      },
-      {
-        id: '3',
-        action: 'Opening Order Form 2024 (OF-2024-001)',
-        result:
-          'Current pricing is $1.20/unit (9.1% increase) with 1.5M units. This represents continued growth in both price and volume.',
-      },
-      {
-        id: '4',
-        action: 'Calculating year-over-year changes',
-        result:
-          'Average annual increase has been 9.5% over two years, with volume growing 25% total. The pricing trend is within the contractual cap of 5% per year.',
-      },
-    ],
-    citations: {
       '4': {
-        id: 'cit-ph-1',
-        documentId: '13',
-        documentTitle: 'Acme Corp - Order Form 2022',
-        section: '§3.1 Unit Pricing',
-        excerpt:
-          'Unit price for Services shall be $1.00 per unit for the 2022 contract year. Customer commits to ordering a minimum of 1,200,000 units.',
-      },
-      '5': {
         id: 'cit-ph-2',
         documentId: '9',
         documentTitle: 'Acme Corp - Order Form 2023',
@@ -1600,7 +1499,7 @@ Per Amendment 2, price adjustments are calculated as the **minimum** of:
         excerpt:
           'Unit price for Services shall be $1.10 per unit for the 2023 contract year. Customer commits to ordering a minimum of 1,360,000 units.',
       },
-      '6': {
+      '5': {
         id: 'cit-ph-3',
         documentId: '2',
         documentTitle: 'Acme Corp - Order Form 2024',
@@ -1612,9 +1511,9 @@ Per Amendment 2, price adjustments are calculated as the **minimum** of:
   },
   // Step 3: Calculation results - triggered by "sure", "search", "calculate", etc.
   sure: {
-    content: `## 2025 Price Calculation
+    content: `## 2026 Price Calculation
 
-*Based on current economic indices (as of January 2025)*
+*Based on current economic indices (as of January 2026)*
 
 I found the latest rates from the Bureau of Labor Statistics:
 - **CPI-U Annual Change:** 3.2%
@@ -1633,11 +1532,11 @@ I found the latest rates from the Bureau of Labor Statistics:
 
 Per Amendment 2 §4.1, the price adjustment must be the **minimum** of all three methods. [⁷]
 
-**Recommended 2025 Unit Price: $1.234**
+**Recommended 2026 Unit Price: $1.234**
 
 This represents a **2.8% increase** from the current $1.20/unit, using the BLS Producer Price Index method.
 
-| | 2024 | 2025 | Change |
+| | 2025 | 2026 | Change |
 |--|------|------|--------|
 | Unit Price | $1.20 | $1.234 | +2.8% |
 | Annual Value (1.5M units) | $1,800,000 | $1,851,000 | +$51,000 |
@@ -1648,13 +1547,13 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
     thinkingSteps: [
       {
         id: '1',
-        action: 'Fetching BLS Producer Price Index (Dec 2024)',
+        action: 'Fetching BLS Producer Price Index (Dec 2025)',
         result:
           'The Bureau of Labor Statistics reports a 2.8% year-over-year change in the Producer Price Index for industrial commodities.',
       },
       {
         id: '2',
-        action: 'Fetching CPI-U Annual Change (Dec 2024)',
+        action: 'Fetching CPI-U Annual Change (Dec 2025)',
         result:
           'Consumer Price Index for All Urban Consumers shows a 3.2% annual change, reflecting broader inflation trends.',
       },
@@ -1684,9 +1583,9 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
   },
   // Aliases for calculation trigger
   search: {
-    content: `## 2025 Price Calculation
+    content: `## 2026 Price Calculation
 
-*Based on current economic indices (as of January 2025)*
+*Based on current economic indices (as of January 2026)*
 
 I found the latest rates from the Bureau of Labor Statistics:
 - **CPI-U Annual Change:** 3.2%
@@ -1705,11 +1604,11 @@ I found the latest rates from the Bureau of Labor Statistics:
 
 Per Amendment 2 §4.1, the price adjustment must be the **minimum** of all three methods. [⁷]
 
-**Recommended 2025 Unit Price: $1.234**
+**Recommended 2026 Unit Price: $1.234**
 
 This represents a **2.8% increase** from the current $1.20/unit, using the BLS Producer Price Index method.
 
-| | 2024 | 2025 | Change |
+| | 2025 | 2026 | Change |
 |--|------|------|--------|
 | Unit Price | $1.20 | $1.234 | +2.8% |
 | Annual Value (1.5M units) | $1,800,000 | $1,851,000 | +$51,000 |
@@ -1729,9 +1628,9 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
     },
   },
   calculate: {
-    content: `## 2025 Price Calculation
+    content: `## 2026 Price Calculation
 
-*Based on current economic indices (as of January 2025)*
+*Based on current economic indices (as of January 2026)*
 
 I found the latest rates from the Bureau of Labor Statistics:
 - **CPI-U Annual Change:** 3.2%
@@ -1750,11 +1649,11 @@ I found the latest rates from the Bureau of Labor Statistics:
 
 Per Amendment 2 §4.1, the price adjustment must be the **minimum** of all three methods. [⁷]
 
-**Recommended 2025 Unit Price: $1.234**
+**Recommended 2026 Unit Price: $1.234**
 
 This represents a **2.8% increase** from the current $1.20/unit, using the BLS Producer Price Index method.
 
-| | 2024 | 2025 | Change |
+| | 2025 | 2026 | Change |
 |--|------|------|--------|
 | Unit Price | $1.20 | $1.234 | +2.8% |
 | Annual Value (1.5M units) | $1,800,000 | $1,851,000 | +$51,000 |
@@ -1773,9 +1672,81 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
       },
     },
   },
-  // Step 4: Draft Amendment - triggered after calculation results
+  // Alias "yes" to trigger calculation (after combined step 1)
+  yes: {
+    content: `## 2026 Price Calculation
+
+*Based on current economic indices (as of January 2026)*
+
+I found the latest rates from the Bureau of Labor Statistics:
+- **CPI-U Annual Change:** 3.2%
+- **BLS Producer Price Index:** 2.8%
+- **Fixed Tariff Cap:** 5.0% (per Amendment 2)
+
+### Calculation Results
+
+| Method | Rate | New Price | Annual Increase |
+|--------|------|-----------|-----------------|
+| BLS Producer Price Index | 2.8% | $1.234 | +$0.034/unit |
+| CPI-U | 3.2% | $1.238 | +$0.038/unit |
+| Fixed Tariff Cap | 5.0% | $1.260 | +$0.060/unit |
+
+### Recommendation
+
+Per Amendment 2 §4.1, the price adjustment must be the **minimum** of all three methods. [⁷]
+
+**Recommended 2026 Unit Price: $1.234**
+
+This represents a **2.8% increase** from the current $1.20/unit, using the BLS Producer Price Index method.
+
+| | 2025 | 2026 | Change |
+|--|------|------|--------|
+| Unit Price | $1.20 | $1.234 | +2.8% |
+| Annual Value (1.5M units) | $1,800,000 | $1,851,000 | +$51,000 |
+
+---
+
+*Would you like me to draft an amendment with this pricing for your review?*`,
+    thinkingSteps: [
+      {
+        id: '1',
+        action: 'Fetching BLS Producer Price Index (Dec 2025)',
+        result:
+          'The Bureau of Labor Statistics reports a 2.8% year-over-year change in the Producer Price Index for industrial commodities.',
+      },
+      {
+        id: '2',
+        action: 'Fetching CPI-U Annual Change (Dec 2025)',
+        result:
+          'Consumer Price Index for All Urban Consumers shows a 3.2% annual change, reflecting broader inflation trends.',
+      },
+      {
+        id: '3',
+        action: 'Applying Amendment #2 §4.1 formula',
+        result:
+          'Per the contract, the adjustment is the minimum of: CPI-U (3.2%), the 5% cap, or PPI (2.8%). The PPI rate of 2.8% is the lowest and governs.',
+      },
+      {
+        id: '4',
+        action: 'Calculating new unit price',
+        result:
+          'Applying 2.8% to the current $1.20/unit rate yields $1.234/unit. This represents an increase of $0.034 per unit, or approximately $51,000 annually at current volumes.',
+      },
+    ],
+    citations: {
+      '7': {
+        id: 'cit-calc-1',
+        documentId: '5',
+        documentTitle: 'Acme Corp - Amendment #2 (Term Extension)',
+        section: '§4.1 Price Adjustments',
+        excerpt:
+          'Annual price adjustments shall be calculated as the lesser of: (i) the annual percentage change in the Consumer Price Index for All Urban Consumers (CPI-U), (ii) five percent (5%), or (iii) the annual percentage change in the Bureau of Labor Statistics Producer Price Index.',
+      },
+    },
+  },
+  // Step 3: Draft Amendment - triggered after calculation results
   draft: {
-    content: `I've prepared a draft amendment incorporating the 2025 pricing adjustment. The document includes all required terms based on your existing agreements.`,
+    content: `I've prepared a draft amendment incorporating the 2026 pricing adjustment. The document includes all required terms based on your existing agreements.`,
     thinkingSteps: [
       {
         id: '1',
@@ -1793,7 +1764,7 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
         id: '3',
         action: 'Applying pricing terms',
         result:
-          'Populated pricing section with new unit price of $1.234 (2.8% increase per PPI methodology) effective January 1, 2025.',
+          'Populated pricing section with new unit price of $1.234 (2.8% increase per PPI methodology) effective January 1, 2026.',
       },
       {
         id: '4',
@@ -1804,11 +1775,11 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
     ],
     citations: {},
     documentPreview: {
-      title: 'Amendment #4 - Price Adjustment (2025)',
+      title: 'Amendment #4 - Price Adjustment (2026)',
       label: 'Draft Amendment',
       status: 'Ready for Review',
       details: [
-        { label: 'Effective Date', value: 'January 15, 2025' },
+        { label: 'Effective Date', value: 'January 15, 2026' },
         { label: 'New Unit Price', value: '$1.234/unit' },
         { label: 'Adjustment Method', value: 'BLS Producer Price Index (2.8%)' },
         { label: 'Reference', value: 'Amendment 2 §4.1' },
@@ -1824,26 +1795,26 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
 
 ## Ticket Created
 
-**PROC-2025-0142** — Acme Corp Annual Price Adjustment (2025)
+**PROC-2026-0142** — Acme Corp Annual Price Adjustment (2026)
 
 | Field | Value |
 |-------|-------|
 | **Status** | Open |
 | **Priority** | Medium |
 | **Assignee** | Akshat Mishra |
-| **Due Date** | January 10, 2025 |
+| **Due Date** | January 10, 2026 |
 | **Related Agreement** | MSA-2022-001 |`,
     afterContent: `### Description
-Annual price adjustment for Acme Corp per Amendment #2 §4.1. New unit price of $1.234/unit (2.8% increase) effective January 15, 2025. Draft amendment prepared and ready for review.
+Annual price adjustment for Acme Corp per Amendment #2 §4.1. New unit price of $1.234/unit (2.8% increase) effective January 15, 2026. Draft amendment prepared and ready for review.
 
 ### Attachments
-- Amendment #4 - Price Adjustment (2025) [Draft]
+- Amendment #4 - Price Adjustment (2026) [Draft]
 - Price Calculation Worksheet`,
     thinkingSteps: [
       {
         id: '1',
         action: 'Creating ticket in Agreement Desk',
-        result: 'Generated ticket ID PROC-2025-0142 with standard Agreement Desk workflow.',
+        result: 'Generated ticket ID PROC-2026-0142 with standard Agreement Desk workflow.',
       },
       {
         id: '2',
@@ -1854,7 +1825,7 @@ Annual price adjustment for Acme Corp per Amendment #2 §4.1. New unit price of 
         id: '3',
         action: 'Setting due date',
         result:
-          'Due date set to January 10, 2025 (5 days before effective date) to allow time for signatures.',
+          'Due date set to January 10, 2026 (5 days before effective date) to allow time for signatures.',
       },
       {
         id: '4',
@@ -1875,26 +1846,26 @@ Annual price adjustment for Acme Corp per Amendment #2 §4.1. New unit price of 
 
 ## Ticket Created
 
-**PROC-2025-0142** — Acme Corp Annual Price Adjustment (2025)
+**PROC-2026-0142** — Acme Corp Annual Price Adjustment (2026)
 
 | Field | Value |
 |-------|-------|
 | **Status** | Open |
 | **Priority** | Medium |
 | **Assignee** | Akshat Mishra |
-| **Due Date** | January 10, 2025 |
+| **Due Date** | January 10, 2026 |
 | **Related Agreement** | MSA-2022-001 |`,
     afterContent: `### Description
-Annual price adjustment for Acme Corp per Amendment #2 §4.1. New unit price of $1.234/unit (2.8% increase) effective January 15, 2025. Draft amendment prepared and ready for review.
+Annual price adjustment for Acme Corp per Amendment #2 §4.1. New unit price of $1.234/unit (2.8% increase) effective January 15, 2026. Draft amendment prepared and ready for review.
 
 ### Attachments
-- Amendment #4 - Price Adjustment (2025) [Draft]
+- Amendment #4 - Price Adjustment (2026) [Draft]
 - Price Calculation Worksheet`,
     thinkingSteps: [
       {
         id: '1',
         action: 'Creating ticket in Agreement Desk',
-        result: 'Generated ticket ID PROC-2025-0142 with standard Agreement Desk workflow.',
+        result: 'Generated ticket ID PROC-2026-0142 with standard Agreement Desk workflow.',
       },
       {
         id: '2',
@@ -1905,7 +1876,7 @@ Annual price adjustment for Acme Corp per Amendment #2 §4.1. New unit price of 
         id: '3',
         action: 'Setting due date',
         result:
-          'Due date set to January 10, 2025 (5 days before effective date) to allow time for signatures.',
+          'Due date set to January 10, 2026 (5 days before effective date) to allow time for signatures.',
       },
       {
         id: '4',
