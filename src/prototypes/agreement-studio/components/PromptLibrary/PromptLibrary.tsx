@@ -1,13 +1,15 @@
 /**
  * PromptLibrary Component
  *
- * Displays the Prompt Library view with categorized prompts and user's custom prompts.
- * Allows users to select prompts to run or edit/create custom prompts.
+ * Google Gems-inspired design with:
+ * - Vertical cards with colorful icons for premade prompts
+ * - Collapsible Docusign Prompts section
+ * - Always-visible My Prompts section
  */
 
-import React, { useState } from 'react';
-import { Icon, IconButton, Dropdown, Button } from '@/design-system';
-import type { Prompt, PromptCategory } from '../../data/agreement-studio-types';
+import React, { useMemo, useState } from 'react';
+import { Icon, IconButton, Button, Tooltip, Dropdown, Heading, Text } from '@/design-system';
+import type { Prompt } from '../../data/agreement-studio-types';
 import { PROMPT_LIBRARY, USER_PROMPTS } from '../../data/agreement-studio-data';
 import styles from './PromptLibrary.module.css';
 
@@ -28,102 +30,168 @@ export const PromptLibrary: React.FC<PromptLibraryProps> = ({
   onCreatePrompt,
   userPrompts = USER_PROMPTS,
 }) => {
-  const [hoveredPromptId, setHoveredPromptId] = useState<string | null>(null);
+  const [docusignPromptsExpanded, setDocusignPromptsExpanded] = useState(false);
 
-  const renderPromptCard = (prompt: Prompt, isCustom = false) => (
-    <div
-      key={prompt.id}
-      className={styles.promptCard}
-      onClick={() => onSelectPrompt(prompt)}
-      onMouseEnter={() => setHoveredPromptId(prompt.id)}
-      onMouseLeave={() => setHoveredPromptId(null)}
-    >
-      <div className={styles.promptCardIcon}>
-        <Icon name={prompt.icon || 'document'} size={18} />
-      </div>
-      <div className={styles.promptCardContent}>
-        <div className={styles.promptCardTitle}>{prompt.title}</div>
-        <div className={styles.promptCardDescription}>{prompt.description}</div>
-      </div>
-      {(hoveredPromptId === prompt.id || isCustom) && (
-        <div className={styles.promptCardActions}>
-          <Dropdown
-            items={[
-              {
-                label: 'Edit',
-                icon: <Icon name="edit" size="small" />,
-                onClick: (e) => {
-                  e?.stopPropagation();
-                  onEditPrompt(prompt.id);
+  // Flatten all premade prompts from categories
+  const allPremadePrompts = useMemo(() => {
+    return PROMPT_LIBRARY.flatMap((category) => category.prompts);
+  }, []);
+
+  // Show 4 when collapsed, all when expanded
+  const visiblePremadePrompts = docusignPromptsExpanded
+    ? allPremadePrompts
+    : allPremadePrompts.slice(0, 4);
+
+  // Render a vertical card for premade prompts
+  const renderPremadeCard = (prompt: Prompt) => {
+    return (
+      <div key={prompt.id} className={styles.premadeCard} onClick={() => onSelectPrompt(prompt)}>
+        <div className={styles.premadeCardHeader}>
+          <div className={styles.premadeCardIcon}>
+            <Icon name={prompt.icon || 'bolt'} size={18} />
+          </div>
+          <div className={styles.premadeCardOverflow}>
+            <Dropdown
+              items={[
+                {
+                  label: 'Run prompt',
+                  icon: <Icon name="control-play" size="small" />,
+                  onClick: (e) => {
+                    e?.stopPropagation();
+                    onSelectPrompt(prompt);
+                  },
                 },
-              },
-              ...(isCustom
-                ? [
-                    {
-                      label: 'Duplicate',
-                      icon: <Icon name="duplicate" size="small" />,
-                      onClick: (e) => {
-                        e?.stopPropagation();
-                        // For now, just create a new prompt
-                        onCreatePrompt();
-                      },
-                    },
-                  ]
-                : []),
-            ]}
-            position="bottom"
-            align="end"
-          >
-            <IconButton
-              icon="overflow-horizontal"
-              size="small"
-              kind="tertiary"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="Prompt options"
-            />
-          </Dropdown>
+              ]}
+              position="bottom"
+              align="end"
+            >
+              <IconButton
+                icon="overflow-vertical"
+                size="small"
+                kind="tertiary"
+                onClick={(e) => e.stopPropagation()}
+                aria-label="More options"
+              />
+            </Dropdown>
+          </div>
         </div>
-      )}
-    </div>
-  );
+        <Text as="div" size="sm" weight="medium" className={styles.premadeCardTitle}>
+          {prompt.title}
+        </Text>
+        <Text as="div" size="xs" color="secondary" className={styles.premadeCardDescription}>
+          {prompt.description}
+        </Text>
+      </div>
+    );
+  };
 
-  const renderCategory = (category: PromptCategory) => (
-    <div key={category.id} className={styles.category}>
-      <div className={styles.categoryHeader}>
-        <span className={styles.categoryTitle}>{category.title}</span>
+  // Render a list item for user prompts
+  const renderUserPromptItem = (prompt: Prompt) => (
+    <button
+      key={prompt.id}
+      type="button"
+      className={styles.promptItem}
+      onClick={() => onSelectPrompt(prompt)}
+    >
+      <div className={styles.promptIcon}>
+        <Icon name={prompt.icon || 'bolt'} size={18} />
       </div>
-      <div className={styles.categoryPrompts}>
-        {category.prompts.map((prompt) => renderPromptCard(prompt))}
+      <div className={styles.promptContent}>
+        <Text as="div" size="sm" weight="medium" className={styles.promptTitle}>
+          {prompt.title}
+        </Text>
+        <Text as="div" size="xs" color="secondary" className={styles.promptDescription}>
+          {prompt.description}
+        </Text>
       </div>
-    </div>
+      <div className={styles.promptActions}>
+        <Tooltip content="Edit">
+          <IconButton
+            icon="edit"
+            size="small"
+            kind="tertiary"
+            onClick={(e) => {
+              e.stopPropagation();
+              onEditPrompt(prompt.id);
+            }}
+            aria-label="Edit prompt"
+          />
+        </Tooltip>
+        <Tooltip content="Run">
+          <IconButton
+            icon="control-play"
+            size="small"
+            kind="tertiary"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelectPrompt(prompt);
+            }}
+            aria-label="Run prompt"
+          />
+        </Tooltip>
+      </div>
+    </button>
   );
 
   return (
     <div className={styles.promptLibrary}>
       {/* Page Header */}
       <div className={styles.pageHeader}>
-        <h2 className={styles.pageTitle}>Prompts</h2>
-        <Button size="small" kind="secondary" onClick={onCreatePrompt}>
-          <Icon name="plus" size={14} />
-          New
-        </Button>
+        <div className={styles.pageHeaderLeft}>
+          <Heading level={2} className={styles.pageTitle}>
+            Prompt Library
+          </Heading>
+          <Text size="sm" color="secondary" className={styles.pageSubtitle}>
+            Run pre-built prompts or create your own
+          </Text>
+        </div>
       </div>
 
-      <div className={styles.promptLibraryContent}>
-        {/* User's Custom Prompts (if any) */}
-        {userPrompts.length > 0 && (
-          <div className={styles.category}>
-            <div className={styles.categoryHeader}>
-              <span className={styles.categoryTitle}>My Prompts</span>
-            </div>
-            <div className={styles.categoryPrompts}>
-              {userPrompts.map((prompt) => renderPromptCard(prompt, true))}
-            </div>
+      {/* Content */}
+      <div className={styles.content}>
+        {/* Docusign Prompts Section */}
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <Text as="span" size="md" weight="medium" className={styles.sectionTitle}>
+              Docusign Prompts
+            </Text>
+            <IconButton
+              icon={docusignPromptsExpanded ? 'chevron-up' : 'chevron-down'}
+              size="small"
+              kind="tertiary"
+              onClick={() => setDocusignPromptsExpanded(!docusignPromptsExpanded)}
+              aria-label={docusignPromptsExpanded ? 'Collapse' : 'Expand'}
+            />
           </div>
-        )}
+          <div className={styles.premadeGrid}>
+            {visiblePremadePrompts.map((prompt) => renderPremadeCard(prompt))}
+          </div>
+        </div>
 
-        {/* Built-in Categories */}
-        {PROMPT_LIBRARY.map((category) => renderCategory(category))}
+        {/* My Prompts Section */}
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <Text as="span" size="md" weight="medium" className={styles.sectionTitle}>
+              My Prompts
+            </Text>
+            <Button size="small" kind="secondary" onClick={onCreatePrompt}>
+              <Icon name="plus" size={14} />
+              New Prompt
+            </Button>
+          </div>
+          <div className={styles.promptList}>
+            {userPrompts.length > 0 ? (
+              userPrompts.map((prompt) => renderUserPromptItem(prompt))
+            ) : (
+              <div className={styles.emptyState}>
+                <Icon name="document-stack" size={24} className={styles.emptyIcon} />
+                <Text size="sm" color="secondary">
+                  No custom prompts yet
+                </Text>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

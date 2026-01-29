@@ -1093,6 +1093,11 @@
   border-left: 3px solid var(--ink-orange-50);
 }
 
+/* Custom action button wrapper */
+.customActionWrapper {
+  margin-top: var(--ink-spacing-150);
+}
+
 /* Feedback buttons for AI responses */
 .messageFeedback {
   display: flex;

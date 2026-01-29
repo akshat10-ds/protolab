@@ -360,22 +360,6 @@ export const QUICK_ACTIONS: ExtendedSuggestedAction[] = [
       documentsToAnalyze: 12,
     },
   },
-  {
-    label: 'Email Report',
-    description: 'Generate a stakeholder email summarizing the analysis',
-    icon: 'envelope',
-    createdBy: 'Docusign',
-    isSystem: true,
-    expansion: {
-      steps: [
-        'ROLE: Executive Communications Specialist',
-        'TASK: Generate a professional email summarizing the contract analysis',
-        'OBJECTIVE: Create a ready-to-send email for stakeholders',
-      ],
-      estimatedTime: '~10 seconds',
-      documentsToAnalyze: 0,
-    },
-  },
 ];
 
 export const SUGGESTED_QUESTIONS = [
@@ -900,6 +884,323 @@ The 9.1% price increase from $1.10 to $1.20 reflects:
 3.3 Volume Commitment
 
 Customer volume commitment increased to 1,500,000 units to reflect business growth.`,
+  },
+
+  // =============================================================================
+  // Summarize Agreements Scenario Citations (cit-md-*)
+  // =============================================================================
+  'cit-md-1': {
+    pageNumber: 3,
+    totalPages: 12,
+    sectionTitle: '3. PRICING AND PAYMENT',
+    beforeText: `3.1 Unit Pricing
+
+The following pricing shall apply to all Products and Services ordered under this Order Form during the Term:`,
+    highlightedText: `Unit pricing shall be One Hundred Fifty Dollars ($150.00) per unit, inclusive of standard support and maintenance. Volume discounts apply for orders exceeding 10,000 units per quarter.`,
+    afterText: `3.2 Volume Discounts
+
+The following volume discount schedule shall apply:
+• 10,000 - 24,999 units: 5% discount
+• 25,000 - 49,999 units: 10% discount
+• 50,000+ units: 15% discount
+
+The pricing structure outlined in this Order Form supersedes all prior pricing arrangements.`,
+  },
+  'cit-md-2': {
+    pageNumber: 4,
+    totalPages: 18,
+    sectionTitle: '4. MINIMUM COMMITMENT',
+    beforeText: `4.1 Annual Commitment
+
+During each Contract Year, Customer agrees to maintain the following minimum purchase obligations:`,
+    highlightedText: `Customer commits to a minimum annual spend of Five Hundred Thousand Dollars ($500,000.00 USD) during each Contract Year, calculated on a cumulative basis across all Order Forms.`,
+    afterText: `4.2 Shortfall
+
+In the event Customer fails to meet the minimum annual spend commitment, Provider may invoice Customer for the difference between actual spend and the minimum commitment at the end of the applicable Contract Year.
+
+This minimum commitment ensures predictable revenue forecasting and enables Provider to allocate dedicated resources.`,
+  },
+  'cit-md-3': {
+    pageNumber: 5,
+    totalPages: 12,
+    sectionTitle: '5. PAYMENT TERMS',
+    beforeText: `5.1 Invoicing
+
+Provider shall invoice Customer monthly in arrears for all Products and Services consumed during the preceding month.`,
+    highlightedText: `All invoices are due and payable within thirty (30) days of the invoice date (Net 30). Late payments shall accrue interest at 1.5% per month or the maximum rate permitted by law.`,
+    afterText: `5.2 Payment Methods
+
+Electronic payment via ACH or wire transfer is preferred. Credit card payments are subject to a 3% processing fee.
+
+5.3 Disputed Invoices
+
+Customer must notify Provider of any invoice disputes within fifteen (15) days of receipt.`,
+  },
+  'cit-md-4': {
+    pageNumber: 8,
+    totalPages: 18,
+    sectionTitle: '8. LIMITATION OF LIABILITY',
+    beforeText: `8.1 Aggregate Cap
+
+EXCEPT AS OTHERWISE PROVIDED IN SECTION 8.2 (EXCLUSIONS):`,
+    highlightedText: `IN NO EVENT SHALL EITHER PARTY'S AGGREGATE LIABILITY EXCEED TWO MILLION DOLLARS ($2,000,000.00 USD), EXCEPT FOR BREACHES OF CONFIDENTIALITY OR INDEMNIFICATION OBLIGATIONS.`,
+    afterText: `8.2 Exclusions
+
+The limitations set forth in Section 8.1 shall not apply to:
+(a) Breaches of confidentiality obligations under Section 7;
+(b) Indemnification obligations under Section 9;
+(c) Willful misconduct or gross negligence.
+
+This limitation applies to all claims in the aggregate, whether in contract, tort, or otherwise.`,
+  },
+  'cit-md-5': {
+    pageNumber: 9,
+    totalPages: 18,
+    sectionTitle: '9. INDEMNIFICATION',
+    beforeText: `9.1 Mutual Indemnification
+
+Subject to the terms and conditions of this Agreement:`,
+    highlightedText: `Each party shall indemnify, defend, and hold harmless the other party from any third-party claims arising from (a) breach of this Agreement, (b) violation of applicable law, or (c) gross negligence or willful misconduct.`,
+    afterText: `9.2 Indemnification Procedures
+
+The indemnified party shall:
+(a) Promptly notify the indemnifying party of any claim;
+(b) Grant sole control of the defense to the indemnifying party;
+(c) Provide reasonable cooperation and assistance.
+
+Indemnification obligations are subject to prompt notice and sole control of defense.`,
+  },
+  'cit-md-6': {
+    pageNumber: 5,
+    totalPages: 8,
+    sectionTitle: '5. INTELLECTUAL PROPERTY',
+    beforeText: `5.1 Customer Property
+
+Customer Data and all pre-existing Customer intellectual property shall remain the sole property of Customer at all times.
+
+5.2 Work Product`,
+    highlightedText: `All Customer Data and pre-existing Customer IP shall remain the sole property of Customer. Any custom developments created specifically for Customer under this SOW shall be assigned to Customer upon full payment.`,
+    afterText: `5.3 Provider Property
+
+Provider retains ownership of all pre-existing IP, tools, methodologies, and general knowledge that are not specific to Customer's implementation.
+
+5.4 License Grant
+
+Provider grants Customer a perpetual, non-exclusive license to use any Provider IP embedded in the Deliverables.`,
+  },
+  'cit-md-7': {
+    pageNumber: 2,
+    totalPages: 4,
+    sectionTitle: '2. SERVICE LEVEL MODIFICATIONS',
+    beforeText: `2.1 Uptime Guarantee
+
+Effective as of the Amendment Effective Date, Section 6.1 of the MSA is hereby amended as follows:`,
+    highlightedText: `Section 6.1 of the MSA is hereby amended to increase the guaranteed uptime from ninety-nine point five percent (99.5%) to ninety-nine point nine percent (99.9%), with corresponding service credits.`,
+    afterText: `2.2 Service Credits
+
+The following service credit schedule shall apply:
+• 99.9% - 99.5%: 10% credit
+• 99.5% - 99.0%: 25% credit
+• Below 99.0%: 50% credit
+
+Uptime is measured monthly and excludes scheduled maintenance windows.`,
+  },
+  'cit-md-8': {
+    pageNumber: 3,
+    totalPages: 4,
+    sectionTitle: '3. SUPPORT ENHANCEMENT',
+    beforeText: `3.1 Support Hours
+
+Effective as of the Amendment Effective Date, support coverage is enhanced as follows:`,
+    highlightedText: `Standard support coverage is upgraded from business hours (8am-5pm, Monday-Friday) to twenty-four hours per day, seven days per week (24x7) at no additional charge, effective February 1, 2024.`,
+    afterText: `3.2 Response Times
+
+Priority response times remain unchanged:
+• Critical (P1): 1 hour
+• High (P2): 4 hours
+• Normal (P3): 8 hours
+• Low (P4): 24 hours
+
+Support may be accessed via phone, email, or the online support portal.`,
+  },
+
+  // =============================================================================
+  // Conflict Detection Citations (cit-md-conflict-*)
+  // =============================================================================
+  'cit-md-conflict-1': {
+    pageNumber: 2,
+    totalPages: 18,
+    sectionTitle: '2. ORDER OF PRECEDENCE',
+    beforeText: `2.1 Document Hierarchy
+
+This Agreement may be supplemented by Order Forms, Statements of Work, and Amendments executed by both parties.`,
+    highlightedText: `In the event of a conflict between documents, the following order of precedence shall apply: (1) Amendments, in reverse chronological order; (2) Statements of Work; (3) Order Forms; (4) this Master Services Agreement.`,
+    afterText: `2.2 Interpretation
+
+Each document shall be read harmoniously where possible. Only when provisions cannot be reconciled shall the order of precedence govern.
+
+2.3 Entire Agreement
+
+Together with all attachments and incorporated documents, this MSA constitutes the entire agreement between the parties.`,
+  },
+  'cit-md-conflict-2': {
+    pageNumber: 1,
+    totalPages: 4,
+    sectionTitle: '1. EFFECT OF AMENDMENT',
+    beforeText: `AMENDMENT NO. 2 TO MASTER SERVICES AGREEMENT
+
+This Amendment No. 2 ("Amendment") is entered into as of March 15, 2023 by and between the parties to that certain Master Services Agreement dated January 15, 2022.`,
+    highlightedText: `This Amendment modifies and supplements the Master Services Agreement dated January 15, 2022. In case of conflict, this Amendment shall prevail.`,
+    afterText: `1.2 Continuing Effect
+
+Except as expressly modified by this Amendment, the MSA shall remain in full force and effect.
+
+1.3 Capitalized Terms
+
+Capitalized terms used but not defined herein shall have the meanings assigned to them in the MSA.`,
+  },
+
+  // =============================================================================
+  // Risk Assessment Citations (cit-risk-*)
+  // =============================================================================
+  'cit-risk-1': {
+    pageNumber: 8,
+    totalPages: 14,
+    sectionTitle: '8. LIMITATION OF LIABILITY',
+    beforeText: `8.1 Disclaimer
+
+EXCEPT AS EXPRESSLY PROVIDED HEREIN, PROVIDER MAKES NO WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY.`,
+    highlightedText: `Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.`,
+    afterText: `8.2 Customer Acknowledgment
+
+Customer acknowledges that Provider's services are provided "as is" and that Customer assumes all risks associated with the use of such services.
+
+WARNING: The absence of a liability cap exposes Customer to unlimited potential damages.`,
+  },
+  'cit-risk-2': {
+    pageNumber: 12,
+    totalPages: 16,
+    sectionTitle: '12. LIABILITY AND INDEMNIFICATION',
+    beforeText: `12.1 General Indemnification
+
+Each party agrees to indemnify the other for third-party claims arising from breach of this Agreement.
+
+12.2 Special Provisions
+
+In certain circumstances, the following enhanced provisions shall apply:`,
+    highlightedText: `Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.`,
+    afterText: `12.4 Insurance Requirements
+
+Provider shall maintain comprehensive general liability insurance with minimum coverage of $5,000,000.
+
+NOTE: Unlimited liability provisions are extremely unusual and represent significant risk exposure.`,
+  },
+
+  // =============================================================================
+  // Table/Matrix Citations (cit-table-*)
+  // =============================================================================
+  'cit-table-1': {
+    pageNumber: 8,
+    totalPages: 14,
+    sectionTitle: '8. LIMITATION OF LIABILITY',
+    beforeText: `8.1 Disclaimer of Damages
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW:`,
+    highlightedText: `Provider shall not be liable for any indirect, incidental, special, or consequential damages. No aggregate liability cap is specified under this Agreement.`,
+    afterText: `8.2 Acknowledgment
+
+Customer acknowledges and agrees that the limitations of liability set forth in this Section 8 are fundamental to the Agreement and represent a fair allocation of risk.
+
+RISK ASSESSMENT: HIGH - No liability cap specified`,
+  },
+  'cit-table-2': {
+    pageNumber: 12,
+    totalPages: 16,
+    sectionTitle: '12. LIABILITY',
+    beforeText: `12.1 Limitation
+
+Subject to Section 12.2, each party's liability under this Agreement shall be limited as follows:
+
+12.2 Exceptions
+
+Notwithstanding Section 12.1:`,
+    highlightedText: `Notwithstanding any other provision of this Agreement, Customer acknowledges that Provider's liability shall be unlimited for breaches of this Agreement.`,
+    afterText: `12.3 Insurance
+
+Provider shall maintain appropriate insurance coverage.
+
+RISK ASSESSMENT: CRITICAL - Unlimited liability exposure`,
+  },
+  'cit-table-3': {
+    pageNumber: 8,
+    totalPages: 18,
+    sectionTitle: '8. LIMITATION OF LIABILITY',
+    beforeText: `8.1 Cap on Liability
+
+EXCEPT FOR OBLIGATIONS UNDER SECTION 9 (INDEMNIFICATION) AND SECTION 10 (CONFIDENTIALITY):`,
+    highlightedText: `Neither party's aggregate liability shall exceed two times (2x) the annual fees paid or payable under this Agreement in the twelve (12) months preceding the claim.`,
+    afterText: `8.2 Exclusions
+
+The following shall not be subject to the limitation in Section 8.1:
+(a) Indemnification obligations;
+(b) Breach of confidentiality;
+(c) Intellectual property infringement.
+
+RISK ASSESSMENT: MODERATE - Standard 2x annual fees cap`,
+  },
+  'cit-table-4': {
+    pageNumber: 7,
+    totalPages: 10,
+    sectionTitle: '7. LIABILITY',
+    beforeText: `7.1 Limitation of Liability
+
+This Section 7 sets forth the entire liability of each party under this Data Processing Agreement.
+
+7.2 Aggregate Cap`,
+    highlightedText: `The total aggregate liability of either party under this Agreement shall not exceed Five Hundred Thousand Dollars ($500,000.00 USD).`,
+    afterText: `7.3 Exclusions
+
+The limitation in Section 7.2 shall not apply to:
+(a) Data breaches caused by gross negligence;
+(b) Violations of data protection laws;
+(c) Unauthorized disclosure of personal data.
+
+RISK ASSESSMENT: MODERATE - $500K cap is below industry standard for DPAs`,
+  },
+  'cit-table-5': {
+    pageNumber: 6,
+    totalPages: 8,
+    sectionTitle: '6. LIMITATION OF LIABILITY',
+    beforeText: `6.1 Damages
+
+Neither party shall be liable for any indirect, incidental, special, punitive, or consequential damages.
+
+6.2 Maximum Liability`,
+    highlightedText: `The maximum aggregate liability of either party for any claims arising under this Agreement shall be One Million Dollars ($1,000,000.00 USD).`,
+    afterText: `6.3 Survival
+
+The limitations of liability set forth in this Section 6 shall survive termination or expiration of this Agreement.
+
+RISK ASSESSMENT: LOW - $1M cap is appropriate for NDA scope`,
+  },
+  'cit-table-6': {
+    pageNumber: 9,
+    totalPages: 12,
+    sectionTitle: '9. LIABILITY',
+    beforeText: `9.1 Limitation
+
+Subject to Section 9.2 (Exclusions), the liability of each party under this Statement of Work shall be limited as set forth below.
+
+9.1.1 Aggregate Cap`,
+    highlightedText: `Provider's total liability under this SOW shall not exceed Two Million Dollars ($2,000,000.00 USD) in the aggregate.`,
+    afterText: `9.2 Exclusions
+
+The limitation in Section 9.1 shall not apply to:
+(a) Gross negligence or willful misconduct;
+(b) Breach of confidentiality obligations;
+(c) Infringement of intellectual property rights.
+
+RISK ASSESSMENT: LOW - $2M cap is appropriate for SOW value`,
   },
 };
 
@@ -1513,6 +1814,109 @@ This represents a **2.8% increase** from the current $1.20/unit, using the BLS P
         { label: 'Reference', value: 'Amendment 2 §4.1' },
       ],
       documentId: 'draft-amendment-4',
+    },
+    afterContent: `*Would you like me to create a ticket to track this price adjustment request?*`,
+  },
+
+  // Step 5: Create Ticket - triggered when user confirms ticket creation
+  'create ticket': {
+    content: `Done! I've created a ticket to track this price adjustment request.
+
+## Ticket Created
+
+**PROC-2025-0142** — Acme Corp Annual Price Adjustment (2025)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Open |
+| **Priority** | Medium |
+| **Assignee** | Akshat Mishra |
+| **Due Date** | January 10, 2025 |
+| **Related Agreement** | MSA-2022-001 |`,
+    afterContent: `### Description
+Annual price adjustment for Acme Corp per Amendment #2 §4.1. New unit price of $1.234/unit (2.8% increase) effective January 15, 2025. Draft amendment prepared and ready for review.
+
+### Attachments
+- Amendment #4 - Price Adjustment (2025) [Draft]
+- Price Calculation Worksheet`,
+    thinkingSteps: [
+      {
+        id: '1',
+        action: 'Creating ticket in Agreement Desk',
+        result: 'Generated ticket ID PROC-2025-0142 with standard Agreement Desk workflow.',
+      },
+      {
+        id: '2',
+        action: 'Linking related documents',
+        result: 'Attached draft Amendment #4 and price calculation details to the ticket.',
+      },
+      {
+        id: '3',
+        action: 'Setting due date',
+        result:
+          'Due date set to January 10, 2025 (5 days before effective date) to allow time for signatures.',
+      },
+      {
+        id: '4',
+        action: 'Assigning ticket',
+        result: 'Assigned to Akshat Mishra based on agreement ownership in the system.',
+      },
+    ],
+    citations: {},
+    customAction: {
+      label: 'Open Ticket',
+      icon: 'arrow-external',
+    },
+  },
+
+  // Alias for "yes" response to ticket creation
+  'yes create ticket': {
+    content: `Done! I've created a ticket to track this price adjustment request.
+
+## Ticket Created
+
+**PROC-2025-0142** — Acme Corp Annual Price Adjustment (2025)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Open |
+| **Priority** | Medium |
+| **Assignee** | Akshat Mishra |
+| **Due Date** | January 10, 2025 |
+| **Related Agreement** | MSA-2022-001 |`,
+    afterContent: `### Description
+Annual price adjustment for Acme Corp per Amendment #2 §4.1. New unit price of $1.234/unit (2.8% increase) effective January 15, 2025. Draft amendment prepared and ready for review.
+
+### Attachments
+- Amendment #4 - Price Adjustment (2025) [Draft]
+- Price Calculation Worksheet`,
+    thinkingSteps: [
+      {
+        id: '1',
+        action: 'Creating ticket in Agreement Desk',
+        result: 'Generated ticket ID PROC-2025-0142 with standard Agreement Desk workflow.',
+      },
+      {
+        id: '2',
+        action: 'Linking related documents',
+        result: 'Attached draft Amendment #4 and price calculation details to the ticket.',
+      },
+      {
+        id: '3',
+        action: 'Setting due date',
+        result:
+          'Due date set to January 10, 2025 (5 days before effective date) to allow time for signatures.',
+      },
+      {
+        id: '4',
+        action: 'Assigning ticket',
+        result: 'Assigned to Akshat Mishra based on agreement ownership in the system.',
+      },
+    ],
+    citations: {},
+    customAction: {
+      label: 'Open Ticket',
+      icon: 'arrow-external',
     },
   },
 
@@ -2826,5 +3230,12 @@ export const PROMPT_LIBRARY: PromptCategory[] = [
   },
 ];
 
-// User-created prompts (initially empty, populated by user)
-export const USER_PROMPTS: Prompt[] = [];
+// User-created prompts (default includes Email Report)
+export const USER_PROMPTS: Prompt[] = [
+  {
+    id: 'email-report',
+    title: 'Email Report',
+    description: 'Generate a stakeholder email summarizing the analysis',
+    icon: 'envelope',
+  },
+];

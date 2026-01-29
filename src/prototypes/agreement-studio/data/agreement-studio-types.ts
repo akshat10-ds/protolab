@@ -204,6 +204,13 @@ export interface MarkdownResponseData {
   documentPreview?: DocumentPreviewData;
   /** Optional thinking steps shown before content */
   thinkingSteps?: ThinkingStep[];
+  /** Optional markdown content shown after the document preview card */
+  afterContent?: string;
+  /** Custom action button configuration */
+  customAction?: {
+    label: string;
+    icon: string;
+  };
 }
 
 // =============================================================================

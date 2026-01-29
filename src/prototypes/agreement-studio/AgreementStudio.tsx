@@ -321,7 +321,6 @@ export function AgreementStudio() {
     []
   );
 
-
   const pagination: DataTablePaginationConfig = useMemo(
     () => ({
       page,
@@ -570,7 +569,7 @@ export function AgreementStudio() {
         {!isAIChatOpen && (
           <FloatingCTA
             onClick={handleOpenAIChat}
-            text={isAcmeSearch ? `Chat with ${acmeAgreementCount} agreements` : 'Try DocuSign AI'}
+            text={isAcmeSearch ? `Chat with ${acmeAgreementCount} agreements` : 'Try Docusign AI'}
             agreementCount={acmeAgreementCount}
             searchTerm="Acme"
           />
@@ -587,11 +586,7 @@ export function AgreementStudio() {
         onEndResize={handleEndResize}
         isResizing={isResizing}
         agreementCount={
-          selectedRows.size > 0
-            ? selectedRows.size
-            : isAcmeSearch
-              ? acmeAgreementCount
-              : undefined
+          selectedRows.size > 0 ? selectedRows.size : isAcmeSearch ? acmeAgreementCount : undefined
         }
         agreements={
           selectedRows.size > 0

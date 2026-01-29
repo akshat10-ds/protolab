@@ -108,16 +108,19 @@ export interface MarkdownMessageProps {
   citations: Record<string, CitationData>;
   /** Callback when a citation is clicked */
   onCitationClick: (citation: CitationData) => void;
+  /** Hide the Copy CSV button on tables (e.g., when using customAction) */
+  hideCopyButton?: boolean;
 }
 
 export const MarkdownMessage: React.FC<MarkdownMessageProps> = ({
   content,
   citations,
   onCitationClick,
+  hideCopyButton = false,
 }) => {
   const renderedContent = useMemo(() => {
-    return parseMarkdown(content, citations, onCitationClick);
-  }, [content, citations, onCitationClick]);
+    return parseMarkdown(content, citations, onCitationClick, hideCopyButton);
+  }, [content, citations, onCitationClick, hideCopyButton]);
 
   return <div className={styles.markdownMessage}>{renderedContent}</div>;
 };
@@ -128,7 +131,8 @@ export const MarkdownMessage: React.FC<MarkdownMessageProps> = ({
 function parseMarkdown(
   content: string,
   citations: Record<string, CitationData>,
-  onCitationClick: (citation: CitationData) => void
+  onCitationClick: (citation: CitationData) => void,
+  hideCopyButton: boolean = false
 ): React.ReactNode[] {
   const lines = content.split('\n');
   const elements: React.ReactNode[] = [];
@@ -181,7 +185,7 @@ function parseMarkdown(
         tableLines.push(lines[i]);
         i++;
       }
-      elements.push(renderTable(tableLines, citations, onCitationClick, getKey));
+      elements.push(renderTable(tableLines, citations, onCitationClick, getKey, hideCopyButton));
       continue;
     }
 
@@ -369,6 +373,7 @@ interface TableWithCopyProps {
   citations: Record<string, CitationData>;
   onCitationClick: (citation: CitationData) => void;
   getKey: () => string;
+  hideCopyButton?: boolean;
 }
 
 const TableWithCopy: React.FC<TableWithCopyProps> = ({
@@ -377,6 +382,7 @@ const TableWithCopy: React.FC<TableWithCopyProps> = ({
   citations,
   onCitationClick,
   getKey,
+  hideCopyButton = false,
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -429,16 +435,18 @@ const TableWithCopy: React.FC<TableWithCopyProps> = ({
           </tbody>
         </table>
       </div>
-      <div className={styles.tableFooter}>
-        <Button
-          kind="tertiary"
-          size="small"
-          startElement={<Icon name={copied ? 'status-check' : 'duplicate'} size="small" />}
-          onClick={handleCopyCSV}
-        >
-          {copied ? 'Copied' : 'Copy CSV'}
-        </Button>
-      </div>
+      {!hideCopyButton && (
+        <div className={styles.tableFooter}>
+          <Button
+            kind="tertiary"
+            size="small"
+            startElement={<Icon name={copied ? 'status-check' : 'duplicate'} size="small" />}
+            onClick={handleCopyCSV}
+          >
+            {copied ? 'Copied' : 'Copy CSV'}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
@@ -450,7 +458,8 @@ function renderTable(
   lines: string[],
   citations: Record<string, CitationData>,
   onCitationClick: (citation: CitationData) => void,
-  getKey: () => string
+  getKey: () => string,
+  hideCopyButton: boolean = false
 ): React.ReactNode {
   if (lines.length < 2) return null;
 
@@ -477,6 +486,7 @@ function renderTable(
       citations={citations}
       onCitationClick={onCitationClick}
       getKey={getKey}
+      hideCopyButton={hideCopyButton}
     />
   );
 }

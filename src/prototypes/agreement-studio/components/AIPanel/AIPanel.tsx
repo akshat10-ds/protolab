@@ -42,6 +42,7 @@ import {
   MATRIX_RESPONSES,
   SUPPORT_ACTIONS,
   SUPPORT_QUESTIONS,
+  USER_PROMPTS,
 } from '../../data/agreement-studio-data';
 
 // Components
@@ -109,8 +110,8 @@ export const AIPanel: React.FC<AIPanelProps> = ({
   const [currentView, setCurrentView] = useState<PanelView>('chat');
   const [editingPromptId, setEditingPromptId] = useState<string | null>(null);
 
-  // User-created prompts state
-  const [userPrompts, setUserPrompts] = useState<Prompt[]>([]);
+  // User-created prompts state (initialized with default user prompts)
+  const [userPrompts, setUserPrompts] = useState<Prompt[]>(USER_PROMPTS);
   const panelRef = useRef<HTMLDivElement>(null);
   const chatWrapperRef = useRef<HTMLDivElement>(null);
   const savedScrollPositionRef = useRef<number>(0);
@@ -656,7 +657,8 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
   // Filter prompts based on slash filter
   const filteredSlashPrompts = useMemo(() => {
-    const allPrompts = QUICK_ACTIONS.map((action) => ({
+    // Combine QUICK_ACTIONS and USER_PROMPTS for slash commands
+    const quickActionPrompts = QUICK_ACTIONS.map((action) => ({
       id: action.label.toLowerCase().replace(/\s+/g, '-'),
       title: action.label,
       description: action.description || '',
@@ -665,8 +667,19 @@ export const AIPanel: React.FC<AIPanelProps> = ({
       isSystem: action.isSystem || false,
     }));
 
+    const userPromptsForSlash = USER_PROMPTS.map((prompt) => ({
+      id: prompt.id,
+      title: prompt.title,
+      description: prompt.description || '',
+      icon: prompt.icon || 'bolt',
+      createdBy: 'You',
+      isSystem: false,
+    }));
+
+    const allPrompts = [...quickActionPrompts, ...userPromptsForSlash];
+
     if (!slashFilter) {
-      return allPrompts.slice(0, 4); // Show first 4 when no filter
+      return allPrompts.slice(0, 5); // Show first 5 when no filter
     }
 
     return allPrompts
@@ -675,7 +688,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
           prompt.title.toLowerCase().includes(slashFilter) ||
           prompt.description.toLowerCase().includes(slashFilter)
       )
-      .slice(0, 4); // Max 4 visible
+      .slice(0, 5); // Max 5 visible
   }, [slashFilter]);
 
   // Keyboard shortcuts
@@ -720,6 +733,12 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
   // Generate a chat title from message content
   const generateChatTitle = useCallback((content: string): string => {
+    // Check for [Action: X] marker from expanded prompts (most specific)
+    const actionMatch = content.match(/\[Action:\s*([^\]]+)\]/);
+    if (actionMatch) {
+      return actionMatch[1].trim();
+    }
+
     // If it's a slash command, use a cleaned up version
     if (content.startsWith('/')) {
       const commandName = content
@@ -812,6 +831,8 @@ export const AIPanel: React.FC<AIPanelProps> = ({
           lastResponseKey === 'calculate'
         ) {
           markdownKey = 'draft'; // Show draft amendment
+        } else if (lastResponseKey === 'draft') {
+          markdownKey = 'create ticket'; // Create ticket after draft
         }
       }
 
@@ -829,7 +850,11 @@ export const AIPanel: React.FC<AIPanelProps> = ({
 
       // Handle /email-report command with recipient parameter
       // Format: /email-report Sarah Chen, VP Procurement
-      if (contentLower.startsWith('/email-report') && !markdownResponse) {
+      // Also handle "Email Report" from Prompt Library
+      if (
+        (contentLower.startsWith('/email-report') || contentLower === 'email report') &&
+        !markdownResponse
+      ) {
         // The key lookup may have failed because the full command includes the recipient
         // Try to get the base email-report response
         markdownResponse = MARKDOWN_RESPONSES['/email-report'];
@@ -1415,6 +1440,7 @@ export const AIPanel: React.FC<AIPanelProps> = ({
                     content={markdownToRender}
                     citations={markdownData.citations}
                     onCitationClick={handleCitationClick}
+                    hideCopyButton={!!markdownData.customAction}
                   />
                   {/* Pulsing cursor at end of streaming markdown */}
                   {isMessageStreaming && partialMarkdown && (
@@ -1458,6 +1484,45 @@ export const AIPanel: React.FC<AIPanelProps> = ({
                     };
                     handleCitationClick(citation);
                   }}
+                />
+              )}
+              {/* Custom action button - shown after main content/table */}
+              {!isMessageStreaming && markdownData.customAction && (
+                <div className={styles.customActionWrapper}>
+                  <Button
+                    kind="secondary"
+                    size="small"
+                    onClick={() => {
+                      // Handle custom action - for now just show a toast
+                      setToastState({
+                        visible: true,
+                        message: `Opening ${markdownData.customAction?.label}...`,
+                        status: 'loading',
+                      });
+                      setTimeout(() => {
+                        setToastState({
+                          visible: true,
+                          message: 'Opened in new tab',
+                          status: 'success',
+                        });
+                        setTimeout(
+                          () => setToastState((prev) => ({ ...prev, visible: false })),
+                          2000
+                        );
+                      }, 800);
+                    }}
+                  >
+                    <Icon name={markdownData.customAction.icon} size={16} />
+                    {markdownData.customAction.label}
+                  </Button>
+                </div>
+              )}
+              {/* After content - shown after custom action */}
+              {!isMessageStreaming && markdownData.afterContent && (
+                <MarkdownMessage
+                  content={markdownData.afterContent}
+                  citations={{}}
+                  onCitationClick={handleCitationClick}
                 />
               )}
               {!isMessageStreaming && feedbackButtons}
@@ -1842,9 +1907,6 @@ export const AIPanel: React.FC<AIPanelProps> = ({
               ) : null}
             </div>
             <div className={styles.contentHeaderCenter}>
-              {currentView === 'prompts' && (
-                <h2 className={styles.contentHeaderTitle}>Prompt Library</h2>
-              )}
               {currentView === 'prompt-edit' && (
                 <h2 className={styles.contentHeaderTitle}>
                   {editingPromptId ? 'Edit Prompt' : 'New Prompt'}

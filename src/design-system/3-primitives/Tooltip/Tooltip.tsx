@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './Tooltip.module.css';
 
 /** @deprecated Use TooltipLocation instead */
@@ -78,9 +79,11 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
     // Helper to check if tooltip fits in a location
     const fitsAbove = () => triggerRect.top - tooltipRect.height - gap >= padding;
-    const fitsBelow = () => triggerRect.bottom + gap + tooltipRect.height <= window.innerHeight - padding;
+    const fitsBelow = () =>
+      triggerRect.bottom + gap + tooltipRect.height <= window.innerHeight - padding;
     const fitsBefore = () => triggerRect.left - tooltipRect.width - gap >= padding;
-    const fitsAfter = () => triggerRect.right + gap + tooltipRect.width <= window.innerWidth - padding;
+    const fitsAfter = () =>
+      triggerRect.right + gap + tooltipRect.width <= window.innerWidth - padding;
 
     // Smart positioning: flip if preferred location doesn't fit
     switch (tooltipLocation) {
@@ -244,27 +247,30 @@ export const Tooltip: React.FC<TooltipProps> = ({
   return (
     <React.Fragment>
       {trigger}
-      {visible && !disabled && (
-        <div
-          ref={tooltipRef}
-          className={tooltipClasses}
-          style={{
-            top: `${coords.top}px`,
-            left: `${coords.left}px`,
-          }}
-          role="tooltip"
-          data-qa={dataQa}
-        >
-          <span className={styles.text}>{tooltipText}</span>
-          <div className={styles.caret}>
-            <svg className={styles.caretSvg} width="15" height="8" viewBox="0 0 15 8" fill="none">
-              <path d="M7.5 8L0.5 0H14.5L7.5 8Z" className={styles.caretFill} />
-              <path d="M0.5 0L7.5 8" className={styles.caretBorder} strokeWidth="1" />
-              <path d="M14.5 0L7.5 8" className={styles.caretBorder} strokeWidth="1" />
-            </svg>
-          </div>
-        </div>
-      )}
+      {visible &&
+        !disabled &&
+        createPortal(
+          <div
+            ref={tooltipRef}
+            className={tooltipClasses}
+            style={{
+              top: `${coords.top}px`,
+              left: `${coords.left}px`,
+            }}
+            role="tooltip"
+            data-qa={dataQa}
+          >
+            <span className={styles.text}>{tooltipText}</span>
+            <div className={styles.caret}>
+              <svg className={styles.caretSvg} width="15" height="8" viewBox="0 0 15 8" fill="none">
+                <path d="M7.5 8L0.5 0H14.5L7.5 8Z" className={styles.caretFill} />
+                <path d="M0.5 0L7.5 8" className={styles.caretBorder} strokeWidth="1" />
+                <path d="M14.5 0L7.5 8" className={styles.caretBorder} strokeWidth="1" />
+              </svg>
+            </div>
+          </div>,
+          document.body
+        )}
     </React.Fragment>
   );
 };
