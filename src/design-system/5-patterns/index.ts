@@ -13,7 +13,7 @@ export type { LocalNavProps, LocalNavItem, LocalNavSection } from './LocalNav';
 export { AIChat } from './AIChat';
 export type { AIChatProps, ChatMessage, MessageRole, MessageStatus, SuggestedAction } from './AIChat';
 
-export { DataTable, dataTableStyles } from './DataTable';
+export { DataTable } from './DataTable';
 export type {
   DataTableProps,
   DataTableColumn,

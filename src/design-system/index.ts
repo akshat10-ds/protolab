@@ -85,7 +85,6 @@ export type {
   CheckboxProps,
   RadioProps,
   SwitchProps,
-  SwitchSize,
   TextAreaProps,
   SliderProps,
   // Display Components
@@ -206,7 +205,7 @@ export type {
 // ============================================================================
 // LAYER 5: PATTERNS
 // ============================================================================
-export { GlobalNav, LocalNav, PageHeader, DataTable, AIChat, FilterBar, dataTableStyles } from './5-patterns';
+export { GlobalNav, LocalNav, PageHeader, DataTable, AIChat, FilterBar } from './5-patterns';
 
 export type {
   GlobalNavProps,

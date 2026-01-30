@@ -13,7 +13,7 @@
  * the same layer or higher layers.
  */
 
-module.exports = {
+export default {
   root: true,
   parser: '@typescript-eslint/parser',
   parserOptions: {

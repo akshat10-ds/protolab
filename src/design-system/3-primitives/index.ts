@@ -36,7 +36,7 @@ export { Radio } from './Radio';
 export type { RadioProps } from './Radio';
 
 export { Switch } from './Switch';
-export type { SwitchProps, SwitchSize } from './Switch';
+export type { SwitchProps } from './Switch';
 
 export { TextArea } from './TextArea';
 export type { TextAreaProps } from './TextArea';

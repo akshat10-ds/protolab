@@ -3,7 +3,7 @@ node_modules
 
 # Build outputs
 build
-dist
+# dist - KEEP dist/ for git dependencies (npm package consumption)
 .vite
 
 # Environment variables

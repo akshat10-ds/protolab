@@ -10,10 +10,6 @@ export { DataTableFooter } from './DataTableFooter';
 export { DataTableActionBar } from './DataTableActionBar';
 export { DataTableColumnControl } from './DataTableColumnControl';
 
-// Cell helper styles for custom cell renderers
-// Users can import these to style their custom cell content consistently
-export { default as dataTableStyles } from './DataTable.module.css';
-
 // Types
 export type {
   // Core types
